@@ -1,0 +1,519 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="PCH">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Platform">
+      <UniqueIdentifier>{d892513f-5b5d-4515-9d57-f30f55cc1a9c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Render">
+      <UniqueIdentifier>{22009dc7-bbc8-4546-a74c-a16970455cb4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Platform\Windows">
+      <UniqueIdentifier>{5ad978f5-ed8e-4498-87e2-ed88425edd94}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Render\D3D12">
+      <UniqueIdentifier>{bc1870ea-999b-46b8-8b40-e32cb7d548ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common">
+      <UniqueIdentifier>{a0414f7b-7ee8-4a38-a52b-352f98998526}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Render\D3D12\Shaders">
+      <UniqueIdentifier>{e04440bb-53fc-4d77-9a3e-71825031b405}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Render\D3D12\Shaders\RootSignatures">
+      <UniqueIdentifier>{2a3da561-52df-4868-9ff5-ad2a991ebe19}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Render\D3D12\DirectXTex">
+      <UniqueIdentifier>{69bf85a9-07bd-4cc8-b667-c76ea77ae7d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game">
+      <UniqueIdentifier>{bf41d580-262c-4632-99d2-f2dabf7137c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Common\TinyXML2">
+      <UniqueIdentifier>{64ae5b05-f8cc-466e-b7be-3beaae5c63ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI">
+      <UniqueIdentifier>{a1b0d7e4-aaea-4293-8614-2fa8e7f3c8b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\Debug">
+      <UniqueIdentifier>{be45abe4-aa9b-499e-84aa-4447ef58f8d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\Editor">
+      <UniqueIdentifier>{b943820d-16ff-4c59-af05-5d7af9ed0926}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="RTGame.cpp" />
+    <ClCompile Include="PCH\PCH.cpp">
+      <Filter>PCH</Filter>
+    </ClCompile>
+    <ClCompile Include="Platform\Windows\WinAPIWindow.cpp">
+      <Filter>Platform\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\D3D12\D3DAdapter.cpp">
+      <Filter>Render\D3D12</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\D3D12\D3DCommandQueue.cpp">
+      <Filter>Render\D3D12</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\D3D12\D3DDevice.cpp">
+      <Filter>Render\D3D12</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\D3D12\D3DFactory.cpp">
+      <Filter>Render\D3D12</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\D3D12\D3DSwapchain.cpp">
+      <Filter>Render\D3D12</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\RenderManager.cpp">
+      <Filter>Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\D3D12\D3DCommandAllocator.cpp">
+      <Filter>Render\D3D12</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\CommandAllocatorPool.cpp">
+      <Filter>Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\CommandQueueManager.cpp">
+      <Filter>Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\D3D12\D3DCommandList.cpp">
+      <Filter>Render\D3D12</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\D3D12\D3DResource.cpp">
+      <Filter>Render\D3D12</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\D3D12\D3DPipelineState.cpp">
+      <Filter>Render\D3D12</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Mesh.cpp">
+      <Filter>Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\D3D12\D3DDescriptorHeap.cpp">
+      <Filter>Render\D3D12</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Scene.cpp">
+      <Filter>Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\D3D12\D3DRTBottomLevelAccelerator.cpp">
+      <Filter>Render\D3D12</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\D3D12\D3DRTTopLevelAccelerator.cpp">
+      <Filter>Render\D3D12</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\DirectionalCamera.cpp">
+      <Filter>Render</Filter>
+    </ClCompile>
+    <ClCompile Include="..\External\DirectXTex\DDSTextureLoader\DDSTextureLoader12.cpp">
+      <Filter>Render\D3D12\DirectXTex</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameDefinition.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="..\External\tinyxml2\tinyxml2.cpp">
+      <Filter>Common\TinyXML2</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\D3D12\D3DResourceDescriptor.cpp">
+      <Filter>Render\D3D12</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\D3D12\D3DComputeShader.cpp">
+      <Filter>Render\D3D12</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\GameStage.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\Entity.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\ModelEntity.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\CameraEntity.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\EntityId.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\Editor\StageWindow.cpp">
+      <Filter>UI\Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\Editor\EntityPropertiesWindow.cpp">
+      <Filter>UI\Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\Editor\EditorMainWindow.cpp">
+      <Filter>UI\Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\LightEntity.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\Editor\EntityPaletteWindow.cpp">
+      <Filter>UI\Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\AnimationPlayer.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\AnimationSet.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\Debug\DebugWindow.cpp">
+      <Filter>UI\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Gizmo.cpp">
+      <Filter>Render</Filter>
+    </ClCompile>
+    <ClCompile Include="UI\Editor\ToolWindow.cpp">
+      <Filter>UI\Editor</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="PCH\PCH.h">
+      <Filter>PCH</Filter>
+    </ClInclude>
+    <ClInclude Include="PCH\WindowsPCH.h">
+      <Filter>PCH</Filter>
+    </ClInclude>
+    <ClInclude Include="Platform\Window.h">
+      <Filter>Platform</Filter>
+    </ClInclude>
+    <ClInclude Include="Platform\Windows\WinAPIWindow.h">
+      <Filter>Platform\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\Adapter.h">
+      <Filter>Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\CommandQueue.h">
+      <Filter>Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\Device.h">
+      <Filter>Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\Factory.h">
+      <Filter>Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\Swapchain.h">
+      <Filter>Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\D3D12\D3DAdapter.h">
+      <Filter>Render\D3D12</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\D3D12\D3DCommandQueue.h">
+      <Filter>Render\D3D12</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\D3D12\D3DDevice.h">
+      <Filter>Render\D3D12</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\D3D12\D3DFactory.h">
+      <Filter>Render\D3D12</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\D3D12\D3DSwapchain.h">
+      <Filter>Render\D3D12</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\RenderManager.h">
+      <Filter>Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\Types.h">
+      <Filter>Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\D3D12\Conversion.h">
+      <Filter>Render\D3D12</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\CommandAllocator.h">
+      <Filter>Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\D3D12\D3DCommandAllocator.h">
+      <Filter>Render\D3D12</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\CommandAllocatorPool.h">
+      <Filter>Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\CommandQueueManager.h">
+      <Filter>Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\CommandList.h">
+      <Filter>Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\D3D12\D3DCommandList.h">
+      <Filter>Render\D3D12</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\Color.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\Resource.h">
+      <Filter>Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\D3D12\D3DResource.h">
+      <Filter>Render\D3D12</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\PipelineState.h">
+      <Filter>Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\D3D12\D3DPipelineState.h">
+      <Filter>Render\D3D12</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\Mesh.h">
+      <Filter>Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\Files.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\D3D12\D3DDescriptorHeap.h">
+      <Filter>Render\D3D12</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\Utils.h">
+      <Filter>Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\Compression.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\Scene.h">
+      <Filter>Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\D3D12\D3DRTBottomLevelAccelerator.h">
+      <Filter>Render\D3D12</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\RTBottomLevelAccelerator.h">
+      <Filter>Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\RTTopLevelAccelerator.h">
+      <Filter>Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\D3D12\D3DRTTopLevelAccelerator.h">
+      <Filter>Render\D3D12</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\Signal.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\Camera.h">
+      <Filter>Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\DirectionalCamera.h">
+      <Filter>Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Common\Finally.h">
+      <Filter>Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\External\DirectXTex\DDSTextureLoader\DDSTextureLoader12.h">
+      <Filter>Render\D3D12\DirectXTex</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameDefinition.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="..\External\tinyxml2\tinyxml2.h">
+      <Filter>Common\TinyXML2</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\ShaderValues.h">
+      <Filter>Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\D3D12\D3DUtils.h">
+      <Filter>Render\D3D12</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\ShaderStructures.h">
+      <Filter>Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\ShaderStructuresNative.h">
+      <Filter>Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\ResourceDescriptor.h">
+      <Filter>Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\D3D12\D3DResourceDescriptor.h">
+      <Filter>Render\D3D12</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\ComputeShader.h">
+      <Filter>Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\D3D12\D3DComputeShader.h">
+      <Filter>Render\D3D12</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\ModelFeatures.h">
+      <Filter>Render</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\UIWindow.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\GameStage.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\Entity.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\ModelEntity.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Sandbox.h" />
+    <ClInclude Include="Game\CameraEntity.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\EntityId.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\Editor\StageWindow.h">
+      <Filter>UI\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\Editor\EntityPropertiesWindow.h">
+      <Filter>UI\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\Editor\EditorMainWindow.h">
+      <Filter>UI\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\LightEntity.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\PersistentValue.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\Editor\EntityPaletteWindow.h">
+      <Filter>UI\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\AnimationPlayer.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\AnimationSet.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\Icosahedron.h">
+      <Filter>Render</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\Debug\DebugWindow.h">
+      <Filter>UI\Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\Gizmo.h">
+      <Filter>Render</Filter>
+    </ClInclude>
+    <ClInclude Include="UI\Editor\ToolWindow.h">
+      <Filter>UI\Editor</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="Render\D3D12\Shaders\ModelVS.hlsl">
+      <Filter>Render\D3D12\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Render\D3D12\Shaders\ModelPS.hlsl">
+      <Filter>Render\D3D12\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Render\D3D12\Shaders\SkyboxVS.hlsl">
+      <Filter>Render\D3D12\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Render\D3D12\Shaders\SkyboxPS.hlsl">
+      <Filter>Render\D3D12\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Render\D3D12\Shaders\ToneMapping.hlsl">
+      <Filter>Render\D3D12\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Render\D3D12\Shaders\TranslucentModelPS.hlsl">
+      <Filter>Render\D3D12\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Render\D3D12\Shaders\SpritePS.hlsl">
+      <Filter>Render\D3D12\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Render\D3D12\Shaders\SpriteVS.hlsl">
+      <Filter>Render\D3D12\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Render\D3D12\Shaders\Blur.hlsl">
+      <Filter>Render\D3D12\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Render\D3D12\Shaders\Downsample8.hlsl">
+      <Filter>Render\D3D12\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Render\D3D12\Shaders\SkinTransform.hlsl">
+      <Filter>Render\D3D12\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Render\D3D12\Shaders\ModelWithHistoryVS.hlsl">
+      <Filter>Render\D3D12\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Render\D3D12\Shaders\GIProbePS.hlsl">
+      <Filter>Render\D3D12\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Render\D3D12\Shaders\GIProbeVS.hlsl">
+      <Filter>Render\D3D12\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Render\D3D12\Shaders\CombineLighting.hlsl">
+      <Filter>Render\D3D12\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Render\D3D12\Shaders\DepthPS.hlsl">
+      <Filter>Render\D3D12\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Render\D3D12\Shaders\DepthVS.hlsl">
+      <Filter>Render\D3D12\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Render\D3D12\Shaders\TraceGIProbe.hlsl">
+      <Filter>Render\D3D12\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Render\D3D12\Shaders\AdaptExposure.hlsl">
+      <Filter>Render\D3D12\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Render\D3D12\Shaders\GizmoPS.hlsl">
+      <Filter>Render\D3D12\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Render\D3D12\Shaders\GizmoVS.hlsl">
+      <Filter>Render\D3D12\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Render\D3D12\Shaders\SpecBRDFLUT.hlsl">
+      <Filter>Render\D3D12\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Render\D3D12\Shaders\ProcessReflection.hlsl">
+      <Filter>Render\D3D12\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Render\D3D12\Shaders\BlurBloom.hlsl">
+      <Filter>Render\D3D12\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Render\D3D12\Shaders\ExtractBloom.hlsl">
+      <Filter>Render\D3D12\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Render\D3D12\Shaders\Downsample.hlsl">
+      <Filter>Render\D3D12\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Render\D3D12\Shaders\Downsample4.hlsl">
+      <Filter>Render\D3D12\Shaders</Filter>
+    </FxCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Render\D3D12\Shaders\Lighting.hlsli">
+      <Filter>Render\D3D12\Shaders</Filter>
+    </None>
+    <None Include="Render\D3D12\Shaders\RootSignatures\Model.hlsli">
+      <Filter>Render\D3D12\Shaders\RootSignatures</Filter>
+    </None>
+    <None Include="Render\D3D12\Shaders\RootSignatures\Skybox.hlsli">
+      <Filter>Render\D3D12\Shaders\RootSignatures</Filter>
+    </None>
+    <None Include="Render\D3D12\Shaders\Utils.hlsli">
+      <Filter>Render\D3D12\Shaders</Filter>
+    </None>
+    <None Include="Render\D3D12\Shaders\RootSignatures\ShaderStructures.hlsli">
+      <Filter>Render\D3D12\Shaders\RootSignatures</Filter>
+    </None>
+    <None Include="packages.config" />
+    <None Include="Render\D3D12\Shaders\RootSignatures\Sprite.hlsli">
+      <Filter>Render\D3D12\Shaders\RootSignatures</Filter>
+    </None>
+    <None Include="Render\D3D12\Shaders\MaterialUtils.hlsli">
+      <Filter>Render\D3D12\Shaders</Filter>
+    </None>
+    <None Include="Render\D3D12\Shaders\RTUtils.hlsli">
+      <Filter>Render\D3D12\Shaders</Filter>
+    </None>
+    <None Include="Render\D3D12\Shaders\RootSignatures\GIProbe.hlsli">
+      <Filter>Render\D3D12\Shaders\RootSignatures</Filter>
+    </None>
+    <None Include="Render\D3D12\Shaders\RootSignatures\Depth.hlsli">
+      <Filter>Render\D3D12\Shaders\RootSignatures</Filter>
+    </None>
+    <None Include="Render\D3D12\Shaders\GI.hlsli">
+      <Filter>Render\D3D12\Shaders</Filter>
+    </None>
+    <None Include="Render\D3D12\Shaders\RootSignatures\Gizmo.hlsli">
+      <Filter>Render\D3D12\Shaders\RootSignatures</Filter>
+    </None>
+    <None Include="Render\D3D12\Shaders\PBRUtils.hlsli">
+      <Filter>Render\D3D12\Shaders</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Xml Include="Content\Game.xml" />
+    <Xml Include="Content\Game2.xml" />
+  </ItemGroup>
+</Project>

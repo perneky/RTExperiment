@@ -1,0 +1,194 @@
+<RTGame>
+    <GameStage lastCameraId="7">
+        <Sky guid="{1DB00489-398B-4EC6-9947-60CEF24B2FBB}"/>
+        <Exposure value="true"/>
+        <Entities idGen="45">
+            <ModelEntity guid="{BA35471F-C2B2-4D3C-A4BB-1A59B4675702}" id="1">
+                <Position x="0" y="0" z="0"/>
+                <Rotation x="0" y="0" z="0"/>
+                <Scale x="1" y="1" z="1"/>
+            </ModelEntity>
+            <ModelEntity guid="{98E09B9C-6220-46BA-9751-A8887E643395}" id="2">
+                <Position x="3" y="0" z="-3"/>
+                <Rotation x="0" y="0" z="0"/>
+                <Scale x="1" y="1" z="1"/>
+            </ModelEntity>
+            <ModelEntity guid="{4279F6AD-27DE-42B7-A1D4-04BD868F0637}" id="3">
+                <Position x="-3" y="0" z="-2"/>
+                <Rotation x="0" y="0" z="0"/>
+                <Scale x="1" y="1" z="1"/>
+            </ModelEntity>
+            <ModelEntity guid="{D688A397-AB8E-43A2-B440-9C38E313E876}" id="4">
+                <Position x="-1.4" y="0" z="-1.3"/>
+                <Rotation x="0" y="80" z="0"/>
+                <Scale x="1" y="1" z="1"/>
+            </ModelEntity>
+            <ModelEntity guid="{4C43922E-6DF8-4CBB-83EB-88FDA01AFBB5}" id="5">
+                <Position x="0.2" y="0" z="-0.2"/>
+                <Rotation x="0" y="0" z="0"/>
+                <Scale x="1" y="1" z="1"/>
+            </ModelEntity>
+            <ModelEntity guid="{3AA0AAD2-D287-4EC3-91C8-FF50704C0781}" id="6">
+                <Position x="3" y="0" z="3"/>
+                <Rotation x="0" y="0" z="0"/>
+                <Scale x="1" y="1" z="1"/>
+            </ModelEntity>
+            <CameraEntity id="7">
+                <Position x="2.4481037" y="2.2579918" z="-1.3507066"/>
+                <Rotation x="57" y="-1850" z="0"/>
+                <Scale x="1" y="1" z="1"/>
+            </CameraEntity>
+            <ModelEntity guid="{8BA44E0E-8A2A-438B-B1EF-E52D5D29FB06}" id="8">
+                <Position x="0.2" y="3.5" z="-0.2"/>
+                <Rotation x="0" y="0" z="0"/>
+                <Scale x="1" y="1" z="1"/>
+            </ModelEntity>
+            <ModelEntity guid="{704DCA78-4D2F-4841-B438-1A4107B7F70A}" id="9">
+                <Position x="0" y="0" z="7"/>
+                <Rotation x="0" y="270" z="0"/>
+                <Scale x="1" y="1" z="1"/>
+            </ModelEntity>
+            <ModelEntity guid="{704DCA78-4D2F-4841-B438-1A4107B7F70A}" id="10">
+                <Position x="0" y="0" z="10.5"/>
+                <Rotation x="0" y="270" z="0"/>
+                <Scale x="1" y="1" z="1"/>
+            </ModelEntity>
+            <ModelEntity guid="{68378CE2-344F-432E-A52C-EDB7F20CA198}" id="11">
+                <Position x="0.2" y="6.5" z="-0.2"/>
+                <Rotation x="0" y="0" z="0"/>
+                <Scale x="1" y="1" z="1"/>
+            </ModelEntity>
+            <ModelEntity guid="{704DCA78-4D2F-4841-B438-1A4107B7F70A}" id="12">
+                <Position x="0" y="0" z="14"/>
+                <Rotation x="0" y="270" z="0"/>
+                <Scale x="1" y="1" z="1"/>
+            </ModelEntity>
+            <ModelEntity guid="{704DCA78-4D2F-4841-B438-1A4107B7F70A}" id="13">
+                <Position x="0" y="0" z="17.5"/>
+                <Rotation x="0" y="270" z="0"/>
+                <Scale x="1" y="1" z="1"/>
+            </ModelEntity>
+            <ModelEntity guid="{704DCA78-4D2F-4841-B438-1A4107B7F70A}" id="14">
+                <Position x="0" y="0" z="21"/>
+                <Rotation x="0" y="270" z="0"/>
+                <Scale x="1" y="1" z="1"/>
+            </ModelEntity>
+            <ModelEntity guid="{704DCA78-4D2F-4841-B438-1A4107B7F70A}" id="15">
+                <Position x="-10.5" y="0" z="0"/>
+                <Rotation x="0" y="0" z="0"/>
+                <Scale x="1" y="1" z="1"/>
+            </ModelEntity>
+            <ModelEntity guid="{704DCA78-4D2F-4841-B438-1A4107B7F70A}" id="16">
+                <Position x="-14" y="0" z="0"/>
+                <Rotation x="0" y="0" z="0"/>
+                <Scale x="1" y="1" z="1"/>
+            </ModelEntity>
+            <ModelEntity guid="{704DCA78-4D2F-4841-B438-1A4107B7F70A}" id="17">
+                <Position x="-17.5" y="0" z="0"/>
+                <Rotation x="0" y="0" z="0"/>
+                <Scale x="1" y="1" z="1"/>
+            </ModelEntity>
+            <ModelEntity guid="{704DCA78-4D2F-4841-B438-1A4107B7F70A}" id="18">
+                <Position x="-21" y="0" z="0"/>
+                <Rotation x="0" y="0" z="0"/>
+                <Scale x="1" y="1" z="1"/>
+            </ModelEntity>
+            <ModelEntity guid="{704DCA78-4D2F-4841-B438-1A4107B7F70A}" id="19">
+                <Position x="-24.5" y="0" z="0"/>
+                <Rotation x="0" y="0" z="0"/>
+                <Scale x="1" y="1" z="1"/>
+            </ModelEntity>
+            <ModelEntity guid="{816EBD75-B72A-4919-A0CD-42FE88D1385C}" id="20">
+                <Position x="-24" y="-0.0049999999" z="0"/>
+                <Rotation x="0" y="0" z="0"/>
+                <Scale x="24" y="1" z="24"/>
+            </ModelEntity>
+            <ModelEntity guid="{816EBD75-B72A-4919-A0CD-42FE88D1385C}" id="21">
+                <Position x="-24" y="3.45" z="0"/>
+                <Rotation x="0" y="0" z="0"/>
+                <Scale x="24" y="1" z="24"/>
+            </ModelEntity>
+            <ModelEntity guid="{816EBD75-B72A-4919-A0CD-42FE88D1385C}" id="22">
+                <Position x="-24" y="6.5" z="0"/>
+                <Rotation x="0" y="0" z="0"/>
+                <Scale x="24" y="1" z="24"/>
+            </ModelEntity>
+            <ModelEntity guid="{816EBD75-B72A-4919-A0CD-42FE88D1385C}" id="23">
+                <Position x="-24" y="9.5" z="0"/>
+                <Rotation x="0" y="0" z="0"/>
+                <Scale x="24" y="1" z="24"/>
+            </ModelEntity>
+            <ModelEntity guid="{18C5EE0A-E0A6-4609-8C9C-7003136B19D0}" id="24">
+                <Position x="3.2" y="0" z="7"/>
+                <Rotation x="0" y="0" z="0"/>
+                <Scale x="1" y="1" z="1"/>
+            </ModelEntity>
+            <ModelEntity guid="{18C5EE0A-E0A6-4609-8C9C-7003136B19D0}" id="25">
+                <Position x="3.2" y="0" z="13"/>
+                <Rotation x="0" y="64" z="0"/>
+                <Scale x="1" y="1" z="1"/>
+            </ModelEntity>
+            <ModelEntity guid="{18C5EE0A-E0A6-4609-8C9C-7003136B19D0}" id="26">
+                <Position x="3.2" y="0" z="19"/>
+                <Rotation x="0" y="183" z="0"/>
+                <Scale x="1" y="1" z="1"/>
+            </ModelEntity>
+            <LightEntity id="27">
+                <Type number="1"/>
+                <SourceRadius value="0.127"/>
+                <AttenuationStart value="1.714"/>
+                <AttenuationEnd value="10"/>
+                <AttenuationFalloff value="3"/>
+                <Theta value="112.922"/>
+                <Phi value="160"/>
+                <ConeFalloff value="4.7839999"/>
+                <CastShadow value="true"/>
+                <Color r="0.797773" g="0.86382979" b="0.48521504"/>
+                <Position x="-5" y="3" z="-2"/>
+                <Rotation x="-90" y="0" z="0"/>
+                <Scale x="1" y="1" z="1"/>
+            </LightEntity>
+            <ModelEntity guid="{532C9307-A762-4D1D-9C1A-CE9BBE281B4D}" id="32">
+                <Position x="-6.0500002" y="2" z="-0.2"/>
+                <Rotation x="0" y="0" z="0"/>
+                <Scale x="1" y="1" z="1"/>
+            </ModelEntity>
+            <ModelEntity guid="{532C9307-A762-4D1D-9C1A-CE9BBE281B4D}" id="35">
+                <Position x="-11" y="2" z="-0.2"/>
+                <Rotation x="0" y="0" z="0"/>
+                <Scale x="1" y="1" z="1"/>
+            </ModelEntity>
+            <ModelEntity guid="{532C9307-A762-4D1D-9C1A-CE9BBE281B4D}" id="36">
+                <Position x="0.2" y="2" z="7.5999999"/>
+                <Rotation x="0" y="270" z="0"/>
+                <Scale x="1" y="1" z="1"/>
+            </ModelEntity>
+            <ModelEntity guid="{532C9307-A762-4D1D-9C1A-CE9BBE281B4D}" id="37">
+                <Position x="0.2" y="2" z="12.6"/>
+                <Rotation x="0" y="270" z="0"/>
+                <Scale x="1" y="1" z="1"/>
+            </ModelEntity>
+            <ModelEntity guid="{1EF849EF-B0D9-4FDC-A1D3-27282F3003DD}" id="41">
+                <Position x="-23.299999" y="0" z="15"/>
+                <Rotation x="0" y="0" z="0"/>
+                <Scale x="3" y="1" z="1"/>
+            </ModelEntity>
+            <ModelEntity guid="{1EF849EF-B0D9-4FDC-A1D3-27282F3003DD}" id="42">
+                <Position x="-14.425" y="0" z="20.875"/>
+                <Rotation x="0" y="90" z="0"/>
+                <Scale x="2" y="1" z="1"/>
+            </ModelEntity>
+            <ModelEntity guid="{871063FA-B5CA-43F6-833D-6D4CBAE2BAEE}" id="43">
+                <Animation name="Walk"/>
+                <Position x="1" y="0" z="0"/>
+                <Rotation x="0" y="0" z="0"/>
+                <Scale x="0.1" y="0.1" z="0.1"/>
+            </ModelEntity>
+            <ModelEntity guid="{666A47FD-723F-40B6-91BF-CEDF2E5AF517}" id="44">
+                <Position x="-9.7192125" y="0" z="6.6930723"/>
+                <Rotation x="0" y="0" z="0"/>
+                <Scale x="6" y="6" z="1"/>
+            </ModelEntity>
+        </Entities>
+    </GameStage>
+</RTGame>

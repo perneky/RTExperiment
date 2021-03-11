@@ -1,0 +1,2247 @@
+<UWPSandboxGame>
+	<EntityMaterials>
+        <Material basePath="Content\Models\Polypixel\Freebie01" name="BusStop_mat" guid="{F84C3DC0-5181-441E-A31C-50C01FA5793F}">
+            <ColorChannel path="BusStop_A.dds"/>
+            <NormalChannel path="BusStop_N.dds"/>
+            <MetallicChannel path="BusStop_M.dds"/>
+            <RoughnessChannel path="BusStop_R.dds"/>
+        </Material>
+        <Material basePath="Content\Models\Polypixel\Freebie01" name="BusStopGlass_mat" guid="{39A79618-C8FC-45D5-B690-92D95C665CDA}">
+            <ColorChannel path="BusStopGlass_A.dds"/>
+            <NormalChannel path="BusStopGlass_N.dds"/>
+            <MetallicChannel path="BusStopGlass_M.dds"/>
+            <RoughnessChannel path="BusStopGlass_R.dds"/>
+            <BlendMode type="Blend"/>
+            <Raster twosided="yes"/>
+        </Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_AirConditioning" guid="{8825A170-D487-494C-AA94-9683CD011C1F}">
+			<ColorChannel path="T_AirConditioning_BC.dds"/>
+			<NormalChannel path="T_AirConditioning_N.dds"/>
+			<MetallicChannel path="T_AirConditioning_M.dds"/>
+			<RoughnessChannel path="T_air_conditioning_R.dds"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_Anti_tank_obstacle" guid="{A3FC4D3E-4857-4475-8AFD-C8609BEB38FB}">
+			<ColorChannel path="T_Antitank_BC.dds"/>
+			<NormalChannel path="T_antitank_N.dds"/>
+			<MetallicChannel path="T_antitank_M.dds"/>
+			<RoughnessChannel path="T_antitank_R.dds"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_concrete_block" guid="{05A835EC-3299-455C-AD16-A472AA8E3FD4}">
+			<ColorChannel path="T_concrete_blocks_BC.dds"/>
+			<NormalChannel path="T_concrete_blocks_N.dds"/>
+			<RoughnessChannel path="T_concrete_blocks_R.dds"/>
+			<MetallicChannel value="0"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_concrete_block" guid="{A389EACF-342E-42FF-82E0-819FB98D6D2A}">
+			<ColorChannel path="T_concrete_blocks_BC.dds"/>
+			<NormalChannel path="T_concrete_blocks_N.dds"/>
+			<RoughnessChannel path="T_concrete_blocks_R.dds"/>
+			<MetallicChannel value="0"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_concrete_block" guid="{791F5819-42A3-43C1-B5CE-7135FF11F57F}">
+			<ColorChannel path="T_concrete_blocks_BC.dds"/>
+			<NormalChannel path="T_concrete_blocks_N.dds"/>
+			<RoughnessChannel path="T_concrete_blocks_R.dds"/>
+			<MetallicChannel value="0"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_scaffold_01" guid="{001998F3-927A-4DE0-A1DF-1AB2DF1B0012}">
+			<ColorChannel path="T_scaffold_a_D.dds"/>
+			<NormalChannel path="T_scaffold_a_N.dds"/>
+			<MetallicChannel path="T_scaffold_a_M.dds"/>
+			<RoughnessChannel path="T_scaffold_a_R.dds"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_scaffold_01" guid="{E430F644-BAFF-4985-A431-8F0EB048C3BA}">
+			<ColorChannel path="T_scaffold_a_D.dds"/>
+			<NormalChannel path="T_scaffold_a_N.dds"/>
+			<MetallicChannel path="T_scaffold_a_M.dds"/>
+			<RoughnessChannel path="T_scaffold_a_R.dds"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_scaffold_01" guid="{5E89DAD3-5CD0-4356-ADFD-C668BA715D12}">
+			<ColorChannel path="T_scaffold_a_D.dds"/>
+			<NormalChannel path="T_scaffold_a_N.dds"/>
+			<MetallicChannel path="T_scaffold_a_M.dds"/>
+			<RoughnessChannel path="T_scaffold_a_R.dds"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_scaffold_01" guid="{F45255A7-5ED2-41F7-B566-95EDCBDFC79A}">
+			<ColorChannel path="T_scaffold_a_D.dds"/>
+			<NormalChannel path="T_scaffold_a_N.dds"/>
+			<MetallicChannel path="T_scaffold_a_M.dds"/>
+			<RoughnessChannel path="T_scaffold_a_R.dds"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_Brick_painted_red" guid="{67F5FBB1-BF5B-4BC8-8ADA-43FA873E89DA}">
+			<ColorChannel path="T_BrickPaintedRed_BC.dds"/>
+			<NormalChannel path="T_BrickPaintedRed_N.dds"/>
+			<RoughnessChannel path="T_BrickPaintedRed_R.dds"/>
+			<MetallicChannel value="0"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_Brick_painted_white" guid="{8531B9D6-ED44-4E56-B22B-C07DF0638823}">
+			<ColorChannel path="T_BrickPaintedW_AO.dds"/>
+			<NormalChannel path="T_BrickPaintedRed_N.dds"/>
+			<MetallicChannel value="0"/>
+			<RoughnessChannel value="0.70172256"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_tile_concrete" guid="{F0E26E51-8D91-48C3-BA78-1A0519D41B0A}">
+			<ColorChannel path="T_tile_concrete_D.dds"/>
+			<NormalChannel path="T_tile_concrete_N.dds"/>
+			<RoughnessChannel path="T_tile_floor_R_04.dds"/>
+			<MetallicChannel value="0"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_buildings_01_doors_D" guid="{53A7E114-0067-4420-9540-D7BB69CEB521}">
+			<ColorChannel path="T_BDoors02_BC.dds"/>
+			<NormalChannel path="T_BDoors02_N.dds"/>
+			<MetallicChannel path="T_BDoors02_M.dds"/>
+			<RoughnessChannel path="T_BDoors02_R.dds"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_concrete_fence" guid="{00A62E5D-17DF-4337-8745-5E5471C89499}">
+			<ColorChannel path="T_concrete_fence_BC.dds"/>
+			<NormalChannel path="T_concrete_fence_N.dds"/>
+			<RoughnessChannel path="T_concrete_fence_R.dds"/>
+			<MetallicChannel value="0"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_building_01_metal" guid="{BCB790B7-87A0-4E1A-92BE-6B110A4FECFB}">
+            <ColorChannel path="T_Building01Metal_BC.dds"/>
+            <NormalChannel path="T_Building01Metal_N.dds"/>
+            <MetallicChannel path="T_Building01Metal_M.dds"/>
+            <RoughnessChannel path="T_Building01Metal_R.dds"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_drainage_pole" guid="{D874A21B-E695-4C28-B48D-D43C45789415}">
+			<ColorChannel path="T_drainage_pole_BC.dds"/>
+			<NormalChannel path="T_drainage_pole_N.dds"/>
+			<RoughnessChannel path="T_drainage_pole_R.dds"/>
+			<MetallicChannel value="0.59574467"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_cable_spool" guid="{5BB0F8FB-4F02-4CE2-BCAA-98B991C7F567}">
+			<ColorChannel path="T_constraction_set_01_BC.dds"/>
+			<NormalChannel path="T_constraction_set_01_N.dds"/>
+			<MetallicChannel path="T_constraction_set_01_M.dds"/>
+			<RoughnessChannel path="T_constraction_set_01_R.dds"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_cable_spool" guid="{7A29AE97-F213-47A0-AC4A-AB48E8A060DA}">
+			<ColorChannel path="T_constraction_set_01_BC.dds"/>
+			<NormalChannel path="T_constraction_set_01_N.dds"/>
+			<MetallicChannel path="T_constraction_set_01_M.dds"/>
+			<RoughnessChannel path="T_constraction_set_01_R.dds"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_metal_gate" guid="{CB453A1D-E57A-4EDB-A4D6-B8A3ECC93FBC}">
+			<ColorChannel path="T_metal_gate_dif.dds"/>
+			<RoughnessChannel path="T_metal_gate_R.dds"/>
+			<MetallicChannel value="0.5"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_scaffold" guid="{49A3758B-1EA3-4DFF-B7D4-14DD035BDED9}">
+			<ColorChannel path="T_scaffold_b_D.dds"/>
+			<NormalChannel path="T_scaffold_b_N.dds"/>
+			<MetallicChannel path="T_scaffold_b_M.dds"/>
+			<RoughnessChannel path="T_scaffold_b_R.dds"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_compensator" guid="{385A1F9D-BA96-4845-8D35-6AF66F270196}">
+			<ColorChannel path="T_compensator_D.dds"/>
+			<NormalChannel path="T_Compensator_N.dds"/>
+			<MetallicChannel path="T_compensator_M.dds"/>
+			<RoughnessChannel path="T_compensator_R.dds"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_concrete_fence.001" guid="{66C4A1F3-FB69-415F-B0EA-70C3EBBBA23E}">
+			<ColorChannel path="T_concrete_fence_BC.dds"/>
+			<NormalChannel path="T_concrete_fence_N.dds"/>
+			<RoughnessChannel path="T_concrete_fence_R.dds"/>
+			<MetallicChannel value="0"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_concrete_fence.001" guid="{E16C150E-9F3C-4D85-B8A4-219F10E81464}">
+			<ColorChannel path="T_concrete_fence_BC.dds"/>
+			<NormalChannel path="T_concrete_fence_N.dds"/>
+			<RoughnessChannel path="T_concrete_fence_R.dds"/>
+			<MetallicChannel value="0"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_concrete_fence.001" guid="{5AF03277-F48D-4679-8D01-6F9AFF031D3F}">
+			<ColorChannel path="T_concrete_fence_BC.dds"/>
+			<NormalChannel path="T_concrete_fence_N.dds"/>
+			<RoughnessChannel path="T_concrete_fence_R.dds"/>
+			<MetallicChannel value="0"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_concrete_fence.001" guid="{24CE54EC-FCC6-44CE-B7D6-7B3EF7EF4AAF}">
+			<ColorChannel path="T_concrete_fence_BC.dds"/>
+			<NormalChannel path="T_concrete_fence_N.dds"/>
+			<RoughnessChannel path="T_concrete_fence_R.dds"/>
+			<MetallicChannel value="0"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_container_blue.001" guid="{8BE1B7DC-AFB8-49A3-A264-F837BB9520A2}">
+			<ColorChannel path="T_containetB_BC.dds"/>
+			<NormalChannel path="T_containet_N.dds"/>
+			<RoughnessChannel path="T_containet_R.dds"/>
+			<MetallicChannel value="0.80000001"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_container_blue" guid="{FDC47332-3DF8-439E-A7AC-6BCEAA64C3F9}">
+			<ColorChannel path="T_containet_BC.dds"/>
+			<NormalChannel path="T_containet_N.dds"/>
+			<RoughnessChannel path="T_containet_R.dds"/>
+			<MetallicChannel value="0.80000001"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_container_blue.002" guid="{9530DC2C-0032-4C79-A6B2-1A22A3E51732}">
+			<ColorChannel path="T_containetG_BC.dds"/>
+			<NormalChannel path="T_containet_N.dds"/>
+			<RoughnessChannel path="T_containet_R.dds"/>
+			<MetallicChannel value="0.80000001"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_container_blue.003" guid="{68DAA06D-19CA-4895-B590-FCD57480A264}">
+			<ColorChannel path="T_containetR_BC.dds"/>
+			<NormalChannel path="T_containet_N.dds"/>
+			<RoughnessChannel path="T_containet_R.dds"/>
+			<MetallicChannel value="0.80000001"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_container_blue.004" guid="{F0985588-9A2F-4222-AC2A-D16EF97650A4}">
+			<ColorChannel path="T_containetW_BC.dds"/>
+			<NormalChannel path="T_containet_N.dds"/>
+			<RoughnessChannel path="T_containet_R.dds"/>
+			<MetallicChannel value="0.80000001"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_compensator_base" guid="{D3B465C3-CB00-46A1-B9D6-0C9CA77791C0}">
+			<ColorChannel path="T_Compensator_BC.dds"/>
+			<NormalChannel path="T_Compensator_N.dds"/>
+			<MetallicChannel path="T_compensator02_M.dds"/>
+			<RoughnessChannel path="T_compensator02_R.dds"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_paper_box" guid="{01880E56-BE12-4ECF-AF25-15F06259A34A}">
+			<ColorChannel path="T_paper_box_D.dds"/>
+			<RoughnessChannel path="T_paper_box_R.dds"/>
+			<MetallicChannel value="0"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_debris" guid="{C01E2C21-5227-476F-A6CA-09D41606E84F}">
+			<ColorChannel path="T_debris_decal_BC.dds"/>
+			<NormalChannel path="T_debris_decal_N.dds"/>
+			<RoughnessChannel path="T_debris_decal_R.dds"/>
+			<BlendMode type="AlphaTest"/>
+			<MetallicChannel value="0"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_debris.001" guid="{6F0F9956-3D7B-496A-9C6A-4FE10892F42A}">
+			<ColorChannel path="T_debris_decal_BC.dds"/>
+			<NormalChannel path="T_debris_decal_N.dds"/>
+			<RoughnessChannel path="T_debris_decal_R.dds"/>
+			<BlendMode type="AlphaTest"/>
+			<MetallicChannel value="0"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_drainage_pole.001" guid="{8434A68F-4115-47BB-B400-0583902E23A6}">
+			<ColorChannel path="T_drainage_pole_BC.dds"/>
+			<NormalChannel path="T_drainage_pole_N.dds"/>
+			<RoughnessChannel path="T_drainage_pole_R.dds"/>
+			<MetallicChannel value="0.60000002"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_drainage_pole.001" guid="{5A97D168-28AB-4055-85CB-AFFE48318752}">
+			<ColorChannel path="T_drainage_pole_BC.dds"/>
+			<NormalChannel path="T_drainage_pole_N.dds"/>
+			<RoughnessChannel path="T_drainage_pole_R.dds"/>
+			<MetallicChannel value="0.60000002"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_drainage_pole.001" guid="{FEF96EFA-F300-41EA-96C0-18486CD33270}">
+			<ColorChannel path="T_drainage_pole_BC.dds"/>
+			<NormalChannel path="T_drainage_pole_N.dds"/>
+			<RoughnessChannel path="T_drainage_pole_R.dds"/>
+			<MetallicChannel value="0.60000002"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_drainage_pole.001" guid="{61B474EC-5333-43DC-808C-3E4263C4376C}">
+			<ColorChannel path="T_drainage_pole_BC.dds"/>
+			<NormalChannel path="T_drainage_pole_N.dds"/>
+			<RoughnessChannel path="T_drainage_pole_R.dds"/>
+			<MetallicChannel value="0.60000002"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_drainage_pole.001" guid="{D52B35F0-2318-4C5F-9DD7-78CC60899587}">
+			<ColorChannel path="T_drainage_pole_BC.dds"/>
+			<NormalChannel path="T_drainage_pole_N.dds"/>
+			<RoughnessChannel path="T_drainage_pole_R.dds"/>
+			<MetallicChannel value="0.60000002"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_drainage_pole.001" guid="{65712282-E7F1-4E43-91F1-4147479F9DE9}">
+			<ColorChannel path="T_drainage_pole_BC.dds"/>
+			<NormalChannel path="T_drainage_pole_N.dds"/>
+			<RoughnessChannel path="T_drainage_pole_R.dds"/>
+			<MetallicChannel value="0.60000002"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_drainage_pole.001" guid="{B82272CD-AF9C-4629-91BF-9534479BF3A0}">
+			<ColorChannel path="T_drainage_pole_BC.dds"/>
+			<NormalChannel path="T_drainage_pole_N.dds"/>
+			<RoughnessChannel path="T_drainage_pole_R.dds"/>
+			<MetallicChannel value="0.60000002"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_drainage_pole.008" guid="{52833CBD-2342-48F4-B399-7C2A31E16D75}">
+			<ColorChannel path="T_drainage_pole_BC.dds"/>
+			<NormalChannel path="T_drainage_pole_N.dds"/>
+			<RoughnessChannel path="T_drainage_pole_R.dds"/>
+			<MetallicChannel value="0.60000002"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_drainage_pole.008" guid="{951074F8-D9E8-4E12-8CB5-C6E0D9E5B433}">
+			<ColorChannel path="T_drainage_pole_BC.dds"/>
+			<NormalChannel path="T_drainage_pole_N.dds"/>
+			<RoughnessChannel path="T_drainage_pole_R.dds"/>
+			<MetallicChannel value="0.60000002"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_drainage_pole.008" guid="{2CC29881-CC26-4872-87AC-849A41F2C775}">
+			<ColorChannel path="T_drainage_pole_BC.dds"/>
+			<NormalChannel path="T_drainage_pole_N.dds"/>
+			<RoughnessChannel path="T_drainage_pole_R.dds"/>
+			<MetallicChannel value="0.60000002"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_electric_pole.003" guid="{12C3A676-6F3E-4A6A-8205-78C69317D34E}">
+			<ColorChannel path="T_electric_pole_BC.dds"/>
+			<NormalChannel path="T_electric_pole_N.dds"/>
+			<MetallicChannel path="T_electric_pole_M.dds"/>
+			<RoughnessChannel path="T_electric_pole_R.dds"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_electric_pole.003" guid="{5BC54757-A207-4A20-AF1E-17EA38FC5C84}">
+			<ColorChannel path="T_electric_pole_BC.dds"/>
+			<NormalChannel path="T_electric_pole_N.dds"/>
+			<MetallicChannel path="T_electric_pole_M.dds"/>
+			<RoughnessChannel path="T_electric_pole_R.dds"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_electric_pole.003" guid="{DD135074-EE8F-4586-A2BC-7FEAC2834EDC}">
+			<ColorChannel path="T_electric_pole_BC.dds"/>
+			<NormalChannel path="T_electric_pole_N.dds"/>
+			<MetallicChannel path="T_electric_pole_M.dds"/>
+			<RoughnessChannel path="T_electric_pole_R.dds"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_electric_pole.003" guid="{06244DC7-8C23-4B20-B419-644BE0DFB78C}">
+			<ColorChannel path="T_electric_pole_BC.dds"/>
+			<NormalChannel path="T_electric_pole_N.dds"/>
+			<MetallicChannel path="T_electric_pole_M.dds"/>
+			<RoughnessChannel path="T_electric_pole_R.dds"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_floor_01" guid="{29BF3722-4773-4B52-B9E0-96EDE92A3127}">
+			<ColorChannel path="T_concrete_floor_BC.dds"/>
+			<NormalChannel path="T_concrete_floor_N.dds"/>
+			<RoughnessChannel path="T_concrete_floor_R.dds"/>
+			<MetallicChannel value="0"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_floor_01" guid="{8A203981-4F23-45FB-BA99-EF3A53816EAA}">
+			<ColorChannel path="T_concrete_floor_BC.dds"/>
+			<NormalChannel path="T_concrete_floor_N.dds"/>
+			<RoughnessChannel path="T_concrete_floor_R.dds"/>
+			<MetallicChannel value="0"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_floor_01" guid="{1F6EA970-A702-4120-BCB1-7C196CD3EABD}">
+			<ColorChannel path="T_concrete_floor_BC.dds"/>
+			<NormalChannel path="T_concrete_floor_N.dds"/>
+			<RoughnessChannel path="T_concrete_floor_R.dds"/>
+			<MetallicChannel value="0"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_gaspipes_01" guid="{DD820AC3-4C83-4F62-83EF-99BD543115D5}">
+			<ColorChannel path="T_gaspipes_01_BC.dds"/>
+			<NormalChannel path="T_gaspipes_01_N.dds"/>
+			<RoughnessChannel path="T_gaspipes_01_R.dds"/>
+			<MetallicChannel value="0.69999999"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_gaspipes_01" guid="{70A49AA6-6AB2-455C-931F-E2041BFA8AD0}">
+			<ColorChannel path="T_gaspipes_01_BC.dds"/>
+			<NormalChannel path="T_gaspipes_01_N.dds"/>
+			<RoughnessChannel path="T_gaspipes_01_R.dds"/>
+			<MetallicChannel value="0.69999999"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_gaspipes_01" guid="{6DFFF939-CB0D-4327-BC09-FCC96F22E5C4}">
+			<ColorChannel path="T_gaspipes_01_BC.dds"/>
+			<NormalChannel path="T_gaspipes_01_N.dds"/>
+			<RoughnessChannel path="T_gaspipes_01_R.dds"/>
+			<MetallicChannel value="0.69999999"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_metal_props_set_01.002" guid="{1E10D8E7-BDFE-4024-98E4-D5A671D491EB}">
+			<ColorChannel path="T_metal_props_set_01_D.dds"/>
+			<NormalChannel path="T_metal_props_set_01_N.dds"/>
+			<RoughnessChannel path="T_metal_props_set_01_R.dds"/>
+			<MetallicChannel value="0.40000001"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_metal_props_set_01.002" guid="{B9889364-8AD5-4128-8565-6D9222C6E8BB}">
+			<ColorChannel path="T_metal_props_set_01_D.dds"/>
+			<NormalChannel path="T_metal_props_set_01_N.dds"/>
+			<RoughnessChannel path="T_metal_props_set_01_R.dds"/>
+			<MetallicChannel value="0.40000001"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_metal_props_set_01.002" guid="{53BF7DBD-5DAE-4C65-A202-F6535AF23152}">
+			<ColorChannel path="T_metal_props_set_01_D.dds"/>
+			<NormalChannel path="T_metal_props_set_01_N.dds"/>
+			<RoughnessChannel path="T_metal_props_set_01_R.dds"/>
+			<MetallicChannel value="0.40000001"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_generator" guid="{DF4B1881-25CB-42A1-AD3A-C5B29D5B9EA2}">
+			<ColorChannel path="T_generator_BC.dds"/>
+			<NormalChannel path="T_generator_N.dds"/>
+			<RoughnessChannel path="T_generator_R.dds"/>
+			<MetallicChannel value="0.60000002"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_Ground" guid="{47AC7C54-B9AE-4F5D-9F06-EFFD6CDCD2B4}">
+			<ColorChannel path="T_darkdirt01_BC.dds"/>
+			<NormalChannel path="T_darkdirt01_N.dds"/>
+			<RoughnessChannel path="T_darkdirt01_R.dds"/>
+			<Sampler scaleuv="yes"/>
+			<MetallicChannel value="0"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_metal_gate_hangar" guid="{CB47E11F-04ED-4B7E-BAE7-16B6F95DA13B}">
+			<ColorChannel path="T_metal_gate_D.dds"/>
+			<NormalChannel path="T_metal_gate_N.dds"/>
+			<RoughnessChannel path="T_metal_gate_R.dds"/>
+			<MetallicChannel value="0.5"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_metal_gate_hangar.001" guid="{CD570081-1BE1-43CA-BD1D-2C22B4224B8C}">
+			<ColorChannel path="T_metal_gate_D.dds"/>
+			<NormalChannel path="T_metal_gate_N.dds"/>
+			<RoughnessChannel path="T_metal_gate_R_0.dds"/>
+			<MetallicChannel value="0.5"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_glass" guid="{A1631BA4-9EC7-4232-B04C-8BFCD10665B6}">
+			<ColorChannel path="T_glass_BC.dds"/>
+			<BlendMode type="Blend"/>
+			<MetallicChannel value="0"/>
+			<RoughnessChannel value="0.029999999"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_metal_gate_hangar.002" guid="{4BED5F5A-AF6A-450C-BC5C-4AA3EBC69751}">
+			<ColorChannel path="T_metal_gate_D.dds"/>
+			<NormalChannel path="T_metal_gate_N.dds"/>
+			<RoughnessChannel path="T_metal_gate_R_0.dds"/>
+			<MetallicChannel value="0.5"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_glass.001" guid="{96A08018-636B-4B3E-8ED7-1EFEEFF9663A}">
+			<ColorChannel path="T_glass_BC.dds"/>
+			<BlendMode type="Blend"/>
+			<MetallicChannel value="0"/>
+			<RoughnessChannel value="0.029999999"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_hangar" guid="{4B8EC898-3AE7-4135-8796-FA8F3283AB84}">
+			<ColorChannel path="T_hangar_BC.dds"/>
+			<NormalChannel path="T_hangar_N.dds"/>
+			<RoughnessChannel path="T_hangar_R.dds"/>
+			<MetallicChannel value="0.69999999"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_hangar" guid="{16CA4961-A26D-4353-B947-A4A19551ABF9}">
+			<ColorChannel path="T_hangar_BC.dds"/>
+			<NormalChannel path="T_hangar_N.dds"/>
+			<RoughnessChannel path="T_hangar_R.dds"/>
+			<MetallicChannel value="0.69999999"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_brightwhiewall" guid="{4F5DA5DC-59EC-4E7D-9A08-FB3141906429}">
+			<ColorChannel path="T_Brightwhiewall_BC.dds"/>
+			<MetallicChannel path="T_brightwhiewall_M.dds"/>
+			<RoughnessChannel path="T_brightwhiewall_R.dds"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_deepwhitewall" guid="{64C9D4E9-B9F7-409A-913E-ECAED0C3030D}">
+			<ColorChannel path="T_deepwhitewall_BC.dds"/>
+			<RoughnessChannel path="T_deepwhitewall_R.dds"/>
+			<MetallicChannel value="0"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_windowsbig" guid="{44921083-DD75-48AC-8A61-162A02F2A98D}">
+			<ColorChannel path="T_windowsbig_D.dds"/>
+			<NormalChannel path="T_windowsbig_N.dds"/>
+			<RoughnessChannel path="T_windowsbig_R.dds"/>
+			<MetallicChannel value="0"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_technicaldoors" guid="{FF382264-F4B7-45BC-A352-81264C2C252F}">
+			<ColorChannel path="T_technicaldoors_D.dds"/>
+			<NormalChannel path="T_technicaldoors_N.dds"/>
+			<RoughnessChannel path="T_technicaldoors_R.dds"/>
+			<MetallicChannel value="0"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_brightwhiewall.001" guid="{F8AEB958-3F76-41AF-98F3-A405D30D6D2A}">
+			<ColorChannel path="T_Brightwhiewall_BC.dds"/>
+			<MetallicChannel path="T_brightwhiewall_M.dds"/>
+			<RoughnessChannel path="T_brightwhiewall_R.dds"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_deepwhitewall.001" guid="{B9E581ED-2D7A-4112-AAB2-CA0B7963FC47}">
+			<ColorChannel path="T_deepwhitewall_BC.dds"/>
+			<RoughnessChannel path="T_deepwhitewall_R.dds"/>
+			<MetallicChannel value="0"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_windowsbig.001" guid="{9F5CACBA-3ED4-4052-A2B2-9EC8652ED1D9}">
+			<ColorChannel path="T_windowsbig_D.dds"/>
+			<NormalChannel path="T_windowsbig_N.dds"/>
+			<RoughnessChannel path="T_windowsbig_R.dds"/>
+			<MetallicChannel value="0"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_brightwhiewall" guid="{9D220A27-C38F-4B26-96F5-56DFD459FDF7}">
+			<ColorChannel path="T_Brightwhiewall_BC.dds"/>
+			<MetallicChannel path="T_brightwhiewall_M.dds"/>
+			<RoughnessChannel path="T_brightwhiewall_R.dds"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_deepwhitewall" guid="{6F8378BF-D079-479A-B5D6-273706747D7C}">
+			<ColorChannel path="T_deepwhitewall_BC.dds"/>
+			<RoughnessChannel path="T_deepwhitewall_R.dds"/>
+			<MetallicChannel value="0"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_windowsbig" guid="{4BB4E0F9-D039-4ABD-9F03-49DA09447E32}">
+			<ColorChannel path="T_windowsbig_D.dds"/>
+			<NormalChannel path="T_windowsbig_N.dds"/>
+			<RoughnessChannel path="T_windowsbig_R.dds"/>
+			<MetallicChannel value="0"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_brightwhiewall" guid="{C8FE7042-3D29-4C4C-8A54-411BD5961149}">
+			<ColorChannel path="T_Brightwhiewall_BC.dds"/>
+			<MetallicChannel path="T_brightwhiewall_M.dds"/>
+			<RoughnessChannel path="T_brightwhiewall_R.dds"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_deepwhitewall" guid="{AAB67C77-0946-4ADD-943D-B8C0251F94E0}">
+			<ColorChannel path="T_deepwhitewall_BC.dds"/>
+			<RoughnessChannel path="T_deepwhitewall_R.dds"/>
+			<MetallicChannel value="0"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_windowsbig" guid="{EFA8A91A-C810-4710-A04C-C414994D86F2}">
+			<ColorChannel path="T_windowsbig_D.dds"/>
+			<NormalChannel path="T_windowsbig_N.dds"/>
+			<RoughnessChannel path="T_windowsbig_R.dds"/>
+			<MetallicChannel value="0"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_windowsbig.004" guid="{871BC0ED-EFD7-443E-813F-5CFF8B7AB2C7}">
+			<ColorChannel path="T_windowsbig_D.dds"/>
+			<NormalChannel path="T_windowsbig_N.dds"/>
+			<RoughnessChannel path="T_windowsbig_R.dds"/>
+			<MetallicChannel value="0"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_windowcase" guid="{FA446347-B6EE-4451-9BEB-24BB7056237A}">
+			<ColorChannel path="T_windowcase_D.dds"/>
+			<NormalChannel path="T_windowcase_N.dds"/>
+			<RoughnessChannel path="T_windowcase_R.dds"/>
+			<MetallicChannel value="0"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_buildingdoors" guid="{F9A257A7-6559-453A-ADED-79A49FD142E1}">
+			<ColorChannel path="T_BDoors_BC.dds"/>
+			<NormalChannel path="T_BDoors_N.dds"/>
+			<MetallicChannel path="T_BDoors_M.dds"/>
+			<RoughnessChannel path="T_BDoors_R.dds"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_brightwhiewall.004" guid="{3056F26E-0B41-4DC0-B374-725634F42658}">
+			<ColorChannel path="T_Brightwhiewall_BC.dds"/>
+			<MetallicChannel path="T_brightwhiewall_M.dds"/>
+			<RoughnessChannel path="T_brightwhiewall_R.dds"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_deepwhitewall.004" guid="{1487EB1B-1BA8-401A-A6EE-C1175069810C}">
+			<ColorChannel path="T_deepwhitewall_BC.dds"/>
+			<RoughnessChannel path="T_deepwhitewall_R.dds"/>
+			<MetallicChannel value="0"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_int_lamp" guid="{D231012D-415B-4E15-ADEE-E4A9C1F28EB8}">
+			<ColorChannel path="T_int_lamp_BC.dds"/>
+			<NormalChannel path="T_int_lamp_N.dds"/>
+			<RoughnessChannel path="T_int_lamp_R.dds"/>
+			<MetallicChannel value="0.30000001"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_int_lamp_on" guid="{98CAE49D-196E-4EED-ADDE-3235B0AF2634}">
+			<ColorChannel path="T_int_lamp_BC.dds"/>
+			<NormalChannel path="T_int_lamp_N.dds"/>
+			<RoughnessChannel path="T_int_lamp_R.dds"/>
+			<EmissiveChannel path="T_int_lamp_emi.dds"/>
+			<MetallicChannel value="0.30000001"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_int_lamp_on" guid="{E4F4CE0A-6E08-4783-B94E-4679C94A4316}">
+			<ColorChannel path="T_int_lamp_BC.dds"/>
+			<NormalChannel path="T_int_lamp_N.dds"/>
+			<RoughnessChannel path="T_int_lamp_R.dds"/>
+			<EmissiveChannel path="T_int_lamp_emi.dds"/>
+			<MetallicChannel value="0.30000001"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_Land_rig.001" guid="{413B3B54-F6F0-419B-B220-4BC15EB4BEC7}">
+			<ColorChannel path="T_land_rig_BC.dds"/>
+			<RoughnessChannel path="T_land_rig_R.dds"/>
+			<EmissiveChannel path="T_land_rig_E.dds"/>
+			<MetallicChannel value="0.2"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_metal_fence_03" guid="{5ABFCFBC-59D3-4CAD-B9E6-EE2617CEE2E3}">
+			<ColorChannel path="T_metal_fence_D_green_02.dds"/>
+			<NormalChannel path="T_metal_fence_N_02.dds"/>
+			<RoughnessChannel path="T_metal_fence_R_02.dds"/>
+			<MetallicChannel value="0.60000002"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_windowcase.001" guid="{EAE10E58-5DFC-4C2D-8648-B1E5C41CD091}">
+			<ColorChannel path="T_windowcase_D.dds"/>
+			<NormalChannel path="T_windowcase_N.dds"/>
+			<RoughnessChannel path="T_windowcase_R.dds"/>
+			<MetallicChannel value="0"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_buildings_01_doors_D.001" guid="{0F022C77-8344-473A-8832-6C294636B4D4}">
+			<ColorChannel path="T_BDoors_BC.dds"/>
+			<NormalChannel path="T_BDoors_N.dds"/>
+			<MetallicChannel path="T_BDoors_M.dds"/>
+			<RoughnessChannel path="T_BDoors_R.dds"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_Land_rig" guid="{ECEF0C8B-603E-44CD-9C94-E47740DD2085}">
+			<ColorChannel path="T_land_rig_BC.dds"/>
+			<RoughnessChannel path="T_land_rig_R.dds"/>
+			<EmissiveChannel path="T_land_rig_E.dds"/>
+			<MetallicChannel value="0.2"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_decal_leaves" guid="{1BDA0914-3DB3-43FD-8645-489845F298EE}">
+			<ColorChannel path="T_decal_leaves_BC.dds"/>
+			<NormalChannel path="T_decal_leaves_N.dds"/>
+			<RoughnessChannel path="T_decal_leaves_R.dds"/>
+			<BlendMode type="AlphaTest"/>
+			<MetallicChannel value="0"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_decal_leaves" guid="{B82E6D34-3D86-4CEB-ABCB-AD82DE7BFE46}">
+			<ColorChannel path="T_decal_leaves_BC.dds"/>
+			<NormalChannel path="T_decal_leaves_N.dds"/>
+			<RoughnessChannel path="T_decal_leaves_R.dds"/>
+			<BlendMode type="AlphaTest"/>
+			<MetallicChannel value="0"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_decal_leaves" guid="{145C8009-F84A-4654-9A03-EC1AA03899AA}">
+			<ColorChannel path="T_decal_leaves_BC.dds"/>
+			<NormalChannel path="T_decal_leaves_N.dds"/>
+			<RoughnessChannel path="T_decal_leaves_R.dds"/>
+			<BlendMode type="AlphaTest"/>
+			<MetallicChannel value="0"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_decal_leaves" guid="{BC207DC6-5983-4A98-BB18-182520E59D1B}">
+			<ColorChannel path="T_decal_leaves_BC.dds"/>
+			<NormalChannel path="T_decal_leaves_N.dds"/>
+			<RoughnessChannel path="T_decal_leaves_R.dds"/>
+			<BlendMode type="AlphaTest"/>
+			<MetallicChannel value="0"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_decal_leaves" guid="{6C15963F-4ACA-4F4C-8F3A-7722BE056744}">
+			<ColorChannel path="T_decal_leaves_BC.dds"/>
+			<NormalChannel path="T_decal_leaves_N.dds"/>
+			<RoughnessChannel path="T_decal_leaves_R.dds"/>
+			<BlendMode type="AlphaTest"/>
+			<MetallicChannel value="0"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_scaffold_02" guid="{ED4F4721-0528-4DC9-98E1-24305E31B3DA}">
+			<ColorChannel path="T_scaffold_b_D.dds"/>
+			<NormalChannel path="T_scaffold_b_N.dds"/>
+			<MetallicChannel path="T_scaffold_b_M.dds"/>
+			<RoughnessChannel path="T_scaffold_b_R.dds"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_scaffold_01" guid="{5A532F5B-376A-4DBC-8D15-F01985772E7B}">
+			<ColorChannel path="T_scaffold_a_D.dds"/>
+			<NormalChannel path="T_scaffold_a_N.dds"/>
+			<MetallicChannel path="T_scaffold_a_M.dds"/>
+			<RoughnessChannel path="T_scaffold_a_R.dds"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_scaffold_02" guid="{B60C71B1-7E4B-4B67-B50C-804AF87415EC}">
+			<ColorChannel path="T_scaffold_b_D.dds"/>
+			<NormalChannel path="T_scaffold_b_N.dds"/>
+			<MetallicChannel path="T_scaffold_b_M.dds"/>
+			<RoughnessChannel path="T_scaffold_b_R.dds"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_scaffold_02" guid="{CD48878B-F324-490E-9A4C-1D647BF3E69D}">
+			<ColorChannel path="T_scaffold_b_D.dds"/>
+			<NormalChannel path="T_scaffold_b_N.dds"/>
+			<MetallicChannel path="T_scaffold_b_M.dds"/>
+			<RoughnessChannel path="T_scaffold_b_R.dds"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_main_road02" guid="{3A64DD66-6953-49F4-B558-A2C1514CF08D}">
+			<ColorChannel path="T_MainRoad_BC.dds"/>
+			<NormalChannel path="T_MainRoad_N.dds"/>
+			<RoughnessChannel path="T_MainRoad_R.dds"/>
+			<MetallicChannel value="0"/>
+			<Shader wetness="yes"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_main_road02" guid="{B3C8A192-2B47-4280-B0D0-A652D0A282B8}">
+			<ColorChannel path="T_MainRoad_BC.dds"/>
+			<NormalChannel path="T_MainRoad_N.dds"/>
+			<RoughnessChannel path="T_MainRoad_R.dds"/>
+			<MetallicChannel value="0"/>
+			<Shader wetness="yes"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_main_road02" guid="{E70722CC-4C9E-40A2-B9D1-3D811D5BB3EF}">
+			<ColorChannel path="T_MainRoad_BC.dds"/>
+			<NormalChannel path="T_MainRoad_N.dds"/>
+			<RoughnessChannel path="T_MainRoad_R.dds"/>
+			<MetallicChannel value="0"/>
+			<Shader wetness="yes"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_main_road02" guid="{84486634-6926-487B-8AE4-9C821DF264E1}">
+			<ColorChannel path="T_MainRoad_BC.dds"/>
+			<NormalChannel path="T_MainRoad_N.dds"/>
+			<RoughnessChannel path="T_MainRoad_R.dds"/>
+			<MetallicChannel value="0"/>
+			<Shader wetness="yes"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_metal_fence" guid="{388B710C-3684-46C4-B7CD-D0470F015D3C}">
+			<ColorChannel path="T_metal_tile_dif.dds"/>
+			<MetallicChannel value="0.40000001"/>
+			<RoughnessChannel value="0.38999999"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_grid_fence" guid="{814B3E0A-069A-436E-9B1D-EEF1B6BF0909}">
+			<ColorChannel path="T_grid_BC.dds"/>
+			<NormalChannel path="T_grid_N.dds"/>
+			<BlendMode type="Blend"/>
+			<MetallicChannel value="0.80000001"/>
+			<RoughnessChannel value="0"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_metal_fence.001" guid="{49EF8F69-EB88-4A5E-B2C3-E8C6DBBD572E}">
+			<ColorChannel path="T_metal_tile_dif.dds"/>
+			<MetallicChannel value="0.40000001"/>
+			<RoughnessChannel value="0.38999999"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_metal_fence_03.001" guid="{B1ADD615-722C-4639-9595-810F38C75407}">
+			<ColorChannel path="T_metal_fence_D_green_02.dds"/>
+			<NormalChannel path="T_metal_fence_N_02.dds"/>
+			<RoughnessChannel path="T_metal_fence_R_02.dds"/>
+			<MetallicChannel value="0.60000002"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_metal_gate.001" guid="{872B4314-0194-4A1A-B4B9-B5631CFB1D7F}">
+			<ColorChannel path="T_metal_gate_D.dds"/>
+			<NormalChannel path="T_metal_gate_N.dds"/>
+			<RoughnessChannel path="T_metal_gate_R.dds"/>
+			<MetallicChannel value="0.5"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_hangar.001" guid="{6A9B1432-F4A7-48B0-8E9D-F851811743B3}">
+			<ColorChannel path="T_hangar_BC.dds"/>
+			<NormalChannel path="T_hangar_N.dds"/>
+			<RoughnessChannel path="T_hangar_R.dds"/>
+			<MetallicChannel value="0.69999999"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_ext_lamp" guid="{27D30C79-8027-41B3-877D-C771D31D01DD}">
+			<ColorChannel path="T_lamp_02_BC.dds"/>
+			<MetallicChannel path="T_lamp_02_M.dds"/>
+			<RoughnessChannel path="T_lamp_02_R.dds"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_metal_gate_hangar.003" guid="{72738323-6D1E-4550-A6BF-8610A0367C7A}">
+			<ColorChannel path="T_metal_gate_D.dds"/>
+			<NormalChannel path="T_metal_gate_N.dds"/>
+			<RoughnessChannel path="T_metal_gate_R_0.dds"/>
+			<MetallicChannel value="0.5"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_debris.001" guid="{3138CD7B-F293-4A96-AEC2-1D23C66212EE}">
+			<ColorChannel path="T_debris_decal_BC.dds"/>
+			<NormalChannel path="T_debris_decal_N.dds"/>
+			<RoughnessChannel path="T_debris_decal_R.dds"/>
+			<BlendMode type="AlphaTest"/>
+			<MetallicChannel value="0"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_debris.001" guid="{B9E4A9B6-FE5F-42DB-9CA2-9066897C3DF3}">
+			<ColorChannel path="T_debris_decal_BC.dds"/>
+			<NormalChannel path="T_debris_decal_N.dds"/>
+			<RoughnessChannel path="T_debris_decal_R.dds"/>
+			<BlendMode type="AlphaTest"/>
+			<MetallicChannel value="0"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_debris.001" guid="{CE79D7EC-1837-4E42-AFB1-7965A542B08B}">
+			<ColorChannel path="T_debris_decal_BC.dds"/>
+			<NormalChannel path="T_debris_decal_N.dds"/>
+			<RoughnessChannel path="T_debris_decal_R.dds"/>
+			<BlendMode type="AlphaTest"/>
+			<MetallicChannel value="0"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_debris.001" guid="{75C20972-2177-4120-A0AF-78F83F0A75D3}">
+			<ColorChannel path="T_debris_decal_BC.dds"/>
+			<NormalChannel path="T_debris_decal_N.dds"/>
+			<RoughnessChannel path="T_debris_decal_R.dds"/>
+			<BlendMode type="AlphaTest"/>
+			<MetallicChannel value="0"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_debris.001" guid="{65F29BB3-7004-471B-A1D0-061685857112}">
+			<ColorChannel path="T_debris_decal_BC.dds"/>
+			<NormalChannel path="T_debris_decal_N.dds"/>
+			<RoughnessChannel path="T_debris_decal_R.dds"/>
+			<BlendMode type="AlphaTest"/>
+			<MetallicChannel value="0"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_debris.001" guid="{BCE7C8D2-17A8-42AE-8857-E5AD0BDF77F7}">
+			<ColorChannel path="T_debris_decal_BC.dds"/>
+			<NormalChannel path="T_debris_decal_N.dds"/>
+			<RoughnessChannel path="T_debris_decal_R.dds"/>
+			<BlendMode type="AlphaTest"/>
+			<MetallicChannel value="0"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_debris.001" guid="{C1A9B135-CA4B-4B9C-8586-CCB243EAF6EC}">
+			<ColorChannel path="T_debris_decal_BC.dds"/>
+			<NormalChannel path="T_debris_decal_N.dds"/>
+			<RoughnessChannel path="T_debris_decal_R.dds"/>
+			<BlendMode type="AlphaTest"/>
+			<MetallicChannel value="0"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_debris.001" guid="{94958C2E-46C7-4752-A009-1392C80720A9}">
+			<ColorChannel path="T_debris_decal_BC.dds"/>
+			<NormalChannel path="T_debris_decal_N.dds"/>
+			<RoughnessChannel path="T_debris_decal_R.dds"/>
+			<BlendMode type="AlphaTest"/>
+			<MetallicChannel value="0"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_debris.001" guid="{5BFB1CFA-BCAD-48FB-9A9B-85AEA86D517F}">
+			<ColorChannel path="T_debris_decal_BC.dds"/>
+			<NormalChannel path="T_debris_decal_N.dds"/>
+			<RoughnessChannel path="T_debris_decal_R.dds"/>
+			<BlendMode type="AlphaTest"/>
+			<MetallicChannel value="0"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_debris.001" guid="{1919D093-A224-4004-BAB8-6FB7CF488771}">
+			<ColorChannel path="T_debris_decal_BC.dds"/>
+			<NormalChannel path="T_debris_decal_N.dds"/>
+			<RoughnessChannel path="T_debris_decal_R.dds"/>
+			<BlendMode type="AlphaTest"/>
+			<MetallicChannel value="0"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_debris.001" guid="{EBB0CB1B-54D6-496A-A074-008229137ECB}">
+			<ColorChannel path="T_debris_decal_BC.dds"/>
+			<NormalChannel path="T_debris_decal_N.dds"/>
+			<RoughnessChannel path="T_debris_decal_R.dds"/>
+			<BlendMode type="AlphaTest"/>
+			<MetallicChannel value="0"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_constraction_set_wood" guid="{7F5612C0-464B-43EA-B791-75B0A9148D41}">
+			<ColorChannel path="T_constraction_set_wood_BC.dds"/>
+			<NormalChannel path="T_constraction_set_wood_N.dds"/>
+			<RoughnessChannel path="T_constraction_set_wood_R.dds"/>
+			<MetallicChannel value="0"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_drainage_pole.002" guid="{7BD24309-F15D-4B3E-B131-839A5D0F4969}">
+			<ColorChannel path="T_scaffold_b_D.dds"/>
+			<NormalChannel path="T_drainage_pole_N.dds"/>
+			<RoughnessChannel path="T_drainage_pole_R.dds"/>
+			<MetallicChannel value="0.60000002"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_drainage_pole.002" guid="{469E2F1B-A375-4EC8-8885-899B90B7CE06}">
+			<ColorChannel path="T_scaffold_b_D.dds"/>
+			<NormalChannel path="T_drainage_pole_N.dds"/>
+			<RoughnessChannel path="T_drainage_pole_R.dds"/>
+			<MetallicChannel value="0.60000002"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_scaffold_02.001" guid="{9ACEEFB3-BFF1-4AEA-A0E4-61070CB7D811}">
+			<ColorChannel path="T_scaffold_b_D.dds"/>
+			<NormalChannel path="T_scaffold_b_N.dds"/>
+			<MetallicChannel path="T_scaffold_b_M.dds"/>
+			<RoughnessChannel path="T_scaffold_b_R.dds"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_rusty_pipe" guid="{09C094BB-ED8D-44F1-A33F-3496F9988764}">
+			<ColorChannel path="T_rusty_pipe_D.dds"/>
+			<NormalChannel path="T_rusty_pipe_N.dds"/>
+			<RoughnessChannel path="T_rusty_pipe_R.dds"/>
+			<MetallicChannel value="0.80000001"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_rusty_pipe" guid="{20773059-DEFE-48D1-9201-BB7A19D48F0B}">
+			<ColorChannel path="T_rusty_pipe_D.dds"/>
+			<NormalChannel path="T_rusty_pipe_N.dds"/>
+			<RoughnessChannel path="T_rusty_pipe_R.dds"/>
+			<MetallicChannel value="0.80000001"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_rusty_pipe" guid="{A4CC3BA8-0F2A-4ED7-A08F-0E48B86C8B23}">
+			<ColorChannel path="T_rusty_pipe_D.dds"/>
+			<NormalChannel path="T_rusty_pipe_N.dds"/>
+			<RoughnessChannel path="T_rusty_pipe_R.dds"/>
+			<MetallicChannel value="0.80000001"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_rusty_pipe" guid="{8E6C60E1-1B0E-4FF2-99E7-17742F41563B}">
+			<ColorChannel path="T_rusty_pipe_D.dds"/>
+			<NormalChannel path="T_rusty_pipe_N.dds"/>
+			<RoughnessChannel path="T_rusty_pipe_R.dds"/>
+			<MetallicChannel value="0.80000001"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_rusty_pipe" guid="{09DCC0F9-349B-422E-8C61-C455E3FB6565}">
+			<ColorChannel path="T_rusty_pipe_D.dds"/>
+			<NormalChannel path="T_rusty_pipe_N.dds"/>
+			<RoughnessChannel path="T_rusty_pipe_R.dds"/>
+			<MetallicChannel value="0.80000001"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_rusty_pipe" guid="{772E150F-FA5A-4110-8F91-ECE47CDB77E1}">
+			<ColorChannel path="T_rusty_pipe_D.dds"/>
+			<NormalChannel path="T_rusty_pipe_N.dds"/>
+			<RoughnessChannel path="T_rusty_pipe_R.dds"/>
+			<MetallicChannel value="0.80000001"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_rusty_pipe" guid="{9FA8CA86-7015-4901-BF8A-F3DE09E73A87}">
+			<ColorChannel path="T_rusty_pipe_D.dds"/>
+			<NormalChannel path="T_rusty_pipe_N.dds"/>
+			<RoughnessChannel path="T_rusty_pipe_R.dds"/>
+			<MetallicChannel value="0.80000001"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_rusty_pipe" guid="{B0618CC8-6BAA-46DB-BE0B-DDDF3C327C1D}">
+			<ColorChannel path="T_rusty_pipe_D.dds"/>
+			<NormalChannel path="T_rusty_pipe_N.dds"/>
+			<RoughnessChannel path="T_rusty_pipe_R.dds"/>
+			<MetallicChannel value="0.80000001"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_rusty_pipe" guid="{CA54590F-0DB4-4914-8C07-DECA5AB80796}">
+			<ColorChannel path="T_rusty_pipe_D.dds"/>
+			<NormalChannel path="T_rusty_pipe_N.dds"/>
+			<RoughnessChannel path="T_rusty_pipe_R.dds"/>
+			<MetallicChannel value="0.80000001"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_rusty_pipe" guid="{12EE58BC-012E-4DB0-BD60-869DF28F426F}">
+			<ColorChannel path="T_rusty_pipe_D.dds"/>
+			<NormalChannel path="T_rusty_pipe_N.dds"/>
+			<RoughnessChannel path="T_rusty_pipe_R.dds"/>
+			<MetallicChannel value="0.80000001"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_rusty_pipe" guid="{64E5894B-088C-4310-98EC-BAFB9A5A2AD8}">
+			<ColorChannel path="T_rusty_pipe_D.dds"/>
+			<NormalChannel path="T_rusty_pipe_N.dds"/>
+			<RoughnessChannel path="T_rusty_pipe_R.dds"/>
+			<MetallicChannel value="0.80000001"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_rusty_pipe" guid="{DB26B155-9636-4F1C-860C-F0C70DE7A410}">
+			<ColorChannel path="T_rusty_pipe_D.dds"/>
+			<NormalChannel path="T_rusty_pipe_N.dds"/>
+			<RoughnessChannel path="T_rusty_pipe_R.dds"/>
+			<MetallicChannel value="0.80000001"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_scaffold_01.001" guid="{68A1E7DC-0B65-4765-A6D3-A75E9AF0A87B}">
+			<ColorChannel path="T_scaffold_a_D.dds"/>
+			<NormalChannel path="T_scaffold_a_N.dds"/>
+			<MetallicChannel path="T_scaffold_a_M.dds"/>
+			<RoughnessChannel path="T_scaffold_a_R.dds"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_scaffold_01.001" guid="{88127A19-E285-4C31-9B12-06EEE0B76D83}">
+			<ColorChannel path="T_scaffold_a_D.dds"/>
+			<NormalChannel path="T_scaffold_a_N.dds"/>
+			<MetallicChannel path="T_scaffold_a_M.dds"/>
+			<RoughnessChannel path="T_scaffold_a_R.dds"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_scaffold_01.001" guid="{C21374AA-D8F6-4204-9FF2-C8074EED9FD0}">
+			<ColorChannel path="T_scaffold_a_D.dds"/>
+			<NormalChannel path="T_scaffold_a_N.dds"/>
+			<MetallicChannel path="T_scaffold_a_M.dds"/>
+			<RoughnessChannel path="T_scaffold_a_R.dds"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_scaffold_01.001" guid="{103214D8-E379-4A07-91A0-2E6FB0449AE3}">
+			<ColorChannel path="T_scaffold_a_D.dds"/>
+			<NormalChannel path="T_scaffold_a_N.dds"/>
+			<MetallicChannel path="T_scaffold_a_M.dds"/>
+			<RoughnessChannel path="T_scaffold_a_R.dds"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_scaffold_01.001" guid="{B8EA5295-E2CE-472E-B168-01E729354D19}">
+			<ColorChannel path="T_scaffold_a_D.dds"/>
+			<NormalChannel path="T_scaffold_a_N.dds"/>
+			<MetallicChannel path="T_scaffold_a_M.dds"/>
+			<RoughnessChannel path="T_scaffold_a_R.dds"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_scaffold_02.004" guid="{16A55394-6114-48A6-AC57-8933EA1C8ED0}">
+			<ColorChannel path="T_scaffold_b_D.dds"/>
+			<NormalChannel path="T_scaffold_b_N.dds"/>
+			<MetallicChannel path="T_scaffold_b_M.dds"/>
+			<RoughnessChannel path="T_scaffold_b_R.dds"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_scaffold_02.004" guid="{F66C0BDD-DAAC-4BA5-A89F-84FBD7B59653}">
+			<ColorChannel path="T_scaffold_b_D.dds"/>
+			<NormalChannel path="T_scaffold_b_N.dds"/>
+			<MetallicChannel path="T_scaffold_b_M.dds"/>
+			<RoughnessChannel path="T_scaffold_b_R.dds"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_scaffold_02.004" guid="{E965DE8C-8C5B-4A5E-B1AF-89033BB81DDB}">
+			<ColorChannel path="T_scaffold_b_D.dds"/>
+			<NormalChannel path="T_scaffold_b_N.dds"/>
+			<MetallicChannel path="T_scaffold_b_M.dds"/>
+			<RoughnessChannel path="T_scaffold_b_R.dds"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_floor_01" guid="{BF017EC9-CFDB-4F39-86C7-991EC03C5A75}">
+			<ColorChannel path="T_concrete_floor_BC.dds"/>
+			<NormalChannel path="T_concrete_floor_N.dds"/>
+			<RoughnessChannel path="T_concrete_floor_R.dds"/>
+			<MetallicChannel value="0"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_floor_01" guid="{4DEA15C0-7D19-4FD7-B679-0BA9BFFA3E02}">
+			<ColorChannel path="T_concrete_floor_BC.dds"/>
+			<NormalChannel path="T_concrete_floor_N.dds"/>
+			<RoughnessChannel path="T_concrete_floor_R.dds"/>
+			<MetallicChannel value="0"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_floor_01" guid="{34072DD2-2F2C-4A34-A077-D40E4B3BEE28}">
+			<ColorChannel path="T_concrete_floor_BC.dds"/>
+			<NormalChannel path="T_concrete_floor_N.dds"/>
+			<RoughnessChannel path="T_concrete_floor_R.dds"/>
+			<MetallicChannel value="0"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_scaffold_01.001" guid="{543502BA-C504-4923-9CFA-9378EBD6D074}">
+			<ColorChannel path="T_scaffold_a_D.dds"/>
+			<NormalChannel path="T_scaffold_a_N.dds"/>
+			<MetallicChannel path="T_scaffold_a_M.dds"/>
+			<RoughnessChannel path="T_scaffold_a_R.dds"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_scaffold_01.001" guid="{0DB5F506-89D5-451A-BA4E-92F0A31AF2E0}">
+			<ColorChannel path="T_scaffold_a_D.dds"/>
+			<NormalChannel path="T_scaffold_a_N.dds"/>
+			<MetallicChannel path="T_scaffold_a_M.dds"/>
+			<RoughnessChannel path="T_scaffold_a_R.dds"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_scaffold_01.001" guid="{2E09BAFC-A835-4AF0-B325-54624408370C}">
+			<ColorChannel path="T_scaffold_a_D.dds"/>
+			<NormalChannel path="T_scaffold_a_N.dds"/>
+			<MetallicChannel path="T_scaffold_a_M.dds"/>
+			<RoughnessChannel path="T_scaffold_a_R.dds"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_scaffold_02.004" guid="{961E2C6F-F1FF-4BD5-9073-F5863BF25C6D}">
+			<ColorChannel path="T_scaffold_b_D.dds"/>
+			<NormalChannel path="T_scaffold_b_N.dds"/>
+			<MetallicChannel path="T_scaffold_b_M.dds"/>
+			<RoughnessChannel path="T_scaffold_b_R.dds"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_street_light" guid="{AFBDDFEB-5F71-4276-89AB-05DC5A2C8991}">
+			<ColorChannel path="T_street_light_dif_02.dds"/>
+			<NormalChannel path="T_street_light_N_02.dds"/>
+			<RoughnessChannel path="T_street_light_R_02.dds"/>
+			<MetallicChannel value="0.60000002"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_street_light" guid="{0E2A75D8-4A11-4E15-8697-CEEAF202A7EF}">
+			<ColorChannel path="T_street_light_dif_02.dds"/>
+			<NormalChannel path="T_street_light_N_02.dds"/>
+			<RoughnessChannel path="T_street_light_R_02.dds"/>
+			<MetallicChannel value="0.60000002"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_tank_container" guid="{531F333C-227C-44AA-ACDD-794896CD8F06}">
+			<ColorChannel path="T_tank_container_D.dds"/>
+			<NormalChannel path="T_tank_container_N.dds"/>
+			<RoughnessChannel path="T_tank_container_R.dds"/>
+			<MetallicChannel value="0.80000001"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_tank_container_floor" guid="{8A5E73D3-16A0-433C-ABB5-4AEDF7C2BB1D}">
+			<ColorChannel path="T_floor.dds"/>
+			<MetallicChannel value="0.60000002"/>
+			<RoughnessChannel value="0.30000001"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_tank_vertical" guid="{433DD13B-9E49-42F1-96AF-7F8F8880D434}">
+			<ColorChannel path="T_props_02_D.dds"/>
+			<NormalChannel path="T_props_02_N.dds"/>
+			<RoughnessChannel path="T_props_R.dds"/>
+			<MetallicChannel value="0.5"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_scaffold_02.004" guid="{68C142A8-3CB9-4B5A-8B03-4B6936A6FF41}">
+			<ColorChannel path="T_scaffold_b_D.dds"/>
+			<NormalChannel path="T_scaffold_b_N.dds"/>
+			<MetallicChannel path="T_scaffold_b_M.dds"/>
+			<RoughnessChannel path="T_scaffold_b_R.dds"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_Train_BoxCar_green" guid="{7F0E53FB-893C-4711-B071-E3F7BC615F52}">
+			<ColorChannel path="T_train_box_car_green_D.dds"/>
+			<NormalChannel path="T_train_box_car_N.dds"/>
+			<RoughnessChannel path="T_train_box_car_R.dds"/>
+			<MetallicChannel value="0.80000001"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_Train_BoxCar_rad" guid="{ED1BA0F6-ECD8-4187-B557-75E829AE2381}">
+			<ColorChannel path="T_train_box_car_rad_D.dds"/>
+			<NormalChannel path="T_train_box_car_N.dds"/>
+			<RoughnessChannel path="T_train_box_car_R.dds"/>
+			<MetallicChannel value="0.80000001"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_Train_BoxCar_yellow" guid="{47A3D38A-E706-47F4-AFAC-C2ADD2C9E5E8}">
+			<ColorChannel path="T_train_box_car_yellow_D.dds"/>
+			<NormalChannel path="T_train_box_car_N.dds"/>
+			<RoughnessChannel path="T_train_box_car_R.dds"/>
+			<MetallicChannel value="0.80000001"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_metal_props_set_01" guid="{E7C29342-86B7-4C91-A4E8-601447C2050B}">
+			<ColorChannel path="T_metal_props_set_01_D.dds"/>
+			<NormalChannel path="T_metal_props_set_01_N.dds"/>
+			<RoughnessChannel path="T_metal_props_set_01_R.dds"/>
+			<MetallicChannel value="0.40000001"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_metal_props_set_01" guid="{0324C7CB-FD7E-48AC-8A69-8A0BE5E3CA4F}">
+			<ColorChannel path="T_metal_props_set_01_D.dds"/>
+			<NormalChannel path="T_metal_props_set_01_N.dds"/>
+			<RoughnessChannel path="T_metal_props_set_01_R.dds"/>
+			<MetallicChannel value="0.40000001"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_metal_props_set_01" guid="{CE34F21A-E874-4108-9C4D-A32A159DA2CC}">
+			<ColorChannel path="T_metal_props_set_01_D.dds"/>
+			<NormalChannel path="T_metal_props_set_01_N.dds"/>
+			<RoughnessChannel path="T_metal_props_set_01_R.dds"/>
+			<MetallicChannel value="0.40000001"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_cable_spool" guid="{F80F305B-19FB-4034-A91B-A4696445D62E}">
+			<ColorChannel path="T_constraction_set_01_BC.dds"/>
+			<NormalChannel path="T_constraction_set_01_N.dds"/>
+			<MetallicChannel path="T_constraction_set_01_M.dds"/>
+			<RoughnessChannel path="T_constraction_set_01_R.dds"/>
+		</Material>
+		<Material basePath="Content\Models\IndustrialAreaHangar" name="M_cable_spool" guid="{5B1B4461-3B9D-4B85-8E51-1A38B7AC0B1D}">
+			<ColorChannel path="T_constraction_set_01_BC.dds"/>
+			<NormalChannel path="T_constraction_set_01_N.dds"/>
+			<MetallicChannel path="T_constraction_set_01_M.dds"/>
+			<RoughnessChannel path="T_constraction_set_01_R.dds"/>
+		</Material>
+        <Material basePath="Content\Models\IndustrialAreaHangar" name="M_FieldGrass_Inst_01" guid="{A9A71E7F-7020-46B2-8623-9FE92FE2F94E}">
+            <ColorChannel path="T_FieldGrass_01_D.dds"/>
+            <BlendMode type="Blend"/>
+            <Raster twosided="yes"/>
+            <MetallicChannel value="0"/>
+            <RoughnessChannel value="0.60000002"/>
+        </Material>
+	</EntityMaterials>
+	<Entities>
+		<Entity name="SM_air_conditioning" category="fillme" guid="{46B42B83-5C7E-48CA-96DE-AB201393187D}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_air_conditioning.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{8825A170-D487-494C-AA94-9683CD011C1F}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_anti_tank_obstacle" category="fillme" guid="{77BC207D-B06A-420C-8324-21FC2B3C0EF8}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_anti_tank_obstacle.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{A3FC4D3E-4857-4475-8AFD-C8609BEB38FB}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_block_1" category="fillme" guid="{C402656A-DDB4-4967-94DB-B249B96D9024}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_block_1.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{05A835EC-3299-455C-AD16-A472AA8E3FD4}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_Block_2" category="fillme" guid="{B433FD1B-04E0-4D3E-A086-AD7CD74B6C11}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_Block_2.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{A389EACF-342E-42FF-82E0-819FB98D6D2A}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_block_3" category="fillme" guid="{B7DFFB71-5A28-4FB6-B636-468BDD278A3A}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_block_3.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{791F5819-42A3-43C1-B5CE-7135FF11F57F}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_board_a" category="fillme" guid="{E5A07B76-A51F-41D0-83A7-52056329EEF0}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_board_a.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{001998F3-927A-4DE0-A1DF-1AB2DF1B0012}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_board_b" category="fillme" guid="{13CEF5B9-11F5-4916-8204-426874D553F5}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_board_b.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{E430F644-BAFF-4985-A431-8F0EB048C3BA}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_board_c" category="fillme" guid="{DCDDA3C9-E3DF-48CA-A8CC-B340BADA9FFE}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_board_c.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{5E89DAD3-5CD0-4356-ADFD-C668BA715D12}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_board_d" category="fillme" guid="{79621380-4BF2-4A66-AD7B-65A512FAF01B}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_board_d.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{F45255A7-5ED2-41F7-B566-95EDCBDFC79A}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_building_01" category="fillme" guid="{7A5E6D82-9C2A-46CF-98A3-0D436FCFCCDC}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_building_01.fbx.mesh" submesh="0"/>
+					<Mesh path="SM_building_01.fbx.mesh" submesh="1"/>
+					<Mesh path="SM_building_01.fbx.mesh" submesh="2"/>
+					<Mesh path="SM_building_01.fbx.mesh" submesh="3"/>
+					<Mesh path="SM_building_01.fbx.mesh" submesh="4"/>
+					<Mesh path="SM_building_01.fbx.mesh" submesh="5"/>
+				</Frame>
+				<MaterialRef id="0" guid="{67F5FBB1-BF5B-4BC8-8ADA-43FA873E89DA}"/>
+				<MaterialRef id="1" guid="{8531B9D6-ED44-4E56-B22B-C07DF0638823}"/>
+				<MaterialRef id="2" guid="{F0E26E51-8D91-48C3-BA78-1A0519D41B0A}"/>
+				<MaterialRef id="3" guid="{53A7E114-0067-4420-9540-D7BB69CEB521}"/>
+				<MaterialRef id="4" guid="{00A62E5D-17DF-4337-8745-5E5471C89499}"/>
+				<MaterialRef id="5" guid="{BCB790B7-87A0-4E1A-92BE-6B110A4FECFB}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_bumper_01" category="fillme" guid="{14ECF142-5301-44D2-A4E5-64BF7D77E259}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_bumper_01.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{D874A21B-E695-4C28-B48D-D43C45789415}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_cable_spool_a" category="fillme" guid="{5BD0C0FB-E482-4504-9D2B-3A8620EF787E}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_cable_spool_a.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{5BB0F8FB-4F02-4CE2-BCAA-98B991C7F567}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_cable_spool_b" category="fillme" guid="{A4193D0C-05D2-4FA6-B94D-3FFF79B69B87}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_cable_spool_b.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{7A29AE97-F213-47A0-AC4A-AB48E8A060DA}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_cautionpole" category="fillme" guid="{3540335E-355B-497A-B4B5-E5B8404909D7}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_cautionpole.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{CB453A1D-E57A-4EDB-A4D6-B8A3ECC93FBC}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_caution_pole_a" category="fillme" guid="{FB34C92D-C0BD-4DF9-AF47-905974050A78}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_caution_pole_a.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{49A3758B-1EA3-4DFF-B7D4-14DD035BDED9}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_compensator" category="fillme" guid="{D6D4A7C1-EEDC-482E-AE9D-22461C8A6554}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_compensator.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{385A1F9D-BA96-4845-8D35-6AF66F270196}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_concrete_fence_00" category="fillme" guid="{3B759A97-FBB0-42D4-BD48-9F6E3C0F5A05}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_concrete_fence_00.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{66C4A1F3-FB69-415F-B0EA-70C3EBBBA23E}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_concrete_fence_01" category="fillme" guid="{8DE4C441-EC86-4E68-9ED9-10D8BB28BC1F}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_concrete_fence_01.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{E16C150E-9F3C-4D85-B8A4-219F10E81464}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_concrete_fence_02" category="fillme" guid="{ED522836-8285-4769-B836-23DB975D3692}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_concrete_fence_02.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{5AF03277-F48D-4679-8D01-6F9AFF031D3F}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_concrete_fence_03" category="fillme" guid="{9A8CCCBE-5B54-4B4B-A58C-62ED8A77D8B1}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_concrete_fence_03.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{24CE54EC-FCC6-44CE-B7D6-7B3EF7EF4AAF}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_container_blue" category="fillme" guid="{1A4E3D99-DCA4-4FF9-A893-C820DC63C988}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_container_blue.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{8BE1B7DC-AFB8-49A3-A264-F837BB9520A2}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_container_gray" category="fillme" guid="{B0E5AA90-7827-4A24-9B01-7E1189A2B2FF}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_container_gray.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{FDC47332-3DF8-439E-A7AC-6BCEAA64C3F9}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_container_green" category="fillme" guid="{1484F977-6ACF-46C4-8842-E8E15232DA81}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_container_green.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{9530DC2C-0032-4C79-A6B2-1A22A3E51732}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_container_red" category="fillme" guid="{84001076-F91D-4647-94F5-DFBFE312EFE5}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_container_red.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{68DAA06D-19CA-4895-B590-FCD57480A264}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_container_white" category="fillme" guid="{0B9AB210-2821-4B43-9410-3BE3A435FE20}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_container_white.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{F0985588-9A2F-4222-AC2A-D16EF97650A4}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_copmensator_base" category="fillme" guid="{4D8B6758-FB3D-4ED9-BD63-39E7E53B1C58}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_copmensator_base.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{D3B465C3-CB00-46A1-B9D6-0C9CA77791C0}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_debris_01" category="fillme" guid="{465BCE09-6EC7-4141-B61E-DB161FFE7208}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_debris_01.fbx.mesh" submesh="0"/>
+					<Mesh path="SM_debris_01.fbx.mesh" submesh="1"/>
+				</Frame>
+				<MaterialRef id="0" guid="{01880E56-BE12-4ECF-AF25-15F06259A34A}"/>
+				<MaterialRef id="1" guid="{C01E2C21-5227-476F-A6CA-09D41606E84F}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_debris_02" category="fillme" guid="{1D4CE869-6D1A-4030-98AB-4CC6DE017F0D}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_debris_02.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{6F0F9956-3D7B-496A-9C6A-4FE10892F42A}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_drainage_pole_01.001" category="fillme" guid="{B1481537-F898-4A5F-A6DC-4AFDC2041957}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_drainage_pole_01.001.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{8434A68F-4115-47BB-B400-0583902E23A6}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_drainage_pole_01" category="fillme" guid="{C535DA9C-1B25-48BC-8F0E-18273201EB85}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_drainage_pole_01.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{5A97D168-28AB-4055-85CB-AFFE48318752}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_drainage_pole_02" category="fillme" guid="{6F64FF5E-EC13-44E3-A1CC-C829C8511117}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_drainage_pole_02.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{FEF96EFA-F300-41EA-96C0-18486CD33270}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_drainage_pole_03" category="fillme" guid="{AD88D885-1B7F-4E82-8B74-E555358ACD1A}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_drainage_pole_03.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{61B474EC-5333-43DC-808C-3E4263C4376C}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_drainage_pole_04" category="fillme" guid="{1DD00414-95C5-41DF-B7B9-D935472E1E69}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_drainage_pole_04.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{D52B35F0-2318-4C5F-9DD7-78CC60899587}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_drainage_pole_05" category="fillme" guid="{BDDC2044-D4AD-45DD-95D3-35A5E40A0CE7}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_drainage_pole_05.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{65712282-E7F1-4E43-91F1-4147479F9DE9}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_drainage_pole_06" category="fillme" guid="{05D2700D-D196-4B73-90DF-098F3F296E55}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_drainage_pole_06.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{B82272CD-AF9C-4629-91BF-9534479BF3A0}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_electricalpole_01" category="fillme" guid="{73838006-4121-4B55-90FA-E04A229DB8D1}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_electricalpole_01.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{52833CBD-2342-48F4-B399-7C2A31E16D75}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_electricalpole_02" category="fillme" guid="{AF05D210-1065-46E6-8B66-40A35A6EF6F1}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_electricalpole_02.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{951074F8-D9E8-4E12-8CB5-C6E0D9E5B433}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_electricalpole_03" category="fillme" guid="{699063C1-8133-45AD-BD46-9B7FCDFBFF2A}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_electricalpole_03.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{2CC29881-CC26-4872-87AC-849A41F2C775}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_electric_pole_01" category="fillme" guid="{2EEDC032-54B7-4AB4-9A24-FE973CCB0EC7}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_electric_pole_01.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{12C3A676-6F3E-4A6A-8205-78C69317D34E}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_electric_pole_02" category="fillme" guid="{E6AA4551-FEE9-498D-A6F7-1C4F76B198C2}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_electric_pole_02.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{5BC54757-A207-4A20-AF1E-17EA38FC5C84}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_electric_pole_03" category="fillme" guid="{D23D8741-2D9F-4931-8872-19C2B820C7DC}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_electric_pole_03.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{DD135074-EE8F-4586-A2BC-7FEAC2834EDC}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_electric_pole_04" category="fillme" guid="{1A493301-1849-46C0-910B-C02220D3FFE9}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_electric_pole_04.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{06244DC7-8C23-4B20-B419-644BE0DFB78C}"/>
+			</Visuals>
+		</Entity>
+        <Entity name="SM_FieldGrass_01" category="fillme" guid="{3334A906-DFB9-40B1-8C9B-020AD216E626}">
+            <Visuals basePath="Content\Models\IndustrialAreaHangar">
+                <Frame name="default">
+                    <Mesh path="SM_FieldGrass_01.fbx.mesh" submesh="0"/>
+                </Frame>
+                <MaterialRef id="0" guid="{A9A71E7F-7020-46B2-8623-9FE92FE2F94E}"/>
+            </Visuals>
+        </Entity>
+		<Entity name="SM_floor_01" category="fillme" guid="{EEDF52AA-A995-4F76-90CE-FF69419C4188}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_floor_01.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{29BF3722-4773-4B52-B9E0-96EDE92A3127}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_floor_02" category="fillme" guid="{DFAF5902-7C3C-4CEE-A629-22B861DEDE1A}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_floor_02.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{8A203981-4F23-45FB-BA99-EF3A53816EAA}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_floor_03" category="fillme" guid="{9AA38AEA-BE28-42E2-821F-AD03BAC437E4}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_floor_03.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{1F6EA970-A702-4120-BCB1-7C196CD3EABD}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_gaspipes_01" category="fillme" guid="{5707C0CD-3BCA-4695-8735-C564E4FC1B50}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_gaspipes_01.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{DD820AC3-4C83-4F62-83EF-99BD543115D5}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_gaspipes_02" category="fillme" guid="{92624FFC-3B59-4759-B904-C7087073478B}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_gaspipes_02.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{70A49AA6-6AB2-455C-931F-E2041BFA8AD0}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_gaspipes_03" category="fillme" guid="{E1287399-19CF-43A1-9880-9DB78863FB1D}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_gaspipes_03.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{6DFFF939-CB0D-4327-BC09-FCC96F22E5C4}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_gas_cylinder_01" category="fillme" guid="{EB7D60DC-A641-4211-8FE7-30F986F4C5BD}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_gas_cylinder_01.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{1E10D8E7-BDFE-4024-98E4-D5A671D491EB}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_gas_cylinder_02" category="fillme" guid="{BE027928-2D3B-4865-8FE9-D38003D502B5}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_gas_cylinder_02.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{B9889364-8AD5-4128-8565-6D9222C6E8BB}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_gas_cylinder_03" category="fillme" guid="{54D9441A-F084-4D1F-B228-972D917F1E28}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_gas_cylinder_03.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{53BF7DBD-5DAE-4C65-A202-F6535AF23152}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_generator" category="fillme" guid="{7E707930-9572-42B0-8AAF-93634EE39517}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_generator.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{DF4B1881-25CB-42A1-AD3A-C5B29D5B9EA2}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_Ground" category="fillme" guid="{253D4F09-46D9-49F2-80CD-71B495EC4CD2}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_Ground.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{47AC7C54-B9AE-4F5D-9F06-EFFD6CDCD2B4}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_hangar_gate_01" category="fillme" guid="{0AB954A2-0F7F-4412-AFCD-0E8EE8CA51F6}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_hangar_gate_01.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{CB47E11F-04ED-4B7E-BAE7-16B6F95DA13B}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_hangar_gate_door_01" category="fillme" guid="{42C3C225-14CD-42E2-8FBE-9C92269857F7}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_hangar_gate_door_01.fbx.mesh" submesh="0"/>
+					<Mesh path="SM_hangar_gate_door_01.fbx.mesh" submesh="1"/>
+				</Frame>
+				<MaterialRef id="0" guid="{CD570081-1BE1-43CA-BD1D-2C22B4224B8C}"/>
+				<MaterialRef id="1" guid="{A1631BA4-9EC7-4232-B04C-8BFCD10665B6}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_hangar_gate_door_02" category="fillme" guid="{6FC0D783-1233-4F4C-9252-3D6669C0A3C0}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_hangar_gate_door_02.fbx.mesh" submesh="0"/>
+					<Mesh path="SM_hangar_gate_door_02.fbx.mesh" submesh="1"/>
+				</Frame>
+				<MaterialRef id="0" guid="{4BED5F5A-AF6A-450C-BC5C-4AA3EBC69751}"/>
+				<MaterialRef id="1" guid="{96A08018-636B-4B3E-8ED7-1EFEEFF9663A}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_hangar_part_01" category="fillme" guid="{0C7AFDAA-89D0-472D-AC01-A053DFE0F631}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_hangar_part_01.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{4B8EC898-3AE7-4135-8796-FA8F3283AB84}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_hangar_part_02" category="fillme" guid="{2E3E1F0A-F9E6-424B-A5C5-B811361E7620}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_hangar_part_02.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{16CA4961-A26D-4353-B947-A4A19551ABF9}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_ind_building_01" category="fillme" guid="{7D3614B7-BA14-4829-9249-1A8198F203E1}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_ind_building_01.fbx.mesh" submesh="0"/>
+					<Mesh path="SM_ind_building_01.fbx.mesh" submesh="1"/>
+					<Mesh path="SM_ind_building_01.fbx.mesh" submesh="2"/>
+				</Frame>
+				<MaterialRef id="0" guid="{4F5DA5DC-59EC-4E7D-9A08-FB3141906429}"/>
+				<MaterialRef id="1" guid="{64C9D4E9-B9F7-409A-913E-ECAED0C3030D}"/>
+				<MaterialRef id="2" guid="{44921083-DD75-48AC-8A61-162A02F2A98D}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_ind_building_02" category="fillme" guid="{6F26EEB4-2DAE-453B-9845-BDEDE1E44523}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_ind_building_02.fbx.mesh" submesh="0"/>
+					<Mesh path="SM_ind_building_02.fbx.mesh" submesh="1"/>
+					<Mesh path="SM_ind_building_02.fbx.mesh" submesh="2"/>
+					<Mesh path="SM_ind_building_02.fbx.mesh" submesh="3"/>
+				</Frame>
+				<MaterialRef id="0" guid="{FF382264-F4B7-45BC-A352-81264C2C252F}"/>
+				<MaterialRef id="1" guid="{F8AEB958-3F76-41AF-98F3-A405D30D6D2A}"/>
+				<MaterialRef id="2" guid="{B9E581ED-2D7A-4112-AAB2-CA0B7963FC47}"/>
+				<MaterialRef id="3" guid="{9F5CACBA-3ED4-4052-A2B2-9EC8652ED1D9}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_ind_building_03" category="fillme" guid="{777CE3B8-DC3D-4079-96C9-086557CBD0EB}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_ind_building_03.fbx.mesh" submesh="0"/>
+					<Mesh path="SM_ind_building_03.fbx.mesh" submesh="1"/>
+					<Mesh path="SM_ind_building_03.fbx.mesh" submesh="2"/>
+				</Frame>
+				<MaterialRef id="0" guid="{9D220A27-C38F-4B26-96F5-56DFD459FDF7}"/>
+				<MaterialRef id="1" guid="{6F8378BF-D079-479A-B5D6-273706747D7C}"/>
+				<MaterialRef id="2" guid="{4BB4E0F9-D039-4ABD-9F03-49DA09447E32}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_ind_building_04" category="fillme" guid="{EA3E0D25-C806-4337-A316-C0A5B1C15D0C}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_ind_building_04.fbx.mesh" submesh="0"/>
+					<Mesh path="SM_ind_building_04.fbx.mesh" submesh="1"/>
+					<Mesh path="SM_ind_building_04.fbx.mesh" submesh="2"/>
+				</Frame>
+				<MaterialRef id="0" guid="{C8FE7042-3D29-4C4C-8A54-411BD5961149}"/>
+				<MaterialRef id="1" guid="{AAB67C77-0946-4ADD-943D-B8C0251F94E0}"/>
+				<MaterialRef id="2" guid="{EFA8A91A-C810-4710-A04C-C414994D86F2}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_ind_building_05" category="fillme" guid="{53655321-E82E-4A6B-8949-C73A36A776B0}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_ind_building_05.fbx.mesh" submesh="0"/>
+					<Mesh path="SM_ind_building_05.fbx.mesh" submesh="1"/>
+					<Mesh path="SM_ind_building_05.fbx.mesh" submesh="2"/>
+					<Mesh path="SM_ind_building_05.fbx.mesh" submesh="3"/>
+					<Mesh path="SM_ind_building_05.fbx.mesh" submesh="4"/>
+				</Frame>
+				<MaterialRef id="0" guid="{871BC0ED-EFD7-443E-813F-5CFF8B7AB2C7}"/>
+				<MaterialRef id="1" guid="{FA446347-B6EE-4451-9BEB-24BB7056237A}"/>
+				<MaterialRef id="2" guid="{F9A257A7-6559-453A-ADED-79A49FD142E1}"/>
+				<MaterialRef id="3" guid="{3056F26E-0B41-4DC0-B374-725634F42658}"/>
+				<MaterialRef id="4" guid="{1487EB1B-1BA8-401A-A6EE-C1175069810C}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_int_lamp_1" category="fillme" guid="{5F0728A4-D2AC-45FB-8E94-84AB21EA5B90}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_int_lamp_1.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{D231012D-415B-4E15-ADEE-E4A9C1F28EB8}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_int_lamp_1_on" category="fillme" guid="{52A0F0F1-3B63-4066-B906-AD86F6ECF59F}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_int_lamp_1_on.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{98CAE49D-196E-4EED-ADDE-3235B0AF2634}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_int_lamp_2_on" category="fillme" guid="{682A33B1-DB05-4993-82D7-0C925A196A44}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_int_lamp_2_on.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{E4F4CE0A-6E08-4783-B94E-4679C94A4316}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_landRigHouse_01" category="fillme" guid="{5CCA9457-7470-4C1C-AE8E-883497C9FA2A}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_landRigHouse_01.fbx.mesh" submesh="0"/>
+					<Mesh path="SM_landRigHouse_01.fbx.mesh" submesh="1"/>
+					<Mesh path="SM_landRigHouse_01.fbx.mesh" submesh="2"/>
+					<Mesh path="SM_landRigHouse_01.fbx.mesh" submesh="3"/>
+				</Frame>
+				<MaterialRef id="0" guid="{413B3B54-F6F0-419B-B220-4BC15EB4BEC7}"/>
+				<MaterialRef id="1" guid="{5ABFCFBC-59D3-4CAD-B9E6-EE2617CEE2E3}"/>
+				<MaterialRef id="2" guid="{EAE10E58-5DFC-4C2D-8648-B1E5C41CD091}"/>
+				<MaterialRef id="3" guid="{0F022C77-8344-473A-8832-6C294636B4D4}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_land_rig_01" category="fillme" guid="{4BB93B09-B735-490D-97FE-696A6A51F0B5}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_land_rig_01.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{ECEF0C8B-603E-44CD-9C94-E47740DD2085}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_leaf_decal_01" category="fillme" guid="{A0BC05D9-6B17-494A-BAC8-04726B9CC40C}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_leaf_decal_01.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{1BDA0914-3DB3-43FD-8645-489845F298EE}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_leaf_decal_02" category="fillme" guid="{A2CA6E97-6EE0-498F-98D8-CADDEEC89408}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_leaf_decal_02.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{B82E6D34-3D86-4CEB-ABCB-AD82DE7BFE46}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_leaf_decal_03" category="fillme" guid="{49E8E8D4-25B5-48FD-AA50-FDFE0B42FFB9}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_leaf_decal_03.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{145C8009-F84A-4654-9A03-EC1AA03899AA}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_leaf_decal_04" category="fillme" guid="{F4335EDE-E959-4A24-9463-79F8ADF1C00E}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_leaf_decal_04.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{BC207DC6-5983-4A98-BB18-182520E59D1B}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_leaf_decal_05" category="fillme" guid="{42866563-9EC5-4F54-B588-242DD2462F81}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_leaf_decal_05.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{6C15963F-4ACA-4F4C-8F3A-7722BE056744}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_long_boards_a" category="fillme" guid="{6D679372-5A53-4495-A0CC-C4B786944E72}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_long_boards_a.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{ED4F4721-0528-4DC9-98E1-24305E31B3DA}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_long_boards_b" category="fillme" guid="{2F21D6D4-32B7-4C3B-90F1-0E60EF07A9E8}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_long_boards_b.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{5A532F5B-376A-4DBC-8D15-F01985772E7B}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_long_poly_a" category="fillme" guid="{9783CB30-F921-4853-BF59-8DEAC8804883}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_long_poly_a.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{B60C71B1-7E4B-4B67-B50C-804AF87415EC}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_long_pully_with_rope" category="fillme" guid="{5762234D-D4D2-4A31-A99A-F42CCDE737F4}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_long_pully_with_rope.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{CD48878B-F324-490E-9A4C-1D647BF3E69D}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_main_road_set_01" category="fillme" guid="{171480EE-97BC-488D-9D50-241A8E0F9147}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_main_road_set_01.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{3A64DD66-6953-49F4-B558-A2C1514CF08D}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_main_road_set_02" category="fillme" guid="{C54E4894-D32B-4306-B20F-E00A2F05CCB9}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_main_road_set_02.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{B3C8A192-2B47-4280-B0D0-A652D0A282B8}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_main_road_set_03" category="fillme" guid="{587842CA-3E3E-4E08-AFA9-99E959B6FC03}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_main_road_set_03.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{E70722CC-4C9E-40A2-B9D1-3D811D5BB3EF}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_main_road_set_04" category="fillme" guid="{5E38F4D2-2BAF-4A35-83A4-33FB8C0862C1}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_main_road_set_04.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{84486634-6926-487B-8AE4-9C821DF264E1}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_metal_fence_01" category="fillme" guid="{AAA21E96-9502-46F1-88C9-08533C63C28B}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_metal_fence_01.fbx.mesh" submesh="0"/>
+					<Mesh path="SM_metal_fence_01.fbx.mesh" submesh="1"/>
+				</Frame>
+				<MaterialRef id="0" guid="{388B710C-3684-46C4-B7CD-D0470F015D3C}"/>
+				<MaterialRef id="1" guid="{814B3E0A-069A-436E-9B1D-EEF1B6BF0909}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_metal_fence_02" category="fillme" guid="{7160887C-C505-41FE-A834-259DB78EB78F}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_metal_fence_02.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{49EF8F69-EB88-4A5E-B2C3-E8C6DBBD572E}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_metal_fence_green" category="fillme" guid="{A262BB71-8F97-4377-BE05-3B93EDFE0FD8}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_metal_fence_green.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{B1ADD615-722C-4639-9595-810F38C75407}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_metal_gate" category="fillme" guid="{1A8E5C8F-8606-4833-9AFE-5979B264DA41}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_metal_gate.fbx.mesh" submesh="0"/>
+					<Mesh path="SM_metal_gate.fbx.mesh" submesh="1"/>
+					<Mesh path="SM_metal_gate.fbx.mesh" submesh="2"/>
+					<Mesh path="SM_metal_gate.fbx.mesh" submesh="3"/>
+				</Frame>
+				<MaterialRef id="0" guid="{872B4314-0194-4A1A-B4B9-B5631CFB1D7F}"/>
+				<MaterialRef id="1" guid="{6A9B1432-F4A7-48B0-8E9D-F851811743B3}"/>
+				<MaterialRef id="2" guid="{27D30C79-8027-41B3-877D-C771D31D01DD}"/>
+				<MaterialRef id="3" guid="{72738323-6D1E-4550-A6BF-8610A0367C7A}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_paper_debris_00" category="fillme" guid="{041244E5-CDF6-4EFC-B9F3-2CA08463682C}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_paper_debris_00.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{3138CD7B-F293-4A96-AEC2-1D23C66212EE}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_paper_debris_01" category="fillme" guid="{DDB51999-AF85-458D-B812-5FA83078A949}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_paper_debris_01.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{B9E4A9B6-FE5F-42DB-9CA2-9066897C3DF3}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_paper_debris_02" category="fillme" guid="{C350ADB1-425F-47C1-8315-B740D4E9862D}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_paper_debris_02.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{CE79D7EC-1837-4E42-AFB1-7965A542B08B}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_paper_debris_03" category="fillme" guid="{350DB80C-F22F-4223-9EEA-57E2B89902C1}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_paper_debris_03.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{75C20972-2177-4120-A0AF-78F83F0A75D3}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_paper_debris_04" category="fillme" guid="{D0E4F993-A305-4994-A38B-1D856C2449B8}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_paper_debris_04.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{65F29BB3-7004-471B-A1D0-061685857112}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_paper_debris_05" category="fillme" guid="{FD175129-F940-4ABE-8CF0-4DA532F96788}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_paper_debris_05.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{BCE7C8D2-17A8-42AE-8857-E5AD0BDF77F7}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_paper_debris_06" category="fillme" guid="{04D483A0-B356-4BE7-B618-437AD0AD7DF1}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_paper_debris_06.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{C1A9B135-CA4B-4B9C-8586-CCB243EAF6EC}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_paper_debris_07" category="fillme" guid="{927F5183-FD78-4C6D-8EA1-6AA6571E5A83}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_paper_debris_07.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{94958C2E-46C7-4752-A009-1392C80720A9}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_paper_debris_08" category="fillme" guid="{276AE844-5CE7-4952-999B-E665494E530F}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_paper_debris_08.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{5BFB1CFA-BCAD-48FB-9A9B-85AEA86D517F}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_paper_debris_09" category="fillme" guid="{28A20F9C-EE8F-4B98-806C-450673051730}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_paper_debris_09.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{1919D093-A224-4004-BAB8-6FB7CF488771}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_paper_debris_10" category="fillme" guid="{06186576-2B79-4444-B123-87F636E8F8F5}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_paper_debris_10.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{EBB0CB1B-54D6-496A-A074-008229137ECB}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_pile_of_boards" category="fillme" guid="{1B46E726-7FBB-4E35-92C7-8F52770A8596}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_pile_of_boards.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{7F5612C0-464B-43EA-B791-75B0A9148D41}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_placards_01" category="fillme" guid="{0C849922-B5EE-4EB6-987E-8C1C8D414044}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_placards_01.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{7BD24309-F15D-4B3E-B131-839A5D0F4969}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_placards_02" category="fillme" guid="{DF97B871-E349-47DE-888B-47FB61EF631F}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_placards_02.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{469E2F1B-A375-4EC8-8885-899B90B7CE06}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_polywood_board" category="fillme" guid="{B31619E4-62EC-438A-98C7-617B0818077F}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_polywood_board.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{9ACEEFB3-BFF1-4AEA-A0E4-61070CB7D811}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_rusty_pipe_00" category="fillme" guid="{82E9760B-A08A-45FE-B38A-BE0088F4D1CF}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_rusty_pipe_00.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{09C094BB-ED8D-44F1-A33F-3496F9988764}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_rusty_pipe_01" category="fillme" guid="{3D8AAC47-AFC5-4206-8173-1A0EC8201458}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_rusty_pipe_01.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{20773059-DEFE-48D1-9201-BB7A19D48F0B}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_rusty_pipe_02" category="fillme" guid="{3FA73A62-D980-4113-908E-5FAF97954606}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_rusty_pipe_02.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{A4CC3BA8-0F2A-4ED7-A08F-0E48B86C8B23}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_rusty_pipe_03" category="fillme" guid="{0736823A-1F64-4B35-9BD4-EF9749E4E82E}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_rusty_pipe_03.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{8E6C60E1-1B0E-4FF2-99E7-17742F41563B}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_rusty_pipe_04" category="fillme" guid="{C598B7A6-0323-4946-A7F3-60DAD59197F1}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_rusty_pipe_04.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{09DCC0F9-349B-422E-8C61-C455E3FB6565}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_rusty_pipe_05" category="fillme" guid="{83E7656E-D781-4081-A8CE-9917F2906D1D}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_rusty_pipe_05.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{772E150F-FA5A-4110-8F91-ECE47CDB77E1}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_rusty_pipe_06" category="fillme" guid="{001B16FE-33F2-44A2-8BB6-5F9604A2C72E}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_rusty_pipe_06.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{9FA8CA86-7015-4901-BF8A-F3DE09E73A87}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_rusty_pipe_07" category="fillme" guid="{05ED0845-ED33-4394-9112-DF1051102C8F}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_rusty_pipe_07.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{B0618CC8-6BAA-46DB-BE0B-DDDF3C327C1D}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_rusty_pipe_08" category="fillme" guid="{37617F20-B2ED-4A4B-8C6A-5ED3EF361073}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_rusty_pipe_08.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{CA54590F-0DB4-4914-8C07-DECA5AB80796}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_rusty_pipe_09" category="fillme" guid="{02D98053-F8EA-4D5B-85EB-E190BE87D983}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_rusty_pipe_09.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{12EE58BC-012E-4DB0-BD60-869DF28F426F}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_rusty_pipe_10" category="fillme" guid="{3059BD8B-7256-40E8-9091-AE101789EF19}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_rusty_pipe_10.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{64E5894B-088C-4310-98EC-BAFB9A5A2AD8}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_rusty_pipe_11" category="fillme" guid="{98989F1A-15DF-443F-9E1E-542BC4E72315}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_rusty_pipe_11.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{DB26B155-9636-4F1C-860C-F0C70DE7A410}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_scaffold_a" category="fillme" guid="{D8DA1B28-E77F-4790-A643-608D074A5889}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_scaffold_a.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{68A1E7DC-0B65-4765-A6D3-A75E9AF0A87B}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_scaffold_b" category="fillme" guid="{095E9507-A1FA-420F-B0FC-10717914D766}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_scaffold_b.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{88127A19-E285-4C31-9B12-06EEE0B76D83}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_scaffold_baner_a" category="fillme" guid="{E25F5B1B-F716-4EAE-9B56-99552C54AFC9}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_scaffold_baner_a.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{C21374AA-D8F6-4204-9FF2-C8074EED9FD0}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_scaffold_c" category="fillme" guid="{2CC7C911-BE42-4D0C-9552-B7925B88E67D}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_scaffold_c.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{103214D8-E379-4A07-91A0-2E6FB0449AE3}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_scaffold_d" category="fillme" guid="{DCD847C0-CAD1-459F-893C-47BC9BE15B0C}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_scaffold_d.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{B8EA5295-E2CE-472E-B168-01E729354D19}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_scaffold_e" category="fillme" guid="{D564B3D8-5383-4040-89D7-5B45E6DDB61A}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_scaffold_e.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{16A55394-6114-48A6-AC57-8933EA1C8ED0}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_scaffold_f" category="fillme" guid="{466964D9-2FA1-462D-A85E-9F13B0CA1F94}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_scaffold_f.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{F66C0BDD-DAAC-4BA5-A89F-84FBD7B59653}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_scaffold_g" category="fillme" guid="{A4217834-DC55-4E27-88DF-CBCF788A826F}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_scaffold_g.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{E965DE8C-8C5B-4A5E-B1AF-89033BB81DDB}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_set_floor_01" category="fillme" guid="{25616573-8A67-4177-8082-0C94D01787FC}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_set_floor_01.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{BF017EC9-CFDB-4F39-86C7-991EC03C5A75}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_set_floor_02" category="fillme" guid="{672F0936-972D-497E-8523-9CAD475F4258}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_set_floor_02.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{4DEA15C0-7D19-4FD7-B679-0BA9BFFA3E02}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_set_floor_03" category="fillme" guid="{B26A2139-9C6B-431E-99EC-4B34246632FE}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_set_floor_03.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{34072DD2-2F2C-4A34-A077-D40E4B3BEE28}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_short_boards_a" category="fillme" guid="{87BFE943-3506-4E2A-9C41-FC3FB7076EF2}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_short_boards_a.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{543502BA-C504-4923-9CFA-9378EBD6D074}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_short_boards_b" category="fillme" guid="{744AA07A-C5B6-4237-B84B-BFE15D9A05F6}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_short_boards_b.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{0DB5F506-89D5-451A-BA4E-92F0A31AF2E0}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_short_boards_c" category="fillme" guid="{05F237A7-1C66-4298-B4FE-FAE1498318F2}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_short_boards_c.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{2E09BAFC-A835-4AF0-B325-54624408370C}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_short_pully_with_rope" category="fillme" guid="{5B443D86-547E-48D1-A4C2-A4F12F115A62}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_short_pully_with_rope.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{961E2C6F-F1FF-4BD5-9073-F5863BF25C6D}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_street_light_01" category="fillme" guid="{39CCCD2F-D919-4841-AB75-140EBF9BF3B0}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_street_light_01.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{AFBDDFEB-5F71-4276-89AB-05DC5A2C8991}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_street_light_02" category="fillme" guid="{B10E3DAA-B4E0-4844-944F-48C05984D989}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_street_light_02.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{0E2A75D8-4A11-4E15-8697-CEEAF202A7EF}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_tank_container" category="fillme" guid="{E260A752-4EDA-41EC-868B-E98E1DB67D95}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_tank_container.fbx.mesh" submesh="0"/>
+					<Mesh path="SM_tank_container.fbx.mesh" submesh="1"/>
+				</Frame>
+				<MaterialRef id="0" guid="{531F333C-227C-44AA-ACDD-794896CD8F06}"/>
+				<MaterialRef id="1" guid="{8A5E73D3-16A0-433C-ABB5-4AEDF7C2BB1D}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_tank_vertical" category="fillme" guid="{5A467425-6CA4-432E-AFBF-162F431C70C3}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_tank_vertical.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{433DD13B-9E49-42F1-96AF-7F8F8880D434}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_top_border_a" category="fillme" guid="{2F801398-6E41-446D-AF8E-9AA5309CFD6E}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_top_border_a.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{68C142A8-3CB9-4B5A-8B03-4B6936A6FF41}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_TrainBoxCarGreen" category="fillme" guid="{5370D46F-ED55-41E7-8F44-6A05E2C1E823}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_TrainBoxCarGreen.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{7F0E53FB-893C-4711-B071-E3F7BC615F52}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_TrainBoxCarRad" category="fillme" guid="{8EECBEF9-5769-4326-98F1-8329E22C80FE}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_TrainBoxCarRad.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{ED1BA0F6-ECD8-4187-B557-75E829AE2381}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_TrainBoxCarYell" category="fillme" guid="{7A94935C-6487-411E-B0EB-CECB00621439}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_TrainBoxCarYell.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{47A3D38A-E706-47F4-AFAC-C2ADD2C9E5E8}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_trash_box_01" category="fillme" guid="{B51711A5-2412-4AA2-BBF5-DAD6155F2CBA}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_trash_box_01.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{E7C29342-86B7-4C91-A4E8-601447C2050B}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_trash_box_02" category="fillme" guid="{0BDA0968-C94C-470A-B2AD-A50E12E84728}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_trash_box_02.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{0324C7CB-FD7E-48AC-8A69-8A0BE5E3CA4F}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_trash_box_03" category="fillme" guid="{32798E92-C769-41E1-BAE9-CBBCBE86748D}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_trash_box_03.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{CE34F21A-E874-4108-9C4D-A32A159DA2CC}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_wooden_pallet_a" category="fillme" guid="{359386CE-61AB-4E14-81C6-552101AAA288}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_wooden_pallet_a.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{F80F305B-19FB-4034-A91B-A4696445D62E}"/>
+			</Visuals>
+		</Entity>
+		<Entity name="SM_wooden_pallet_c" category="fillme" guid="{4F26C793-2A09-410F-97E4-C7A3468C840A}">
+			<Visuals basePath="Content\Models\IndustrialAreaHangar">
+				<Frame name="default">
+					<Mesh path="SM_wooden_pallet_c.fbx.mesh" submesh="0"/>
+				</Frame>
+				<MaterialRef id="0" guid="{5B1B4461-3B9D-4B85-8E51-1A38B7AC0B1D}"/>
+			</Visuals>
+		</Entity>
+        <Entity name="BusStop" category="fillme" guid="{3AA0AAD2-D287-4EC3-91C8-FF50704C0781}">
+            <Visuals basePath="Content\Models\Polypixel\Freebie01">
+                <Frame name="default">
+                    <Mesh path="BusStop.fbx.mesh" submesh="0"/>
+                    <Mesh path="BusStop.fbx.mesh" submesh="1"/>
+                </Frame>
+                <MaterialRef id="0" guid="{39A79618-C8FC-45D5-B690-92D95C665CDA}"/>
+                <MaterialRef id="1" guid="{F84C3DC0-5181-441E-A31C-50C01FA5793F}"/>
+            </Visuals>
+        </Entity>
+	</Entities>
+</UWPSandboxGame>

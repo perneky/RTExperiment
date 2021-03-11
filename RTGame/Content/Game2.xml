@@ -1,0 +1,916 @@
+<UWPSandboxGame>
+    <EntityMaterials>
+        <Material basePath="Content\Models\Polypixel\Freebie01" name="Awning_mat" guid="{2143978B-27C3-490F-A752-8B3D201C7241}">
+            <ColorChannel path="Awning_A.dds"/>
+            <NormalChannel path="Awning_N.dds"/>
+            <MetallicChannel path="Awning_M.dds"/>
+            <RoughnessChannel path="Awning_R.dds"/>
+        </Material>
+        <Material basePath="Content\Models\Polypixel\Freebie01" name="Awning_mat" guid="{F16A75DA-743D-499A-B064-F36D10896802}">
+            <ColorChannel path="Awning_A.dds"/>
+            <NormalChannel path="Awning_N.dds"/>
+            <MetallicChannel path="Awning_M.dds"/>
+            <RoughnessChannel path="Awning_R.dds"/>
+        </Material>
+        <Material basePath="Content\Models\Polypixel\Freebie01" name="Window_mat" guid="{DDBF4BFB-E3D7-42C8-B071-58785FE59125}">
+            <ColorChannel path="Window_A.dds"/>
+            <NormalChannel path="Window_N.dds"/>
+            <MetallicChannel path="Window_M.dds"/>
+            <RoughnessChannel path="Window_R.dds"/>
+        </Material>
+        <Material basePath="Content\Models\Polypixel\Freebie01" name="Plaster_mat" guid="{3801E0CD-0132-4021-87BC-5364BF54EDDC}">
+            <ColorChannel path="Plaster_A.dds"/>
+            <NormalChannel path="Plaster_N.dds"/>
+            <MetallicChannel path="Plaster_M.dds"/>
+            <RoughnessChannel path="Plaster_R.dds"/>
+        </Material>
+        <Material basePath="Content\Models\Polypixel\Freebie01" name="BusStopGlass_mat" guid="{22A626E4-209B-42CF-9AB0-5D9B8E888760}">
+            <ColorChannel path="BusStopGlass_A.dds"/>
+            <NormalChannel path="BusStopGlass_N.dds"/>
+            <MetallicChannel path="BusStopGlass_M.dds"/>
+            <RoughnessChannel path="BusStopGlass_R.dds"/>
+            <BlendMode type="Blend"/>
+        </Material>
+        <Material basePath="Content\Models\Polypixel\Freebie01" name="Plaster_mat" guid="{C04A5211-8B9A-4055-A802-EBBA300222B7}">
+            <ColorChannel path="Plaster_A.dds"/>
+            <NormalChannel path="Plaster_N.dds"/>
+            <MetallicChannel path="Plaster_M.dds"/>
+            <RoughnessChannel path="Plaster_R.dds"/>
+        </Material>
+        <Material basePath="Content\Models\Polypixel\Freebie01" name="StoreWindow_mat" guid="{C8297CC1-F705-442C-9845-C5387B058480}">
+            <ColorChannel path="StoreWindow_A.dds"/>
+            <NormalChannel path="StoreWindow_N.dds"/>
+            <MetallicChannel path="StoreWindow_M.dds"/>
+            <RoughnessChannel path="StoreWindow_R.dds"/>
+        </Material>
+        <Material basePath="Content\Models\Polypixel\Freebie01" name="BusStopGlass_mat" guid="{19BE6965-1B2D-44BD-9178-2666C507FDF0}">
+            <ColorChannel path="BusStopGlass_A.dds"/>
+            <NormalChannel path="BusStopGlass_N.dds"/>
+            <MetallicChannel path="BusStopGlass_M.dds"/>
+            <RoughnessChannel path="BusStopGlass_R.dds"/>
+            <BlendMode type="Blend"/>
+        </Material>
+        <Material basePath="Content\Models\Polypixel\Freebie01" name="Plaster_mat" guid="{CEF587D5-6AAB-474C-8DD0-6934A1011162}">
+            <ColorChannel path="Plaster_A.dds"/>
+            <NormalChannel path="Plaster_N.dds"/>
+            <MetallicChannel path="Plaster_M.dds"/>
+            <RoughnessChannel path="Plaster_R.dds"/>
+        </Material>
+        <Material basePath="Content\Models\Polypixel\Freebie01" name="StoreWindow_mat" guid="{6F790308-7BBB-4A70-B0DC-147580527F75}">
+            <ColorChannel path="StoreWindow_A.dds"/>
+            <NormalChannel path="StoreWindow_N.dds"/>
+            <MetallicChannel path="StoreWindow_M.dds"/>
+            <RoughnessChannel path="StoreWindow_R.dds"/>
+        </Material>
+        <Material basePath="Content\Models\Polypixel\Freebie01" name="Plaster_mat" guid="{CED9FD07-8012-4311-9C0F-2436B9AAE36C}">
+            <ColorChannel path="Plaster_A.dds"/>
+            <NormalChannel path="Plaster_N.dds"/>
+            <MetallicChannel path="Plaster_M.dds"/>
+            <RoughnessChannel path="Plaster_R.dds"/>
+        </Material>
+        <Material basePath="Content\Models\Polypixel\Freebie01" name="StoreWindow_mat" guid="{847434F2-D1C4-44FB-9BE1-3311E46C6739}">
+            <ColorChannel path="StoreWindow_A.dds"/>
+            <NormalChannel path="StoreWindow_N.dds"/>
+            <MetallicChannel path="StoreWindow_M.dds"/>
+            <RoughnessChannel path="StoreWindow_R.dds"/>
+        </Material>
+        <Material basePath="Content\Models\Polypixel\Freebie01" name="BusStopGlass_mat" guid="{51AD5457-9976-446F-8311-A849A018F6D6}">
+            <ColorChannel path="BusStopGlass_A.dds"/>
+            <NormalChannel path="BusStopGlass_N.dds"/>
+            <MetallicChannel path="BusStopGlass_M.dds"/>
+            <RoughnessChannel path="BusStopGlass_R.dds"/>
+            <BlendMode type="Blend"/>
+        </Material>
+        <Material basePath="Content\Models\Polypixel\Freebie01" name="StoreWindow_mat" guid="{0BA23000-CA8B-4FE7-8936-47FD0D0FBD9A}">
+            <ColorChannel path="StoreWindow_A.dds"/>
+            <NormalChannel path="StoreWindow_N.dds"/>
+            <MetallicChannel path="StoreWindow_M.dds"/>
+            <RoughnessChannel path="StoreWindow_R.dds"/>
+        </Material>
+        <Material basePath="Content\Models\Polypixel\Freebie01" name="BusStopGlass_mat" guid="{10894309-3281-4EF2-AF4C-C84F7FB875AA}">
+            <ColorChannel path="BusStopGlass_A.dds"/>
+            <NormalChannel path="BusStopGlass_N.dds"/>
+            <MetallicChannel path="BusStopGlass_M.dds"/>
+            <RoughnessChannel path="BusStopGlass_R.dds"/>
+            <BlendMode type="Blend"/>
+        </Material>
+        <Material basePath="Content\Models\Polypixel\Freebie01" name="WoodFloor_mat" guid="{16FBCA92-774B-47BD-80D7-94A487E1F475}">
+            <ColorChannel path="WoodFloor_A.dds"/>
+            <NormalChannel path="WoodFloor_N.dds"/>
+            <MetallicChannel path="WoodFloor_M.dds"/>
+            <RoughnessChannel path="WoodFloor_R.dds"/>
+            <Sampler scaleuv="yes"/>
+        </Material>
+        <Material basePath="Content\Models\Polypixel\Freebie01" name="Ceiling_mat" guid="{C16EE176-71BF-4363-81C8-E321E4F9A424}">
+            <ColorChannel path="Ceiling_A.dds"/>
+            <NormalChannel path="Ceiling_N.dds"/>
+            <MetallicChannel path="Ceiling_M.dds"/>
+            <RoughnessChannel path="Ceiling_R.dds"/>
+            <Sampler scaleuv="yes"/>
+        </Material>
+        <Material basePath="Content\Models\Polypixel\Freebie01" name="WoodFloor_mat" guid="{C421477D-2821-4D3C-922A-0FA7C7151EA8}">
+            <ColorChannel path="WoodFloor_A.dds"/>
+            <NormalChannel path="WoodFloor_N.dds"/>
+            <MetallicChannel path="WoodFloor_M.dds"/>
+            <RoughnessChannel path="WoodFloor_R.dds"/>
+        </Material>
+        <Material basePath="Content\Models\Polypixel\Freebie01" name="Ceiling_mat" guid="{6E22D752-E251-455D-8FA4-51DEAF129475}">
+            <ColorChannel path="Ceiling_A.dds"/>
+            <NormalChannel path="Ceiling_N.dds"/>
+            <MetallicChannel path="Ceiling_M.dds"/>
+            <RoughnessChannel path="Ceiling_R.dds"/>
+        </Material>
+        <Material basePath="Content\Models\Polypixel\Freebie01" name="Plaster_mat" guid="{C3A7B828-C2B3-42A9-BF6A-0C9893A9421C}">
+            <ColorChannel path="Plaster_A.dds"/>
+            <NormalChannel path="Plaster_N.dds"/>
+            <MetallicChannel path="Plaster_M.dds"/>
+            <RoughnessChannel path="Plaster_R.dds"/>
+        </Material>
+        <Material basePath="" name="GlassOpaque_mat" guid="{3FC99CF1-EFCE-4E6D-A179-6BFC3CE088DD}">
+            <ColorChannel path="Content\Models\Polypixel\Freebie01\BusStopGlass_A.dds"/>
+            <MetallicChannel path="Content\Textures\Gray.dds"/>
+            <RoughnessChannel path="Content\Textures\White.dds"/>
+            <BlendMode type="Blend"/>
+        </Material>
+        <Material basePath="Content\Models\Polypixel\Freebie01" name="StoreWindow_mat" guid="{74019A59-B557-432A-9429-8F70B5DB4FEF}">
+            <ColorChannel path="StoreWindow_A.dds"/>
+            <NormalChannel path="StoreWindow_N.dds"/>
+            <MetallicChannel path="StoreWindow_M.dds"/>
+            <RoughnessChannel path="StoreWindow_R.dds"/>
+        </Material>
+        <Material basePath="Content\Models\Polypixel\Freebie01" name="BusStopGlass_mat" guid="{AC32E194-F26F-4B45-AC5A-2DC572E30F6D}">
+            <ColorChannel path="BusStopGlass_A.dds"/>
+            <NormalChannel path="BusStopGlass_N.dds"/>
+            <MetallicChannel path="BusStopGlass_M.dds"/>
+            <RoughnessChannel path="BusStopGlass_R.dds"/>
+            <BlendMode type="Blend"/>
+        </Material>
+        <Material basePath="Content\Models\Polypixel\Freebie01" name="Window_mat" guid="{0610A5BB-0A75-464B-AB7C-8369BC8ADFC6}">
+            <ColorChannel path="Window_A.dds"/>
+            <NormalChannel path="Window_N.dds"/>
+            <MetallicChannel path="Window_M.dds"/>
+            <RoughnessChannel path="Window_R.dds"/>
+            <BlendMode type="Blend"/>
+        </Material>
+        <Material basePath="Content\Models\Polypixel\Freebie01" name="GlassOpaque_mat" guid="{C457C5E4-F68F-4946-AB26-AF910F9CDE8F}"/>
+        <Material basePath="Content\Models\Polypixel\Freebie01" name="Brick_mat" guid="{88BC4363-EFBE-41F8-96B0-0D1395E1319E}">
+            <ColorChannel path="Brick_A.dds"/>
+            <NormalChannel path="Brick_N.dds"/>
+            <MetallicChannel path="Brick_M.dds"/>
+            <RoughnessChannel path="Brick_R.dds"/>
+        </Material>
+        <Material basePath="Content\Models\Polypixel\Freebie01" name="Concrete_mat" guid="{DB3AE32B-FE52-4140-94D5-8163ABA73DC6}">
+            <ColorChannel path="Concrete_A.dds"/>
+            <NormalChannel path="Concrete_N.dds"/>
+            <MetallicChannel path="Concrete_M.dds"/>
+            <RoughnessChannel path="Concrete_R.dds"/>
+        </Material>
+        <Material basePath="Content\Models\Polypixel\Freebie01" name="Brick_mat" guid="{2DAB5AE5-3F29-4409-8D2B-225D82E4E7B4}">
+            <ColorChannel path="Brick_A.dds"/>
+            <NormalChannel path="Brick_N.dds"/>
+            <MetallicChannel path="Brick_M.dds"/>
+            <RoughnessChannel path="Brick_R.dds"/>
+        </Material>
+        <Material basePath="Content\Models\Polypixel\Freebie01" name="Concrete_mat" guid="{1DCAB1BE-0E1D-4A68-A0F9-28C19C89AED0}">
+            <ColorChannel path="Concrete_A.dds"/>
+            <NormalChannel path="Concrete_N.dds"/>
+            <MetallicChannel path="Concrete_M.dds"/>
+            <RoughnessChannel path="Concrete_R.dds"/>
+        </Material>
+        <Material basePath="Content\Models\Polypixel\Freebie01" name="Window_mat" guid="{34A01A13-A604-429D-91DF-0CB32F001C13}">
+            <ColorChannel path="Window_A.dds"/>
+            <NormalChannel path="Window_N.dds"/>
+            <MetallicChannel path="Window_M.dds"/>
+            <RoughnessChannel path="Window_R.dds"/>
+            <BlendMode type="Blend"/>
+        </Material>
+        <Material basePath="Content\Models\Polypixel\Freebie01" name="GlassOpaque_mat" guid="{EF8958B8-4128-4CC2-8AE2-EAD66B52513C}"/>
+        <Material basePath="Content\Models\Polypixel\Freebie01" name="Drywall_mat" guid="{441DD897-FD15-4FDF-BC37-4925FEEDF86A}">
+            <ColorChannel path="Plaster_A.dds"/>
+            <NormalChannel path="Plaster_N.dds"/>
+            <MetallicChannel path="Plaster_M.dds"/>
+            <RoughnessChannel path="Plaster_R.dds"/>
+        </Material>
+        <Material basePath="Content\Models\Polypixel\Freebie01" name="Plaster_mat" guid="{A7F6426D-D616-4B70-A4A0-D04684EAF0A6}">
+            <ColorChannel path="Plaster_A.dds"/>
+            <NormalChannel path="Plaster_N.dds"/>
+            <MetallicChannel path="Plaster_M.dds"/>
+            <RoughnessChannel path="Plaster_R.dds"/>
+        </Material>
+        <Material basePath="Content\Models\Polypixel\Freebie01" name="BusStopGlass_mat" guid="{7B40278A-522A-483F-8C55-D997DAA22011}">
+            <ColorChannel path="BusStopGlass_A.dds"/>
+            <NormalChannel path="BusStopGlass_N.dds"/>
+            <MetallicChannel path="BusStopGlass_M.dds"/>
+            <RoughnessChannel path="BusStopGlass_R.dds"/>
+            <BlendMode type="Blend"/>
+        </Material>
+        <Material basePath="Content\Models\Polypixel\Freebie01" name="StoreWindow_mat" guid="{EB79DD22-6063-483E-9664-AB9FB46E986E}">
+            <ColorChannel path="StoreWindow_A.dds"/>
+            <NormalChannel path="StoreWindow_N.dds"/>
+            <MetallicChannel path="StoreWindow_M.dds"/>
+            <RoughnessChannel path="StoreWindow_R.dds"/>
+        </Material>
+        <Material basePath="Content\Models\Polypixel\Freebie01" name="Window_mat" guid="{0E5F8E5E-6BDB-40F9-9735-60E0CB97F3E1}">
+            <ColorChannel path="Window_A.dds"/>
+            <NormalChannel path="Window_N.dds"/>
+            <MetallicChannel path="Window_M.dds"/>
+            <RoughnessChannel path="Window_R.dds"/>
+        </Material>
+        <Material basePath="Content\Models\Polypixel\Freebie01" name="BusStopGlass_mat" guid="{513B043E-2E1D-4EC1-9F11-54966FEBFFA2}">
+            <ColorChannel path="BusStopGlass_A.dds"/>
+            <NormalChannel path="BusStopGlass_N.dds"/>
+            <MetallicChannel path="BusStopGlass_M.dds"/>
+            <RoughnessChannel path="BusStopGlass_R.dds"/>
+            <BlendMode type="Blend"/>
+        </Material>
+        <Material basePath="Content\Models\Polypixel\Freebie01" name="Brick_mat" guid="{1F77ABF4-E822-4492-8FB2-1079AE38F9AB}">
+            <ColorChannel path="Brick_A.dds"/>
+            <NormalChannel path="Brick_N.dds"/>
+            <MetallicChannel path="Brick_M.dds"/>
+            <RoughnessChannel path="Brick_R.dds"/>
+        </Material>
+        <Material basePath="Content\Models\Polypixel\Freebie01" name="Concrete_mat" guid="{852E09CE-2C36-4990-95BB-4282731714DF}">
+            <ColorChannel path="Concrete_A.dds"/>
+            <NormalChannel path="Concrete_N.dds"/>
+            <MetallicChannel path="Concrete_M.dds"/>
+            <RoughnessChannel path="Concrete_R.dds"/>
+        </Material>
+        <Material basePath="Content\Models\Polypixel\Freebie01" name="Drywall_mat" guid="{DB376E9C-F3FE-417D-943E-79505927A13A}">
+            <ColorChannel path="Plaster_A.dds"/>
+            <NormalChannel path="Plaster_N.dds"/>
+            <MetallicChannel path="Plaster_M.dds"/>
+            <RoughnessChannel path="Plaster_R.dds"/>
+        </Material>
+        <Material basePath="Content\Models\Polypixel\Freebie01" name="Brick_mat" guid="{9E900895-53F1-46D7-A4CF-B0D3F780BB98}">
+            <ColorChannel path="Brick_A.dds"/>
+            <NormalChannel path="Brick_N.dds"/>
+            <MetallicChannel path="Brick_M.dds"/>
+            <RoughnessChannel path="Brick_R.dds"/>
+        </Material>
+        <Material basePath="Content\Models\Polypixel\Freebie01" name="Concrete_mat" guid="{04C4433A-6EC9-4AB5-BBAB-2EDBFBA6ECC1}">
+            <ColorChannel path="Concrete_A.dds"/>
+            <NormalChannel path="Concrete_N.dds"/>
+            <MetallicChannel path="Concrete_M.dds"/>
+            <RoughnessChannel path="Concrete_R.dds"/>
+        </Material>
+        <Material basePath="Content\Models\Polypixel\Freebie01" name="Window_mat" guid="{50BA8EF1-B65B-4984-A7A9-693EC0EEAEDF}">
+            <ColorChannel path="Window_A.dds"/>
+            <NormalChannel path="Window_N.dds"/>
+            <MetallicChannel path="Window_M.dds"/>
+            <RoughnessChannel path="Window_R.dds"/>
+        </Material>
+        <Material basePath="Content\Models\Polypixel\Freebie01" name="BusStopGlass_mat" guid="{A59A977E-D9D0-4FA3-A23E-E41DE310EE9E}">
+            <ColorChannel path="BusStopGlass_A.dds"/>
+            <NormalChannel path="BusStopGlass_N.dds"/>
+            <MetallicChannel path="BusStopGlass_M.dds"/>
+            <RoughnessChannel path="BusStopGlass_R.dds"/>
+            <BlendMode type="Blend"/>
+        </Material>
+        <Material basePath="Content\Models\Polypixel\Freebie01" name="Drywall_mat" guid="{48FA1365-53B9-4B5D-92BB-C1535EF4ECEB}">
+            <ColorChannel path="Plaster_A.dds"/>
+            <NormalChannel path="Plaster_N.dds"/>
+            <MetallicChannel path="Plaster_M.dds"/>
+            <RoughnessChannel path="Plaster_R.dds"/>
+        </Material>
+        <Material basePath="Content\Models\Polypixel\Freebie01" name="Brick_mat" guid="{21DFBA6C-6780-4146-A676-A0C79AF7FED3}">
+            <ColorChannel path="Brick_A.dds"/>
+            <NormalChannel path="Brick_N.dds"/>
+            <MetallicChannel path="Brick_M.dds"/>
+            <RoughnessChannel path="Brick_R.dds"/>
+        </Material>
+        <Material basePath="Content\Models\Polypixel\Freebie01" name="Drywall_mat" guid="{948886E8-978D-41AC-A2DE-A425CD211999}">
+            <ColorChannel path="Plaster_A.dds"/>
+            <NormalChannel path="Plaster_N.dds"/>
+            <MetallicChannel path="Plaster_M.dds"/>
+            <RoughnessChannel path="Plaster_R.dds"/>
+        </Material>
+        <Material basePath="Content\Models\Polypixel\Freebie01" name="Brick_mat" guid="{89B73130-3072-4981-8282-A2C3973BD04B}">
+            <ColorChannel path="Brick_A.dds"/>
+            <NormalChannel path="Brick_N.dds"/>
+            <MetallicChannel path="Brick_M.dds"/>
+            <RoughnessChannel path="Brick_R.dds"/>
+        </Material>
+        <Material basePath="Content\Models\Polypixel\Freebie01" name="Concrete_mat" guid="{49107DFF-4DAF-4208-AE09-37F284D33312}">
+            <ColorChannel path="Concrete_A.dds"/>
+            <NormalChannel path="Concrete_N.dds"/>
+            <MetallicChannel path="Concrete_M.dds"/>
+            <RoughnessChannel path="Concrete_R.dds"/>
+        </Material>
+        <Material basePath="Content\Models\Polypixel\Freebie01" name="Window_mat" guid="{4CF80406-2903-4986-89C5-DD4701826A7D}">
+            <ColorChannel path="Window_A.dds"/>
+            <NormalChannel path="Window_N.dds"/>
+            <MetallicChannel path="Window_M.dds"/>
+            <RoughnessChannel path="Window_R.dds"/>
+        </Material>
+        <Material basePath="Content\Models\Polypixel\Freebie01" name="Drywall_mat" guid="{1D3954E5-7045-4201-B5B9-E1EDC28267EF}">
+            <ColorChannel path="Plaster_A.dds"/>
+            <NormalChannel path="Plaster_N.dds"/>
+            <MetallicChannel path="Plaster_M.dds"/>
+            <RoughnessChannel path="Plaster_R.dds"/>
+        </Material>
+        <Material basePath="Content\Models\Polypixel\Freebie01" name="BusStopGlass_mat" guid="{FF028A11-ABF5-45CE-8127-52DE46429884}">
+            <ColorChannel path="BusStopGlass_A.dds"/>
+            <NormalChannel path="BusStopGlass_N.dds"/>
+            <MetallicChannel path="BusStopGlass_M.dds"/>
+            <RoughnessChannel path="BusStopGlass_R.dds"/>
+            <BlendMode type="Blend"/>
+        </Material>
+        <Material basePath="Content\Models\Polypixel\Freebie01" name="Brick_mat" guid="{044032D4-2E21-4CF1-BC54-414A743B4D87}">
+            <ColorChannel path="Brick_A.dds"/>
+            <NormalChannel path="Brick_N.dds"/>
+            <MetallicChannel path="Brick_M.dds"/>
+            <RoughnessChannel path="Brick_R.dds"/>
+        </Material>
+        <Material basePath="Content\Models\Polypixel\Freebie01" name="Concrete_mat" guid="{A43373F3-9905-459C-8AEA-36D83813813B}">
+            <ColorChannel path="Concrete_A.dds"/>
+            <NormalChannel path="Concrete_N.dds"/>
+            <MetallicChannel path="Concrete_M.dds"/>
+            <RoughnessChannel path="Concrete_R.dds"/>
+        </Material>
+        <Material basePath="Content\Models\Polypixel\Freebie01" name="Window_mat" guid="{5FB6995E-9C1C-4573-891D-770679510E58}">
+            <ColorChannel path="Window_A.dds"/>
+            <NormalChannel path="Window_N.dds"/>
+            <MetallicChannel path="Window_M.dds"/>
+            <RoughnessChannel path="Window_R.dds"/>
+        </Material>
+        <Material basePath="Content\Models\Polypixel\Freebie01" name="BusStopGlass_mat" guid="{ABB5815A-38CD-4B6D-9490-7AA4748B518A}">
+            <ColorChannel path="BusStopGlass_A.dds"/>
+            <NormalChannel path="BusStopGlass_N.dds"/>
+            <MetallicChannel path="BusStopGlass_M.dds"/>
+            <RoughnessChannel path="BusStopGlass_R.dds"/>
+            <BlendMode type="Blend"/>
+        </Material>
+        <Material basePath="Content\Models\Polypixel\Freebie01" name="Drywall_mat" guid="{C091F0EA-4085-47F8-8624-0B5BAEF37A00}">
+            <ColorChannel path="Plaster_A.dds"/>
+            <NormalChannel path="Plaster_N.dds"/>
+            <MetallicChannel path="Plaster_M.dds"/>
+            <RoughnessChannel path="Plaster_R.dds"/>
+        </Material>
+        <Material basePath="Content\Models\Polypixel\Freebie01" name="Concrete_mat" guid="{B7A44BFB-5DD1-480B-BCCF-E4366171A2F0}">
+            <ColorChannel path="Concrete_A.dds"/>
+            <NormalChannel path="Concrete_N.dds"/>
+            <MetallicChannel path="Concrete_M.dds"/>
+            <RoughnessChannel path="Concrete_R.dds"/>
+        </Material>
+        <Material basePath="Content\Models\Polypixel\Freebie01" name="Brick_mat" guid="{04BCFD94-9113-491B-A081-3E6F1E149E5B}">
+            <ColorChannel path="Brick_A.dds"/>
+            <NormalChannel path="Brick_N.dds"/>
+            <MetallicChannel path="Brick_M.dds"/>
+            <RoughnessChannel path="Brick_R.dds"/>
+        </Material>
+        <Material basePath="Content\Models\Polypixel\Freebie01" name="Drywall_mat" guid="{F72B07D7-7C1C-48AA-92A2-E27A1AD16FCC}">
+            <ColorChannel path="Plaster_A.dds"/>
+            <NormalChannel path="Plaster_N.dds"/>
+            <MetallicChannel path="Plaster_M.dds"/>
+            <RoughnessChannel path="Plaster_R.dds"/>
+        </Material>
+        <Material basePath="Content\Models\Polypixel\Freebie01" name="Brick_mat" guid="{F9EA0153-0848-4E70-893D-549C3576C0D7}">
+            <ColorChannel path="Brick_A.dds"/>
+            <NormalChannel path="Brick_N.dds"/>
+            <MetallicChannel path="Brick_M.dds"/>
+            <RoughnessChannel path="Brick_R.dds"/>
+        </Material>
+        <Material basePath="Content\Models\Polypixel\Freebie01" name="Concrete_mat" guid="{C5DC4148-0BC2-4321-876B-117750B69B7A}">
+            <ColorChannel path="Concrete_A.dds"/>
+            <NormalChannel path="Concrete_N.dds"/>
+            <MetallicChannel path="Concrete_M.dds"/>
+            <RoughnessChannel path="Concrete_R.dds"/>
+        </Material>
+        <Material basePath="Content\Models\Polypixel\Freebie01" name="Window_mat" guid="{9342A891-2E3B-41E0-9234-CA4B7BD09966}">
+            <ColorChannel path="Window_A.dds"/>
+            <NormalChannel path="Window_N.dds"/>
+            <MetallicChannel path="Window_M.dds"/>
+            <RoughnessChannel path="Window_R.dds"/>
+        </Material>
+        <Material basePath="Content\Models\Polypixel\Freebie01" name="BusStopGlass_mat" guid="{D31F5D62-F92C-442A-9359-7D210B166488}">
+            <ColorChannel path="BusStopGlass_A.dds"/>
+            <NormalChannel path="BusStopGlass_N.dds"/>
+            <MetallicChannel path="BusStopGlass_M.dds"/>
+            <RoughnessChannel path="BusStopGlass_R.dds"/>
+            <BlendMode type="Blend"/>
+        </Material>
+        <Material basePath="Content\Models\Polypixel\Freebie01" name="Drywall_mat" guid="{76489174-D0B1-4288-ADE9-1E10B4679049}">
+            <ColorChannel path="Plaster_A.dds"/>
+            <NormalChannel path="Plaster_N.dds"/>
+            <MetallicChannel path="Plaster_M.dds"/>
+            <RoughnessChannel path="Plaster_R.dds"/>
+        </Material>
+        <Material basePath="Content\Models\Polypixel\Freebie01" name="Brick_mat" guid="{1D740E80-9475-4BC5-A9EC-52DB8B038A94}">
+            <ColorChannel path="Brick_A.dds"/>
+            <NormalChannel path="Brick_N.dds"/>
+            <MetallicChannel path="Brick_M.dds"/>
+            <RoughnessChannel path="Brick_R.dds"/>
+        </Material>
+        <Material basePath="Content\Models\Polypixel\Freebie01" name="Concrete_mat" guid="{B55C60B9-A203-4D8A-9937-57CE1865BBF3}">
+            <ColorChannel path="Concrete_A.dds"/>
+            <NormalChannel path="Concrete_N.dds"/>
+            <MetallicChannel path="Concrete_M.dds"/>
+            <RoughnessChannel path="Concrete_R.dds"/>
+        </Material>
+        <Material basePath="Content\Models\Polypixel\Freebie01" name="Window_mat" guid="{DFA68E0A-A947-41CC-A665-265B6D38A5D3}">
+            <ColorChannel path="Window_A.dds"/>
+            <NormalChannel path="Window_N.dds"/>
+            <MetallicChannel path="Window_M.dds"/>
+            <RoughnessChannel path="Window_R.dds"/>
+        </Material>
+        <Material basePath="Content\Models\Polypixel\Freebie01" name="BusStopGlass_mat" guid="{DFD8901C-76C8-4999-82ED-168BDEC05B6C}">
+            <ColorChannel path="BusStopGlass_A.dds"/>
+            <NormalChannel path="BusStopGlass_N.dds"/>
+            <MetallicChannel path="BusStopGlass_M.dds"/>
+            <RoughnessChannel path="BusStopGlass_R.dds"/>
+            <BlendMode type="Blend"/>
+        </Material>
+        <Material basePath="Content\Models\Polypixel\Freebie01" name="Drywall_mat" guid="{DA34788F-1FE2-45DA-A3C1-5366197CD1EF}">
+            <ColorChannel path="Plaster_A.dds"/>
+            <NormalChannel path="Plaster_N.dds"/>
+            <MetallicChannel path="Plaster_M.dds"/>
+            <RoughnessChannel path="Plaster_R.dds"/>
+        </Material>
+        <Material basePath="Content\Models\Polypixel\Freebie01" name="Window_mat" guid="{491EDC39-650E-476C-BABB-772B8CDD793B}">
+            <ColorChannel path="Window_A.dds"/>
+            <NormalChannel path="Window_N.dds"/>
+            <MetallicChannel path="Window_M.dds"/>
+            <RoughnessChannel path="Window_R.dds"/>
+        </Material>
+        <Material basePath="Content\Models\Polypixel\Freebie01" name="BusStopGlass_mat" guid="{8C65CF98-A08B-4BEF-92BB-E1571E0CC825}">
+            <ColorChannel path="BusStopGlass_A.dds"/>
+            <NormalChannel path="BusStopGlass_N.dds"/>
+            <MetallicChannel path="BusStopGlass_M.dds"/>
+            <RoughnessChannel path="BusStopGlass_R.dds"/>
+            <BlendMode type="Blend"/>
+        </Material>
+        <Material basePath="Content\Models\Polypixel\Freebie01" name="BusStop_mat" guid="{F84C3DC0-5181-441E-A31C-50C01FA5793F}">
+            <ColorChannel path="BusStop_A.dds"/>
+            <NormalChannel path="BusStop_N.dds"/>
+            <MetallicChannel path="BusStop_M.dds"/>
+            <RoughnessChannel path="BusStop_R.dds"/>
+        </Material>
+        <Material basePath="Content\Models\Polypixel\Freebie01" name="BusStopGlass_mat" guid="{39A79618-C8FC-45D5-B690-92D95C665CDA}">
+            <ColorChannel path="BusStopGlass_A.dds"/>
+            <NormalChannel path="BusStopGlass_N.dds"/>
+            <MetallicChannel path="BusStopGlass_M.dds"/>
+            <RoughnessChannel path="BusStopGlass_R.dds"/>
+            <BlendMode type="Blend"/>
+            <Raster twosided="yes"/>
+        </Material>
+        <Material basePath="Content\Models\Polypixel\Freebie01" name="FireHydrant_mat" guid="{0E790EF0-0669-466A-9900-75EC428560ED}">
+            <ColorChannel path="FireHydrant_A.dds"/>
+            <NormalChannel path="FireHydrant_N.dds"/>
+            <MetallicChannel path="FireHydrant_M.dds"/>
+            <RoughnessChannel path="FireHydrant_R.dds"/>
+        </Material>
+        <Material basePath="Content\Models\Polypixel\Freebie01" name="Drywall_mat" guid="{F6B8C49F-2A26-4D62-9650-AED96535FB2E}"/>
+        <Material basePath="Content\Models\Polypixel\Freebie01" name="Drywall_mat" guid="{316E4D27-31E3-464F-A155-FE034C1E4BB8}"/>
+        <Material basePath="Content\Models\Polypixel\Freebie01" name="Sidewalk_TintA_mat" guid="{62E9B626-AFEA-4105-A1D9-C606D6DDBCC4}">
+            <ColorChannel path="Sidewalk_A.dds"/>
+            <NormalChannel path="Sidewalk_N.dds"/>
+            <MetallicChannel path="Sidewalk_M.dds"/>
+            <RoughnessChannel path="Sidewalk_R.dds"/>
+        </Material>
+        <Material basePath="Content\Models\Polypixel\Freebie01" name="NewsPaperBox_mat" guid="{B89D0F6A-5CAA-4979-A2BC-83607D54ECF0}">
+            <ColorChannel path="NewspaperBox_VarA_A.dds"/>
+            <NormalChannel path="NewspaperBox_N.dds"/>
+            <MetallicChannel path="NewspaperBox_M.dds"/>
+            <RoughnessChannel path="NewspaperBox_R.dds"/>
+        </Material>
+        <Material basePath="" name="NewsPaperBoxGlass_mat" guid="{CF6C13E9-A03B-4D01-815B-B94D6E7BDCBF}">
+            <ColorChannel path="Content\Models\Polypixel\Freebie01\BusStopGlass_A.dds"/>
+            <MetallicChannel path="Content\Textures\Gray.dds"/>
+            <BlendMode type="Blend"/>
+        </Material>
+        <Material basePath="Content\Models\Polypixel\Freebie01" name="Sidewalk_TintA_mat" guid="{90E6AE94-8139-422B-B263-098956CEE47B}">
+            <ColorChannel path="Sidewalk_A.dds"/>
+            <NormalChannel path="Sidewalk_N.dds"/>
+            <MetallicChannel path="Sidewalk_M.dds"/>
+            <RoughnessChannel path="Sidewalk_R.dds"/>
+        </Material>
+        <Material basePath="Content\Models\Polypixel\Freebie01" name="Sidewalk_TintA_mat" guid="{C13EFA47-466B-4CF8-A5B5-C59577455440}">
+            <ColorChannel path="Sidewalk_A.dds"/>
+            <NormalChannel path="Sidewalk_N.dds"/>
+            <MetallicChannel path="Sidewalk_M.dds"/>
+            <RoughnessChannel path="Sidewalk_R.dds"/>
+        </Material>
+        <Material basePath="Content\Models\Polypixel\Freebie01" name="Sidewalk_TintA_mat" guid="{A085AD9D-BC9F-484F-9898-45C964E7F334}">
+            <ColorChannel path="Sidewalk_A.dds"/>
+            <NormalChannel path="Sidewalk_N.dds"/>
+            <MetallicChannel path="Sidewalk_M.dds"/>
+            <RoughnessChannel path="Sidewalk_R.dds"/>
+        </Material>
+        <Material basePath="Content\Models\Polypixel\Freebie01" name="Sidewalk_TintA_mat" guid="{792EB12F-53F9-489B-82B5-20FEFB44ED9E}">
+            <ColorChannel path="Sidewalk_A.dds"/>
+            <NormalChannel path="Sidewalk_N.dds"/>
+            <MetallicChannel path="Sidewalk_M.dds"/>
+            <RoughnessChannel path="Sidewalk_R.dds"/>
+        </Material>
+        <Material basePath="Content\Models\Polypixel\Freebie01" name="Sign_mat" guid="{7BF2AF09-62D3-4903-B4E4-886DB7A0CDBF}">
+            <ColorChannel path="Sign_A.dds"/>
+            <NormalChannel path="Sign_N.dds"/>
+            <MetallicChannel path="Sign_M.dds"/>
+            <RoughnessChannel path="Sign_R.dds"/>
+        </Material>
+        <Material basePath="Content\Models\Polypixel\Freebie01" name="ChalkWriting_mat" guid="{7CC5A450-80ED-432C-BFD7-1543F140D56A}">
+            <ColorChannel path="ChalkWriting.dds"/>
+            <BlendMode type="Blend"/>
+        </Material>
+        <Material basePath="Content\Models\Polypixel\Freebie01" name="Bark_mat" guid="{73E5D45F-436A-41BA-9532-AD7B29530B04}">
+            <ColorChannel path="Bark_A.dds"/>
+            <NormalChannel path="Bark_N.dds"/>
+            <MetallicChannel path="Bark_M.dds"/>
+            <RoughnessChannel path="Bark_R.dds"/>
+        </Material>
+        <Material basePath="Content\Models\Polypixel\Freebie01" name="Tree_A_mat" guid="{F70FB9E2-73DB-41B5-BE20-95E8AAEBF351}">
+            <ColorChannel path="Tree_A.dds"/>
+            <NormalChannel path="Tree_N.dds"/>
+            <BlendMode type="AlphaTest"/>
+        </Material>
+    </EntityMaterials>
+    <Entities>
+        <Entity name="Awning_Large" category="fillme" guid="{532C9307-A762-4D1D-9C1A-CE9BBE281B4D}">
+            <Visuals basePath="Content\Models\Polypixel\Freebie01">
+                <Frame name="default">
+                    <Mesh path="Awning_Large.fbx.mesh" submesh="0"/>
+                </Frame>
+                <MaterialRef id="0" guid="{2143978B-27C3-490F-A752-8B3D201C7241}"/>
+            </Visuals>
+        </Entity>
+        <Entity name="Awning_Small" category="fillme" guid="{ADFD85C2-8454-4C76-8A03-8B960CBBF175}">
+            <Visuals basePath="Content\Models\Polypixel\Freebie01">
+                <Frame name="default">
+                    <Mesh path="Awning_Small.fbx.mesh" submesh="0"/>
+                </Frame>
+                <MaterialRef id="0" guid="{F16A75DA-743D-499A-B064-F36D10896802}"/>
+            </Visuals>
+        </Entity>
+        <Entity name="Building_Blinds" category="fillme" guid="{975624BD-1C77-4C24-A23E-FCC56E1FB43F}">
+            <Visuals basePath="Content\Models\Polypixel\Freebie01">
+                <Frame name="default">
+                    <Mesh path="Building_Blinds.fbx.mesh" submesh="0"/>
+                </Frame>
+                <MaterialRef id="0" guid="{DDBF4BFB-E3D7-42C8-B071-58785FE59125}"/>
+            </Visuals>
+        </Entity>
+        <Entity name="Building_Bottom_Corner_A" category="fillme" guid="{3D287053-5F29-4CDC-8047-786DF4A7DCFE}">
+            <Visuals basePath="Content\Models\Polypixel\Freebie01">
+                <Frame name="default">
+                    <Mesh path="Building_Bottom_Corner_A.fbx.mesh" submesh="1"/>
+                    <Mesh path="Building_Bottom_Corner_A.fbx.mesh" submesh="0"/>
+                </Frame>
+                <MaterialRef id="0" guid="{3801E0CD-0132-4021-87BC-5364BF54EDDC}"/>
+            </Visuals>
+        </Entity>
+        <Entity name="Building_Bottom_Corner_B" category="fillme" guid="{B2980B6A-34D4-4452-A241-960A0C358566}">
+            <Visuals basePath="Content\Models\Polypixel\Freebie01">
+                <Frame name="default">
+                    <Mesh path="Building_Bottom_Corner_B.fbx.mesh" submesh="0"/>
+                    <Mesh path="Building_Bottom_Corner_B.fbx.mesh" submesh="1"/>
+                    <Mesh path="Building_Bottom_Corner_B.fbx.mesh" submesh="2"/>
+                </Frame>
+                <MaterialRef id="0" guid="{22A626E4-209B-42CF-9AB0-5D9B8E888760}"/>
+                <MaterialRef id="1" guid="{C04A5211-8B9A-4055-A802-EBBA300222B7}"/>
+                <MaterialRef id="2" guid="{C8297CC1-F705-442C-9845-C5387B058480}"/>
+            </Visuals>
+        </Entity>
+        <Entity name="Building_Bottom_Straight_A" category="fillme" guid="{F2C2B33C-B289-40D4-B630-EAAB0E5D8908}">
+            <Visuals basePath="Content\Models\Polypixel\Freebie01">
+                <Frame name="default">
+                    <Mesh path="Building_Bottom_Straight_A.fbx.mesh" submesh="0"/>
+                    <Mesh path="Building_Bottom_Straight_A.fbx.mesh" submesh="1"/>
+                    <Mesh path="Building_Bottom_Straight_A.fbx.mesh" submesh="2"/>
+                </Frame>
+                <MaterialRef id="0" guid="{19BE6965-1B2D-44BD-9178-2666C507FDF0}"/>
+                <MaterialRef id="1" guid="{CEF587D5-6AAB-474C-8DD0-6934A1011162}"/>
+                <MaterialRef id="2" guid="{6F790308-7BBB-4A70-B0DC-147580527F75}"/>
+            </Visuals>
+        </Entity>
+        <Entity name="Building_Bottom_Straight_B" category="fillme" guid="{8BED07FD-8F24-4B0B-A4F1-8A320E612EA3}">
+            <Visuals basePath="Content\Models\Polypixel\Freebie01">
+                <Frame name="default">
+                    <Mesh path="Building_Bottom_Straight_B.fbx.mesh" submesh="0"/>
+                </Frame>
+                <MaterialRef id="0" guid="{CED9FD07-8012-4311-9C0F-2436B9AAE36C}"/>
+            </Visuals>
+        </Entity>
+        <Entity name="Building_Door_Left" category="fillme" guid="{85555183-4F45-4010-BD9E-C76B70D67905}">
+            <Visuals basePath="Content\Models\Polypixel\Freebie01">
+                <Frame name="default">
+                    <Mesh path="Building_Door_Left.fbx.mesh" submesh="0"/>
+                </Frame>
+                <MaterialRef id="0" guid="{847434F2-D1C4-44FB-9BE1-3311E46C6739}"/>
+                <MaterialRef id="1" guid="{51AD5457-9976-446F-8311-A849A018F6D6}"/>
+            </Visuals>
+        </Entity>
+        <Entity name="Building_Door_Right" category="fillme" guid="{96B62FF2-D4A4-4367-AF4A-124511941DE8}">
+            <Visuals basePath="Content\Models\Polypixel\Freebie01">
+                <Frame name="default">
+                    <Mesh path="Building_Door_Right.fbx.mesh" submesh="0"/>
+                </Frame>
+                <MaterialRef id="0" guid="{0BA23000-CA8B-4FE7-8936-47FD0D0FBD9A}"/>
+                <MaterialRef id="1" guid="{10894309-3281-4EF2-AF4C-C84F7FB875AA}"/>
+            </Visuals>
+        </Entity>
+        <Entity name="Building_Floor" category="fillme" guid="{816EBD75-B72A-4919-A0CD-42FE88D1385C}">
+            <Visuals basePath="Content\Models\Polypixel\Freebie01">
+                <Frame name="default">
+                    <Mesh path="Building_Floor.fbx.mesh" submesh="0"/>
+                    <Mesh path="Building_Floor.fbx.mesh" submesh="1"/>
+                </Frame>
+                <MaterialRef id="0" guid="{16FBCA92-774B-47BD-80D7-94A487E1F475}"/>
+                <MaterialRef id="1" guid="{C16EE176-71BF-4363-81C8-E321E4F9A424}"/>
+            </Visuals>
+        </Entity>
+        <Entity name="Building_Floor_Corner" category="fillme" guid="{BF733723-5695-41D0-8A40-37F5CF4ABD3B}">
+            <Visuals basePath="Content\Models\Polypixel\Freebie01">
+                <Frame name="default">
+                    <Mesh path="Building_Floor_Corner.fbx.mesh" submesh="0"/>
+                    <Mesh path="Building_Floor_Corner.fbx.mesh" submesh="1"/>
+                </Frame>
+                <MaterialRef id="0" guid="{C421477D-2821-4D3C-922A-0FA7C7151EA8}"/>
+                <MaterialRef id="1" guid="{6E22D752-E251-455D-8FA4-51DEAF129475}"/>
+            </Visuals>
+        </Entity>
+        <Entity name="Building_LevelModularShell_Bottom" category="fillme" guid="{B87A8906-BDC5-4DC9-A052-47519E9C7AED}">
+            <Visuals basePath="Content\Models\Polypixel\Freebie01">
+                <Frame name="default">
+                    <Mesh path="Building_LevelModularShell_Bottom.fbx.mesh" submesh="0"/>
+                    <Mesh path="Building_LevelModularShell_Bottom.fbx.mesh" submesh="1"/>
+                    <Mesh path="Building_LevelModularShell_Bottom.fbx.mesh" submesh="2"/>
+                </Frame>
+                <MaterialRef id="0" guid="{C3A7B828-C2B3-42A9-BF6A-0C9893A9421C}"/>
+                <MaterialRef id="1" guid="{3FC99CF1-EFCE-4E6D-A179-6BFC3CE088DD}"/>
+                <MaterialRef id="2" guid="{74019A59-B557-432A-9429-8F70B5DB4FEF}"/>
+            </Visuals>
+        </Entity>
+        <Entity name="Building_LevelModularShell_Mid" category="fillme" guid="{7FC5B2D2-4FA8-42BB-A6C0-4BE637A9C1A0}">
+            <Visuals basePath="Content\Models\Polypixel\Freebie01">
+                <Frame name="default">
+                    <Mesh path="Building_LevelModularShell_Mid.fbx.mesh" submesh="0"/>
+                    <Mesh path="Building_LevelModularShell_Mid.fbx.mesh" submesh="1"/>
+                    <Mesh path="Building_LevelModularShell_Mid.fbx.mesh" submesh="2"/>
+                    <Mesh path="Building_LevelModularShell_Mid.fbx.mesh" submesh="3"/>
+                </Frame>
+                <MaterialRef id="0" guid="{0610A5BB-0A75-464B-AB7C-8369BC8ADFC6}"/>
+                <MaterialRef id="1" guid="{C457C5E4-F68F-4946-AB26-AF910F9CDE8F}"/>
+                <MaterialRef id="2" guid="{88BC4363-EFBE-41F8-96B0-0D1395E1319E}"/>
+                <MaterialRef id="3" guid="{DB3AE32B-FE52-4140-94D5-8163ABA73DC6}"/>
+            </Visuals>
+        </Entity>
+        <Entity name="Building_LevelModularShell_Top" category="fillme" guid="{EBD7CB1B-0E03-4428-893A-5789DF7EE2AF}">
+            <Visuals basePath="Content\Models\Polypixel\Freebie01">
+                <Frame name="default">
+                    <Mesh path="Building_LevelModularShell_Top.fbx.mesh" submesh="0"/>
+                    <Mesh path="Building_LevelModularShell_Top.fbx.mesh" submesh="1"/>
+                    <Mesh path="Building_LevelModularShell_Top.fbx.mesh" submesh="2"/>
+                    <Mesh path="Building_LevelModularShell_Top.fbx.mesh" submesh="3"/>
+                </Frame>
+                <MaterialRef id="0" guid="{2DAB5AE5-3F29-4409-8D2B-225D82E4E7B4}"/>
+                <MaterialRef id="1" guid="{1DCAB1BE-0E1D-4A68-A0F9-28C19C89AED0}"/>
+                <MaterialRef id="2" guid="{34A01A13-A604-429D-91DF-0CB32F001C13}"/>
+                <MaterialRef id="3" guid="{EF8958B8-4128-4CC2-8AE2-EAD66B52513C}"/>
+            </Visuals>
+        </Entity>
+        <Entity name="Building_LevelModular_Bottom" category="fillme" guid="{4C43922E-6DF8-4CBB-83EB-88FDA01AFBB5}">
+            <Visuals basePath="Content\Models\Polypixel\Freebie01">
+                <Frame name="default">
+                    <Mesh path="Building_LevelModular_Bottom.fbx.mesh" submesh="0"/>
+                    <Mesh path="Building_LevelModular_Bottom.fbx.mesh" submesh="1"/>
+                    <Mesh path="Building_LevelModular_Bottom.fbx.mesh" submesh="2"/>
+                </Frame>
+                <MaterialRef id="0" guid="{A7F6426D-D616-4B70-A4A0-D04684EAF0A6}"/>
+                <MaterialRef id="2" guid="{EB79DD22-6063-483E-9664-AB9FB46E986E}"/>
+                <MaterialRef id="1" guid="{7B40278A-522A-483F-8C55-D997DAA22011}"/>
+            </Visuals>
+        </Entity>
+        <Entity name="Building_LevelModular_Mid" category="fillme" guid="{8BA44E0E-8A2A-438B-B1EF-E52D5D29FB06}">
+            <Visuals basePath="Content\Models\Polypixel\Freebie01">
+                <Frame name="default">
+                    <Mesh path="Building_LevelModular_Mid.fbx.mesh" submesh="0"/>
+                    <Mesh path="Building_LevelModular_Mid.fbx.mesh" submesh="1"/>
+                    <Mesh path="Building_LevelModular_Mid.fbx.mesh" submesh="2"/>
+                    <Mesh path="Building_LevelModular_Mid.fbx.mesh" submesh="3"/>
+                    <Mesh path="Building_LevelModular_Mid.fbx.mesh" submesh="4"/>
+                </Frame>
+                <MaterialRef id="0" guid="{0E5F8E5E-6BDB-40F9-9735-60E0CB97F3E1}"/>
+                <MaterialRef id="1" guid="{513B043E-2E1D-4EC1-9F11-54966FEBFFA2}"/>
+                <MaterialRef id="2" guid="{1F77ABF4-E822-4492-8FB2-1079AE38F9AB}"/>
+                <MaterialRef id="3" guid="{852E09CE-2C36-4990-95BB-4282731714DF}"/>
+                <MaterialRef id="4" guid="{DB376E9C-F3FE-417D-943E-79505927A13A}"/>
+            </Visuals>
+        </Entity>
+        <Entity name="Building_LevelModular_Top" category="fillme" guid="{68378CE2-344F-432E-A52C-EDB7F20CA198}">
+            <Visuals basePath="Content\Models\Polypixel\Freebie01">
+                <Frame name="default">
+                    <Mesh path="Building_LevelModular_Top.fbx.mesh" submesh="0"/>
+                    <Mesh path="Building_LevelModular_Top.fbx.mesh" submesh="1"/>
+                    <Mesh path="Building_LevelModular_Top.fbx.mesh" submesh="2"/>
+                    <Mesh path="Building_LevelModular_Top.fbx.mesh" submesh="3"/>
+                    <Mesh path="Building_LevelModular_Top.fbx.mesh" submesh="4"/>
+                </Frame>
+                <MaterialRef id="0" guid="{9E900895-53F1-46D7-A4CF-B0D3F780BB98}"/>
+                <MaterialRef id="1" guid="{04C4433A-6EC9-4AB5-BBAB-2EDBFBA6ECC1}"/>
+                <MaterialRef id="2" guid="{50BA8EF1-B65B-4984-A7A9-693EC0EEAEDF}"/>
+                <MaterialRef id="3" guid="{A59A977E-D9D0-4FA3-A23E-E41DE310EE9E}"/>
+                <MaterialRef id="4" guid="{48FA1365-53B9-4B5D-92BB-C1535EF4ECEB}"/>
+            </Visuals>
+        </Entity>
+        <Entity name="Building_Mid_Corner_A" category="fillme" guid="{1EF7E44D-726A-48B6-B74E-8297BA01E571}">
+            <Visuals basePath="Content\Models\Polypixel\Freebie01">
+                <Frame name="default">
+                    <Mesh path="Building_Mid_Corner_A.fbx.mesh" submesh="1"/>
+                    <Mesh path="Building_Mid_Corner_A.fbx.mesh" submesh="0"/>
+                </Frame>
+                <MaterialRef id="0" guid="{21DFBA6C-6780-4146-A676-A0C79AF7FED3}"/>
+                <MaterialRef id="1" guid="{948886E8-978D-41AC-A2DE-A425CD211999}"/>
+            </Visuals>
+        </Entity>
+        <Entity name="Building_Mid_Corner_B" category="fillme" guid="{1BEB4AE2-B58D-4ADB-965D-614B76D2EE9B}">
+            <Visuals basePath="Content\Models\Polypixel\Freebie01">
+                <Frame name="default">
+                    <Mesh path="Building_Mid_Corner_B.fbx.mesh" submesh="2"/>
+                    <Mesh path="Building_Mid_Corner_B.fbx.mesh" submesh="0"/>
+                    <Mesh path="Building_Mid_Corner_B.fbx.mesh" submesh="3"/>
+                    <Mesh path="Building_Mid_Corner_B.fbx.mesh" submesh="4"/>
+                    <Mesh path="Building_Mid_Corner_B.fbx.mesh" submesh="1"/>
+                </Frame>
+                <MaterialRef id="0" guid="{89B73130-3072-4981-8282-A2C3973BD04B}"/>
+                <MaterialRef id="1" guid="{49107DFF-4DAF-4208-AE09-37F284D33312}"/>
+                <MaterialRef id="2" guid="{4CF80406-2903-4986-89C5-DD4701826A7D}"/>
+                <MaterialRef id="3" guid="{1D3954E5-7045-4201-B5B9-E1EDC28267EF}"/>
+                <MaterialRef id="4" guid="{FF028A11-ABF5-45CE-8127-52DE46429884}"/>
+            </Visuals>
+        </Entity>
+        <Entity name="Building_Mid_Straight_A" category="fillme" guid="{B5DAAAFF-24CF-4019-9199-2FEF8DCE16B1}">
+            <Visuals basePath="Content\Models\Polypixel\Freebie01">
+                <Frame name="default">
+                    <Mesh path="Building_Mid_Straight_A.fbx.mesh" submesh="2"/>
+                    <Mesh path="Building_Mid_Straight_A.fbx.mesh" submesh="0"/>
+                    <Mesh path="Building_Mid_Straight_A.fbx.mesh" submesh="3"/>
+                    <Mesh path="Building_Mid_Straight_A.fbx.mesh" submesh="1"/>
+                    <Mesh path="Building_Mid_Straight_A.fbx.mesh" submesh="4"/>
+                </Frame>
+                <MaterialRef id="0" guid="{044032D4-2E21-4CF1-BC54-414A743B4D87}"/>
+                <MaterialRef id="1" guid="{A43373F3-9905-459C-8AEA-36D83813813B}"/>
+                <MaterialRef id="2" guid="{5FB6995E-9C1C-4573-891D-770679510E58}"/>
+                <MaterialRef id="3" guid="{ABB5815A-38CD-4B6D-9490-7AA4748B518A}"/>
+                <MaterialRef id="4" guid="{C091F0EA-4085-47F8-8624-0B5BAEF37A00}"/>
+            </Visuals>
+        </Entity>
+        <Entity name="Building_Top_Corner_A" category="fillme" guid="{9D20939F-42E8-4849-BAFC-1C813A221A64}">
+            <Visuals basePath="Content\Models\Polypixel\Freebie01">
+                <Frame name="default">
+                    <Mesh path="Building_Top_Corner_A.fbx.mesh" submesh="1"/>
+                    <Mesh path="Building_Top_Corner_A.fbx.mesh" submesh="2"/>
+                    <Mesh path="Building_Top_Corner_A.fbx.mesh" submesh="0"/>
+                </Frame>
+                <MaterialRef id="0" guid="{B7A44BFB-5DD1-480B-BCCF-E4366171A2F0}"/>
+                <MaterialRef id="1" guid="{04BCFD94-9113-491B-A081-3E6F1E149E5B}"/>
+                <MaterialRef id="2" guid="{F72B07D7-7C1C-48AA-92A2-E27A1AD16FCC}"/>
+            </Visuals>
+        </Entity>
+        <Entity name="Building_Top_Corner_B" category="fillme" guid="{71D0F582-CF0C-46D2-BDDF-A6BEF2C4CDDB}">
+            <Visuals basePath="Content\Models\Polypixel\Freebie01">
+                <Frame name="default">
+                    <Mesh path="Building_Top_Corner_B.fbx.mesh" submesh="1"/>
+                    <Mesh path="Building_Top_Corner_B.fbx.mesh" submesh="2"/>
+                    <Mesh path="Building_Top_Corner_B.fbx.mesh" submesh="3"/>
+                    <Mesh path="Building_Top_Corner_B.fbx.mesh" submesh="0"/>
+                    <Mesh path="Building_Top_Corner_B.fbx.mesh" submesh="4"/>
+                </Frame>
+                <MaterialRef id="0" guid="{F9EA0153-0848-4E70-893D-549C3576C0D7}"/>
+                <MaterialRef id="1" guid="{C5DC4148-0BC2-4321-876B-117750B69B7A}"/>
+                <MaterialRef id="2" guid="{9342A891-2E3B-41E0-9234-CA4B7BD09966}"/>
+                <MaterialRef id="3" guid="{D31F5D62-F92C-442A-9359-7D210B166488}"/>
+                <MaterialRef id="4" guid="{76489174-D0B1-4288-ADE9-1E10B4679049}"/>
+            </Visuals>
+        </Entity>
+        <Entity name="Building_Top_Straight_A" category="fillme" guid="{F2DB2C37-B2EA-4B95-9C88-52A75A684E40}">
+            <Visuals basePath="Content\Models\Polypixel\Freebie01">
+                <Frame name="default">
+                    <Mesh path="Building_Top_Straight_A.fbx.mesh" submesh="1"/>
+                    <Mesh path="Building_Top_Straight_A.fbx.mesh" submesh="2"/>
+                    <Mesh path="Building_Top_Straight_A.fbx.mesh" submesh="3"/>
+                    <Mesh path="Building_Top_Straight_A.fbx.mesh" submesh="0"/>
+                    <Mesh path="Building_Top_Straight_A.fbx.mesh" submesh="4"/>
+                </Frame>
+                <MaterialRef id="0" guid="{1D740E80-9475-4BC5-A9EC-52DB8B038A94}"/>
+                <MaterialRef id="1" guid="{B55C60B9-A203-4D8A-9937-57CE1865BBF3}"/>
+                <MaterialRef id="2" guid="{DFA68E0A-A947-41CC-A665-265B6D38A5D3}"/>
+                <MaterialRef id="3" guid="{DFD8901C-76C8-4999-82ED-168BDEC05B6C}"/>
+                <MaterialRef id="4" guid="{DA34788F-1FE2-45DA-A3C1-5366197CD1EF}"/>
+            </Visuals>
+        </Entity>
+        <Entity name="Building_Window" category="fillme" guid="{395BB361-294F-4F37-BD46-4E3F1156B212}">
+            <Visuals basePath="Content\Models\Polypixel\Freebie01">
+                <Frame name="default">
+                    <Mesh path="Building_Window.fbx.mesh" submesh="1"/>
+                    <Mesh path="Building_Window.fbx.mesh" submesh="0"/>
+                </Frame>
+                <MaterialRef id="0" guid="{491EDC39-650E-476C-BABB-772B8CDD793B}"/>
+                <MaterialRef id="1" guid="{8C65CF98-A08B-4BEF-92BB-E1571E0CC825}"/>
+            </Visuals>
+        </Entity>
+        <Entity name="BusStop" category="fillme" guid="{3AA0AAD2-D287-4EC3-91C8-FF50704C0781}">
+            <Visuals basePath="Content\Models\Polypixel\Freebie01">
+                <Frame name="default">
+                    <Mesh path="BusStop.fbx.mesh" submesh="0"/>
+                    <Mesh path="BusStop.fbx.mesh" submesh="1"/>
+                </Frame>
+                <MaterialRef id="0" guid="{F84C3DC0-5181-441E-A31C-50C01FA5793F}"/>
+                <MaterialRef id="1" guid="{39A79618-C8FC-45D5-B690-92D95C665CDA}"/>
+            </Visuals>
+        </Entity>
+        <Entity name="FireHydrant" category="fillme" guid="{98E09B9C-6220-46BA-9751-A8887E643395}">
+            <Visuals basePath="Content\Models\Polypixel\Freebie01">
+                <Frame name="default">
+                    <Mesh path="FireHydrant.fbx.mesh" submesh="0"/>
+                </Frame>
+                <MaterialRef id="0" guid="{0E790EF0-0669-466A-9900-75EC428560ED}"/>
+            </Visuals>
+        </Entity>
+        <Entity name="Interior_Corner" category="fillme" guid="{D5398708-FEC7-4141-BD2B-EFF310E0D554}">
+            <Visuals basePath="Content\Models\Polypixel\Freebie01">
+                <Frame name="default">
+                    <Mesh path="Interior_Corner.fbx.mesh" submesh="0"/>
+                </Frame>
+                <MaterialRef id="0" guid="{F6B8C49F-2A26-4D62-9650-AED96535FB2E}"/>
+            </Visuals>
+        </Entity>
+        <Entity name="Interior_Wall" category="fillme" guid="{1EF849EF-B0D9-4FDC-A1D3-27282F3003DD}">
+            <Visuals basePath="Content\Models\Polypixel\Freebie01">
+                <Frame name="default">
+                    <Mesh path="Interior_Wall.fbx.mesh" submesh="0"/>
+                </Frame>
+                <MaterialRef id="0" guid="{316E4D27-31E3-464F-A155-FE034C1E4BB8}"/>
+            </Visuals>
+        </Entity>
+        <Entity name="Manhole" category="fillme" guid="{CC68FE2F-DBD2-4CE2-8A5A-86F1A3490CBC}">
+            <Visuals basePath="Content\Models\Polypixel\Freebie01">
+                <Frame name="default">
+                    <Mesh path="Manhole.fbx.mesh" submesh="0"/>
+                </Frame>
+                <MaterialRef id="0" guid="{62E9B626-AFEA-4105-A1D9-C606D6DDBCC4}"/>
+            </Visuals>
+        </Entity>
+        <Entity name="NewspaperBox" category="fillme" guid="{4279F6AD-27DE-42B7-A1D4-04BD868F0637}">
+            <Visuals basePath="Content\Models\Polypixel\Freebie01">
+                <Frame name="default">
+                    <Mesh path="NewspaperBox.fbx.mesh" submesh="1"/>
+                    <Mesh path="NewspaperBox.fbx.mesh" submesh="0"/>
+                </Frame>
+                <MaterialRef id="0" guid="{B89D0F6A-5CAA-4979-A2BC-83607D54ECF0}"/>
+                <MaterialRef id="1" guid="{CF6C13E9-A03B-4D01-815B-B94D6E7BDCBF}"/>
+            </Visuals>
+        </Entity>
+        <Entity name="SewerGrate" category="fillme" guid="{CE1B3DEC-047D-4B40-AA0A-5BF0BBDFB0CB}">
+            <Visuals basePath="Content\Models\Polypixel\Freebie01">
+                <Frame name="default">
+                    <Mesh path="SewerGrate.fbx.mesh" submesh="0"/>
+                </Frame>
+                <MaterialRef id="0" guid="{90E6AE94-8139-422B-B263-098956CEE47B}"/>
+            </Visuals>
+        </Entity>
+        <Entity name="Sidewalk4" category="fillme" guid="{B9109D79-6FD4-4FA2-B205-B961968DE3D9}">
+            <Visuals basePath="Content\Models\Polypixel\Freebie01">
+                <Frame name="default">
+                    <Mesh path="Sidewalk4.fbx.mesh" submesh="0"/>
+                </Frame>
+                <MaterialRef id="0" guid="{C13EFA47-466B-4CF8-A5B5-C59577455440}"/>
+            </Visuals>
+        </Entity>
+        <Entity name="Sidewalk_Corner" category="fillme" guid="{BA35471F-C2B2-4D3C-A4BB-1A59B4675702}">
+            <Visuals basePath="Content\Models\Polypixel\Freebie01">
+                <Frame name="default">
+                    <Mesh path="Sidewalk_Corner.fbx.mesh" submesh="0"/>
+                </Frame>
+                <MaterialRef id="0" guid="{A085AD9D-BC9F-484F-9898-45C964E7F334}"/>
+            </Visuals>
+        </Entity>
+        <Entity name="Sidewalk_Straight" category="fillme" guid="{704DCA78-4D2F-4841-B438-1A4107B7F70A}">
+            <Visuals basePath="Content\Models\Polypixel\Freebie01">
+                <Frame name="default">
+                    <Mesh path="Sidewalk_Straight.fbx.mesh" submesh="0"/>
+                </Frame>
+                <MaterialRef id="0" guid="{792EB12F-53F9-489B-82B5-20FEFB44ED9E}"/>
+            </Visuals>
+        </Entity>
+        <Entity name="Sign" category="fillme" guid="{D688A397-AB8E-43A2-B440-9C38E313E876}">
+            <Visuals basePath="Content\Models\Polypixel\Freebie01">
+                <Frame name="default">
+                    <Mesh path="Sign.fbx.mesh" submesh="0"/>
+                    <Mesh path="Sign.fbx.mesh" submesh="1"/>
+                </Frame>
+                <MaterialRef id="0" guid="{7BF2AF09-62D3-4903-B4E4-886DB7A0CDBF}"/>
+                <MaterialRef id="1" guid="{7CC5A450-80ED-432C-BFD7-1543F140D56A}"/>
+            </Visuals>
+        </Entity>
+        <Entity name="Tree" category="fillme" guid="{18C5EE0A-E0A6-4609-8C9C-7003136B19D0}">
+            <Visuals basePath="Content\Models\Polypixel\Freebie01">
+                <Frame name="default">
+                    <Mesh path="Tree.fbx.mesh" submesh="0"/>
+                    <Mesh path="Tree.fbx.mesh" submesh="1"/>
+                </Frame>
+                <MaterialRef id="0" guid="{73E5D45F-436A-41BA-9532-AD7B29530B04}"/>
+                <MaterialRef id="1" guid="{F70FB9E2-73DB-41B5-BE20-95E8AAEBF351}"/>
+            </Visuals>
+        </Entity>
+    </Entities>
+</UWPSandboxGame>

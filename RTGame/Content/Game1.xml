@@ -1,0 +1,1098 @@
+<?xml version="1.0" encoding="utf-8"?>
+<UWPSandboxGame>
+    <Animations>
+        <AnimationSet name="Dummy" guid="{596F6298-61FC-4850-91DB-1DDA720E06E7}" path="Content\Characters\Dummy\test_directX.X.skin.anim">
+            <Animation name="Idle" group="Anim-1" start="5" end="100"/>
+            <Animation name="Walk" group="Anim-1" start="105" end="145"/>
+            <Animation name="Run" group="Anim-1" start="150" end="180"/>
+            <Animation name="Alert" group="Anim-1" start="185" end="285"/>
+            <Animation name="Conversation" group="Anim-1" start="290" end="390"/>
+        </AnimationSet>
+    </Animations>
+    <EntityBrushes>
+        <Brush name="Pine trees" guid="{89ECFF76-5AF1-41A6-92C6-652F79E5B165}">
+            <Entity name="Green pine" guid="{683AF9D3-524B-4716-80EC-88DE5E42422F}" chance="10"/>
+            <Entity name="Old stump" guid="{D2E17A9D-EC48-4714-AE4A-EDF353874532}" chance="2"/>
+            <Entity name="Scrub pine" guid="{3CB32E80-149C-4343-99B4-EE0B68AA300B}" chance="10"/>
+            <Entity name="Tall pine 1" guid="{8BBF2969-356F-46BC-9646-C333BCE58347}" chance="3"/>
+            <Entity name="Tall pine 2" guid="{0FF1E230-CA8F-4383-BE4D-CAE7C5755E78}" chance="3"/>
+        </Brush>
+        <Brush name="Bushes" guid="{89ECFF76-5AF1-41A6-92C6-652F79E5B165}">
+            <Entity name="Bush 1" guid="{CAE5651C-1B01-423C-9D46-5C3C7B3CD78A}" chance="3"/>
+            <Entity name="Fern 1" guid="{03E0CFE1-1A77-458C-ABB9-4037A6CB31B9}" chance="3"/>
+            <Entity name="Fern 2" guid="{6334A00D-392C-4BFE-88AC-088BED6D9FA9}" chance="3"/>
+            <Entity name="Fiddle leaf" guid="{78D4A2E8-D9AE-4B31-A3B8-0F2A7945285E}" chance="3"/>
+            <Entity name="Fiscus" guid="{9118A16E-A940-4F15-8E6E-98803C9B27A3}" chance="3"/>
+            <Entity name="Large leaf" guid="{37011C36-78F8-4639-B22A-E22369C93F38}" chance="1"/>
+        </Brush>
+    </EntityBrushes>
+    <Projectors>
+        <Cube path="Content\Textures\Light\PointLightTextures.dds">
+            <Image index="0" name="Batman yellow" guid="{7C9D427B-6FBA-4D65-B592-A89E4A67FDF7}"/>
+            <Image index="1" name="Batman red" guid="{B1EB74C9-0284-4811-8004-03E462E75F57}"/>
+            <Image index="2" name="Batman blue" guid="{DF2D29A5-97F8-433C-8FA9-0EC5D5EBA2F9}"/>
+            <Image index="3" name="Batman pink" guid="{8F44058C-65C6-4C83-9BBC-6EE36C2762D0}"/>
+        </Cube>
+    </Projectors>
+    <TerrainMaterials>
+        <Material name="Grass" guid="{6D658780-58E0-4EB8-8E46-E5AE7EEE4BEE}">
+            <ColorChannel path="Content\Textures\Ground\pattern_216\diffuse.dds"/>
+            <NormalChannel path="Content\Textures\Ground\pattern_216\normal.dds"/>
+            <MetallicChannel path="Content\Textures\Ground\pattern_216\specular.dds"/>
+            <Thumbnail path="Content\Textures\Ground\pattern_216\thumbnail.jpg"/>
+        </Material>
+        <Material name="Rocky wall" guid="{20028BE3-CA57-4A6B-A592-97F732BBBB0F}">
+            <ColorChannel path="Content\Textures\Ground\pattern_219\diffuse.dds"/>
+            <NormalChannel path="Content\Textures\Ground\pattern_219\normal.dds"/>
+            <MetallicChannel path="Content\Textures\Ground\pattern_219\specular.dds"/>
+            <Thumbnail path="Content\Textures\Ground\pattern_219\thumbnail.jpg"/>
+        </Material>
+        <Material name="Stony soil" guid="{454B6A3D-C382-4D8F-8504-FA7529A36D94}">
+            <ColorChannel path="Content\Textures\Ground\pattern_107\diffuse.dds"/>
+            <NormalChannel path="Content\Textures\Ground\pattern_107\normal.dds"/>
+            <MetallicChannel path="Content\Textures\Ground\pattern_107\specular.dds"/>
+            <Thumbnail path="Content\Textures\Ground\pattern_107\thumbnail.jpg"/>
+        </Material>
+        <Material name="Rocky bed" guid="{C87BF35D-083B-48F7-9B3F-A149F65121F3}">
+            <ColorChannel path="Content\Textures\Ground\pattern_50\diffuse.dds"/>
+            <NormalChannel path="Content\Textures\Ground\pattern_50\normal.dds"/>
+            <MetallicChannel path="Content\Textures\Ground\pattern_50\specular.dds"/>
+            <Thumbnail path="Content\Textures\Ground\pattern_50\thumbnail.jpg"/>
+        </Material>
+        <Material name="Stone road" guid="{3D01729E-886C-4A6A-A836-0FB2D1126564}">
+            <ColorChannel path="Content\Textures\Ground\pattern_254\diffuse.dds"/>
+            <NormalChannel path="Content\Textures\Ground\pattern_254\normal.dds"/>
+            <MetallicChannel path="Content\Textures\Ground\pattern_254\specular.dds"/>
+            <Thumbnail path="Content\Textures\Ground\pattern_254\thumbnail.jpg"/>
+        </Material>
+        <Material name="Large stone road" guid="{1D3B00BB-E1F7-441D-A81A-7A8621AC7D5C}">
+            <ColorChannel path="Content\Textures\Ground\pattern_178\diffuse.dds"/>
+            <NormalChannel path="Content\Textures\Ground\pattern_178\normal.dds"/>
+            <MetallicChannel path="Content\Textures\Ground\pattern_178\specular.dds"/>
+            <Thumbnail path="Content\Textures\Ground\pattern_178\thumbnail.jpg"/>
+        </Material>
+        <Material name="Wet soil" guid="{EC9E2D7A-AA55-4947-BC14-6F7D4DEEDCE2}">
+            <ColorChannel path="Content\Textures\Ground\pattern_110\diffuse.dds"/>
+            <NormalChannel path="Content\Textures\Ground\pattern_110\normal.dds"/>
+            <MetallicChannel path="Content\Textures\Ground\pattern_110\specular.dds"/>
+            <Thumbnail path="Content\Textures\Ground\pattern_110\thumbnail.jpg"/>
+        </Material>
+        <Material name="Dry sand" guid="{8CB3F349-9E61-4C12-A56C-6D2F44601926}">
+            <ColorChannel path="Content\Textures\Ground\pattern_113\diffuse.dds"/>
+            <NormalChannel path="Content\Textures\Ground\pattern_113\normal.dds"/>
+            <MetallicChannel path="Content\Textures\Ground\pattern_113\specular.dds"/>
+            <Thumbnail path="Content\Textures\Ground\pattern_113\thumbnail.jpg"/>
+        </Material>
+    </TerrainMaterials>
+    <EntityMaterials>
+        <Material name="Dummy" guid="{D8F8AE27-A3A4-4D36-AF12-939B2B803D85}">
+            <ColorChannel path="Content\Characters\Dummy\test_m.dds"/>
+            <NormalChannel path="Content\Textures\NoNormal.dds"/>
+            <ReflectionChannel path="Content\Textures\StandardSpecular.dds"/>
+        </Material>
+        <Material name="Wall lamp" guid="{5C4BF8A9-30CB-47E3-A55A-05A857241EB3}">
+            <ColorChannel path="Content\Models\Props\WallLamp01\Lamp_DIFF.dds"/>
+            <NormalChannel path="Content\Textures\NoNormal.dds"/>
+            <MetallicChannel path="Content\Models\Props\WallLamp01\Lamp_SPEC.dds"/>
+            <EmissiveChannel path="Content\Models\Props\WallLamp01\Lamp_EM.dds"/>
+        </Material>
+        <Material name="Red metal barrel with no bumps" guid="{045B1EA5-9AF3-4496-BE5F-C34A489DEC25}">
+            <ColorChannel path="Content\Models\MetalBarrel\diffus_red.dds"/>
+            <NormalChannel path="Content\Models\MetalBarrel\normal_no_bumps.dds"/>
+            <MetallicChannel path="Content\Models\MetalBarrel\specular.dds"/>
+        </Material>
+        <Material name="Red metal barrel with hard bumps" guid="{7FA88B09-DB9C-49F0-90E0-1247C8A7647C}">
+            <ColorChannel path="Content\Models\MetalBarrel\diffus_red.dds"/>
+            <NormalChannel path="Content\Models\MetalBarrel\normal_hard_bumps.dds"/>
+            <MetallicChannel path="Content\Models\MetalBarrel\specular.dds"/>
+        </Material>
+        <Material name="Green metal barrel with no bumps" guid="{A38838E7-2DAB-4711-912C-C72F05DA81B7}">
+            <ColorChannel path="Content\Models\MetalBarrel\diffus_green.dds"/>
+            <NormalChannel path="Content\Models\MetalBarrel\normal_no_bumps.dds"/>
+            <MetallicChannel path="Content\Models\MetalBarrel\specular.dds"/>
+        </Material>
+        <Material name="Green metal barrel with hard bumps" guid="{DD58FD36-C71C-4822-BC1A-0257EDA8170F}">
+            <ColorChannel path="Content\Models\MetalBarrel\diffus_green.dds"/>
+            <NormalChannel path="Content\Models\MetalBarrel\normal_hard_bumps.dds"/>
+            <MetallicChannel path="Content\Models\MetalBarrel\specular.dds"/>
+        </Material>
+        <Material name="Blue metal barrel with no bumps" guid="{782BB033-B65C-4E44-AEAA-108D91C66033}">
+            <ColorChannel path="Content\Models\MetalBarrel\diffus_blue.dds"/>
+            <NormalChannel path="Content\Models\MetalBarrel\normal_no_bumps.dds"/>
+            <MetallicChannel path="Content\Models\MetalBarrel\specular.dds"/>
+        </Material>
+        <Material name="Blue metal barrel with hard bumps" guid="{D4163D40-C49F-4BD7-BE5E-ED208FE2F038}">
+            <ColorChannel path="Content\Models\MetalBarrel\diffus_blue.dds"/>
+            <NormalChannel path="Content\Models\MetalBarrel\normal_hard_bumps.dds"/>
+            <MetallicChannel path="Content\Models\MetalBarrel\specular.dds"/>
+        </Material>
+        <Material name="Yellow metal barrel with no bumps" guid="{1B3D9F5E-6B1F-4D3F-8683-F67AF28811DF}">
+            <ColorChannel path="Content\Models\MetalBarrel\diffus_yellow.dds"/>
+            <NormalChannel path="Content\Models\MetalBarrel\normal_no_bumps.dds"/>
+            <MetallicChannel path="Content\Models\MetalBarrel\specular.dds"/>
+        </Material>
+        <Material name="Yellow metal barrel with hard bumps" guid="{576278AB-5E06-42BE-9A1B-3AAC92A6C2D7}">
+            <ColorChannel path="Content\Models\MetalBarrel\diffus_yellow.dds"/>
+            <NormalChannel path="Content\Models\MetalBarrel\normal_hard_bumps.dds"/>
+            <MetallicChannel path="Content\Models\MetalBarrel\specular.dds"/>
+        </Material>
+        <Material name="Black metal barrel with no bumps" guid="{D7D19D95-59BE-41DB-AF4B-BB5DCF5BBC74}">
+            <ColorChannel path="Content\Models\MetalBarrel\diffus_black.dds"/>
+            <NormalChannel path="Content\Models\MetalBarrel\normal_no_bumps.dds"/>
+            <MetallicChannel path="Content\Models\MetalBarrel\specular.dds"/>
+        </Material>
+        <Material name="Black metal barrel with hard bumps" guid="{FCB28E74-B5F8-4652-8B6F-26A1776458ED}">
+            <ColorChannel path="Content\Models\MetalBarrel\diffus_black.dds"/>
+            <NormalChannel path="Content\Models\MetalBarrel\normal_hard_bumps.dds"/>
+            <MetallicChannel path="Content\Models\MetalBarrel\specular.dds"/>
+        </Material>
+        <Material name="Rust metal barrel with no bumps" guid="{D799BC7B-1508-4DBE-AC12-0F04723EA2AF}">
+            <ColorChannel path="Content\Models\MetalBarrel\diffus_rust.dds"/>
+            <NormalChannel path="Content\Models\MetalBarrel\normal_no_bumps.dds"/>
+            <MetallicChannel path="Content\Models\MetalBarrel\specular_rust.dds"/>
+        </Material>
+        <Material name="Rust metal barrel with hard bumps" guid="{D57DE821-3AC4-45B5-BAA0-A546953B597F}">
+            <ColorChannel path="Content\Models\MetalBarrel\diffus_rust.dds"/>
+            <NormalChannel path="Content\Models\MetalBarrel\normal_hard_bumps.dds"/>
+            <MetallicChannel path="Content\Models\MetalBarrel\specular_rust.dds"/>
+        </Material>
+        <Material name="Stainless steel barrel with no bumps" guid="{2863617A-8793-45C0-A2A7-BFAD7C29E7AE}">
+            <ColorChannel path="Content\Models\MetalBarrel\diffus_stainless_steel.dds"/>
+            <NormalChannel path="Content\Models\MetalBarrel\normal_no_bumps.dds"/>
+            <MetallicChannel path="Content\Models\MetalBarrel\specular_stainless_steel.dds"/>
+        </Material>
+        <Material name="Stainless steel barrel with hard bumps" guid="{C5155677-FCAB-4D1F-960E-7D5DC6BE8D45}">
+            <ColorChannel path="Content\Models\MetalBarrel\diffus_stainless_steel.dds"/>
+            <NormalChannel path="Content\Models\MetalBarrel\normal_hard_bumps.dds"/>
+            <MetallicChannel path="Content\Models\MetalBarrel\specular_stainless_steel.dds"/>
+        </Material>
+        <Material name="Fuel can" guid="{703CDEE9-BC88-436E-BC3B-7D7F4EF90F4E}">
+            <ColorChannel path="Content\Models\FuelCan\diffuse.dds"/>
+            <NormalChannel path="Content\Models\FuelCan\normal.dds"/>
+            <MetallicChannel path="Content\Models\FuelCan\specular.dds"/>
+        </Material>
+        <Material name="Rock 01" guid="{B2673DA2-4869-46D2-97C1-590D2FAAD192}">
+            <ColorChannel path="Content\Models\Rock\01\diffuse.dds"/>
+            <NormalChannel path="Content\Models\Rock\01\normal.dds"/>
+            <MetallicChannel path="Content\Models\Rock\01\specular.dds"/>
+        </Material>
+        <Material name="Rock 02" guid="{54B20943-A17C-4688-91D5-3CB7AAB97D2E}">
+            <ColorChannel path="Content\Models\Rock\02\diffuse.dds"/>
+            <NormalChannel path="Content\Models\Rock\02\normal.dds"/>
+            <MetallicChannel path="Content\Models\Rock\02\specular.dds"/>
+        </Material>
+        <Material name="Rock 03" guid="{EA976D89-4CF3-4D32-BAF9-BFE3BA107142}">
+            <ColorChannel path="Content\Models\Rock\03\diffuse.dds"/>
+            <NormalChannel path="Content\Models\Rock\03\normal.dds"/>
+            <MetallicChannel path="Content\Models\Rock\03\specular.dds"/>
+        </Material>
+        <Material name="Rock 04" guid="{A0FEA638-3D0A-4BFC-B961-1BD1E85886F9}">
+            <ColorChannel path="Content\Models\Rock\04\diffuse.dds"/>
+            <NormalChannel path="Content\Models\Rock\04\normal.dds"/>
+            <MetallicChannel path="Content\Models\Rock\04\specular.dds"/>
+        </Material>
+        <Material name="Rock 05" guid="{A626DAF4-7E89-4A78-884E-8FE03337BB77}">
+            <ColorChannel path="Content\Models\Rock\05\diffuse.dds"/>
+            <NormalChannel path="Content\Models\Rock\05\normal.dds"/>
+            <MetallicChannel path="Content\Models\Rock\05\specular.dds"/>
+        </Material>
+        <Material name="BarrierBarrier" guid="{2F96F901-2B2F-4486-A324-C97A2E248DA0}">
+            <ColorChannel path="Content\Models\Barriers\barrier\diffuse.dds"/>
+            <NormalChannel path="Content\Models\Barriers\barrier\normal.dds"/>
+            <MetallicChannel path="Content\Models\Barriers\barrier\specular.dds"/>
+        </Material>
+        <Material name="BarrierCube" guid="{068E7B12-DD91-48F4-8162-64996A048B9F}">
+            <ColorChannel path="Content\Models\Barriers\cube\diffuse.dds"/>
+            <NormalChannel path="Content\Models\Barriers\cube\normal.dds"/>
+            <MetallicChannel path="Content\Models\Barriers\cube\specular.dds"/>
+        </Material>
+        <Material name="BarrierCylinder" guid="{955CA2CE-77CB-47D8-AAE7-F5CD8A2F3C23}">
+            <ColorChannel path="Content\Models\Barriers\cylinder\diffuse.dds"/>
+            <NormalChannel path="Content\Models\Barriers\cylinder\normal.dds"/>
+            <MetallicChannel path="Content\Models\Barriers\cylinder\specular.dds"/>
+        </Material>
+        <Material name="BarrierHedra" guid="{9DEEB7B4-1D3E-4612-89B6-C45DE324A11F}">
+            <ColorChannel path="Content\Models\Barriers\hedra\diffuse.dds"/>
+            <NormalChannel path="Content\Models\Barriers\hedra\normal.dds"/>
+            <MetallicChannel path="Content\Models\Barriers\hedra\specular.dds"/>
+        </Material>
+        <Material name="BarrierWall" guid="{ABAC62A0-B54B-4B71-925D-F37CAE47247C}">
+            <ColorChannel path="Content\Models\Barriers\wall\diffuse.dds"/>
+            <NormalChannel path="Content\Models\Barriers\wall\normal.dds"/>
+            <MetallicChannel path="Content\Models\Barriers\wall\specular.dds"/>
+        </Material>
+        <Material name="Crate" guid="{CD338579-70D9-47B6-9D56-3FF167FE3518}">
+            <ColorChannel path="Content\Models\Crates\diffuse.dds"/>
+            <NormalChannel path="Content\Models\Crates\normal.dds"/>
+            <MetallicChannel path="Content\Models\Crates\specular.dds"/>
+        </Material>
+        <Material name="GoldCrate" guid="{7BE24895-FEDD-4E35-9641-A31D1B5439A0}">
+            <ColorChannel path="Content\Models\Crates\w_diffuse.dds"/>
+            <NormalChannel path="Content\Models\Crates\w_normal.dds"/>
+            <MetallicChannel path="Content\Models\Crates\w_specular.dds"/>
+        </Material>
+        <Material name="GoldBar" guid="{2DDEC985-AFA8-427B-8F25-78ED065FD7BB}">
+            <ColorChannel path="Content\Models\Gold\diffuse.dds"/>
+            <NormalChannel path="Content\Models\Gold\normal.dds"/>
+            <MetallicChannel path="Content\Models\Gold\specular.dds"/>
+        </Material>
+        <Material name="MetalSliding" guid="{312BCDAD-307C-4077-A488-35507058353E}">
+            <ColorChannel path="Content\Models\Harbour\IndustrialShack\3td_MetalSiding_01.dds"/>
+            <NormalChannel path="Content\Models\Harbour\IndustrialShack\3td_MetalSiding_01_NRM.dds"/>
+            <MetallicChannel path="Content\Models\Harbour\IndustrialShack\3td_MetalSiding_01_SPEC.dds"/>
+        </Material>
+        <Material name="WoodDirty" guid="{C6D66CAF-753C-43CB-96BD-A2954510EF5E}">
+            <ColorChannel path="Content\Models\Harbour\IndustrialShack\3td_WoodDirty_001.dds"/>
+            <NormalChannel path="Content\Models\Harbour\IndustrialShack\3td_WoodDirty_001_NRM.dds"/>
+            <MetallicChannel path="Content\Models\Harbour\IndustrialShack\3td_WoodDirty_001_SPEC.dds"/>
+        </Material>
+        <Material name="IndustryDoor" guid="{1344A498-6315-4065-B1AD-5BB2A12100A1}">
+            <ColorChannel path="Content\Models\Harbour\IndustrialShack\IndustryDoor01.dds"/>
+            <NormalChannel path="Content\Models\Harbour\IndustrialShack\IndustryDoor01_NRM.dds"/>
+            <MetallicChannel path="Content\Models\Harbour\IndustrialShack\IndustryDoor01_SPEC.dds"/>
+        </Material>
+        <Material name="IndustryWindow" guid="{91ACB1E9-C541-4151-8A13-73900D7ED96D}">
+            <ColorChannel path="Content\Models\Harbour\IndustrialShack\IndustWindow01.dds"/>
+            <NormalChannel path="Content\Models\Harbour\IndustrialShack\IndustWindow01_NRM.dds"/>
+            <MetallicChannel path="Content\Models\Harbour\IndustrialShack\IndustWindow01_SPEC.dds"/>
+        </Material>
+        <Material name="Bulkhead" guid="{9C2CF1D9-B46E-43FF-8F7D-AFA94A643B8A}">
+            <ColorChannel path="Content\Models\Harbour\3td_Bulkhead_01.dds"/>
+            <NormalChannel path="Content\Models\Harbour\3td_Bulkhead_01_NRM.dds"/>
+            <MetallicChannel path="Content\Models\Harbour\3td_Bulkhead_01_SPEC.dds"/>
+        </Material>
+        <Material name="WarfConcrete" guid="{E399E19F-1AB9-42AE-918B-2F15DD991945}">
+            <ColorChannel path="Content\Models\Harbour\conc01.dds"/>
+            <NormalChannel path="Content\Models\Harbour\conc01_NRM.dds"/>
+            <MetallicChannel path="Content\Models\Harbour\conc01_SPEC.dds"/>
+        </Material>
+        <Material name="MetalRoof" guid="{827E76BF-EA60-47A5-9C68-224399B7FEB1}">
+            <ColorChannel path="Content\Models\Harbour\3td_MetalRoof_004_s.dds"/>
+            <NormalChannel path="Content\Models\Harbour\3td_MetalRoof_004_s_NRM.dds"/>
+            <MetallicChannel path="Content\Models\Harbour\3td_MetalRoof_004_s_SPEC.dds"/>
+        </Material>
+        <Material name="MossWood" guid="{0258E2CD-5DD7-471D-9372-5B05267CCD19}">
+            <ColorChannel path="Content\Models\Harbour\3td_MossWood_04.dds"/>
+            <NormalChannel path="Content\Models\Harbour\3td_MossWood_04_NRM.dds"/>
+            <MetallicChannel path="Content\Models\Harbour\3td_MossWood_04_SPEC.dds"/>
+        </Material>
+        <Material name="Planks" guid="{92B7EAB6-9110-45EF-9656-9372E18DA054}">
+            <ColorChannel path="Content\Models\Harbour\WarfStand\3td_planks_03.dds"/>
+            <NormalChannel path="Content\Models\Harbour\WarfStand\3td_planks_03_NRM.dds"/>
+            <MetallicChannel path="Content\Models\Harbour\WarfStand\3td_planks_03_SPEC.dds"/>
+        </Material>
+        <Material name="DockWood" guid="{5A943098-0193-4C52-8806-AB1013BA29F6}">
+            <ColorChannel path="Content\Models\Harbour\Dock1\3td_DockWood_01.dds"/>
+            <NormalChannel path="Content\Models\Harbour\Dock1\3td_DockWood_01_NRM.dds"/>
+            <MetallicChannel path="Content\Models\Harbour\Dock1\3td_DockWood_01_SPEC.dds"/>
+        </Material>
+        <Material name="WireFencePole" guid="{409DA7C0-A77D-4156-9AA1-2CF79381D516}">
+            <ColorChannel path="Content\Models\Fences\Wire\3td_woodPost_01_1024.dds"/>
+            <NormalChannel path="Content\Models\Fences\Wire\3td_woodPost_01_1024_NRM.dds"/>
+            <MetallicChannel path="Content\Textures\StandardSpecular.dds"/>
+        </Material>
+        <Material name="WireFenceWire" guid="{F74DCF43-058C-4F35-ACCF-FD50D804A7FD}">
+            <ColorChannel path="Content\Models\Fences\Wire\3td_BarbedWire_02.dds"/>
+            <NormalChannel path="Content\Textures\NoNormal.dds"/>
+            <MetallicChannel path="Content\Textures\StandardSpecular.dds"/>
+            <Sampler sampling="linear" wrapping="clamp"/>
+        </Material>
+        <Material name="OldWagonMetal" guid="{6B53F703-94CD-4033-9DBC-4A113DD85B3D}">
+            <ColorChannel path="Content\Models\Props\OldWagon\3td_metal_19.dds"/>
+            <NormalChannel path="Content\Textures\NoNormal.dds"/>
+            <MetallicChannel path="Content\Textures\StandardSpecular.dds"/>
+        </Material>
+        <Material name="OldWagonOldWood" guid="{D218189B-9F9E-4EAA-995F-A483C47F5251}">
+            <ColorChannel path="Content\Models\Props\OldWagon\3td_OldWood_01.dds"/>
+            <NormalChannel path="Content\Textures\NoNormal.dds"/>
+            <MetallicChannel path="Content\Textures\StandardSpecular.dds"/>
+        </Material>
+        <Material name="OldWagonPlanks" guid="{14E7EDE7-70BB-42EC-83C8-DA3280C6FDE6}">
+            <ColorChannel path="Content\Models\Props\OldWagon\3td_Planks_02.dds"/>
+            <NormalChannel path="Content\Models\Props\OldWagon\3td_Planks_02_NRM.dds"/>
+            <MetallicChannel path="Content\Textures\StandardSpecular.dds"/>
+        </Material>
+        <Material name="OldWagonRust" guid="{01C30CAC-147D-4F9F-864E-1A9884D70EB0}">
+            <ColorChannel path="Content\Models\Props\OldWagon\3td_Rust_01.dds"/>
+            <NormalChannel path="Content\Models\Props\OldWagon\3td_Rust_01_NRM.dds"/>
+            <MetallicChannel path="Content\Textures\StandardSpecular.dds"/>
+        </Material>
+        <Material name="WhiteBirchBark" guid="{04EE838D-1F2C-4B41-957B-2E8597E54E01}">
+            <ColorChannel path="Content\Models\Trees\WhiteBirch\birch_final.dds"/>
+            <NormalChannel path="Content\Models\Trees\WhiteBirch\Birch_Final2_NRM.dds"/>
+            <MetallicChannel path="Content\Textures\StandardSpecular.dds"/>
+        </Material>
+        <Material name="WhiteBirchLeaf" guid="{8198A5F3-2ECE-496E-BCC5-7650C3A4CF08}">
+            <ColorChannel path="Content\Models\Trees\WhiteBirch\birchleaf01a.dds"/>
+            <NormalChannel path="Content\Models\Trees\WhiteBirch\BirchLeaf01a_NRM.dds"/>
+            <MetallicChannel path="Content\Textures\StandardSpecular.dds"/>
+        </Material>
+        <Material name="BarkConifer" guid="{92111933-A9A6-4AD7-893A-CD223DF3B044}">
+            <ColorChannel path="Content\Models\Trees\TallConifer\BarkConifer004.dds"/>
+            <NormalChannel path="Content\Models\Trees\TallConifer\BarkConifer004_NRM.dds"/>
+            <MetallicChannel path="Content\Textures\StandardSpecular.dds"/>
+        </Material>
+        <Material name="BarkConifer" guid="{F0B4B83F-CCD9-453E-A80F-1D27F3F47DBF}">
+            <ColorChannel path="Content\Models\Trees\TallConifer\BroadPine1.dds"/>
+            <NormalChannel path="Content\Models\Trees\TallConifer\BroadPine1_NRM.dds"/>
+            <MetallicChannel path="Content\Textures\StandardSpecular.dds"/>
+        </Material>
+        <Material name="BarkConifer" guid="{04AD4234-A58F-4012-B73A-07094B213A69}">
+            <ColorChannel path="Content\Models\Trees\TallConifer\ConBare01.dds"/>
+            <NormalChannel path="Content\Models\Trees\TallConifer\ConBare01_NRM.dds"/>
+            <MetallicChannel path="Content\Textures\StandardSpecular.dds"/>
+        </Material>
+        <Material name="Reeds" guid="{854E3811-415A-4FB4-A80D-CFB31499951B}">
+            <ColorChannel path="Content\Models\Bushes\Reeds\reeds.dds"/>
+            <NormalChannel path="Content\Models\Bushes\Reeds\reeds_NRM.dds"/>
+            <MetallicChannel path="Content\Models\Bushes\Reeds\reeds_SPEC.dds"/>
+        </Material>
+        <Material name="Lilly pad leaf" guid="{38F037DB-BA11-4CC3-8BB7-5FFBCF62941C}">
+            <ColorChannel path="Content\Models\Bushes\LilyPad\lilipads01.dds"/>
+            <NormalChannel path="Content\Models\Bushes\LilyPad\lilipads01_NRM.dds"/>
+            <MetallicChannel path="Content\Models\Bushes\LilyPad\lilipads01_SPEC.dds"/>
+        </Material>
+        <Material name="Lilly pad stem" guid="{C9205C46-C357-4408-BC7B-474958C671A7}">
+            <ColorChannel path="Content\Models\Bushes\LilyPad\lilystem.dds"/>
+            <NormalChannel path="Content\Textures\NoNormal.dds"/>
+            <MetallicChannel path="Content\Textures\StandardSpecular.dds"/>
+        </Material>
+        <Material name="Fiddle leaf" guid="{D42C495F-A285-4177-A640-E312C7987B4A}">
+            <ColorChannel path="Content\Models\Bushes\FiddleLeaf\FiddleLeaf2.dds"/>
+            <NormalChannel path="Content\Models\Bushes\FiddleLeaf\FiddleLeaf2_NRM.dds"/>
+            <MetallicChannel path="Content\Models\Bushes\FiddleLeaf\FiddleLeaf2_SPEC.dds"/>
+        </Material>
+        <Material name="Fiscus" guid="{3861DFBC-C1E0-4319-8B08-F8C1912C4D15}">
+            <ColorChannel path="Content\Models\Bushes\Fiscus\Fiscus01.dds"/>
+            <NormalChannel path="Content\Models\Bushes\Fiscus\Fiscus01_NRM.dds"/>
+            <MetallicChannel path="Content\Models\Bushes\Fiscus\Fiscus01_SPEC.dds"/>
+        </Material>
+        <Material name="Large leaf" guid="{D72A0C2F-BF00-405A-92B4-188B435BE214}">
+            <ColorChannel path="Content\Models\Bushes\LargeLeaf\LargeLeaf_DIF.dds"/>
+            <NormalChannel path="Content\Models\Bushes\LargeLeaf\LargeLeaf_NRM.dds"/>
+            <MetallicChannel path="Content\Models\Bushes\LargeLeaf\LargeLeaf_SPC.dds"/>
+        </Material>
+        <Material name="Fern 1" guid="{54DC868B-AACC-4517-998B-05F6B5943F0C}">
+            <ColorChannel path="Content\Models\Bushes\Fern1\fern_image2.dds"/>
+            <NormalChannel path="Content\Models\Bushes\fern_image3_NRM.dds"/>
+            <MetallicChannel path="Content\Models\Bushes\fern_image3_SPEC.dds"/>
+        </Material>
+        <Material name="Fern 2" guid="{49F1940B-5551-4D1D-88FA-5501B362411F}">
+            <ColorChannel path="Content\Models\Bushes\Fern2\fern_image3.dds"/>
+            <NormalChannel path="Content\Models\Bushes\fern_image3_NRM.dds"/>
+            <MetallicChannel path="Content\Models\Bushes\fern_image3_SPEC.dds"/>
+        </Material>
+        <Material name="Bush 1" guid="{6B4182B8-6B5E-4F8B-A306-E85A99F8FEA7}">
+            <ColorChannel path="Content\Models\Bushes\Bush1\BushLeaf01.dds"/>
+            <NormalChannel path="Content\Models\Bushes\Bush1\GreenBirch2_NRM.dds"/>
+            <MetallicChannel path="Content\Models\Bushes\Bush1\GreenBirch2_SPEC.dds"/>
+        </Material>
+        <Material name="Sequia bark" guid="{779DFBA0-3E44-42BD-AB10-CD9196B6EECD}">
+            <ColorChannel path="Content\Models\Trees\TallPine2\SequiaBark_DIF.dds"/>
+            <NormalChannel path="Content\Models\Trees\TallPine2\SequiaBark_NRM.dds"/>
+            <MetallicChannel path="Content\Textures\StandardSpecular.dds"/>
+        </Material>
+        <Material name="Dead branch 01" guid="{9B54E205-5542-499C-AE35-708B2906C1B5}">
+            <ColorChannel path="Content\Models\Trees\DeadBranch01.dds"/>
+            <NormalChannel path="Content\Textures\NoNormal.dds"/>
+            <MetallicChannel path="Content\Textures\StandardSpecular.dds"/>
+        </Material>
+        <Material name="Dead branch 02" guid="{B167D4DB-FFA9-4BAF-8B59-D08F872720CF}">
+            <ColorChannel path="Content\Models\Trees\DeadBranch02.dds"/>
+            <NormalChannel path="Content\Textures\NoNormal.dds"/>
+            <MetallicChannel path="Content\Textures\StandardSpecular.dds"/>
+        </Material>
+        <Material name="Green pine bare branch" guid="{266CE58D-10A1-4DA1-AB74-71A4E1A648BA}">
+            <ColorChannel path="Content\Models\Trees\PineBranch_DIF.dds"/>
+            <NormalChannel path="Content\Models\Trees\PineBranch_NRM.dds"/>
+            <MetallicChannel path="Content\Textures\StandardSpecular.dds"/>
+        </Material>
+        <Material name="Green pine trunk" guid="{4E5CB26B-C455-46A0-9F7E-63A7CBAB2B05}">
+            <ColorChannel path="Content\Models\Trees\PineLight_DIF.dds"/>
+            <NormalChannel path="Content\Models\Trees\PineLight_NRM.dds"/>
+            <MetallicChannel path="Content\Textures\StandardSpecular.dds"/>
+        </Material>
+        <Material name="Green pine branch" guid="{6E684E02-D97F-4101-A44E-EC77B251F352}">
+            <ColorChannel path="Content\Models\Trees\pinetree001.dds"/>
+            <NormalChannel path="Content\Models\Trees\pinetree001_NRM.dds"/>
+            <MetallicChannel path="Content\Models\Trees\pinetree001_SPEC.dds"/>
+        </Material>
+        <Material name="Old stump side" guid="{67070A45-D781-4C73-9953-EB17615D6A1A}">
+            <ColorChannel path="Content\Models\Trees\OldStump\DeadTree.dds"/>
+            <NormalChannel path="Content\Models\Trees\OldStump\DeadTree_NRM.dds"/>
+            <MetallicChannel path="Content\Textures\StandardSpecular.dds"/>
+        </Material>
+        <Material name="Old stump top" guid="{321BC404-8589-48B3-8968-57307294EE5E}">
+            <ColorChannel path="Content\Models\Trees\OldStump\Stumpy01.dds"/>
+            <NormalChannel path="Content\Models\Trees\OldStump\Stumpy01_NRM.dds"/>
+            <MetallicChannel path="Content\Textures\StandardSpecular.dds"/>
+        </Material>
+        <Material name="Scrub pine branch" guid="{B8008268-149E-4737-8256-C60AADE494B7}">
+            <ColorChannel path="Content\Models\Trees\ScrubPine\LushPine.dds"/>
+            <NormalChannel path="Content\Models\Trees\ScrubPine\LushPine_NRM.dds"/>
+            <MetallicChannel path="Content\Models\Trees\ScrubPine\LushPine_SPEC.dds"/>
+        </Material>
+        <Material name="Scrub pine trunk" guid="{98E08189-1EBF-475C-AABB-913B4FA6C7CD}">
+            <ColorChannel path="Content\Models\Trees\ScrubPine\Piney.dds"/>
+            <NormalChannel path="Content\Models\Trees\ScrubPine\Piney_NRM.dds"/>
+            <MetallicChannel path="Content\Textures\StandardSpecular.dds"/>
+        </Material>
+    </EntityMaterials>
+    <Entities>
+        <Entity name="Red metal barrel with no bumps" category="Placeholders/Barrels/Metal" guid="{D66A3807-E64C-40F8-B546-AE2E92B6309A}">
+            <Visuals>
+                <MaterialRef id="0" guid="{045B1EA5-9AF3-4496-BE5F-C34A489DEC25}"/>
+                <Frame name="resize" scale="0.01;0.01;0.01">
+                    <Frame name="default">
+                        <Mesh path="Content\Models\MetalBarrel\metal_barrel.mesh" submesh="0"/>
+                    </Frame>
+                </Frame>
+            </Visuals>
+        </Entity>
+        <Entity name="Red metal barrel with hard bumps" category="Placeholders/Barrels/Metal" guid="{C13D47CE-5073-40BA-A075-7804707DD021}">
+            <Visuals>
+                <MaterialRef id="0" guid="{7FA88B09-DB9C-49F0-90E0-1247C8A7647C}"/>
+                <Frame name="resize" scale="0.01;0.01;0.01">
+                    <Frame name="default">
+                        <Mesh path="Content\Models\MetalBarrel\metal_barrel.mesh" submesh="0"/>
+                    </Frame>
+                </Frame>
+            </Visuals>
+        </Entity>
+        <Entity name="Green metal barrel with no bumps" category="Placeholders/Barrels/Metal" guid="{3E2A690C-BE1D-4149-A37B-4CD598B53A87}">
+            <Visuals>
+                <MaterialRef id="0" guid="{A38838E7-2DAB-4711-912C-C72F05DA81B7}"/>
+                <Frame name="resize" scale="0.01;0.01;0.01">
+                    <Frame name="default">
+                        <Mesh path="Content\Models\MetalBarrel\metal_barrel.mesh" submesh="0"/>
+                    </Frame>
+                </Frame>
+            </Visuals>
+        </Entity>
+        <Entity name="Green metal barrel with hard bumps" category="Placeholders/Barrels/Metal" guid="{6ABB490F-50BC-46E5-B899-17772BBD1F60}">
+            <Visuals>
+                <MaterialRef id="0" guid="{DD58FD36-C71C-4822-BC1A-0257EDA8170F}"/>
+                <Frame name="resize" scale="0.01;0.01;0.01">
+                    <Frame name="default">
+                        <Mesh path="Content\Models\MetalBarrel\metal_barrel.mesh" submesh="0"/>
+                    </Frame>
+                </Frame>
+            </Visuals>
+        </Entity>
+        <Entity name="Blue metal barrel with no bumps" category="Placeholders/Barrels/Metal" guid="{EE197087-C71B-4675-9EF9-5205148DBC65}">
+            <Visuals>
+                <MaterialRef id="0" guid="{782BB033-B65C-4E44-AEAA-108D91C66033}"/>
+                <Frame name="resize" scale="0.01;0.01;0.01">
+                    <Frame name="default">
+                        <Mesh path="Content\Models\MetalBarrel\metal_barrel.mesh" submesh="0"/>
+                    </Frame>
+                </Frame>
+            </Visuals>
+        </Entity>
+        <Entity name="Blue metal barrel with hard bumps" category="Placeholders/Barrels/Metal" guid="{FA6C3E18-4E3B-44C8-9B83-0E1394D9E64C}">
+            <Visuals>
+                <MaterialRef id="0" guid="{D4163D40-C49F-4BD7-BE5E-ED208FE2F038}"/>
+                <Frame name="resize" scale="0.01;0.01;0.01">
+                    <Frame name="default">
+                        <Mesh path="Content\Models\MetalBarrel\metal_barrel.mesh" submesh="0"/>
+                    </Frame>
+                </Frame>
+            </Visuals>
+        </Entity>
+        <Entity name="Yellow metal barrel with no bumps" category="Placeholders/Barrels/Metal" guid="{43AFA734-FF01-4A66-A2CB-0CE06F6E893E}">
+            <Visuals>
+                <MaterialRef id="0" guid="{1B3D9F5E-6B1F-4D3F-8683-F67AF28811DF}"/>
+                <Frame name="resize" scale="0.01;0.01;0.01">
+                    <Frame name="default">
+                        <Mesh path="Content\Models\MetalBarrel\metal_barrel.mesh" submesh="0"/>
+                    </Frame>
+                </Frame>
+            </Visuals>
+        </Entity>
+        <Entity name="Yellow metal barrel with hard bumps" category="Placeholders/Barrels/Metal" guid="{4F7C365F-F598-4C5F-9E5D-4F67C4FFCABB}">
+            <Visuals>
+                <MaterialRef id="0" guid="{576278AB-5E06-42BE-9A1B-3AAC92A6C2D7}"/>
+                <Frame name="resize" scale="0.01;0.01;0.01">
+                    <Frame name="default">
+                        <Mesh path="Content\Models\MetalBarrel\metal_barrel.mesh" submesh="0"/>
+                    </Frame>
+                </Frame>
+            </Visuals>
+        </Entity>
+        <Entity name="Black metal barrel with no bumps" category="Placeholders/Barrels/Metal" guid="{0875ACFC-7CC8-4723-855C-D64C5DC42C82}">
+            <Visuals>
+                <MaterialRef id="0" guid="{D7D19D95-59BE-41DB-AF4B-BB5DCF5BBC74}"/>
+                <Frame name="resize" scale="0.01;0.01;0.01">
+                    <Frame name="default">
+                        <Mesh path="Content\Models\MetalBarrel\metal_barrel.mesh" submesh="0"/>
+                    </Frame>
+                </Frame>
+            </Visuals>
+        </Entity>
+        <Entity name="Black metal barrel with hard bumps" category="Placeholders/Barrels/Metal" guid="{E648ECEE-7271-409C-A6EE-F5EB656C22FA}">
+            <Visuals>
+                <MaterialRef id="0" guid="{FCB28E74-B5F8-4652-8B6F-26A1776458ED}"/>
+                <Frame name="resize" scale="0.01;0.01;0.01">
+                    <Frame name="default">
+                        <Mesh path="Content\Models\MetalBarrel\metal_barrel.mesh" submesh="0"/>
+                    </Frame>
+                </Frame>
+            </Visuals>
+        </Entity>
+        <Entity name="Rust metal barrel with no bumps" category="Placeholders/Barrels/Metal" guid="{234460A1-D587-4A6C-9D7F-BADB3727FD84}">
+            <Visuals>
+                <MaterialRef id="0" guid="{D799BC7B-1508-4DBE-AC12-0F04723EA2AF}"/>
+                <Frame name="resize" scale="0.01;0.01;0.01">
+                    <Frame name="default">
+                        <Mesh path="Content\Models\MetalBarrel\metal_barrel.mesh" submesh="0"/>
+                    </Frame>
+                </Frame>
+            </Visuals>
+        </Entity>
+        <Entity name="Rust metal barrel with hard bumps" category="Placeholders/Barrels/Metal" guid="{D18E4BE2-F93D-44EB-BBF6-55BF26654D78}">
+            <Visuals>
+                <MaterialRef id="0" guid="{D57DE821-3AC4-45B5-BAA0-A546953B597F}"/>
+                <Frame name="resize" scale="0.01;0.01;0.01">
+                    <Frame name="default">
+                        <Mesh path="Content\Models\MetalBarrel\metal_barrel.mesh" submesh="0"/>
+                    </Frame>
+                </Frame>
+            </Visuals>
+        </Entity>
+        <Entity name="Stainless steel barrel with no bumps" category="Placeholders/Barrels/Metal" guid="{FC2E3EA4-95BF-4E3B-AC66-41138CF9EE40}">
+            <Visuals>
+                <MaterialRef id="0" guid="{2863617A-8793-45C0-A2A7-BFAD7C29E7AE}"/>
+                <Frame name="resize" scale="0.01;0.01;0.01">
+                    <Frame name="default">
+                        <Mesh path="Content\Models\MetalBarrel\metal_barrel.mesh" submesh="0"/>
+                    </Frame>
+                </Frame>
+            </Visuals>
+        </Entity>
+        <Entity name="Stainless steel barrel with hard bumps" category="Placeholders/Barrels/Metal" guid="{14D53718-9BD6-4E31-957B-1CDA0834EE18}">
+            <Visuals>
+                <MaterialRef id="0" guid="{C5155677-FCAB-4D1F-960E-7D5DC6BE8D45}"/>
+                <Frame name="resize" scale="0.01;0.01;0.01">
+                    <Frame name="default">
+                        <Mesh path="Content\Models\MetalBarrel\metal_barrel.mesh" submesh="0"/>
+                    </Frame>
+                </Frame>
+            </Visuals>
+        </Entity>
+        <Entity name="Fuel can" category="Placeholders/Barrels/Fuel" guid="{E6A2C5B9-8DC8-4440-81B4-56DC9252266D}">
+            <Visuals>
+                <MaterialRef id="0" guid="{703CDEE9-BC88-436E-BC3B-7D7F4EF90F4E}"/>
+                <Frame name="resize" scale="0.01;0.01;0.01">
+                    <Frame name="default">
+                        <Mesh path="Content\Models\FuelCan\fuel_can.mesh" submesh="0"/>
+                    </Frame>
+                </Frame>
+            </Visuals>
+        </Entity>
+        <Entity name="Rock 01" category="Placeholders/Rocks" guid="{C749163A-E44D-443F-8B21-8B5B468DA13A}">
+            <Visuals>
+                <MaterialRef id="0" guid="{B2673DA2-4869-46D2-97C1-590D2FAAD192}"/>
+                <Frame name="resize" scale="0.01;0.01;0.01">
+                    <Frame name="default">
+                        <Mesh path="Content\Models\Rock\01\rock_01.mesh" submesh="0"/>
+                    </Frame>
+                </Frame>
+            </Visuals>
+        </Entity>
+        <Entity name="Rock 02" category="Placeholders/Rocks" guid="{489DF807-554A-47D2-B46D-880F556A4856}">
+            <Visuals>
+                <MaterialRef id="0" guid="{54B20943-A17C-4688-91D5-3CB7AAB97D2E}"/>
+                <Frame name="resize" scale="0.01;0.01;0.01">
+                    <Frame name="default">
+                        <Mesh path="Content\Models\Rock\02\rock_02.mesh" submesh="0"/>
+                    </Frame>
+                </Frame>
+            </Visuals>
+        </Entity>
+        <Entity name="Rock 03" category="Placeholders/Rocks" guid="{265E9076-1B3B-4DC2-BFB6-39AB0677BAE0}">
+            <Visuals>
+                <MaterialRef id="0" guid="{EA976D89-4CF3-4D32-BAF9-BFE3BA107142}"/>
+                <Frame name="resize" scale="0.01;0.01;0.01">
+                    <Frame name="default">
+                        <Mesh path="Content\Models\Rock\03\rock_03.mesh" submesh="0"/>
+                    </Frame>
+                </Frame>
+            </Visuals>
+        </Entity>
+        <Entity name="Rock 04" category="Placeholders/Rocks" guid="{121B6B85-3986-4F2F-A6B9-FEF7459D1B50}">
+            <Visuals>
+                <MaterialRef id="0" guid="{A0FEA638-3D0A-4BFC-B961-1BD1E85886F9}"/>
+                <Frame name="resize" scale="0.01;0.01;0.01">
+                    <Frame name="default">
+                        <Mesh path="Content\Models\Rock\04\rock_04.mesh" submesh="0"/>
+                    </Frame>
+                </Frame>
+            </Visuals>
+        </Entity>
+        <Entity name="Rock 05" category="Placeholders/Rocks" guid="{A34C57E8-E269-4C35-A67B-6A270D6D73AE}">
+            <Visuals>
+                <MaterialRef id="0" guid="{A626DAF4-7E89-4A78-884E-8FE03337BB77}"/>
+                <Frame name="resize" scale="0.01;0.01;0.01">
+                    <Frame name="default">
+                        <Mesh path="Content\Models\Rock\05\rock_05.mesh" submesh="0"/>
+                    </Frame>
+                </Frame>
+            </Visuals>
+        </Entity>
+        <Entity name="Common barrier" category="Placeholders/Barriers" guid="{F28644B2-5D20-431C-91A6-F558182EAC6E}">
+            <Visuals>
+                <MaterialRef id="0" guid="{2F96F901-2B2F-4486-A324-C97A2E248DA0}"/>
+                <Frame name="resize" scale="0.01;0.01;0.01">
+                    <Frame name="default">
+                        <Mesh path="Content\Models\Barriers\barrier\barrier.mesh" submesh="0"/>
+                    </Frame>
+                </Frame>
+            </Visuals>
+        </Entity>
+        <Entity name="Cube barrier" category="Placeholders/Barriers" guid="{FF6CD46D-54E1-4512-89FB-D6B873A252E5}">
+            <Visuals>
+                <MaterialRef id="0" guid="{068E7B12-DD91-48F4-8162-64996A048B9F}"/>
+                <Frame name="resize" scale="0.01;0.01;0.01">
+                    <Frame name="default">
+                        <Mesh path="Content\Models\Barriers\cube\cube.mesh" submesh="0"/>
+                    </Frame>
+                </Frame>
+            </Visuals>
+        </Entity>
+        <Entity name="Cylinder barrier" category="Placeholders/Barriers" guid="{1969FBEB-F672-40D5-A42C-0FFE3F6A614F}">
+            <Visuals>
+                <MaterialRef id="0" guid="{955CA2CE-77CB-47D8-AAE7-F5CD8A2F3C23}"/>
+                <Frame name="resize" scale="0.01;0.01;0.01">
+                    <Frame name="default">
+                        <Mesh path="Content\Models\Barriers\cylinder\cylinder.mesh" submesh="0"/>
+                    </Frame>
+                </Frame>
+            </Visuals>
+        </Entity>
+        <Entity name="Hedra barrier" category="Placeholders/Barriers" guid="{676AD15A-0770-4E38-9C4B-99D64EF8D443}">
+            <Visuals>
+                <MaterialRef id="0" guid="{9DEEB7B4-1D3E-4612-89B6-C45DE324A11F}"/>
+                <Frame name="resize" scale="0.01;0.01;0.01">
+                    <Frame name="default">
+                        <Mesh path="Content\Models\Barriers\hedra\hedra.mesh" submesh="0"/>
+                    </Frame>
+                </Frame>
+            </Visuals>
+        </Entity>
+        <Entity name="Wall barrier" category="Placeholders/Barriers" guid="{8E6E4F04-CDC5-4E41-934B-BC80AEDD4F39}">
+            <Visuals>
+                <MaterialRef id="0" guid="{ABAC62A0-B54B-4B71-925D-F37CAE47247C}"/>
+                <Frame name="resize" scale="0.01;0.01;0.01">
+                    <Frame name="default">
+                        <Mesh path="Content\Models\Barriers\wall\wall.mesh" submesh="0"/>
+                    </Frame>
+                </Frame>
+            </Visuals>
+        </Entity>
+        <Entity name="Small open crate" category="Placeholders/Crates" guid="{744B6071-62ED-4350-9E01-7B67A8DAB6A4}">
+            <Visuals>
+                <MaterialRef id="0" guid="{CD338579-70D9-47B6-9D56-3FF167FE3518}"/>
+                <Frame name="default">
+                    <Mesh path="Content\Models\Crates\Crate-01.mesh" submesh="0"/>
+                </Frame>
+            </Visuals>
+        </Entity>
+        <Entity name="Small crate" category="Placeholders/Crates" guid="{CE24F297-9CC1-44F4-B441-B9CF1479F04D}">
+            <Visuals>
+                <MaterialRef id="0" guid="{CD338579-70D9-47B6-9D56-3FF167FE3518}"/>
+                <Frame name="default">
+                    <Mesh path="Content\Models\Crates\Crate-02.mesh" submesh="0"/>
+                </Frame>
+            </Visuals>
+        </Entity>
+        <Entity name="Small crate with cover" category="Placeholders/Crates" guid="{5433C96A-3B0F-48CB-86A4-57A1B2083168}">
+            <Visuals>
+                <MaterialRef id="0" guid="{CD338579-70D9-47B6-9D56-3FF167FE3518}"/>
+                <Frame name="default">
+                    <Mesh path="Content\Models\Crates\Crate-02.mesh" submesh="0"/>
+                    <Mesh path="Content\Models\Crates\Crate-02.mesh" submesh="1"/>
+                </Frame>
+            </Visuals>
+        </Entity>
+        <Entity name="Small crate cover" category="Placeholders/Crates" guid="{B1EEE768-178E-48CA-A764-7CE1BC7ADFA6}">
+            <Visuals>
+                <MaterialRef id="0" guid="{CD338579-70D9-47B6-9D56-3FF167FE3518}"/>
+                <Frame name="default">
+                    <Mesh path="Content\Models\Crates\Crate-02.mesh" submesh="1"/>
+                </Frame>
+            </Visuals>
+        </Entity>
+        <Entity name="Long crate" category="Placeholders/Crates" guid="{853AF85E-FACA-4D8A-BF56-B664A7EECA08}">
+            <Visuals>
+                <MaterialRef id="0" guid="{CD338579-70D9-47B6-9D56-3FF167FE3518}"/>
+                <Frame name="default">
+                    <Mesh path="Content\Models\Crates\Crate-03.mesh" submesh="0"/>
+                </Frame>
+            </Visuals>
+        </Entity>
+        <Entity name="Long crate with cover" category="Placeholders/Crates" guid="{B01716C6-F2DC-4EC1-BBAF-6E06C97E9773}">
+            <Visuals>
+                <MaterialRef id="0" guid="{CD338579-70D9-47B6-9D56-3FF167FE3518}"/>
+                <Frame name="default">
+                    <Mesh path="Content\Models\Crates\Crate-03.mesh" submesh="0"/>
+                    <Mesh path="Content\Models\Crates\Crate-03.mesh" submesh="1"/>
+                </Frame>
+            </Visuals>
+        </Entity>
+        <Entity name="Long crate cover" category="Placeholders/Crates" guid="{EC34818E-A42E-4CB0-AEDF-809F0F7AF71F}">
+            <Visuals>
+                <MaterialRef id="0" guid="{CD338579-70D9-47B6-9D56-3FF167FE3518}"/>
+                <Frame name="default">
+                    <Mesh path="Content\Models\Crates\Crate-03.mesh" submesh="1"/>
+                </Frame>
+            </Visuals>
+        </Entity>
+        <Entity name="Big crate" category="Placeholders/Crates" guid="{666A47FD-723F-40B6-91BF-CEDF2E5AF517}">
+            <Visuals>
+                <MaterialRef id="0" guid="{CD338579-70D9-47B6-9D56-3FF167FE3518}"/>
+                <Frame name="default">
+                    <Mesh path="Content\Models\Crates\Crate-04.mesh" submesh="0"/>
+                </Frame>
+            </Visuals>
+        </Entity>
+        <Entity name="Big crate with cover" category="Placeholders/Crates" guid="{C505D157-C982-4730-A8D1-B85296304AB8}">
+            <Visuals>
+                <MaterialRef id="0" guid="{CD338579-70D9-47B6-9D56-3FF167FE3518}"/>
+                <Frame name="default">
+                    <Mesh path="Content\Models\Crates\Crate-04.mesh" submesh="0"/>
+                    <Mesh path="Content\Models\Crates\Crate-04.mesh" submesh="1"/>
+                </Frame>
+            </Visuals>
+        </Entity>
+        <Entity name="Big crate cover" category="Placeholders/Crates" guid="{82623946-B949-43FD-ACF1-D4BE290C2F03}">
+            <Visuals>
+                <MaterialRef id="0" guid="{CD338579-70D9-47B6-9D56-3FF167FE3518}"/>
+                <Frame name="default">
+                    <Mesh path="Content\Models\Crates\Crate-04.mesh" submesh="1"/>
+                </Frame>
+            </Visuals>
+        </Entity>
+        <Entity name="Wood bucket" category="Placeholders/Crates" guid="{7DB5D328-658E-42C4-BFE6-DA8D5172AD57}">
+            <Visuals>
+                <MaterialRef id="0" guid="{CD338579-70D9-47B6-9D56-3FF167FE3518}"/>
+                <Frame name="default">
+                    <Mesh path="Content\Models\Crates\Crate-05.mesh" submesh="0"/>
+                </Frame>
+            </Visuals>
+        </Entity>
+        <Entity name="Gold crate closed" category="Placeholders/Crates" guid="{195CF91C-D472-414A-80F3-53C869371CFF}">
+            <Visuals>
+                <MaterialRef id="0" guid="{7BE24895-FEDD-4E35-9641-A31D1B5439A0}"/>
+                <Frame name="default">
+                    <Mesh path="Content\Models\Crates\GoldCrate-1.mesh" submesh="0"/>
+                </Frame>
+            </Visuals>
+        </Entity>
+        <Entity name="Gold crate with cover half open" category="Placeholders/Crates" guid="{CFBC05E1-D028-4139-A6CE-E54C1E5973E7}">
+            <Visuals>
+                <MaterialRef id="0" guid="{7BE24895-FEDD-4E35-9641-A31D1B5439A0}"/>
+                <Frame name="default">
+                    <Mesh path="Content\Models\Crates\GoldCrate-2.mesh" submesh="0"/>
+                </Frame>
+            </Visuals>
+        </Entity>
+        <Entity name="Gold crate with cover open" category="Placeholders/Crates" guid="{37AAD828-78D7-4672-BD88-C412EABD6ECA}">
+            <Visuals>
+                <MaterialRef id="0" guid="{7BE24895-FEDD-4E35-9641-A31D1B5439A0}"/>
+                <Frame name="default">
+                    <Mesh path="Content\Models\Crates\GoldCrate-3.mesh" submesh="0"/>
+                </Frame>
+            </Visuals>
+        </Entity>
+        <Entity name="Gold crate with cover twisted" category="Placeholders/Crates" guid="{BE18A906-3093-4355-9C4B-FBBE1EE062F5}">
+            <Visuals>
+                <MaterialRef id="0" guid="{7BE24895-FEDD-4E35-9641-A31D1B5439A0}"/>
+                <Frame name="default">
+                    <Mesh path="Content\Models\Crates\GoldCrate-4.mesh" submesh="0"/>
+                </Frame>
+            </Visuals>
+        </Entity>
+        <Entity name="Gold crate with cover on the side" category="Placeholders/Crates" guid="{E5233A79-5F21-4990-9FC0-49930DF62B89}">
+            <Visuals>
+                <MaterialRef id="0" guid="{7BE24895-FEDD-4E35-9641-A31D1B5439A0}"/>
+                <Frame name="default">
+                    <Mesh path="Content\Models\Crates\GoldCrate-5.mesh" submesh="0"/>
+                </Frame>
+            </Visuals>
+        </Entity>
+        <Entity name="Gold crate without cover" category="Placeholders/Crates" guid="{E3661D32-8CA7-4BC8-9704-019F52256E65}">
+            <Visuals>
+                <MaterialRef id="0" guid="{7BE24895-FEDD-4E35-9641-A31D1B5439A0}"/>
+                <Frame name="default">
+                    <Mesh path="Content\Models\Crates\GoldCrate-6.mesh" submesh="0"/>
+                </Frame>
+            </Visuals>
+        </Entity>
+        <Entity name="Gold bar" category="Placeholders/Gold" guid="{832DAC5B-7C6E-4EDC-B12D-0F1EB9019DF3}">
+            <Visuals>
+                <MaterialRef id="0" guid="{2DDEC985-AFA8-427B-8F25-78ED065FD7BB}"/>
+                <Frame name="default">
+                    <Mesh path="Content\Models\Gold\GoldBar.mesh" submesh="0"/>
+                </Frame>
+            </Visuals>
+        </Entity>
+        <Entity name="Green pine" category="Placeholders/Trees" guid="{683AF9D3-524B-4716-80EC-88DE5E42422F}">
+            <Visuals>
+                <MaterialRef id="0" guid="{266CE58D-10A1-4DA1-AB74-71A4E1A648BA}"/>
+                <MaterialRef id="2" guid="{6E684E02-D97F-4101-A44E-EC77B251F352}"/>
+                <MaterialRef id="3" guid="{4E5CB26B-C455-46A0-9F7E-63A7CBAB2B05}"/>
+                <Frame name="default" rotation="90;0;0">
+                    <Mesh path="Content\Models\Trees\GreenPine\ShortPine001.DAE.mesh" submesh="5"/>
+                    <Mesh path="Content\Models\Trees\GreenPine\ShortPine001.DAE.mesh" submesh="6"/>
+                    <Mesh path="Content\Models\Trees\GreenPine\ShortPine001.DAE.mesh" submesh="7"/>
+                    <Mesh path="Content\Models\Trees\GreenPine\ShortPine001.DAE.mesh" submesh="8"/>
+                </Frame>
+            </Visuals>
+        </Entity>
+        <Entity name="Old stump" category="Placeholders/Trees" guid="{D2E17A9D-EC48-4714-AE4A-EDF353874532}">
+            <Visuals>
+                <MaterialRef id="0" guid="{67070A45-D781-4C73-9953-EB17615D6A1A}"/>
+                <MaterialRef id="1" guid="{321BC404-8589-48B3-8968-57307294EE5E}"/>
+                <Frame name="default" rotation="90;0;0" scale="0.3;0.3;0.3">
+                    <Mesh path="Content\Models\Trees\OldStump\Stump01.DAE.mesh" submesh="0"/>
+                    <Mesh path="Content\Models\Trees\OldStump\Stump01.DAE.mesh" submesh="1"/>
+                </Frame>
+            </Visuals>
+        </Entity>
+        <Entity name="Scrub pine" category="Placeholders/Trees" guid="{3CB32E80-149C-4343-99B4-EE0B68AA300B}">
+            <Visuals>
+                <MaterialRef id="1" guid="{B8008268-149E-4737-8256-C60AADE494B7}"/>
+                <MaterialRef id="2" guid="{98E08189-1EBF-475C-AABB-913B4FA6C7CD}"/>
+                <Frame name="default" rotation="90;0;0" translation="0;-0.7;0">
+                    <Mesh path="Content\Models\Trees\ScrubPine\scrubPine.DAE.mesh" submesh="0"/>
+                    <Mesh path="Content\Models\Trees\ScrubPine\scrubPine.DAE.mesh" submesh="1"/>
+                </Frame>
+            </Visuals>
+        </Entity>
+        <Entity name="Tall pine 1" category="Placeholders/Trees" guid="{8BBF2969-356F-46BC-9646-C333BCE58347}">
+            <Visuals>
+                <MaterialRef id="1" guid="{9B54E205-5542-499C-AE35-708B2906C1B5}"/>
+                <MaterialRef id="2" guid="{B167D4DB-FFA9-4BAF-8B59-D08F872720CF}"/>
+                <MaterialRef id="3" guid="{266CE58D-10A1-4DA1-AB74-71A4E1A648BA}"/>
+                <MaterialRef id="4" guid="{4E5CB26B-C455-46A0-9F7E-63A7CBAB2B05}"/>
+                <MaterialRef id="5" guid="{6E684E02-D97F-4101-A44E-EC77B251F352}"/>
+                <Frame name="default" rotation="90;0;0" scale="0.6;0.6;0.6">
+                    <Mesh path="Content\Models\Trees\TallPine1\DTSSequia.DAE.mesh" submesh="0"/>
+                    <Mesh path="Content\Models\Trees\TallPine1\DTSSequia.DAE.mesh" submesh="1"/>
+                    <Mesh path="Content\Models\Trees\TallPine1\DTSSequia.DAE.mesh" submesh="2"/>
+                    <Mesh path="Content\Models\Trees\TallPine1\DTSSequia.DAE.mesh" submesh="3"/>
+                    <Mesh path="Content\Models\Trees\TallPine1\DTSSequia.DAE.mesh" submesh="4"/>
+                </Frame>
+            </Visuals>
+        </Entity>
+        <Entity name="Tall pine 2" category="Placeholders/Trees" guid="{0FF1E230-CA8F-4383-BE4D-CAE7C5755E78}">
+            <Visuals>
+                <MaterialRef id="0" guid="{266CE58D-10A1-4DA1-AB74-71A4E1A648BA}"/>
+                <MaterialRef id="1" guid="{266CE58D-10A1-4DA1-AB74-71A4E1A648BA}"/>
+                <MaterialRef id="3" guid="{6E684E02-D97F-4101-A44E-EC77B251F352}"/>
+                <MaterialRef id="4" guid="{779DFBA0-3E44-42BD-AB10-CD9196B6EECD}"/>
+                <Frame name="default" rotation="90;0;0" scale="0.6;0.6;0.6">
+                    <Mesh path="Content\Models\Trees\TallPine2\Sequia_02.DAE.mesh" submesh="2"/>
+                    <Mesh path="Content\Models\Trees\TallPine2\Sequia_02.DAE.mesh" submesh="3"/>
+                    <Mesh path="Content\Models\Trees\TallPine2\Sequia_02.DAE.mesh" submesh="4"/>
+                    <Mesh path="Content\Models\Trees\TallPine2\Sequia_02.DAE.mesh" submesh="5"/>
+                </Frame>
+            </Visuals>
+        </Entity>
+        <Entity name="Bush 1" category="Placeholders/Bushes" guid="{CAE5651C-1B01-423C-9D46-5C3C7B3CD78A}">
+            <Visuals>
+                <MaterialRef id="0" guid="{6B4182B8-6B5E-4F8B-A306-E85A99F8FEA7}"/>
+                <Frame name="default" rotation="90;0;0" scale="0.12;0.12;0.12">
+                    <Mesh path="Content\Models\Bushes\Bush1\Bush01.DAE.mesh" submesh="0"/>
+                </Frame>
+            </Visuals>
+        </Entity>
+        <Entity name="Fern 1" category="Placeholders/Bushes" guid="{03E0CFE1-1A77-458C-ABB9-4037A6CB31B9}">
+            <Visuals>
+                <MaterialRef id="0" guid="{54DC868B-AACC-4517-998B-05F6B5943F0C}"/>
+                <Frame name="default">
+                    <Mesh path="Content\Models\Bushes\Fern1\Fern_Vert_01.DAE.mesh" submesh="0"/>
+                </Frame>
+            </Visuals>
+        </Entity>
+        <Entity name="Fern 2" category="Placeholders/Bushes" guid="{6334A00D-392C-4BFE-88AC-088BED6D9FA9}">
+            <Visuals>
+                <MaterialRef id="0" guid="{49F1940B-5551-4D1D-88FA-5501B362411F}"/>
+                <Frame name="default">
+                    <Mesh path="Content\Models\Bushes\Fern2\Fern_Vert_02.DAE.mesh" submesh="0"/>
+                </Frame>
+            </Visuals>
+        </Entity>
+        <Entity name="Fiddle leaf" category="Placeholders/Bushes" guid="{78D4A2E8-D9AE-4B31-A3B8-0F2A7945285E}">
+            <Visuals>
+                <MaterialRef id="0" guid="{D42C495F-A285-4177-A640-E312C7987B4A}"/>
+                <Frame name="default" rotation="90;0;0" scale="0.12;0.12;0.12">
+                    <Mesh path="Content\Models\Bushes\FiddleLeaf\FiddleLeaf.DAE.mesh" submesh="0"/>
+                </Frame>
+            </Visuals>
+        </Entity>
+        <Entity name="Fiscus" category="Placeholders/Bushes" guid="{9118A16E-A940-4F15-8E6E-98803C9B27A3}">
+            <Visuals>
+                <MaterialRef id="0" guid="{3861DFBC-C1E0-4319-8B08-F8C1912C4D15}"/>
+                <Frame name="default" rotation="90;0;0" scale="0.03;0.03;0.03">
+                    <Mesh path="Content\Models\Bushes\Fiscus\Fiscus01.DAE.mesh" submesh="0"/>
+                </Frame>
+            </Visuals>
+        </Entity>
+        <Entity name="Large leaf" category="Placeholders/Bushes" guid="{37011C36-78F8-4639-B22A-E22369C93F38}">
+            <Visuals>
+                <MaterialRef id="0" guid="{D72A0C2F-BF00-405A-92B4-188B435BE214}"/>
+                <Frame name="default" rotation="90;0;0" scale="0.03;0.03;0.03">
+                    <Mesh path="Content\Models\Bushes\LargeLeaf\Plant001.DAE.mesh" submesh="0"/>
+                </Frame>
+            </Visuals>
+        </Entity>
+        <Entity name="Lily pad" category="Placeholders/Bushes" guid="{3A8213A8-D191-4E54-BF78-13243C097E61}">
+            <Visuals>
+                <MaterialRef id="0" guid="{38F037DB-BA11-4CC3-8BB7-5FFBCF62941C}"/>
+                <MaterialRef id="1" guid="{C9205C46-C357-4408-BC7B-474958C671A7}"/>
+                <Frame name="default" translation="0;-1.425;0">
+                    <Mesh path="Content\Models\Bushes\LilyPad\lillypad01.DAE.mesh" submesh="0"/>
+                    <Mesh path="Content\Models\Bushes\LilyPad\lillypad01.DAE.mesh" submesh="1"/>
+                </Frame>
+            </Visuals>
+        </Entity>
+        <Entity name="Reeds" category="Placeholders/Bushes" guid="{BCDBCEE4-E482-4033-A68C-CA6D1695492A}">
+            <Visuals>
+                <MaterialRef id="0" guid="{854E3811-415A-4FB4-A80D-CFB31499951B}"/>
+                <Frame name="default" rotation="90;0;0" scale="0.3;0.3;0.3">
+                    <Mesh path="Content\Models\Bushes\Reeds\ReedMod01.DAE.mesh" submesh="0"/>
+                </Frame>
+            </Visuals>
+        </Entity>
+        <Entity name="Tall conifer" category="Placeholders/Trees" guid="{A88DABC8-94A6-4308-A4E4-D5117C066C5F}">
+            <Visuals>
+                <MaterialRef id="0" guid="{92111933-A9A6-4AD7-893A-CD223DF3B044}"/>
+                <MaterialRef id="1" guid="{F0B4B83F-CCD9-453E-A80F-1D27F3F47DBF}"/>
+                <MaterialRef id="3" guid="{04AD4234-A58F-4012-B73A-07094B213A69}"/>
+                <Frame name="default" rotation="90;0;0" scale="0.4;0.4;0.4" translation="0;12.7;0">
+                    <Mesh path="Content\Models\Trees\TallConifer\Conifer04_Tall.DAE.mesh" submesh="3"/>
+                    <Mesh path="Content\Models\Trees\TallConifer\Conifer04_Tall.DAE.mesh" submesh="4"/>
+                    <Mesh path="Content\Models\Trees\TallConifer\Conifer04_Tall.DAE.mesh" submesh="5"/>
+                </Frame>
+            </Visuals>
+        </Entity>
+        <Entity name="White birch" category="Placeholders/Trees" guid="{6FB819EB-4081-4143-8864-D8F6DAFF68F3}">
+            <Visuals>
+                <MaterialRef id="1" guid="{04EE838D-1F2C-4B41-957B-2E8597E54E01}"/>
+                <MaterialRef id="2" guid="{8198A5F3-2ECE-496E-BCC5-7650C3A4CF08}"/>
+                <Frame name="default" rotation="90;0;0" scale="0.4;0.4;0.4" translation="0;7.45;0">
+                    <Mesh path="Content\Models\Trees\WhiteBirch\WhiteBirch01.DAE.mesh" submesh="0"/>
+                    <Mesh path="Content\Models\Trees\WhiteBirch\WhiteBirch01.DAE.mesh" submesh="1"/>
+                </Frame>
+            </Visuals>
+        </Entity>
+        <Entity name="Old wagon" category="Placeholders/Props" guid="{E7414C11-EC83-483F-82FD-AC72F5D9F321}">
+            <Visuals>
+                <MaterialRef id="0" guid="{D218189B-9F9E-4EAA-995F-A483C47F5251}"/>
+                <MaterialRef id="1" guid="{6B53F703-94CD-4033-9DBC-4A113DD85B3D}"/>
+                <MaterialRef id="2" guid="{01C30CAC-147D-4F9F-864E-1A9884D70EB0}"/>
+                <MaterialRef id="3" guid="{14E7EDE7-70BB-42EC-83C8-DA3280C6FDE6}"/>
+                <Frame name="default" rotation="90;0;0" translation="0;0.855;0">
+                    <Mesh path="Content\Models\Props\OldWagon\OldWagon.DAE.mesh" submesh="0"/>
+                    <Mesh path="Content\Models\Props\OldWagon\OldWagon.DAE.mesh" submesh="1"/>
+                    <Mesh path="Content\Models\Props\OldWagon\OldWagon.DAE.mesh" submesh="2"/>
+                    <Mesh path="Content\Models\Props\OldWagon\OldWagon.DAE.mesh" submesh="3"/>
+                    <Mesh path="Content\Models\Props\OldWagon\OldWagon.DAE.mesh" submesh="4"/>
+                </Frame>
+            </Visuals>
+        </Entity>
+        <Entity name="Wire fence 1" category="Placeholders/Fences" guid="{C3C9361D-8073-40D3-9572-37DAADFF19C5}">
+            <Visuals>
+                <MaterialRef id="0" guid="{F74DCF43-058C-4F35-ACCF-FD50D804A7FD}"/>
+                <MaterialRef id="2" guid="{409DA7C0-A77D-4156-9AA1-2CF79381D516}"/>
+                <Frame name="default" rotation="90;0;0" scale="0.1;0.1;0.1">
+                    <Mesh path="Content\Models\Fences\Wire\FenceSeg_01.DAE.mesh" submesh="0"/>
+                    <Mesh path="Content\Models\Fences\Wire\FenceSeg_01.DAE.mesh" submesh="1"/>
+                </Frame>
+            </Visuals>
+        </Entity>
+        <Entity name="Wire fence 2" category="Placeholders/Fences" guid="{E1577933-12D3-4135-AE2C-F54EB6722B16}">
+            <Visuals>
+                <MaterialRef id="0" guid="{F74DCF43-058C-4F35-ACCF-FD50D804A7FD}"/>
+                <MaterialRef id="2" guid="{409DA7C0-A77D-4156-9AA1-2CF79381D516}"/>
+                <Frame name="default" rotation="90;0;0" scale="0.1;0.1;0.1">
+                    <Mesh path="Content\Models\Fences\Wire\FenceSeg_02.DAE.mesh" submesh="0"/>
+                    <Mesh path="Content\Models\Fences\Wire\FenceSeg_02.DAE.mesh" submesh="1"/>
+                </Frame>
+            </Visuals>
+        </Entity>
+        <Entity name="Dock" category="Placeholders/Harbour" guid="{A7DBDD78-11E0-47E3-B681-45B85DC49E12}">
+            <Visuals>
+                <MaterialRef id="0" guid="{5A943098-0193-4C52-8806-AB1013BA29F6}"/>
+                <Frame name="default" rotation="90;0;0" scale="0.2;0.2;0.2">
+                    <Mesh path="Content\Models\Harbour\Dock1\Dock_01.DAE.mesh" submesh="0"/>
+                </Frame>
+            </Visuals>
+        </Entity>
+        <Entity name="Warf stand" category="Placeholders/Harbour" guid="{2A50467C-1907-4FFF-ABCB-CC0CE5F52AE1}">
+            <Visuals>
+                <MaterialRef id="0" guid="{0258E2CD-5DD7-471D-9372-5B05267CCD19}"/>
+                <MaterialRef id="1" guid="{827E76BF-EA60-47A5-9C68-224399B7FEB1}"/>
+                <MaterialRef id="2" guid="{92B7EAB6-9110-45EF-9656-9372E18DA054}"/>
+                <Frame name="default" rotation="0;0;0" scale="0.4;0.4;0.4">
+                    <Mesh path="Content\Models\Harbour\WarfStand\WarfStand_01.DAE.mesh" submesh="0"/>
+                    <Mesh path="Content\Models\Harbour\WarfStand\WarfStand_01.DAE.mesh" submesh="1"/>
+                    <Mesh path="Content\Models\Harbour\WarfStand\WarfStand_01.DAE.mesh" submesh="2"/>
+                    <Mesh path="Content\Models\Harbour\WarfStand\WarfStand_01.DAE.mesh" submesh="3"/>
+                </Frame>
+            </Visuals>
+        </Entity>
+        <Entity name="Warf" category="Placeholders/Harbour" guid="{46DB2CD1-C15C-4453-95C1-57D1792CF1D4}">
+            <Visuals>
+                <MaterialRef id="0" guid="{9C2CF1D9-B46E-43FF-8F7D-AFA94A643B8A}"/>
+                <MaterialRef id="1" guid="{E399E19F-1AB9-42AE-918B-2F15DD991945}"/>
+                <MaterialRef id="2" guid="{0258E2CD-5DD7-471D-9372-5B05267CCD19}"/>
+                <Frame name="default" rotation="0;0;0" scale="0.4;0.4;0.4">
+                    <Mesh path="Content\Models\Harbour\Warf\Warf_01.DAE.mesh" submesh="0"/>
+                    <Mesh path="Content\Models\Harbour\Warf\Warf_01.DAE.mesh" submesh="1"/>
+                    <Mesh path="Content\Models\Harbour\Warf\Warf_01.DAE.mesh" submesh="2"/>
+                </Frame>
+            </Visuals>
+        </Entity>
+        <Entity name="Industrial shack" category="Placeholders/Harbour" guid="{68D85DB9-2C39-4392-91B8-9D2DC06A4885}">
+            <Visuals>
+                <MaterialRef id="0" guid="{C6D66CAF-753C-43CB-96BD-A2954510EF5E}"/>
+                <MaterialRef id="1" guid="{91ACB1E9-C541-4151-8A13-73900D7ED96D}"/>
+                <MaterialRef id="2" guid="{1344A498-6315-4065-B1AD-5BB2A12100A1}"/>
+                <MaterialRef id="3" guid="{827E76BF-EA60-47A5-9C68-224399B7FEB1}"/>
+                <MaterialRef id="4" guid="{0258E2CD-5DD7-471D-9372-5B05267CCD19}"/>
+                <MaterialRef id="5" guid="{9C2CF1D9-B46E-43FF-8F7D-AFA94A643B8A}"/>
+                <MaterialRef id="6" guid="{312BCDAD-307C-4077-A488-35507058353E}"/>
+                <MaterialRef id="7" guid="{E399E19F-1AB9-42AE-918B-2F15DD991945}"/>
+                <Frame name="default" rotation="0;0;0" scale="0.4;0.4;0.4">
+                    <Mesh path="Content\Models\Harbour\IndustrialShack\IndstrialShack_01.DAE.mesh" submesh="0"/>
+                    <Mesh path="Content\Models\Harbour\IndustrialShack\IndstrialShack_01.DAE.mesh" submesh="1"/>
+                    <Mesh path="Content\Models\Harbour\IndustrialShack\IndstrialShack_01.DAE.mesh" submesh="2"/>
+                    <Mesh path="Content\Models\Harbour\IndustrialShack\IndstrialShack_01.DAE.mesh" submesh="3"/>
+                    <Mesh path="Content\Models\Harbour\IndustrialShack\IndstrialShack_01.DAE.mesh" submesh="4"/>
+                    <Mesh path="Content\Models\Harbour\IndustrialShack\IndstrialShack_01.DAE.mesh" submesh="5"/>
+                    <Mesh path="Content\Models\Harbour\IndustrialShack\IndstrialShack_01.DAE.mesh" submesh="6"/>
+                    <Mesh path="Content\Models\Harbour\IndustrialShack\IndstrialShack_01.DAE.mesh" submesh="7"/>
+                </Frame>
+            </Visuals>
+        </Entity>
+        <Entity name="Wall lamp" category="Placeholders/Props" guid="{DEC7BC98-D9CC-4C0F-B0AF-A9107E04F16C}">
+            <Visuals>
+                <MaterialRef id="0" guid="{5C4BF8A9-30CB-47E3-A55A-05A857241EB3}"/>
+                <Frame name="default" rotation="0;0;0" scale="0.4;0.4;0.4">
+                    <Mesh path="Content\Models\Props\WallLamp01\Lamp.obj.mesh" submesh="0"/>
+                </Frame>
+            </Visuals>
+        </Entity>
+        <Entity name="Dummy" category="Characters" guid="{871063FA-B5CA-43F6-833D-6D4CBAE2BAEE}">
+            <Visuals>
+                <AnimationSet guid="{596F6298-61FC-4850-91DB-1DDA720E06E7}"/>
+                <MaterialRef id="0" guid="{D8F8AE27-A3A4-4D36-AF12-939B2B803D85}"/>
+                <Frame name="default" rotation="0;0;0" scale="0.1;0.1;0.1">
+                    <Mesh path="Content\Characters\Dummy\test_directX.X.skin" submesh="0"/>
+                </Frame>
+            </Visuals>
+        </Entity>
+    </Entities>
+</UWPSandboxGame>

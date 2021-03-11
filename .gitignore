@@ -1,0 +1,8 @@
+/.vs
+/RTGame/x64
+/x64
+/RTGame/RTGame.vcxproj.user
+/RTGame/Content/Shaders/*.cso
+/ModelConverter/x64
+/DearImGui/x64
+/RTGame/Content/Shaders/*.pdb

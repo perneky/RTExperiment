@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<UWPSandboxGame>
+    <SkyMaterials>
+        <Material basePath="Content\Textures\Sky" name="Cloudy 2" guid="{790BEF83-F220-4AED-BACA-F4CCAE8F4A8A}">
+            <ColorChannel path="Cloudy1.dds"/>
+            <NormalChannel path="Cloudy1_irradiance.dds"/>
+        </Material>
+        <Material basePath="Content\Textures\Sky" name="Cloudy 2" guid="{D9C836BE-41D4-4D19-A78E-AB0CDEA2B199}">
+            <ColorChannel path="Cloudy2.dds"/>
+            <NormalChannel path="Cloudy2_irradiance.dds"/>
+        </Material>
+    </SkyMaterials>
+    <Skies>
+        <Sky name="Cloudy 1" guid="{ED542769-36A3-4AC8-ADE5-8E08E2F1EB32}" ambient="0.7;0.7;0.7" lightColor="1;1;1" lightDirection="-0.3;-1;-0.5" lightIntensity="3" material="{790BEF83-F220-4AED-BACA-F4CCAE8F4A8A}"/>
+        <Sky name="Cloudy 2" guid="{1DB00489-398B-4EC6-9947-60CEF24B2FBB}" ambient="0.7;0.7;0.7" lightColor="2;2;2.5" lightDirection="0.03;-1;-0.5" lightIntensity="3" material="{D9C836BE-41D4-4D19-A78E-AB0CDEA2B199}"/>
+    </Skies>
+</UWPSandboxGame>

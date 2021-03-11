@@ -1,0 +1,1650 @@
+<?xml version="1.0" encoding="utf-8"?>
+<UWPSandboxGame>
+  <Animations>
+    <AnimationSet name="Mercs" guid="{715A6EC8-5F34-4E8C-AE85-BD906E43BA75}" path="Content\Characters\Mercs\marine_DirecX.X.mesh.anim">
+      <Animation name="Idle_01" group="Anim-1" start="10" end="210"/>
+      <Animation name="Idle_02" group="Anim-1" start="215" end="315"/>
+      <Animation name="Idle_03" group="Anim-1" start="320" end="520"/>
+      <Animation name="Idle_04" group="Anim-1" start="525" end="775"/>
+      <Animation name="Idle_05" group="Anim-1" start="780" end="960"/>
+      <Animation name="Idle_06" group="Anim-1" start="965" end="1035"/>
+      <Animation name="squat_idle_01" group="Anim-1" start="1040" end="1110"/>
+      <Animation name="squat_idle_02" group="Anim-1" start="1115" end="1195"/>
+      <Animation name="squat_walk_01" group="Anim-1" start="1200" end="1260"/>
+      <Animation name="squat_walk_02" group="Anim-1" start="1265" end="1325"/>
+      <Animation name="squat_fw_right" group="Anim-1" start="1330" end="1390"/>
+      <Animation name="squat_righ" group="Anim-1" start="1395" end="1455"/>
+      <Animation name="squat_bc_right" group="Anim-1" start="1460" end="1520"/>
+      <Animation name="squat_back" group="Anim-1" start="1525" end="1585"/>
+      <Animation name="squat_bc_left" group="Anim-1" start="1590" end="1650"/>
+      <Animation name="squat_left" group="Anim-1" start="1657" end="1717"/>
+      <Animation name="squat_fw_left" group="Anim-1" start="1720" end="1780"/>
+      <Animation name="squat_walk_shoot" group="Anim-1" start="1785" end="1845"/>
+      <Animation name="crouch_idle" group="Anim-1" start="1850" end="1950"/>
+      <Animation name="crouch_walk_01" group="Anim-1" start="1955" end="2005"/>
+      <Animation name="crouch_walk_02" group="Anim-1" start="2010" end="2060"/>
+      <Animation name="crouch_fw_right" group="Anim-1" start="2065" end="2115"/>
+      <Animation name="crouch_righ" group="Anim-1" start="2120" end="2170"/>
+      <Animation name="crouch_bc_right" group="Anim-1" start="2175" end="2225"/>
+      <Animation name="crouch_back" group="Anim-1" start="2230" end="2280"/>
+      <Animation name="crouch_bc_left" group="Anim-1" start="2285" end="2335"/>
+      <Animation name="crouch_left" group="Anim-1" start="2340" end="2390"/>
+      <Animation name="crouch_fw_left" group="Anim-1" start="2395" end="2445"/>
+      <Animation name="crouch_shooting" group="Anim-1" start="2450" end="2500"/>
+      <Animation name="walk_01" group="Anim-1" start="2505" end="2535"/>
+      <Animation name="walk_shooting" group="Anim-1" start="2535" end="2565"/>
+      <Animation name="walk_fw_right" group="Anim-1" start="2570" end="2600"/>
+      <Animation name="walk_righ" group="Anim-1" start="2605" end="2635"/>
+      <Animation name="walk_bc_right" group="Anim-1" start="2640" end="2670"/>
+      <Animation name="walk_back" group="Anim-1" start="2675" end="2705"/>
+      <Animation name="walk_bc_left" group="Anim-1" start="2710" end="2740"/>
+      <Animation name="walk_left" group="Anim-1" start="2745" end="2775"/>
+      <Animation name="walk_fw_left" group="Anim-1" start="2780" end="2810"/>
+      <Animation name="walk_02" group="Anim-1" start="2815" end="2845"/>
+      <Animation name="walk_03" group="Anim-1" start="2847" end="2877"/>
+      <Animation name="run_01" group="Anim-1" start="2880" end="2895"/>
+      <Animation name="run_02" group="Anim-1" start="2900" end="2920"/>
+      <Animation name="run_fw_right" group="Anim-1" start="2925" end="2945"/>
+      <Animation name="run_righ" group="Anim-1" start="2950" end="2970"/>
+      <Animation name="run_bc_right" group="Anim-1" start="2975" end="2995"/>
+      <Animation name="run_back" group="Anim-1" start="3000" end="3020"/>
+      <Animation name="run_bc_left" group="Anim-1" start="3025" end="3045"/>
+      <Animation name="run_left" group="Anim-1" start="3050" end="3070"/>
+      <Animation name="run_fw_left" group="Anim-1" start="3075" end="3095"/>
+      <Animation name="run_shooting" group="Anim-1" start="3100" end="3120"/>
+      <Animation name="run_jump" group="Anim-1" start="3120" end="3180"/>
+      <Animation name="run_jump_loop" group="Anim-1" start="3130" end="3160"/>
+      <Animation name="run_03" group="Anim-1" start="3215" end="3235"/>
+      <Animation name="run_stop" group="Anim-1" start="3235" end="3260"/>
+      <Animation name="jump_start" group="Anim-1" start="3260" end="3270"/>
+      <Animation name="jump_loop" group="Anim-1" start="3270" end="3300"/>
+      <Animation name="jump_end" group="Anim-1" start="3300" end="3315"/>
+      <Animation name="turn_right" group="Anim-1" start="3320" end="3350"/>
+      <Animation name="turn_left" group="Anim-1" start="3355" end="3385"/>
+      <Animation name="hit_01" group="Anim-1" start="3390" end="3410"/>
+      <Animation name="hit_02" group="Anim-1" start="3410" end="3430"/>
+      <Animation name="hit_03" group="Anim-1" start="3430" end="3450"/>
+      <Animation name="melee_01" group="Anim-1" start="3455" end="3480"/>
+      <Animation name="melee_02" group="Anim-1" start="3480" end="3505"/>
+      <Animation name="firing_01_standing" group="Anim-1" start="3505" end="3525"/>
+      <Animation name="firing_02_standing" group="Anim-1" start="3525" end="3535"/>
+      <Animation name="firing_03_standing" group="Anim-1" start="3535" end="3545"/>
+      <Animation name="firing_01_squat" group="Anim-1" start="3550" end="3570"/>
+      <Animation name="firing_02_squat" group="Anim-1" start="3570" end="3580"/>
+      <Animation name="firing_03_squat" group="Anim-1" start="3580" end="3590"/>
+      <Animation name="reload_rifle" group="Anim-1" start="3655" end="3720"/>
+      <Animation name="un-jam" group="Anim-1" start="3720" end="3825"/>
+      <Animation name="throw_grenade_01" group="Anim-1" start="3835" end="3905"/>
+      <Animation name="throw_grenade_02" group="Anim-1" start="3905" end="3945"/>
+      <Animation name="death_01" group="Anim-1" start="3945" end="3990"/>
+      <Animation name="death_02" group="Anim-1" start="3995" end="4040"/>
+      <Animation name="death_03" group="Anim-1" start="4045" end="4095"/>
+      <Animation name="working_01" group="Anim-1" start="4100" end="4180"/>
+      <Animation name="working_02" group="Anim-1" start="4180" end="4260"/>
+      <Animation name="sit_down" group="Anim-1" start="4265" end="4275"/>
+      <Animation name="sit_idle" group="Anim-1" start="4275" end="4375"/>
+      <Animation name="sit_down" group="Anim-1" start="4375" end="4385"/>
+      <Animation name="change_weapon" group="Anim-1" start="4385" end="4410"/>
+      <Animation name="lie_down" group="Anim-1" start="4410" end="4450"/>
+      <Animation name="down_idle" group="Anim-1" start="3600" end="3630"/>
+      <Animation name="down_firing_01" group="Anim-1" start="4450" end="4470"/>
+      <Animation name="down_firing_02" group="Anim-1" start="3630" end="3640"/>
+      <Animation name="down_firing_03" group="Anim-1" start="3640" end="3650"/>
+      <Animation name="down_move" group="Anim-1" start="4470" end="4520"/>
+      <Animation name="down_roll_right" group="Anim-1" start="4520" end="4570"/>
+      <Animation name="down_roll_left" group="Anim-1" start="4570" end="5620"/>
+      <Animation name="down_move_back" group="Anim-1" start="4620" end="4670"/>
+      <Animation name="stand_up" group="Anim-1" start="4670" end="4705"/>
+      <Animation name="swim" group="Anim-1" start="4715" end="4755"/>
+      <Animation name="climb_up" group="Anim-1" start="4760" end="4800"/>
+      <Animation name="climb_down" group="Anim-1" start="4800" end="4840"/>
+      <Animation name="firing_pistol_idle" group="Anim-1" start="4850" end="4950"/>
+      <Animation name="firing_pistol_01" group="Anim-1" start="4950" end="4970"/>
+      <Animation name="firing_pistol_02" group="Anim-1" start="4970" end="4985"/>
+      <Animation name="knife_attack_idle" group="Anim-1" start="4990" end="5030"/>
+      <Animation name="knife_attack_01" group="Anim-1" start="5030" end="5050"/>
+      <Animation name="knife_attack_02" group="Anim-1" start="5050" end="5110"/>
+    </AnimationSet>
+  </Animations>
+  <EntityMaterials group="Head">
+    <Material name="MercHead1_1" basePath="Content\Characters\Mercs" guid="{A9D7A879-5194-45A2-B84E-7C64AAE07975}">
+      <ColorChannel path="head1_1.dds"/>
+      <NormalChannel path="head1_norm.dds"/>
+      <SpecularChannel path="head1_spec.dds"/>
+    </Material>
+    <Material name="MercHead1_2" basePath="Content\Characters\Mercs" guid="{5CA76D24-5286-4ECF-A494-8CF21B4AECBF}">
+      <ColorChannel path="head1_2.dds"/>
+      <NormalChannel path="head1_norm.dds"/>
+      <SpecularChannel path="head1_spec.dds"/>
+    </Material>
+    <Material name="MercHead1_3" basePath="Content\Characters\Mercs" guid="{EDEACC12-4FC6-4ED1-8B39-F6EC147C32A7}">
+      <ColorChannel path="head1_3.dds"/>
+      <NormalChannel path="head1_norm.dds"/>
+      <SpecularChannel path="head1_spec.dds"/>
+    </Material>
+    <Material name="MercHead1_4" basePath="Content\Characters\Mercs" guid="{70A44F9A-C444-4C95-AB81-41EF1728C7A9}">
+      <ColorChannel path="head1_4.dds"/>
+      <NormalChannel path="head1_norm.dds"/>
+      <SpecularChannel path="head1_spec.dds"/>
+    </Material>
+    <Material name="MercHead1_5" basePath="Content\Characters\Mercs" guid="{C475208F-4415-4CCE-A082-9A81ECF8F903}">
+      <ColorChannel path="head1_5.dds"/>
+      <NormalChannel path="head1_norm.dds"/>
+      <SpecularChannel path="head1_spec.dds"/>
+    </Material>
+    <Material name="MercHead1_6" basePath="Content\Characters\Mercs" guid="{D5A234F7-BAAD-4690-BD55-4BADECA87853}">
+      <ColorChannel path="head1_6.dds"/>
+      <NormalChannel path="head1_norm.dds"/>
+      <SpecularChannel path="head1_spec.dds"/>
+    </Material>
+    <Material name="MercHead1_7" basePath="Content\Characters\Mercs" guid="{B92EAAD0-0310-41C5-9D91-797EAAF5D5A1}">
+      <ColorChannel path="head1_7.dds"/>
+      <NormalChannel path="head1_norm.dds"/>
+      <SpecularChannel path="head1_spec.dds"/>
+    </Material>
+    <Material name="MercHead1_8" basePath="Content\Characters\Mercs" guid="{0272A5E1-A629-480B-BC34-F4FABE150526}">
+      <ColorChannel path="head1_8.dds"/>
+      <NormalChannel path="head1_norm.dds"/>
+      <SpecularChannel path="head1_spec.dds"/>
+    </Material>
+    <Material name="MercHead1_9" basePath="Content\Characters\Mercs" guid="{588C8D6D-864A-418B-B44C-9C43C7C48244}">
+      <ColorChannel path="head1_9.dds"/>
+      <NormalChannel path="head1_norm.dds"/>
+      <SpecularChannel path="head1_spec.dds"/>
+    </Material>
+    <Material name="MercHead1_10" basePath="Content\Characters\Mercs" guid="{C0C80054-00D4-45C2-B75C-D9EC697F2C2C}">
+      <ColorChannel path="head1_10.dds"/>
+      <NormalChannel path="head1_norm.dds"/>
+      <SpecularChannel path="head1_spec.dds"/>
+    </Material>
+
+    <Material name="MercHead2_1" basePath="Content\Characters\Mercs" guid="{E81386A2-1BA5-4E65-84F1-23F896246DD8}">
+      <ColorChannel path="head2_1.dds"/>
+      <NormalChannel path="head2_norm.dds"/>
+      <SpecularChannel path="head2_spec.dds"/>
+    </Material>
+    <Material name="MercHead2_2" basePath="Content\Characters\Mercs" guid="{1A421E88-6F34-4939-9E63-10B68E5A9DEF}">
+      <ColorChannel path="head2_2.dds"/>
+      <NormalChannel path="head2_norm.dds"/>
+      <SpecularChannel path="head2_spec.dds"/>
+    </Material>
+    <Material name="MercHead2_3" basePath="Content\Characters\Mercs" guid="{137342D4-25E0-4341-8CFA-E74AC3BE66DE}">
+      <ColorChannel path="head2_3.dds"/>
+      <NormalChannel path="head2_norm.dds"/>
+      <SpecularChannel path="head2_spec.dds"/>
+    </Material>
+    <Material name="MercHead2_4" basePath="Content\Characters\Mercs" guid="{995BCCFD-B53C-451E-B0E8-DEC8AA9A77B8}">
+      <ColorChannel path="head2_4.dds"/>
+      <NormalChannel path="head2_norm.dds"/>
+      <SpecularChannel path="head2_spec.dds"/>
+    </Material>
+    <Material name="MercHead2_5" basePath="Content\Characters\Mercs" guid="{8C7417F4-01D6-4212-9725-8F9F37A41CEB}">
+      <ColorChannel path="head2_5.dds"/>
+      <NormalChannel path="head2_norm.dds"/>
+      <SpecularChannel path="head2_spec.dds"/>
+    </Material>
+    <Material name="MercHead2_6" basePath="Content\Characters\Mercs" guid="{0A5BE37A-1F9E-4A34-9898-D7A310DDD827}">
+      <ColorChannel path="head2_6.dds"/>
+      <NormalChannel path="head2_norm.dds"/>
+      <SpecularChannel path="head2_spec.dds"/>
+    </Material>
+    <Material name="MercHead2_7" basePath="Content\Characters\Mercs" guid="{B3456283-E464-4EB5-A652-5CA29A3BB8E1}">
+      <ColorChannel path="head2_7.dds"/>
+      <NormalChannel path="head2_norm.dds"/>
+      <SpecularChannel path="head2_spec.dds"/>
+    </Material>
+    <Material name="MercHead2_8" basePath="Content\Characters\Mercs" guid="{62AB08C0-8128-42AF-950A-A7466D03CCC9}">
+      <ColorChannel path="head2_8.dds"/>
+      <NormalChannel path="head2_norm.dds"/>
+      <SpecularChannel path="head2_spec.dds"/>
+    </Material>
+    <Material name="MercHead2_9" basePath="Content\Characters\Mercs" guid="{4F5963FF-8583-4E7E-A70D-BC73B75444BC}">
+      <ColorChannel path="head2_9.dds"/>
+      <NormalChannel path="head2_norm.dds"/>
+      <SpecularChannel path="head2_spec.dds"/>
+    </Material>
+    <Material name="MercHead2_10" basePath="Content\Characters\Mercs" guid="{F721F641-E3C2-4492-82A6-53A57DE32910}">
+      <ColorChannel path="head2_10.dds"/>
+      <NormalChannel path="head2_norm.dds"/>
+      <SpecularChannel path="head2_spec.dds"/>
+    </Material>
+
+    <Material name="MercHead3_1" basePath="Content\Characters\Mercs" guid="{EAAF08E4-52FA-4ED9-9990-05403704A050}">
+      <ColorChannel path="head3_1.dds"/>
+      <NormalChannel path="head3_norm.dds"/>
+      <SpecularChannel path="head3_spec.dds"/>
+    </Material>
+    <Material name="MercHead3_2" basePath="Content\Characters\Mercs" guid="{49034A72-1F29-4251-8857-CA4339695798}">
+      <ColorChannel path="head3_2.dds"/>
+      <NormalChannel path="head3_norm.dds"/>
+      <SpecularChannel path="head3_spec.dds"/>
+    </Material>
+    <Material name="MercHead3_3" basePath="Content\Characters\Mercs" guid="{7A39CE52-9943-4176-B9C5-26283214FCE1}">
+      <ColorChannel path="head3_3.dds"/>
+      <NormalChannel path="head3_norm.dds"/>
+      <SpecularChannel path="head3_spec.dds"/>
+    </Material>
+    <Material name="MercHead3_4" basePath="Content\Characters\Mercs" guid="{A189FE4D-ED23-40C1-8D58-384AED1AEEC5}">
+      <ColorChannel path="head3_4.dds"/>
+      <NormalChannel path="head3_norm.dds"/>
+      <SpecularChannel path="head3_spec.dds"/>
+    </Material>
+    <Material name="MercHead3_5" basePath="Content\Characters\Mercs" guid="{F0ACAFC0-C24A-4001-A377-C079FA200766}">
+      <ColorChannel path="head3_5.dds"/>
+      <NormalChannel path="head3_norm.dds"/>
+      <SpecularChannel path="head3_spec.dds"/>
+    </Material>
+    <Material name="MercHead3_6" basePath="Content\Characters\Mercs" guid="{A2371A4C-8708-4E96-9106-BC79442D2BC5}">
+      <ColorChannel path="head3_6.dds"/>
+      <NormalChannel path="head3_norm.dds"/>
+      <SpecularChannel path="head3_spec.dds"/>
+    </Material>
+    <Material name="MercHead3_7" basePath="Content\Characters\Mercs" guid="{77D05A57-C1C4-460D-A0A9-0B341536F760}">
+      <ColorChannel path="head3_7.dds"/>
+      <NormalChannel path="head3_norm.dds"/>
+      <SpecularChannel path="head3_spec.dds"/>
+    </Material>
+    <Material name="MercHead3_8" basePath="Content\Characters\Mercs" guid="{8D28ABD1-2124-4D04-978E-8F0F0C77C558}">
+      <ColorChannel path="head3_8.dds"/>
+      <NormalChannel path="head3_norm.dds"/>
+      <SpecularChannel path="head3_spec.dds"/>
+    </Material>
+    <Material name="MercHead3_9" basePath="Content\Characters\Mercs" guid="{B2F42A89-5CFB-4ADB-B276-598777E49715}">
+      <ColorChannel path="head3_9.dds"/>
+      <NormalChannel path="head3_norm.dds"/>
+      <SpecularChannel path="head3_spec.dds"/>
+    </Material>
+    <Material name="MercHead3_10" basePath="Content\Characters\Mercs" guid="{B2201117-4394-4721-B15C-669912EA06D5}">
+      <ColorChannel path="head3_10.dds"/>
+      <NormalChannel path="head3_norm.dds"/>
+      <SpecularChannel path="head3_spec.dds"/>
+    </Material>
+
+    <Material name="MercHead4_1" basePath="Content\Characters\Mercs" guid="{306C2D65-822D-401D-A503-947B1529F1D0}">
+      <ColorChannel path="head4_1.dds"/>
+      <NormalChannel path="head4_norm.dds"/>
+      <SpecularChannel path="head4_spec.dds"/>
+    </Material>
+    <Material name="MercHead4_2" basePath="Content\Characters\Mercs" guid="{9E688280-3E50-4F37-9258-74E75F6CA363}">
+      <ColorChannel path="head4_2.dds"/>
+      <NormalChannel path="head4_norm.dds"/>
+      <SpecularChannel path="head4_spec.dds"/>
+    </Material>
+    <Material name="MercHead4_3" basePath="Content\Characters\Mercs" guid="{98FD0CF0-A371-48E6-9821-71562655DC60}">
+      <ColorChannel path="head4_3.dds"/>
+      <NormalChannel path="head4_norm.dds"/>
+      <SpecularChannel path="head4_spec.dds"/>
+    </Material>
+    <Material name="MercHead4_4" basePath="Content\Characters\Mercs" guid="{B6855A2D-C486-4D75-B88C-21AFD4EA97C1}">
+      <ColorChannel path="head4_4.dds"/>
+      <NormalChannel path="head4_norm.dds"/>
+      <SpecularChannel path="head4_spec.dds"/>
+    </Material>
+    <Material name="MercHead4_5" basePath="Content\Characters\Mercs" guid="{4B682999-8230-4D75-BA3F-EB6C1323FD1E}">
+      <ColorChannel path="head4_5.dds"/>
+      <NormalChannel path="head4_norm.dds"/>
+      <SpecularChannel path="head4_spec.dds"/>
+    </Material>
+    <Material name="MercHead4_6" basePath="Content\Characters\Mercs" guid="{957D004A-25AB-46A1-9F49-398470216A53}">
+      <ColorChannel path="head4_6.dds"/>
+      <NormalChannel path="head4_norm.dds"/>
+      <SpecularChannel path="head4_spec.dds"/>
+    </Material>
+    <Material name="MercHead4_7" basePath="Content\Characters\Mercs" guid="{000E2EC0-BD51-4067-BB79-0BE54C3FEF2F}">
+      <ColorChannel path="head4_7.dds"/>
+      <NormalChannel path="head4_norm.dds"/>
+      <SpecularChannel path="head4_spec.dds"/>
+    </Material>
+    <Material name="MercHead4_8" basePath="Content\Characters\Mercs" guid="{FDA8EC13-C9FC-4BBB-8254-6ACE1318DB07}">
+      <ColorChannel path="head4_8.dds"/>
+      <NormalChannel path="head4_norm.dds"/>
+      <SpecularChannel path="head4_spec.dds"/>
+    </Material>
+    <Material name="MercHead4_9" basePath="Content\Characters\Mercs" guid="{D645F515-9FE3-4A93-A752-EDD63DBFFF53}">
+      <ColorChannel path="head4_9.dds"/>
+      <NormalChannel path="head4_norm.dds"/>
+      <SpecularChannel path="head4_spec.dds"/>
+    </Material>
+    <Material name="MercHead4_10" basePath="Content\Characters\Mercs" guid="{C8120185-1757-4B2A-9A80-F37767EAF601}">
+      <ColorChannel path="head4_10.dds"/>
+      <NormalChannel path="head4_norm.dds"/>
+      <SpecularChannel path="head4_spec.dds"/>
+    </Material>
+
+    <Material name="MercHead5_1" basePath="Content\Characters\Mercs" guid="{896073F1-BF88-4FEE-A4C5-25DB2DBBEC02}">
+      <ColorChannel path="head5_1.dds"/>
+      <NormalChannel path="head5_norm.dds"/>
+      <SpecularChannel path="head5_spec.dds"/>
+    </Material>
+    <Material name="MercHead5_2" basePath="Content\Characters\Mercs" guid="{60F4EAAA-F32F-4660-A4F0-552576550A8B}">
+      <ColorChannel path="head5_2.dds"/>
+      <NormalChannel path="head5_norm.dds"/>
+      <SpecularChannel path="head5_spec.dds"/>
+    </Material>
+    <Material name="MercHead5_3" basePath="Content\Characters\Mercs" guid="{710F3718-54BB-4983-8D65-BEC8B357DB25}">
+      <ColorChannel path="head5_3.dds"/>
+      <NormalChannel path="head5_norm.dds"/>
+      <SpecularChannel path="head5_spec.dds"/>
+    </Material>
+    <Material name="MercHead5_4" basePath="Content\Characters\Mercs" guid="{38FEC787-5BE2-4D9B-841E-CE66C175C359}">
+      <ColorChannel path="head5_4.dds"/>
+      <NormalChannel path="head5_norm.dds"/>
+      <SpecularChannel path="head5_spec.dds"/>
+    </Material>
+    <Material name="MercHead5_5" basePath="Content\Characters\Mercs" guid="{3C4F103C-E60D-4A9C-B801-B601F8050731}">
+      <ColorChannel path="head5_5.dds"/>
+      <NormalChannel path="head5_norm.dds"/>
+      <SpecularChannel path="head5_spec.dds"/>
+    </Material>
+    <Material name="MercHead5_6" basePath="Content\Characters\Mercs" guid="{D061CBAD-6EB7-49BE-A98A-5822B964B94B}">
+      <ColorChannel path="head5_6.dds"/>
+      <NormalChannel path="head5_norm.dds"/>
+      <SpecularChannel path="head5_spec.dds"/>
+    </Material>
+    <Material name="MercHead5_7" basePath="Content\Characters\Mercs" guid="{79B1A659-4D75-4E1F-86F9-3289E4FB220C}">
+      <ColorChannel path="head5_7.dds"/>
+      <NormalChannel path="head5_norm.dds"/>
+      <SpecularChannel path="head5_spec.dds"/>
+    </Material>
+    <Material name="MercHead5_8" basePath="Content\Characters\Mercs" guid="{195E9EBC-87A0-4277-A42F-9F5E66286A4A}">
+      <ColorChannel path="head5_8.dds"/>
+      <NormalChannel path="head5_norm.dds"/>
+      <SpecularChannel path="head5_spec.dds"/>
+    </Material>
+    <Material name="MercHead5_9" basePath="Content\Characters\Mercs" guid="{FA3520A0-C456-4C73-90A9-9D49DB21746B}">
+      <ColorChannel path="head5_9.dds"/>
+      <NormalChannel path="head5_norm.dds"/>
+      <SpecularChannel path="head5_spec.dds"/>
+    </Material>
+    <Material name="MercHead5_10" basePath="Content\Characters\Mercs" guid="{2E83D98A-A4AC-4F6B-8084-9558C221D95B}">
+      <ColorChannel path="head5_10.dds"/>
+      <NormalChannel path="head5_norm.dds"/>
+      <SpecularChannel path="head5_spec.dds"/>
+    </Material>
+
+    <Material name="MercHead6_1" basePath="Content\Characters\Mercs" guid="{F7B928E0-E86E-4499-8C0C-D0778C18A319}">
+      <ColorChannel path="head6_1.dds"/>
+      <NormalChannel path="head6_norm.dds"/>
+      <SpecularChannel path="head6_spec.dds"/>
+    </Material>
+    <Material name="MercHead6_2" basePath="Content\Characters\Mercs" guid="{7E43C306-5380-4CF5-BF95-5D7190B917B6}">
+      <ColorChannel path="head6_2.dds"/>
+      <NormalChannel path="head6_norm.dds"/>
+      <SpecularChannel path="head6_spec.dds"/>
+    </Material>
+    <Material name="MercHead6_3" basePath="Content\Characters\Mercs" guid="{34C08769-877E-402A-9934-C2841E1CC634}">
+      <ColorChannel path="head6_3.dds"/>
+      <NormalChannel path="head6_norm.dds"/>
+      <SpecularChannel path="head6_spec.dds"/>
+    </Material>
+    <Material name="MercHead6_4" basePath="Content\Characters\Mercs" guid="{D83F7DBB-44A0-474E-A65E-303377343936}">
+      <ColorChannel path="head6_4.dds"/>
+      <NormalChannel path="head6_norm.dds"/>
+      <SpecularChannel path="head6_spec.dds"/>
+    </Material>
+    <Material name="MercHead6_5" basePath="Content\Characters\Mercs" guid="{89ED6CA7-E74B-44D0-B1A3-DF67BB569AA6}">
+      <ColorChannel path="head6_5.dds"/>
+      <NormalChannel path="head6_norm.dds"/>
+      <SpecularChannel path="head6_spec.dds"/>
+    </Material>
+    <Material name="MercHead6_6" basePath="Content\Characters\Mercs" guid="{7BF5056D-A3AF-41BF-B7D0-8134606C484A}">
+      <ColorChannel path="head6_6.dds"/>
+      <NormalChannel path="head6_norm.dds"/>
+      <SpecularChannel path="head6_spec.dds"/>
+    </Material>
+    <Material name="MercHead6_7" basePath="Content\Characters\Mercs" guid="{88D46C41-4261-4E81-ABEF-90D987033DA0}">
+      <ColorChannel path="head6_7.dds"/>
+      <NormalChannel path="head6_norm.dds"/>
+      <SpecularChannel path="head6_spec.dds"/>
+    </Material>
+    <Material name="MercHead6_8" basePath="Content\Characters\Mercs" guid="{72CD90FB-E8CA-4135-8650-74EBE596D4D6}">
+      <ColorChannel path="head6_8.dds"/>
+      <NormalChannel path="head6_norm.dds"/>
+      <SpecularChannel path="head6_spec.dds"/>
+    </Material>
+    <Material name="MercHead6_9" basePath="Content\Characters\Mercs" guid="{6492B2F7-116C-4A7F-8B34-6E5AF82D0E3D}">
+      <ColorChannel path="head6_9.dds"/>
+      <NormalChannel path="head6_norm.dds"/>
+      <SpecularChannel path="head6_spec.dds"/>
+    </Material>
+    <Material name="MercHead6_10" basePath="Content\Characters\Mercs" guid="{97BA02C1-F189-4464-B738-69D06A3E0FD9}">
+      <ColorChannel path="head6_10.dds"/>
+      <NormalChannel path="head6_norm.dds"/>
+      <SpecularChannel path="head6_spec.dds"/>
+    </Material>
+
+    <Material name="MercHead7_1" basePath="Content\Characters\Mercs" guid="{A0BB807B-EF5D-4395-A29D-6B1F590B2FCF}">
+      <ColorChannel path="head7_1.dds"/>
+      <NormalChannel path="head7_norm.dds"/>
+      <SpecularChannel path="head7_spec.dds"/>
+    </Material>
+    <Material name="MercHead7_2" basePath="Content\Characters\Mercs" guid="{7583A8E3-1A67-405C-9724-AA175DD0F7D4}">
+      <ColorChannel path="head7_2.dds"/>
+      <NormalChannel path="head7_norm.dds"/>
+      <SpecularChannel path="head7_spec.dds"/>
+    </Material>
+    <Material name="MercHead7_3" basePath="Content\Characters\Mercs" guid="{CA2614B1-C4D8-4972-AC9E-004B2073BC63}">
+      <ColorChannel path="head7_3.dds"/>
+      <NormalChannel path="head7_norm.dds"/>
+      <SpecularChannel path="head7_spec.dds"/>
+    </Material>
+    <Material name="MercHead7_4" basePath="Content\Characters\Mercs" guid="{77E6A009-E724-46D2-A839-ED647F83F5B3}">
+      <ColorChannel path="head7_4.dds"/>
+      <NormalChannel path="head7_norm.dds"/>
+      <SpecularChannel path="head7_spec.dds"/>
+    </Material>
+    <Material name="MercHead7_5" basePath="Content\Characters\Mercs" guid="{8C10650D-65B2-477B-8904-D168A940183E}">
+      <ColorChannel path="head7_5.dds"/>
+      <NormalChannel path="head7_norm.dds"/>
+      <SpecularChannel path="head7_spec.dds"/>
+    </Material>
+    <Material name="MercHead7_6" basePath="Content\Characters\Mercs" guid="{A173F0EA-D302-4BF8-9027-715B57FB84D2}">
+      <ColorChannel path="head7_6.dds"/>
+      <NormalChannel path="head7_norm.dds"/>
+      <SpecularChannel path="head7_spec.dds"/>
+    </Material>
+    <Material name="MercHead7_7" basePath="Content\Characters\Mercs" guid="{C54E607E-57B6-40BE-98EC-0EFEA2112269}">
+      <ColorChannel path="head7_7.dds"/>
+      <NormalChannel path="head7_norm.dds"/>
+      <SpecularChannel path="head7_spec.dds"/>
+    </Material>
+    <Material name="MercHead7_8" basePath="Content\Characters\Mercs" guid="{FD4E5E89-77AB-4EF6-B9A8-7ABEA34868CD}">
+      <ColorChannel path="head7_8.dds"/>
+      <NormalChannel path="head7_norm.dds"/>
+      <SpecularChannel path="head7_spec.dds"/>
+    </Material>
+    <Material name="MercHead7_9" basePath="Content\Characters\Mercs" guid="{590F2288-B52F-4582-B3BA-451A71E9D927}">
+      <ColorChannel path="head7_9.dds"/>
+      <NormalChannel path="head7_norm.dds"/>
+      <SpecularChannel path="head7_spec.dds"/>
+    </Material>
+    <Material name="MercHead7_10" basePath="Content\Characters\Mercs" guid="{C5B0228E-2C1B-406C-AC23-0B9C8FD14D25}">
+      <ColorChannel path="head7_10.dds"/>
+      <NormalChannel path="head7_norm.dds"/>
+      <SpecularChannel path="head7_spec.dds"/>
+    </Material>
+
+    <Material name="MercHead8_1" basePath="Content\Characters\Mercs" guid="{BA035978-D65F-4B6E-904C-3635599B457E}">
+      <ColorChannel path="head8_1.dds"/>
+      <NormalChannel path="head8_norm.dds"/>
+      <SpecularChannel path="head8_spec.dds"/>
+    </Material>
+    <Material name="MercHead8_2" basePath="Content\Characters\Mercs" guid="{0677AE6C-7832-4E22-9EAC-FE96D16D6F83}">
+      <ColorChannel path="head8_2.dds"/>
+      <NormalChannel path="head8_norm.dds"/>
+      <SpecularChannel path="head8_spec.dds"/>
+    </Material>
+    <Material name="MercHead8_3" basePath="Content\Characters\Mercs" guid="{65180142-673C-4151-8382-0797E5A260CA}">
+      <ColorChannel path="head8_3.dds"/>
+      <NormalChannel path="head8_norm.dds"/>
+      <SpecularChannel path="head8_spec.dds"/>
+    </Material>
+    <Material name="MercHead8_4" basePath="Content\Characters\Mercs" guid="{DB916925-91CE-4B0A-A6DE-0012B7764910}">
+      <ColorChannel path="head8_4.dds"/>
+      <NormalChannel path="head8_norm.dds"/>
+      <SpecularChannel path="head8_spec.dds"/>
+    </Material>
+    <Material name="MercHead8_5" basePath="Content\Characters\Mercs" guid="{36027553-D2E5-4FA8-A174-D9EBF3AECCF9}">
+      <ColorChannel path="head8_5.dds"/>
+      <NormalChannel path="head8_norm.dds"/>
+      <SpecularChannel path="head8_spec.dds"/>
+    </Material>
+    <Material name="MercHead8_6" basePath="Content\Characters\Mercs" guid="{2DC6EE23-23B9-4E0B-9D3C-B46A974894E0}">
+      <ColorChannel path="head8_6.dds"/>
+      <NormalChannel path="head8_norm.dds"/>
+      <SpecularChannel path="head8_spec.dds"/>
+    </Material>
+    <Material name="MercHead8_7" basePath="Content\Characters\Mercs" guid="{48B1B302-3735-45DF-8C3A-A8F9086BFA12}">
+      <ColorChannel path="head8_7.dds"/>
+      <NormalChannel path="head8_norm.dds"/>
+      <SpecularChannel path="head8_spec.dds"/>
+    </Material>
+    <Material name="MercHead8_8" basePath="Content\Characters\Mercs" guid="{A6125119-CEDB-41A4-A7E2-0767394BF1AE}">
+      <ColorChannel path="head8_8.dds"/>
+      <NormalChannel path="head8_norm.dds"/>
+      <SpecularChannel path="head8_spec.dds"/>
+    </Material>
+    <Material name="MercHead8_9" basePath="Content\Characters\Mercs" guid="{22F4FFB6-9C1B-48FC-ABAE-090C967C285F}">
+      <ColorChannel path="head8_9.dds"/>
+      <NormalChannel path="head8_norm.dds"/>
+      <SpecularChannel path="head8_spec.dds"/>
+    </Material>
+    <Material name="MercHead8_10" basePath="Content\Characters\Mercs" guid="{65DD7A50-E8C5-486D-854B-1D9EC9A84CA4}">
+      <ColorChannel path="head8_10.dds"/>
+      <NormalChannel path="head8_norm.dds"/>
+      <SpecularChannel path="head8_spec.dds"/>
+    </Material>
+
+    <Material name="MercHead9_1" basePath="Content\Characters\Mercs" guid="{76271EAC-8E34-423C-94E3-462448AB8422}">
+      <ColorChannel path="head9_1.dds"/>
+      <NormalChannel path="head9_norm.dds"/>
+      <SpecularChannel path="head9_spec.dds"/>
+    </Material>
+    <Material name="MercHead9_2" basePath="Content\Characters\Mercs" guid="{42103059-77A1-467A-9FB3-1C5D36EA11BD}">
+      <ColorChannel path="head9_2.dds"/>
+      <NormalChannel path="head9_norm.dds"/>
+      <SpecularChannel path="head9_spec.dds"/>
+    </Material>
+    <Material name="MercHead9_3" basePath="Content\Characters\Mercs" guid="{F91C083A-C7C5-4BF8-B5A5-D9843E057A90}">
+      <ColorChannel path="head9_3.dds"/>
+      <NormalChannel path="head9_norm.dds"/>
+      <SpecularChannel path="head9_spec.dds"/>
+    </Material>
+    <Material name="MercHead9_4" basePath="Content\Characters\Mercs" guid="{8EDFA43C-A59D-433C-9CA9-3380E38B4CB3}">
+      <ColorChannel path="head9_4.dds"/>
+      <NormalChannel path="head9_norm.dds"/>
+      <SpecularChannel path="head9_spec.dds"/>
+    </Material>
+    <Material name="MercHead9_5" basePath="Content\Characters\Mercs" guid="{CEDEC49F-77F0-45D3-AC77-8EB515D660C0}">
+      <ColorChannel path="head9_5.dds"/>
+      <NormalChannel path="head9_norm.dds"/>
+      <SpecularChannel path="head9_spec.dds"/>
+    </Material>
+    <Material name="MercHead9_6" basePath="Content\Characters\Mercs" guid="{57CC430D-70A3-4F7F-9DAB-F92D83B9ECBE}">
+      <ColorChannel path="head9_6.dds"/>
+      <NormalChannel path="head9_norm.dds"/>
+      <SpecularChannel path="head9_spec.dds"/>
+    </Material>
+    <Material name="MercHead9_7" basePath="Content\Characters\Mercs" guid="{DA97D25C-3BAA-420C-8E6C-414297254CE6}">
+      <ColorChannel path="head9_7.dds"/>
+      <NormalChannel path="head9_norm.dds"/>
+      <SpecularChannel path="head9_spec.dds"/>
+    </Material>
+    <Material name="MercHead9_8" basePath="Content\Characters\Mercs" guid="{0F81E632-D287-4E42-9BC0-69079A30DBA3}">
+      <ColorChannel path="head9_8.dds"/>
+      <NormalChannel path="head9_norm.dds"/>
+      <SpecularChannel path="head9_spec.dds"/>
+    </Material>
+    <Material name="MercHead9_9" basePath="Content\Characters\Mercs" guid="{E01143D1-2044-4C76-87EA-C9C26C4EB6BD}">
+      <ColorChannel path="head9_9.dds"/>
+      <NormalChannel path="head9_norm.dds"/>
+      <SpecularChannel path="head9_spec.dds"/>
+    </Material>
+    <Material name="MercHead9_10" basePath="Content\Characters\Mercs" guid="{E56D0E5A-7D44-4405-A957-B56C7B57E08F}">
+      <ColorChannel path="head9_10.dds"/>
+      <NormalChannel path="head9_norm.dds"/>
+      <SpecularChannel path="head9_spec.dds"/>
+    </Material>
+
+    <Material name="MercHead10_1" basePath="Content\Characters\Mercs" guid="{471AF2B0-BE58-4750-9CCD-BE9EC5AD8469}">
+      <ColorChannel path="head10_1.dds"/>
+      <NormalChannel path="head10_norm.dds"/>
+      <SpecularChannel path="head10_spec.dds"/>
+    </Material>
+    <Material name="MercHead10_2" basePath="Content\Characters\Mercs" guid="{18BCC5A8-66EA-4A1B-978E-89E9ABFC8C99}">
+      <ColorChannel path="head10_2.dds"/>
+      <NormalChannel path="head10_norm.dds"/>
+      <SpecularChannel path="head10_spec.dds"/>
+    </Material>
+    <Material name="MercHead10_3" basePath="Content\Characters\Mercs" guid="{7AA5ED18-C03E-4B6E-8D54-71E5BB62ED6C}">
+      <ColorChannel path="head10_3.dds"/>
+      <NormalChannel path="head10_norm.dds"/>
+      <SpecularChannel path="head10_spec.dds"/>
+    </Material>
+    <Material name="MercHead10_4" basePath="Content\Characters\Mercs" guid="{23B65CB6-20D8-4A15-A5E9-3ED9431C8A84}">
+      <ColorChannel path="head10_4.dds"/>
+      <NormalChannel path="head10_norm.dds"/>
+      <SpecularChannel path="head10_spec.dds"/>
+    </Material>
+    <Material name="MercHead10_5" basePath="Content\Characters\Mercs" guid="{FDCDAE9B-CEB6-4D94-85CA-B2ADCDFFA1F9}">
+      <ColorChannel path="head10_5.dds"/>
+      <NormalChannel path="head10_norm.dds"/>
+      <SpecularChannel path="head10_spec.dds"/>
+    </Material>
+    <Material name="MercHead10_6" basePath="Content\Characters\Mercs" guid="{F1F125B8-B580-40A8-8763-F6CEDFEBDB1C}">
+      <ColorChannel path="head10_6.dds"/>
+      <NormalChannel path="head10_norm.dds"/>
+      <SpecularChannel path="head10_spec.dds"/>
+    </Material>
+    <Material name="MercHead10_7" basePath="Content\Characters\Mercs" guid="{C7F5AE0C-07F5-4167-A193-2E3D7D347254}">
+      <ColorChannel path="head10_7.dds"/>
+      <NormalChannel path="head10_norm.dds"/>
+      <SpecularChannel path="head10_spec.dds"/>
+    </Material>
+    <Material name="MercHead10_8" basePath="Content\Characters\Mercs" guid="{C745EA4C-C6CE-4356-AD06-804A2E20A61E}">
+      <ColorChannel path="head10_8.dds"/>
+      <NormalChannel path="head10_norm.dds"/>
+      <SpecularChannel path="head10_spec.dds"/>
+    </Material>
+    <Material name="MercHead10_9" basePath="Content\Characters\Mercs" guid="{CF8D30A5-ED6D-4BF1-9C78-CBD63AB3F978}">
+      <ColorChannel path="head10_9.dds"/>
+      <NormalChannel path="head10_norm.dds"/>
+      <SpecularChannel path="head10_spec.dds"/>
+    </Material>
+    <Material name="MercHead10_10" basePath="Content\Characters\Mercs" guid="{4027A3DD-106F-43E7-B7AD-591247E8F58C}">
+      <ColorChannel path="head10_10.dds"/>
+      <NormalChannel path="head10_norm.dds"/>
+      <SpecularChannel path="head10_spec.dds"/>
+    </Material>
+  </EntityMaterials>
+  <EntityMaterials group="Body">
+    <Material name="MercBody1_1" basePath="Content\Characters\Mercs" guid="{ACB1B0D9-1639-4839-BE60-767DB9CD12CF}">
+      <ColorChannel path="body1_1.dds"/>
+      <NormalChannel path="body1_norm.dds"/>
+      <MetallicChannel value="0"/>
+      <RoughnessChannel value="0"/>
+    </Material>
+    <Material name="MercBody1_2" basePath="Content\Characters\Mercs" guid="{E7CF43C7-BD67-436A-8DA8-8B4CF6A4D4D9}">
+      <ColorChannel path="body1_2.dds"/>
+      <NormalChannel path="body1_norm.dds"/>
+      <SpecularChannel path="body1_spec.dds"/>
+    </Material>
+    <Material name="MercBody1_3" basePath="Content\Characters\Mercs" guid="{9B971B55-8541-47A3-A7DA-D0D9D425C6BF}">
+      <ColorChannel path="body1_3.dds"/>
+      <NormalChannel path="body1_norm.dds"/>
+      <SpecularChannel path="body1_spec.dds"/>
+    </Material>
+    <Material name="MercBody1_4" basePath="Content\Characters\Mercs" guid="{127B3080-1CDD-4998-BD20-3E32C4177071}">
+      <ColorChannel path="body1_4.dds"/>
+      <NormalChannel path="body1_norm.dds"/>
+      <SpecularChannel path="body1_spec.dds"/>
+    </Material>
+    <Material name="MercBody1_5" basePath="Content\Characters\Mercs" guid="{99D79D6B-19C4-423E-8B78-C7FB98745A81}">
+      <ColorChannel path="body1_5.dds"/>
+      <NormalChannel path="body1_norm.dds"/>
+      <SpecularChannel path="body1_spec.dds"/>
+    </Material>
+    <Material name="MercBody1_6" basePath="Content\Characters\Mercs" guid="{6FDE41C9-C5C7-4484-BC7D-7ABD2238AE43}">
+      <ColorChannel path="body1_6.dds"/>
+      <NormalChannel path="body1_norm.dds"/>
+      <SpecularChannel path="body1_spec.dds"/>
+    </Material>
+    <Material name="MercBody1_7" basePath="Content\Characters\Mercs" guid="{2B1EDA1A-A0A2-4FF8-B914-2E935589B9A3}">
+      <ColorChannel path="body1_7.dds"/>
+      <NormalChannel path="body1_norm.dds"/>
+      <SpecularChannel path="body1_spec.dds"/>
+    </Material>
+    <Material name="MercBody1_8" basePath="Content\Characters\Mercs" guid="{0FAD720B-11CD-499E-80DB-5009BF14A970}">
+      <ColorChannel path="body1_8.dds"/>
+      <NormalChannel path="body1_norm.dds"/>
+      <SpecularChannel path="body1_spec.dds"/>
+    </Material>
+    <Material name="MercBody1_9" basePath="Content\Characters\Mercs" guid="{B53E5AF9-6F35-4C55-9D62-999855A4E61D}">
+      <ColorChannel path="body1_9.dds"/>
+      <NormalChannel path="body1_norm.dds"/>
+      <SpecularChannel path="body1_spec.dds"/>
+    </Material>
+    <Material name="MercBody1_10" basePath="Content\Characters\Mercs" guid="{0D1DA99A-7945-4DBD-BB80-6DD21E3C9883}">
+      <ColorChannel path="body1_10.dds"/>
+      <NormalChannel path="body1_norm.dds"/>
+      <SpecularChannel path="body1_spec.dds"/>
+    </Material>
+
+    <Material name="MercBody2_1" basePath="Content\Characters\Mercs" guid="{2D8335C0-9AF3-4FE6-936E-C5E9FFDBBB4D}">
+      <ColorChannel path="body2_1.dds"/>
+      <NormalChannel path="body2_norm.dds"/>
+      <SpecularChannel path="body2_spec.dds"/>
+    </Material>
+    <Material name="MercBody2_2" basePath="Content\Characters\Mercs" guid="{E3615E74-0011-4BEA-8C55-4129C552B551}">
+      <ColorChannel path="body2_2.dds"/>
+      <NormalChannel path="body2_norm.dds"/>
+      <SpecularChannel path="body2_spec.dds"/>
+    </Material>
+    <Material name="MercBody2_3" basePath="Content\Characters\Mercs" guid="{15B6BDEA-6BFA-4827-BD79-A5C75FC50E27}">
+      <ColorChannel path="body2_3.dds"/>
+      <NormalChannel path="body2_norm.dds"/>
+      <SpecularChannel path="body2_spec.dds"/>
+    </Material>
+    <Material name="MercBody2_4" basePath="Content\Characters\Mercs" guid="{6F10BBF1-BBDD-4DD1-8634-FADD316D1252}">
+      <ColorChannel path="body2_4.dds"/>
+      <NormalChannel path="body2_norm.dds"/>
+      <SpecularChannel path="body2_spec.dds"/>
+    </Material>
+    <Material name="MercBody2_5" basePath="Content\Characters\Mercs" guid="{EB83D4EA-2212-49FD-85D2-4D2977AD7802}">
+      <ColorChannel path="body2_5.dds"/>
+      <NormalChannel path="body2_norm.dds"/>
+      <SpecularChannel path="body2_spec.dds"/>
+    </Material>
+    <Material name="MercBody2_6" basePath="Content\Characters\Mercs" guid="{97BBD0DC-938C-44E0-A647-B6F9C10FB96A}">
+      <ColorChannel path="body2_6.dds"/>
+      <NormalChannel path="body2_norm.dds"/>
+      <SpecularChannel path="body2_spec.dds"/>
+    </Material>
+    <Material name="MercBody2_7" basePath="Content\Characters\Mercs" guid="{87480E03-DD6B-4ACC-9B2F-2657E8AC17EB}">
+      <ColorChannel path="body2_7.dds"/>
+      <NormalChannel path="body2_norm.dds"/>
+      <SpecularChannel path="body2_spec.dds"/>
+    </Material>
+    <Material name="MercBody2_8" basePath="Content\Characters\Mercs" guid="{8C623851-5DBE-4AD8-AF12-20047D405B8F}">
+      <ColorChannel path="body2_8.dds"/>
+      <NormalChannel path="body2_norm.dds"/>
+      <SpecularChannel path="body2_spec.dds"/>
+    </Material>
+    <Material name="MercBody2_9" basePath="Content\Characters\Mercs" guid="{9DCED36E-6DB0-47F9-BCAA-06D66D01E197}">
+      <ColorChannel path="body2_9.dds"/>
+      <NormalChannel path="body2_norm.dds"/>
+      <SpecularChannel path="body2_spec.dds"/>
+    </Material>
+    <Material name="MercBody2_10" basePath="Content\Characters\Mercs" guid="{6D45DA5B-0AF3-421F-BE1B-5524217EB0A1}">
+      <ColorChannel path="body2_10.dds"/>
+      <NormalChannel path="body2_norm.dds"/>
+      <SpecularChannel path="body2_spec.dds"/>
+    </Material>
+
+    <Material name="MercBody3_1" basePath="Content\Characters\Mercs" guid="{81FFE98B-87A1-498B-A490-F23C96672951}">
+      <ColorChannel path="body3_1.dds"/>
+      <NormalChannel path="body3_norm.dds"/>
+      <SpecularChannel path="body3_spec.dds"/>
+    </Material>
+    <Material name="MercBody3_2" basePath="Content\Characters\Mercs" guid="{AD4C1B33-AAB7-4E30-B7E6-3880840D15ED}">
+      <ColorChannel path="body3_2.dds"/>
+      <NormalChannel path="body3_norm.dds"/>
+      <SpecularChannel path="body3_spec.dds"/>
+    </Material>
+    <Material name="MercBody3_3" basePath="Content\Characters\Mercs" guid="{D236CEEE-D17A-4C46-8FED-1DDF2BDDD925}">
+      <ColorChannel path="body3_3.dds"/>
+      <NormalChannel path="body3_norm.dds"/>
+      <SpecularChannel path="body3_spec.dds"/>
+    </Material>
+    <Material name="MercBody3_4" basePath="Content\Characters\Mercs" guid="{8AFA9DA1-9E90-477B-8F1C-AD229A802F43}">
+      <ColorChannel path="body3_4.dds"/>
+      <NormalChannel path="body3_norm.dds"/>
+      <SpecularChannel path="body3_spec.dds"/>
+    </Material>
+    <Material name="MercBody3_5" basePath="Content\Characters\Mercs" guid="{C036C715-1EB9-4DE9-8E86-D23454D5C89C}">
+      <ColorChannel path="body3_5.dds"/>
+      <NormalChannel path="body3_norm.dds"/>
+      <SpecularChannel path="body3_spec.dds"/>
+    </Material>
+    <Material name="MercBody3_6" basePath="Content\Characters\Mercs" guid="{A09B8C0F-3AC3-4AAB-8074-7F5ADE0B2BE5}">
+      <ColorChannel path="body3_6.dds"/>
+      <NormalChannel path="body3_norm.dds"/>
+      <SpecularChannel path="body3_spec.dds"/>
+    </Material>
+    <Material name="MercBody3_7" basePath="Content\Characters\Mercs" guid="{D063B071-7626-4D97-83D0-42B25813C09C}">
+      <ColorChannel path="body3_7.dds"/>
+      <NormalChannel path="body3_norm.dds"/>
+      <SpecularChannel path="body3_spec.dds"/>
+    </Material>
+    <Material name="MercBody3_8" basePath="Content\Characters\Mercs" guid="{03BF4F12-1148-4E16-B668-4ACBE36ACACB}">
+      <ColorChannel path="body3_8.dds"/>
+      <NormalChannel path="body3_norm.dds"/>
+      <SpecularChannel path="body3_spec.dds"/>
+    </Material>
+    <Material name="MercBody3_9" basePath="Content\Characters\Mercs" guid="{B80F2B31-E953-4732-B5EF-C7CFABDD8FFA}">
+      <ColorChannel path="body3_9.dds"/>
+      <NormalChannel path="body3_norm.dds"/>
+      <SpecularChannel path="body3_spec.dds"/>
+    </Material>
+    <Material name="MercBody3_10" basePath="Content\Characters\Mercs" guid="{C6F0ED7B-14B3-4630-A624-760D9615564C}">
+      <ColorChannel path="body3_10.dds"/>
+      <NormalChannel path="body3_norm.dds"/>
+      <SpecularChannel path="body3_spec.dds"/>
+    </Material>
+
+    <Material name="MercBody4_1" basePath="Content\Characters\Mercs" guid="{B5D442E5-E4F0-4F4B-95B2-C59F33CD7742}">
+      <ColorChannel path="body4_1.dds"/>
+      <NormalChannel path="body4_norm.dds"/>
+      <SpecularChannel path="body4_spec.dds"/>
+    </Material>
+    <Material name="MercBody4_2" basePath="Content\Characters\Mercs" guid="{0DACFDBA-4ECC-45A9-B04C-5C6F73E8EE1B}">
+      <ColorChannel path="body4_2.dds"/>
+      <NormalChannel path="body4_norm.dds"/>
+      <SpecularChannel path="body4_spec.dds"/>
+    </Material>
+    <Material name="MercBody4_3" basePath="Content\Characters\Mercs" guid="{F4B664D2-D443-4C59-AAA3-79B965B6994D}">
+      <ColorChannel path="body4_3.dds"/>
+      <NormalChannel path="body4_norm.dds"/>
+      <SpecularChannel path="body4_spec.dds"/>
+    </Material>
+    <Material name="MercBody4_4" basePath="Content\Characters\Mercs" guid="{33A3D835-298C-4583-9C6E-6AA469AF26F3}">
+      <ColorChannel path="body4_4.dds"/>
+      <NormalChannel path="body4_norm.dds"/>
+      <SpecularChannel path="body4_spec.dds"/>
+    </Material>
+    <Material name="MercBody4_5" basePath="Content\Characters\Mercs" guid="{A81BA807-60B0-4A0E-9A75-F24E36DAB5D2}">
+      <ColorChannel path="body4_5.dds"/>
+      <NormalChannel path="body4_norm.dds"/>
+      <SpecularChannel path="body4_spec.dds"/>
+    </Material>
+    <Material name="MercBody4_6" basePath="Content\Characters\Mercs" guid="{EB4D3C3F-F308-4526-9623-F9919A02D429}">
+      <ColorChannel path="body4_6.dds"/>
+      <NormalChannel path="body4_norm.dds"/>
+      <SpecularChannel path="body4_spec.dds"/>
+    </Material>
+    <Material name="MercBody4_7" basePath="Content\Characters\Mercs" guid="{9F8D5C4F-DBE2-4706-887D-B5D8C5652E4D}">
+      <ColorChannel path="body4_7.dds"/>
+      <NormalChannel path="body4_norm.dds"/>
+      <SpecularChannel path="body4_spec.dds"/>
+    </Material>
+    <Material name="MercBody4_8" basePath="Content\Characters\Mercs" guid="{4388CA65-A104-440F-9B0E-AF8A159B6516}">
+      <ColorChannel path="body4_8.dds"/>
+      <NormalChannel path="body4_norm.dds"/>
+      <SpecularChannel path="body4_spec.dds"/>
+    </Material>
+    <Material name="MercBody4_9" basePath="Content\Characters\Mercs" guid="{AB24659F-C66F-4660-A89A-F01DC8CD6557}">
+      <ColorChannel path="body4_9.dds"/>
+      <NormalChannel path="body4_norm.dds"/>
+      <SpecularChannel path="body4_spec.dds"/>
+    </Material>
+    <Material name="MercBody4_10" basePath="Content\Characters\Mercs" guid="{B2D892B8-36F9-4802-93D2-BABBE27D7194}">
+      <ColorChannel path="body4_10.dds"/>
+      <NormalChannel path="body4_norm.dds"/>
+      <SpecularChannel path="body4_spec.dds"/>
+    </Material>
+
+    <Material name="MercBody5_1" basePath="Content\Characters\Mercs" guid="{C90A0830-D67F-4283-BFBC-F823B1E96046}">
+      <ColorChannel path="body5_1.dds"/>
+      <NormalChannel path="body5_norm.dds"/>
+      <SpecularChannel path="body5_spec.dds"/>
+    </Material>
+    <Material name="MercBody5_2" basePath="Content\Characters\Mercs" guid="{887B004A-4ECE-45CC-A790-42488E5C177D}">
+      <ColorChannel path="body5_2.dds"/>
+      <NormalChannel path="body5_norm.dds"/>
+      <SpecularChannel path="body5_spec.dds"/>
+    </Material>
+    <Material name="MercBody5_3" basePath="Content\Characters\Mercs" guid="{B265EF2B-932E-47B6-B263-E342F1AF7E5F}">
+      <ColorChannel path="body5_3.dds"/>
+      <NormalChannel path="body5_norm.dds"/>
+      <SpecularChannel path="body5_spec.dds"/>
+    </Material>
+    <Material name="MercBody5_4" basePath="Content\Characters\Mercs" guid="{2E346C2F-B5A4-47D6-BA6F-F9AAAEFF5DFE}">
+      <ColorChannel path="body5_4.dds"/>
+      <NormalChannel path="body5_norm.dds"/>
+      <SpecularChannel path="body5_spec.dds"/>
+    </Material>
+    <Material name="MercBody5_5" basePath="Content\Characters\Mercs" guid="{35DCA34F-8EA6-4BFB-9F70-BE2AD3F54171}">
+      <ColorChannel path="body5_5.dds"/>
+      <NormalChannel path="body5_norm.dds"/>
+      <SpecularChannel path="body5_spec.dds"/>
+    </Material>
+    <Material name="MercBody5_6" basePath="Content\Characters\Mercs" guid="{2CC7F828-DCFE-41BE-9A5B-28E3B2469E02}">
+      <ColorChannel path="body5_6.dds"/>
+      <NormalChannel path="body5_norm.dds"/>
+      <SpecularChannel path="body5_spec.dds"/>
+    </Material>
+    <Material name="MercBody5_7" basePath="Content\Characters\Mercs" guid="{9708473B-D057-4C55-8306-29289CC81E4B}">
+      <ColorChannel path="body5_7.dds"/>
+      <NormalChannel path="body5_norm.dds"/>
+      <SpecularChannel path="body5_spec.dds"/>
+    </Material>
+    <Material name="MercBody5_8" basePath="Content\Characters\Mercs" guid="{A11873A5-F624-432A-ABD5-F590489A14AA}">
+      <ColorChannel path="body5_8.dds"/>
+      <NormalChannel path="body5_norm.dds"/>
+      <SpecularChannel path="body5_spec.dds"/>
+    </Material>
+    <Material name="MercBody5_9" basePath="Content\Characters\Mercs" guid="{359AF14E-2C6E-44D8-9539-FEA9DCD7313B}">
+      <ColorChannel path="body5_9.dds"/>
+      <NormalChannel path="body5_norm.dds"/>
+      <SpecularChannel path="body5_spec.dds"/>
+    </Material>
+    <Material name="MercBody5_10" basePath="Content\Characters\Mercs" guid="{DE7C69F0-5EDB-4D43-A354-107F1C55FD5B}">
+      <ColorChannel path="body5_10.dds"/>
+      <NormalChannel path="body5_norm.dds"/>
+      <SpecularChannel path="body5_spec.dds"/>
+    </Material>
+  </EntityMaterials>
+  <EntityMaterials group="Hands">
+    <Material name="MercHands1" basePath="Content\Characters\Mercs" guid="{FF0EB223-C603-4C87-B81B-35BB7213CE82}">
+      <ColorChannel path="gloves1.dds"/>
+      <NormalChannel path="gloves1_norm.dds"/>
+      <SpecularChannel path="gloves1_spec.dds"/>
+    </Material>
+    <Material name="MercHands2" basePath="Content\Characters\Mercs" guid="{703F18D2-B314-46BC-B559-E353EC65CF04}">
+      <ColorChannel path="gloves2.dds"/>
+      <NormalChannel path="gloves2_norm.dds"/>
+      <SpecularChannel path="gloves2_spec.dds"/>
+    </Material>
+    <Material name="MercHands3" basePath="Content\Characters\Mercs" guid="{BA726028-1CC4-481D-A5B9-25037EAF2C4A}">
+      <ColorChannel path="gloves3.dds"/>
+      <NormalChannel path="gloves3_norm.dds"/>
+      <SpecularChannel path="gloves3_spec.dds"/>
+    </Material>
+    <Material name="MercHands4" basePath="Content\Characters\Mercs" guid="{1862A8EB-D4F7-4442-B2F9-138F4BFCFA58}">
+      <ColorChannel path="gloves4.dds"/>
+      <NormalChannel path="gloves4_norm.dds"/>
+      <SpecularChannel path="gloves4_spec.dds"/>
+    </Material>
+    <Material name="MercHands5" basePath="Content\Characters\Mercs" guid="{29564BCC-5184-4936-B932-A8AEB972FCAF}">
+      <ColorChannel path="gloves5.dds"/>
+      <NormalChannel path="gloves5_norm.dds"/>
+      <SpecularChannel path="gloves5_spec.dds"/>
+    </Material>
+  </EntityMaterials>
+  <EntityMaterials group="Pants">
+    <Material name="MercPants1_1" basePath="Content\Characters\Mercs" guid="{E03512CC-7A3A-478A-917D-649F199B2CA5}">
+      <ColorChannel path="pants1_1.dds"/>
+      <NormalChannel path="pants1_norm.dds"/>
+      <SpecularChannel path="pants1_spec.dds"/>
+    </Material>
+    <Material name="MercPants1_2" basePath="Content\Characters\Mercs" guid="{35882032-309B-4ABC-A2BC-18C4198BB779}">
+      <ColorChannel path="pants1_2.dds"/>
+      <NormalChannel path="pants1_norm.dds"/>
+      <SpecularChannel path="pants1_spec.dds"/>
+    </Material>
+    <Material name="MercPants1_3" basePath="Content\Characters\Mercs" guid="{E0C14F5C-5F23-4A77-AC2F-00DD0BA69F83}">
+      <ColorChannel path="pants1_3.dds"/>
+      <NormalChannel path="pants1_norm.dds"/>
+      <SpecularChannel path="pants1_spec.dds"/>
+    </Material>
+    <Material name="MercPants1_4" basePath="Content\Characters\Mercs" guid="{0BE1637C-DE44-4C1E-A550-650A5FFDB65B}">
+      <ColorChannel path="pants1_4.dds"/>
+      <NormalChannel path="pants1_norm.dds"/>
+      <SpecularChannel path="pants1_spec.dds"/>
+    </Material>
+    <Material name="MercPants1_5" basePath="Content\Characters\Mercs" guid="{32465E8B-0370-42C9-93C8-8521C502FFD4}">
+      <ColorChannel path="pants1_5.dds"/>
+      <NormalChannel path="pants1_norm.dds"/>
+      <SpecularChannel path="pants1_spec.dds"/>
+    </Material>
+    <Material name="MercPants1_6" basePath="Content\Characters\Mercs" guid="{615B3ABC-4F74-401E-A8C1-C3DFF163CE12}">
+      <ColorChannel path="pants1_6.dds"/>
+      <NormalChannel path="pants1_norm.dds"/>
+      <SpecularChannel path="pants1_spec.dds"/>
+    </Material>
+    <Material name="MercPants1_7" basePath="Content\Characters\Mercs" guid="{43FFC5D6-341B-42D4-92FD-B2C3407B7C9B}">
+      <ColorChannel path="pants1_7.dds"/>
+      <NormalChannel path="pants1_norm.dds"/>
+      <SpecularChannel path="pants1_spec.dds"/>
+    </Material>
+    <Material name="MercPants1_8" basePath="Content\Characters\Mercs" guid="{DF3C21E7-863C-4B2C-BD11-82CEAE8B8DD1}">
+      <ColorChannel path="pants1_8.dds"/>
+      <NormalChannel path="pants1_norm.dds"/>
+      <SpecularChannel path="pants1_spec.dds"/>
+    </Material>
+    <Material name="MercPants1_9" basePath="Content\Characters\Mercs" guid="{648AF4FC-A935-468A-927F-624AF9B9324E}">
+      <ColorChannel path="pants1_9.dds"/>
+      <NormalChannel path="pants1_norm.dds"/>
+      <SpecularChannel path="pants1_spec.dds"/>
+    </Material>
+    <Material name="MercPants1_10" basePath="Content\Characters\Mercs" guid="{43A8CD1C-E1C4-457D-AC6E-19D66722431D}">
+      <ColorChannel path="pants1_10.dds"/>
+      <NormalChannel path="pants1_norm.dds"/>
+      <SpecularChannel path="pants1_spec.dds"/>
+    </Material>
+
+    <Material name="MercPants2_1" basePath="Content\Characters\Mercs" guid="{48FF36A1-FD86-435B-B408-4B78964709FE}">
+      <ColorChannel path="pants2_1.dds"/>
+      <NormalChannel path="pants2_norm.dds"/>
+      <SpecularChannel path="pants2_spec.dds"/>
+    </Material>
+    <Material name="MercPants2_2" basePath="Content\Characters\Mercs" guid="{7DCC399E-7002-45EE-88B4-89773BEE7FDC}">
+      <ColorChannel path="pants2_2.dds"/>
+      <NormalChannel path="pants2_norm.dds"/>
+      <SpecularChannel path="pants2_spec.dds"/>
+    </Material>
+    <Material name="MercPants2_3" basePath="Content\Characters\Mercs" guid="{925550B6-607D-41DC-85DC-DF949B5C5F93}">
+      <ColorChannel path="pants2_3.dds"/>
+      <NormalChannel path="pants2_norm.dds"/>
+      <SpecularChannel path="pants2_spec.dds"/>
+    </Material>
+    <Material name="MercPants2_4" basePath="Content\Characters\Mercs" guid="{98B0239B-4AA7-49DD-8D15-EF1718147739}">
+      <ColorChannel path="pants2_4.dds"/>
+      <NormalChannel path="pants2_norm.dds"/>
+      <SpecularChannel path="pants2_spec.dds"/>
+    </Material>
+    <Material name="MercPants2_5" basePath="Content\Characters\Mercs" guid="{3579800D-5F87-46C7-8BCA-DFD297185356}">
+      <ColorChannel path="pants2_5.dds"/>
+      <NormalChannel path="pants2_norm.dds"/>
+      <SpecularChannel path="pants2_spec.dds"/>
+    </Material>
+    <Material name="MercPants2_6" basePath="Content\Characters\Mercs" guid="{F5F5B999-0D70-4469-9AED-9E2975D2BDFE}">
+      <ColorChannel path="pants2_6.dds"/>
+      <NormalChannel path="pants2_norm.dds"/>
+      <SpecularChannel path="pants2_spec.dds"/>
+    </Material>
+    <Material name="MercPants2_7" basePath="Content\Characters\Mercs" guid="{74753694-B9C7-42F0-A0D1-AD3D748819A6}">
+      <ColorChannel path="pants2_7.dds"/>
+      <NormalChannel path="pants2_norm.dds"/>
+      <SpecularChannel path="pants2_spec.dds"/>
+    </Material>
+    <Material name="MercPants2_8" basePath="Content\Characters\Mercs" guid="{FE91E76C-66E3-4D3B-B3C4-9B3B4D28D18B}">
+      <ColorChannel path="pants2_8.dds"/>
+      <NormalChannel path="pants2_norm.dds"/>
+      <SpecularChannel path="pants2_spec.dds"/>
+    </Material>
+    <Material name="MercPants2_9" basePath="Content\Characters\Mercs" guid="{4993B88B-0EDE-4DFB-9AA8-B388183E409C}">
+      <ColorChannel path="pants2_9.dds"/>
+      <NormalChannel path="pants2_norm.dds"/>
+      <SpecularChannel path="pants2_spec.dds"/>
+    </Material>
+    <Material name="MercPants2_10" basePath="Content\Characters\Mercs" guid="{9D9C037E-4C2E-4D73-970F-1ACAE8D59C31}">
+      <ColorChannel path="pants2_10.dds"/>
+      <NormalChannel path="pants2_norm.dds"/>
+      <SpecularChannel path="pants2_spec.dds"/>
+    </Material>
+
+    <Material name="MercPants3_1" basePath="Content\Characters\Mercs" guid="{01EF78D1-C58E-47D6-ADE3-C492674967AA}">
+      <ColorChannel path="pants3_1.dds"/>
+      <NormalChannel path="pants3_norm.dds"/>
+      <SpecularChannel path="pants3_spec.dds"/>
+    </Material>
+    <Material name="MercPants3_2" basePath="Content\Characters\Mercs" guid="{7BA19F4F-5B7C-4059-9606-96B0D65464E9}">
+      <ColorChannel path="pants3_2.dds"/>
+      <NormalChannel path="pants3_norm.dds"/>
+      <SpecularChannel path="pants3_spec.dds"/>
+    </Material>
+    <Material name="MercPants3_3" basePath="Content\Characters\Mercs" guid="{F4A87F35-ECF4-4BE8-946B-139E947BE016}">
+      <ColorChannel path="pants3_3.dds"/>
+      <NormalChannel path="pants3_norm.dds"/>
+      <SpecularChannel path="pants3_spec.dds"/>
+    </Material>
+    <Material name="MercPants3_4" basePath="Content\Characters\Mercs" guid="{F5FBA7D0-E9D5-4792-9997-D6F42126E927}">
+      <ColorChannel path="pants3_4.dds"/>
+      <NormalChannel path="pants3_norm.dds"/>
+      <SpecularChannel path="pants3_spec.dds"/>
+    </Material>
+    <Material name="MercPants3_5" basePath="Content\Characters\Mercs" guid="{79DE0734-A203-44CE-8A2C-D65EC9B4462F}">
+      <ColorChannel path="pants3_5.dds"/>
+      <NormalChannel path="pants3_norm.dds"/>
+      <SpecularChannel path="pants3_spec.dds"/>
+    </Material>
+    <Material name="MercPants3_6" basePath="Content\Characters\Mercs" guid="{55E938F6-CBB9-44C2-BA7C-D2CFE2F3F702}">
+      <ColorChannel path="pants3_6.dds"/>
+      <NormalChannel path="pants3_norm.dds"/>
+      <SpecularChannel path="pants3_spec.dds"/>
+    </Material>
+    <Material name="MercPants3_7" basePath="Content\Characters\Mercs" guid="{3FEFC252-85B1-4ECF-89F2-2AC787C56682}">
+      <ColorChannel path="pants3_7.dds"/>
+      <NormalChannel path="pants3_norm.dds"/>
+      <SpecularChannel path="pants3_spec.dds"/>
+    </Material>
+    <Material name="MercPants3_8" basePath="Content\Characters\Mercs" guid="{AA483E8C-F19F-4DE8-8000-6FB4A66F2A49}">
+      <ColorChannel path="pants3_8.dds"/>
+      <NormalChannel path="pants3_norm.dds"/>
+      <SpecularChannel path="pants3_spec.dds"/>
+    </Material>
+    <Material name="MercPants3_9" basePath="Content\Characters\Mercs" guid="{6D7E6152-F56E-46B3-8B77-586FD93637A2}">
+      <ColorChannel path="pants3_9.dds"/>
+      <NormalChannel path="pants3_norm.dds"/>
+      <SpecularChannel path="pants3_spec.dds"/>
+    </Material>
+    <Material name="MercPants3_10" basePath="Content\Characters\Mercs" guid="{9A6EF3D3-464A-4094-AE02-030B21A08134}">
+      <ColorChannel path="pants3_10.dds"/>
+      <NormalChannel path="pants3_norm.dds"/>
+      <SpecularChannel path="pants3_spec.dds"/>
+    </Material>
+
+    <Material name="MercPants4_1" basePath="Content\Characters\Mercs" guid="{B063BA0A-FBAB-487B-9C4B-AD094384A460}">
+      <ColorChannel path="pants4_1.dds"/>
+      <NormalChannel path="pants4_norm.dds"/>
+      <SpecularChannel path="pants4_spec.dds"/>
+    </Material>
+    <Material name="MercPants4_2" basePath="Content\Characters\Mercs" guid="{C1119914-2CAF-4D6C-B043-3EDB4419CCE4}">
+      <ColorChannel path="pants4_2.dds"/>
+      <NormalChannel path="pants4_norm.dds"/>
+      <SpecularChannel path="pants4_spec.dds"/>
+    </Material>
+    <Material name="MercPants4_3" basePath="Content\Characters\Mercs" guid="{78B92261-3B13-4113-809F-2E8FE9F1C06A}">
+      <ColorChannel path="pants4_3.dds"/>
+      <NormalChannel path="pants4_norm.dds"/>
+      <SpecularChannel path="pants4_spec.dds"/>
+    </Material>
+    <Material name="MercPants4_4" basePath="Content\Characters\Mercs" guid="{77177BE9-49CF-4C8A-9F6E-0905DF648515}">
+      <ColorChannel path="pants4_4.dds"/>
+      <NormalChannel path="pants4_norm.dds"/>
+      <SpecularChannel path="pants4_spec.dds"/>
+    </Material>
+    <Material name="MercPants4_5" basePath="Content\Characters\Mercs" guid="{9036FFD1-ED3E-4BED-920B-4CCF9924B61C}">
+      <ColorChannel path="pants4_5.dds"/>
+      <NormalChannel path="pants4_norm.dds"/>
+      <SpecularChannel path="pants4_spec.dds"/>
+    </Material>
+    <Material name="MercPants4_6" basePath="Content\Characters\Mercs" guid="{A83321FD-F3D5-4516-BD14-41035CF3FBDE}">
+      <ColorChannel path="pants4_6.dds"/>
+      <NormalChannel path="pants4_norm.dds"/>
+      <SpecularChannel path="pants4_spec.dds"/>
+    </Material>
+    <Material name="MercPants4_7" basePath="Content\Characters\Mercs" guid="{449252D8-A0DE-4807-84FE-5576DDC269F2}">
+      <ColorChannel path="pants4_7.dds"/>
+      <NormalChannel path="pants4_norm.dds"/>
+      <SpecularChannel path="pants4_spec.dds"/>
+    </Material>
+    <Material name="MercPants4_8" basePath="Content\Characters\Mercs" guid="{6A84D72B-AFAD-4E21-BC36-5E36A52711A7}">
+      <ColorChannel path="pants4_8.dds"/>
+      <NormalChannel path="pants4_norm.dds"/>
+      <SpecularChannel path="pants4_spec.dds"/>
+    </Material>
+    <Material name="MercPants4_9" basePath="Content\Characters\Mercs" guid="{79FEE3B9-6FBF-4A9A-8D06-355DC62D757B}">
+      <ColorChannel path="pants4_9.dds"/>
+      <NormalChannel path="pants4_norm.dds"/>
+      <SpecularChannel path="pants4_spec.dds"/>
+    </Material>
+    <Material name="MercPants4_10" basePath="Content\Characters\Mercs" guid="{57D15EED-88AF-414F-BE9A-2B879374B22B}">
+      <ColorChannel path="pants4_10.dds"/>
+      <NormalChannel path="pants4_norm.dds"/>
+      <SpecularChannel path="pants4_spec.dds"/>
+    </Material>
+
+    <Material name="MercPants5_1" basePath="Content\Characters\Mercs" guid="{A0929CC5-50AB-495E-BE6F-2C14905E466B}">
+      <ColorChannel path="pants5_1.dds"/>
+      <NormalChannel path="pants5_norm.dds"/>
+      <SpecularChannel path="pants5_spec.dds"/>
+    </Material>
+    <Material name="MercPants5_2" basePath="Content\Characters\Mercs" guid="{6377082E-D8E8-4C80-A764-D4FF2627786F}">
+      <ColorChannel path="pants5_2.dds"/>
+      <NormalChannel path="pants5_norm.dds"/>
+      <SpecularChannel path="pants5_spec.dds"/>
+    </Material>
+    <Material name="MercPants5_3" basePath="Content\Characters\Mercs" guid="{8A9BC0D3-E2BA-462A-9563-BD5084EA484A}">
+      <ColorChannel path="pants5_3.dds"/>
+      <NormalChannel path="pants5_norm.dds"/>
+      <SpecularChannel path="pants5_spec.dds"/>
+    </Material>
+    <Material name="MercPants5_4" basePath="Content\Characters\Mercs" guid="{AA714D99-64AA-4B19-AC23-6A481BE562D1}">
+      <ColorChannel path="pants5_4.dds"/>
+      <NormalChannel path="pants5_norm.dds"/>
+      <SpecularChannel path="pants5_spec.dds"/>
+    </Material>
+    <Material name="MercPants5_5" basePath="Content\Characters\Mercs" guid="{F889E37E-9F91-45B6-827E-F44B7DB4BCC0}">
+      <ColorChannel path="pants5_5.dds"/>
+      <NormalChannel path="pants5_norm.dds"/>
+      <SpecularChannel path="pants5_spec.dds"/>
+    </Material>
+    <Material name="MercPants5_6" basePath="Content\Characters\Mercs" guid="{160ADD4C-A92D-43F3-9329-1830BF7F9DB0}">
+      <ColorChannel path="pants5_6.dds"/>
+      <NormalChannel path="pants5_norm.dds"/>
+      <SpecularChannel path="pants5_spec.dds"/>
+    </Material>
+    <Material name="MercPants5_7" basePath="Content\Characters\Mercs" guid="{CFE0B261-8E14-4D0F-A501-3BC93BF285BB}">
+      <ColorChannel path="pants5_7.dds"/>
+      <NormalChannel path="pants5_norm.dds"/>
+      <SpecularChannel path="pants5_spec.dds"/>
+    </Material>
+    <Material name="MercPants5_8" basePath="Content\Characters\Mercs" guid="{725CD79E-DA15-4120-989B-14181008C1FD}">
+      <ColorChannel path="pants5_8.dds"/>
+      <NormalChannel path="pants5_norm.dds"/>
+      <SpecularChannel path="pants5_spec.dds"/>
+    </Material>
+    <Material name="MercPants5_9" basePath="Content\Characters\Mercs" guid="{07E0FE4C-93F2-46B3-8AAA-1EB396DF23CD}">
+      <ColorChannel path="pants5_9.dds"/>
+      <NormalChannel path="pants5_norm.dds"/>
+      <SpecularChannel path="pants5_spec.dds"/>
+    </Material>
+    <Material name="MercPants5_10" basePath="Content\Characters\Mercs" guid="{71035DA4-C974-4D91-85FE-7CEB442373A5}">
+      <ColorChannel path="pants5_10.dds"/>
+      <NormalChannel path="pants5_norm.dds"/>
+      <SpecularChannel path="pants5_spec.dds"/>
+    </Material>
+  </EntityMaterials>
+  <EntityMaterials group="Shoes">
+    <Material name="MercShoes1" basePath="Content\Characters\Mercs" guid="{69301494-AA28-446C-B531-666D33B3B768}">
+      <ColorChannel path="shoes1.dds"/>
+      <NormalChannel path="shoes1_norm.dds"/>
+      <SpecularChannel path="shoes1_spec.dds"/>
+    </Material>
+    <Material name="MercShoes2" basePath="Content\Characters\Mercs" guid="{46F1D488-26D9-4D9B-80FC-B409830661E0}">
+      <ColorChannel path="shoes2.dds"/>
+      <NormalChannel path="shoes2_norm.dds"/>
+      <SpecularChannel path="shoes2_spec.dds"/>
+    </Material>
+    <Material name="MercShoes3" basePath="Content\Characters\Mercs" guid="{FF50377B-CE5E-42F2-894E-B71941088217}">
+      <ColorChannel path="shoes3.dds"/>
+      <NormalChannel path="shoes3_norm.dds"/>
+      <SpecularChannel path="shoes3_spec.dds"/>
+    </Material>
+    <Material name="MercShoes4" basePath="Content\Characters\Mercs" guid="{7B3D92E8-0EE6-40F0-86CE-B6619DA5C5E9}">
+      <ColorChannel path="shoes4.dds"/>
+      <NormalChannel path="shoes3_norm.dds"/>
+      <SpecularChannel path="shoes4_spec.dds"/>
+    </Material>
+    <Material name="MercShoes5" basePath="Content\Characters\Mercs" guid="{D6356E03-8E85-420D-9E70-E4B931731B4E}">
+      <ColorChannel path="shoes5.dds"/>
+      <NormalChannel path="shoes3_norm.dds"/>
+      <SpecularChannel path="shoes5_spec.dds"/>
+    </Material>
+  </EntityMaterials>
+  <EntityMaterials group="Ammo">
+    <Material name="MercAmmo1" basePath="Content\Characters\Mercs" guid="{6BB65238-F031-47B3-9BB7-E65F69BC0EF5}">
+      <ColorChannel path="asset_1.dds"/>
+      <NormalChannel path="asset_norm.dds"/>
+      <SpecularChannel path="asset_spec.dds"/>
+    </Material>
+    <Material name="MercAmmo2" basePath="Content\Characters\Mercs" guid="{A4EE0ABB-714A-4D3A-94E1-88FBF0E63BD1}">
+      <ColorChannel path="asset_2.dds"/>
+      <NormalChannel path="asset_norm.dds"/>
+      <SpecularChannel path="asset_spec.dds"/>
+    </Material>
+    <Material name="MercAmmo3" basePath="Content\Characters\Mercs" guid="{96CC5829-F209-4199-92BA-04940F4959B8}">
+      <ColorChannel path="asset_3.dds"/>
+      <NormalChannel path="asset_norm.dds"/>
+      <SpecularChannel path="asset_spec.dds"/>
+    </Material>
+    <Material name="MercAmmo4" basePath="Content\Characters\Mercs" guid="{353EC8AD-9C68-403D-BE65-276C42144C32}">
+      <ColorChannel path="asset_4.dds"/>
+      <NormalChannel path="asset_norm.dds"/>
+      <SpecularChannel path="asset_spec.dds"/>
+    </Material>
+    <Material name="MercAmmo5" basePath="Content\Characters\Mercs" guid="{E4A83A40-CEC7-4052-A33B-09CB5B650CAC}">
+      <ColorChannel path="asset_5.dds"/>
+      <NormalChannel path="asset_norm.dds"/>
+      <SpecularChannel path="asset_spec.dds"/>
+    </Material>
+    <Material name="MercAmmo6" basePath="Content\Characters\Mercs" guid="{A7418A9F-B2F2-4C3C-9C85-002B25FDD514}">
+      <ColorChannel path="asset_6.dds"/>
+      <NormalChannel path="asset_norm.dds"/>
+      <SpecularChannel path="asset_spec.dds"/>
+    </Material>
+    <Material name="MercAmmo7" basePath="Content\Characters\Mercs" guid="{99186FF3-63FE-4CEA-972A-0BE1AA847D69}">
+      <ColorChannel path="asset_7.dds"/>
+      <NormalChannel path="asset_norm.dds"/>
+      <SpecularChannel path="asset_spec.dds"/>
+    </Material>
+    <Material name="MercAmmo8" basePath="Content\Characters\Mercs" guid="{563B18FD-6830-467F-A45F-1E7BBBC15A2A}">
+      <ColorChannel path="asset_8.dds"/>
+      <NormalChannel path="asset_norm.dds"/>
+      <SpecularChannel path="asset_spec.dds"/>
+    </Material>
+    <Material name="MercAmmo9" basePath="Content\Characters\Mercs" guid="{693DFACA-D6F4-457E-83D8-4F5A4544E428}">
+      <ColorChannel path="asset_9.dds"/>
+      <NormalChannel path="asset_norm.dds"/>
+      <SpecularChannel path="asset_spec.dds"/>
+    </Material>
+    <Material name="MercAmmo10" basePath="Content\Characters\Mercs" guid="{2F62C176-E639-4BA4-9228-97AF1559AA23}">
+      <ColorChannel path="asset_10.dds"/>
+      <NormalChannel path="asset_norm.dds"/>
+      <SpecularChannel path="asset_spec.dds"/>
+    </Material>
+  </EntityMaterials>
+  <EntityMaterials group="Weapons">
+    <Material name="MK11" basePath="Content\Characters\Mercs" guid="{6B4F6BD0-2164-41F3-AB1D-95B422D335C3}">
+      <ColorChannel path="mk11.dds"/>
+      <NormalChannel path="mk11_norm.dds"/>
+      <SpecularChannel path="mk11_spec.dds"/>
+    </Material>
+    <Material name="AK47" basePath="Content\Characters\Mercs" guid="{84CA7F50-3839-4346-9B3D-7561FB57E70D}">
+      <ColorChannel path="AK47.dds"/>
+      <NormalChannel path="ak47_norm.dds"/>
+      <SpecularChannel path="ak47_spec.dds"/>
+    </Material>
+    <Material name="MP5" basePath="Content\Characters\Mercs" guid="{870C4C9B-1109-426D-9183-D50C5C40F0F9}">
+      <ColorChannel path="mp5.dds"/>
+      <NormalChannel path="mp5_norm.dds"/>
+      <SpecularChannel path="mp5_spec.dds"/>
+    </Material>
+    <Material name="M16" basePath="Content\Characters\Mercs" guid="{8E1FF5DB-3FFE-47E5-B978-14F7245B8C6D}">
+      <ColorChannel path="m16.dds"/>
+      <NormalChannel path="m16_norm.dds"/>
+      <SpecularChannel path="m16_spec.dds"/>
+    </Material>
+    <Material name="Knife" basePath="Content\Characters\Mercs" guid="{19C4E2B0-7610-4070-904E-BDC7BFE18B76}">
+      <ColorChannel path="knife.dds"/>
+      <NormalChannel path="knife_norm.dds"/>
+      <SpecularChannel path="knife_spec.dds"/>
+    </Material>
+    <Material name="Pistol" basePath="Content\Characters\Mercs" guid="{D7CED70F-B7E1-4068-A8DC-107C021F3834}">
+      <ColorChannel path="pistol.dds"/>
+      <NormalChannel path="pistol_norm.dds"/>
+      <SpecularChannel path="pistol_spec.dds"/>
+    </Material>
+  </EntityMaterials>
+
+  <Entities>
+    <Entity name="Mercenary" category="Characters" guid="{39B59413-A1EF-4178-BC29-5AB0A3D8E374}">
+      <Visuals>
+        <AnimationSet guid="{715A6EC8-5F34-4E8C-AE85-BD906E43BA75}"/>
+        <Frame name="default">
+          <Slot name="Head" guid="{CF71AECC-CDF7-4148-8EAF-1C3310378EDA}">
+            <Mesh guid="{72086B73-A73E-40CA-AE53-2BB1AD988D58}" path="Content\Characters\Mercs\marine_DirecX.X.mesh" submesh="24">
+              <MaterialRef guid="{A9D7A879-5194-45A2-B84E-7C64AAE07975}"/>
+              <MaterialRef guid="{5CA76D24-5286-4ECF-A494-8CF21B4AECBF}"/>
+              <MaterialRef guid="{EDEACC12-4FC6-4ED1-8B39-F6EC147C32A7}"/>
+              <MaterialRef guid="{70A44F9A-C444-4C95-AB81-41EF1728C7A9}"/>
+              <MaterialRef guid="{C475208F-4415-4CCE-A082-9A81ECF8F903}"/>
+              <MaterialRef guid="{D5A234F7-BAAD-4690-BD55-4BADECA87853}"/>
+              <MaterialRef guid="{B92EAAD0-0310-41C5-9D91-797EAAF5D5A1}"/>
+              <MaterialRef guid="{0272A5E1-A629-480B-BC34-F4FABE150526}"/>
+              <MaterialRef guid="{588C8D6D-864A-418B-B44C-9C43C7C48244}"/>
+              <MaterialRef guid="{C0C80054-00D4-45C2-B75C-D9EC697F2C2C}"/>
+            </Mesh>
+            <Mesh guid="{CF021281-1311-44E7-B6C6-068AF58D53AB}" path="Content\Characters\Mercs\marine_DirecX.X.mesh" submesh="26">
+              <MaterialRef guid="{E81386A2-1BA5-4E65-84F1-23F896246DD8}"/>
+              <MaterialRef guid="{1A421E88-6F34-4939-9E63-10B68E5A9DEF}"/>
+              <MaterialRef guid="{137342D4-25E0-4341-8CFA-E74AC3BE66DE}"/>
+              <MaterialRef guid="{995BCCFD-B53C-451E-B0E8-DEC8AA9A77B8}"/>
+              <MaterialRef guid="{8C7417F4-01D6-4212-9725-8F9F37A41CEB}"/>
+              <MaterialRef guid="{0A5BE37A-1F9E-4A34-9898-D7A310DDD827}"/>
+              <MaterialRef guid="{B3456283-E464-4EB5-A652-5CA29A3BB8E1}"/>
+              <MaterialRef guid="{62AB08C0-8128-42AF-950A-A7466D03CCC9}"/>
+              <MaterialRef guid="{4F5963FF-8583-4E7E-A70D-BC73B75444BC}"/>
+              <MaterialRef guid="{F721F641-E3C2-4492-82A6-53A57DE32910}"/>
+            </Mesh>
+            <Mesh guid="{7D9D820F-70E3-4998-ADB0-E5CC0A7F389A}" path="Content\Characters\Mercs\marine_DirecX.X.mesh" submesh="25">
+              <MaterialRef guid="{EAAF08E4-52FA-4ED9-9990-05403704A050}"/>
+              <MaterialRef guid="{49034A72-1F29-4251-8857-CA4339695798}"/>
+              <MaterialRef guid="{7A39CE52-9943-4176-B9C5-26283214FCE1}"/>
+              <MaterialRef guid="{A189FE4D-ED23-40C1-8D58-384AED1AEEC5}"/>
+              <MaterialRef guid="{F0ACAFC0-C24A-4001-A377-C079FA200766}"/>
+              <MaterialRef guid="{A2371A4C-8708-4E96-9106-BC79442D2BC5}"/>
+              <MaterialRef guid="{77D05A57-C1C4-460D-A0A9-0B341536F760}"/>
+              <MaterialRef guid="{8D28ABD1-2124-4D04-978E-8F0F0C77C558}"/>
+              <MaterialRef guid="{B2F42A89-5CFB-4ADB-B276-598777E49715}"/>
+              <MaterialRef guid="{B2201117-4394-4721-B15C-669912EA06D5}"/>
+            </Mesh>
+            <Mesh guid="{4C9DDBAF-7A2C-4A9D-9CF7-B616634408FB}" path="Content\Characters\Mercs\marine_DirecX.X.mesh" submesh="20">
+              <MaterialRef guid="{306C2D65-822D-401D-A503-947B1529F1D0}"/>
+              <MaterialRef guid="{9E688280-3E50-4F37-9258-74E75F6CA363}"/>
+              <MaterialRef guid="{98FD0CF0-A371-48E6-9821-71562655DC60}"/>
+              <MaterialRef guid="{B6855A2D-C486-4D75-B88C-21AFD4EA97C1}"/>
+              <MaterialRef guid="{4B682999-8230-4D75-BA3F-EB6C1323FD1E}"/>
+              <MaterialRef guid="{957D004A-25AB-46A1-9F49-398470216A53}"/>
+              <MaterialRef guid="{000E2EC0-BD51-4067-BB79-0BE54C3FEF2F}"/>
+              <MaterialRef guid="{FDA8EC13-C9FC-4BBB-8254-6ACE1318DB07}"/>
+              <MaterialRef guid="{D645F515-9FE3-4A93-A752-EDD63DBFFF53}"/>
+              <MaterialRef guid="{C8120185-1757-4B2A-9A80-F37767EAF601}"/>
+            </Mesh>
+            <Mesh guid="{2D6E0B9C-6D3E-4C35-9D9F-EB7710A6F6B0}" path="Content\Characters\Mercs\marine_DirecX.X.mesh" submesh="22">
+              <MaterialRef guid="{896073F1-BF88-4FEE-A4C5-25DB2DBBEC02}"/>
+              <MaterialRef guid="{60F4EAAA-F32F-4660-A4F0-552576550A8B}"/>
+              <MaterialRef guid="{710F3718-54BB-4983-8D65-BEC8B357DB25}"/>
+              <MaterialRef guid="{38FEC787-5BE2-4D9B-841E-CE66C175C359}"/>
+              <MaterialRef guid="{3C4F103C-E60D-4A9C-B801-B601F8050731}"/>
+              <MaterialRef guid="{D061CBAD-6EB7-49BE-A98A-5822B964B94B}"/>
+              <MaterialRef guid="{79B1A659-4D75-4E1F-86F9-3289E4FB220C}"/>
+              <MaterialRef guid="{195E9EBC-87A0-4277-A42F-9F5E66286A4A}"/>
+              <MaterialRef guid="{FA3520A0-C456-4C73-90A9-9D49DB21746B}"/>
+              <MaterialRef guid="{2E83D98A-A4AC-4F6B-8084-9558C221D95B}"/>
+            </Mesh>
+            <Mesh guid="{940E13D0-1E41-4BA4-A0A4-A11D17A08AA2}" path="Content\Characters\Mercs\marine_DirecX.X.mesh" submesh="37">
+              <MaterialRef guid="{F7B928E0-E86E-4499-8C0C-D0778C18A319}"/>
+              <MaterialRef guid="{7E43C306-5380-4CF5-BF95-5D7190B917B6}"/>
+              <MaterialRef guid="{34C08769-877E-402A-9934-C2841E1CC634}"/>
+              <MaterialRef guid="{D83F7DBB-44A0-474E-A65E-303377343936}"/>
+              <MaterialRef guid="{89ED6CA7-E74B-44D0-B1A3-DF67BB569AA6}"/>
+              <MaterialRef guid="{7BF5056D-A3AF-41BF-B7D0-8134606C484A}"/>
+              <MaterialRef guid="{88D46C41-4261-4E81-ABEF-90D987033DA0}"/>
+              <MaterialRef guid="{72CD90FB-E8CA-4135-8650-74EBE596D4D6}"/>
+              <MaterialRef guid="{6492B2F7-116C-4A7F-8B34-6E5AF82D0E3D}"/>
+              <MaterialRef guid="{97BA02C1-F189-4464-B738-69D06A3E0FD9}"/>
+            </Mesh>
+            <Mesh guid="{0EB0A6DB-E696-4087-879F-D867D2E988A1}" path="Content\Characters\Mercs\marine_DirecX.X.mesh" submesh="33">
+              <MaterialRef guid="{A0BB807B-EF5D-4395-A29D-6B1F590B2FCF}"/>
+              <MaterialRef guid="{7583A8E3-1A67-405C-9724-AA175DD0F7D4}"/>
+              <MaterialRef guid="{CA2614B1-C4D8-4972-AC9E-004B2073BC63}"/>
+              <MaterialRef guid="{77E6A009-E724-46D2-A839-ED647F83F5B3}"/>
+              <MaterialRef guid="{8C10650D-65B2-477B-8904-D168A940183E}"/>
+              <MaterialRef guid="{A173F0EA-D302-4BF8-9027-715B57FB84D2}"/>
+              <MaterialRef guid="{C54E607E-57B6-40BE-98EC-0EFEA2112269}"/>
+              <MaterialRef guid="{FD4E5E89-77AB-4EF6-B9A8-7ABEA34868CD}"/>
+              <MaterialRef guid="{590F2288-B52F-4582-B3BA-451A71E9D927}"/>
+              <MaterialRef guid="{C5B0228E-2C1B-406C-AC23-0B9C8FD14D25}"/>
+            </Mesh>
+            <Mesh guid="{CCFB4A00-7B67-4A49-AA60-896FE93AA018}" path="Content\Characters\Mercs\marine_DirecX.X.mesh" submesh="34">
+              <MaterialRef guid="{BA035978-D65F-4B6E-904C-3635599B457E}"/>
+              <MaterialRef guid="{0677AE6C-7832-4E22-9EAC-FE96D16D6F83}"/>
+              <MaterialRef guid="{65180142-673C-4151-8382-0797E5A260CA}"/>
+              <MaterialRef guid="{DB916925-91CE-4B0A-A6DE-0012B7764910}"/>
+              <MaterialRef guid="{36027553-D2E5-4FA8-A174-D9EBF3AECCF9}"/>
+              <MaterialRef guid="{2DC6EE23-23B9-4E0B-9D3C-B46A974894E0}"/>
+              <MaterialRef guid="{48B1B302-3735-45DF-8C3A-A8F9086BFA12}"/>
+              <MaterialRef guid="{A6125119-CEDB-41A4-A7E2-0767394BF1AE}"/>
+              <MaterialRef guid="{22F4FFB6-9C1B-48FC-ABAE-090C967C285F}"/>
+              <MaterialRef guid="{65DD7A50-E8C5-486D-854B-1D9EC9A84CA4}"/>
+            </Mesh>
+            <Mesh guid="{B134255E-FB46-4E0E-9E7F-382D47FE2F26}" path="Content\Characters\Mercs\marine_DirecX.X.mesh" submesh="35">
+              <MaterialRef guid="{76271EAC-8E34-423C-94E3-462448AB8422}"/>
+              <MaterialRef guid="{42103059-77A1-467A-9FB3-1C5D36EA11BD}"/>
+              <MaterialRef guid="{F91C083A-C7C5-4BF8-B5A5-D9843E057A90}"/>
+              <MaterialRef guid="{8EDFA43C-A59D-433C-9CA9-3380E38B4CB3}"/>
+              <MaterialRef guid="{CEDEC49F-77F0-45D3-AC77-8EB515D660C0}"/>
+              <MaterialRef guid="{57CC430D-70A3-4F7F-9DAB-F92D83B9ECBE}"/>
+              <MaterialRef guid="{DA97D25C-3BAA-420C-8E6C-414297254CE6}"/>
+              <MaterialRef guid="{0F81E632-D287-4E42-9BC0-69079A30DBA3}"/>
+              <MaterialRef guid="{E01143D1-2044-4C76-87EA-C9C26C4EB6BD}"/>
+              <MaterialRef guid="{E56D0E5A-7D44-4405-A957-B56C7B57E08F}"/>
+            </Mesh>
+            <Mesh guid="{DA850B90-730D-462D-AC5A-6E77E9BE5F65}" path="Content\Characters\Mercs\marine_DirecX.X.mesh" submesh="36">
+              <MaterialRef guid="{471AF2B0-BE58-4750-9CCD-BE9EC5AD8469}"/>
+              <MaterialRef guid="{18BCC5A8-66EA-4A1B-978E-89E9ABFC8C99}"/>
+              <MaterialRef guid="{7AA5ED18-C03E-4B6E-8D54-71E5BB62ED6C}"/>
+              <MaterialRef guid="{23B65CB6-20D8-4A15-A5E9-3ED9431C8A84}"/>
+              <MaterialRef guid="{FDCDAE9B-CEB6-4D94-85CA-B2ADCDFFA1F9}"/>
+              <MaterialRef guid="{F1F125B8-B580-40A8-8763-F6CEDFEBDB1C}"/>
+              <MaterialRef guid="{C7F5AE0C-07F5-4167-A193-2E3D7D347254}"/>
+              <MaterialRef guid="{C745EA4C-C6CE-4356-AD06-804A2E20A61E}"/>
+              <MaterialRef guid="{CF8D30A5-ED6D-4BF1-9C78-CBD63AB3F978}"/>
+              <MaterialRef guid="{4027A3DD-106F-43E7-B7AD-591247E8F58C}"/>
+            </Mesh>
+          </Slot>
+          <Slot name="Body" guid="{CC7B1F8E-6D0C-4E7B-8F43-F3BEDFF10C06}">
+            <Mesh guid="{8B887E90-55CD-4418-9431-F4F4675039D6}" path="Content\Characters\Mercs\marine_DirecX.X.mesh" submesh="9">
+              <MaterialRef guid="{ACB1B0D9-1639-4839-BE60-767DB9CD12CF}"/>
+              <MaterialRef guid="{E7CF43C7-BD67-436A-8DA8-8B4CF6A4D4D9}"/>
+              <MaterialRef guid="{9B971B55-8541-47A3-A7DA-D0D9D425C6BF}"/>
+              <MaterialRef guid="{127B3080-1CDD-4998-BD20-3E32C4177071}"/>
+              <MaterialRef guid="{99D79D6B-19C4-423E-8B78-C7FB98745A81}"/>
+              <MaterialRef guid="{6FDE41C9-C5C7-4484-BC7D-7ABD2238AE43}"/>
+              <MaterialRef guid="{2B1EDA1A-A0A2-4FF8-B914-2E935589B9A3}"/>
+              <MaterialRef guid="{0FAD720B-11CD-499E-80DB-5009BF14A970}"/>
+              <MaterialRef guid="{B53E5AF9-6F35-4C55-9D62-999855A4E61D}"/>
+              <MaterialRef guid="{0D1DA99A-7945-4DBD-BB80-6DD21E3C9883}"/>
+            </Mesh>
+            <Mesh guid="{F0A295AD-1D42-4DBB-B079-F7483BA8E041}" path="Content\Characters\Mercs\marine_DirecX.X.mesh" submesh="11">
+              <MaterialRef guid="{2D8335C0-9AF3-4FE6-936E-C5E9FFDBBB4D}"/>
+              <MaterialRef guid="{E3615E74-0011-4BEA-8C55-4129C552B551}"/>
+              <MaterialRef guid="{15B6BDEA-6BFA-4827-BD79-A5C75FC50E27}"/>
+              <MaterialRef guid="{6F10BBF1-BBDD-4DD1-8634-FADD316D1252}"/>
+              <MaterialRef guid="{EB83D4EA-2212-49FD-85D2-4D2977AD7802}"/>
+              <MaterialRef guid="{97BBD0DC-938C-44E0-A647-B6F9C10FB96A}"/>
+              <MaterialRef guid="{87480E03-DD6B-4ACC-9B2F-2657E8AC17EB}"/>
+              <MaterialRef guid="{8C623851-5DBE-4AD8-AF12-20047D405B8F}"/>
+              <MaterialRef guid="{9DCED36E-6DB0-47F9-BCAA-06D66D01E197}"/>
+              <MaterialRef guid="{6D45DA5B-0AF3-421F-BE1B-5524217EB0A1}"/>
+            </Mesh>
+            <Mesh guid="{75500790-F77D-47AE-BECA-C0FC331E72B7}" path="Content\Characters\Mercs\marine_DirecX.X.mesh" submesh="17">
+              <MaterialRef guid="{81FFE98B-87A1-498B-A490-F23C96672951}"/>
+              <MaterialRef guid="{AD4C1B33-AAB7-4E30-B7E6-3880840D15ED}"/>
+              <MaterialRef guid="{D236CEEE-D17A-4C46-8FED-1DDF2BDDD925}"/>
+              <MaterialRef guid="{8AFA9DA1-9E90-477B-8F1C-AD229A802F43}"/>
+              <MaterialRef guid="{C036C715-1EB9-4DE9-8E86-D23454D5C89C}"/>
+              <MaterialRef guid="{A09B8C0F-3AC3-4AAB-8074-7F5ADE0B2BE5}"/>
+              <MaterialRef guid="{D063B071-7626-4D97-83D0-42B25813C09C}"/>
+              <MaterialRef guid="{03BF4F12-1148-4E16-B668-4ACBE36ACACB}"/>
+              <MaterialRef guid="{B80F2B31-E953-4732-B5EF-C7CFABDD8FFA}"/>
+              <MaterialRef guid="{C6F0ED7B-14B3-4630-A624-760D9615564C}"/>
+            </Mesh>
+            <Mesh guid="{AC1F4638-7526-4052-B819-6A144C23DAD9}" path="Content\Characters\Mercs\marine_DirecX.X.mesh" submesh="13">
+              <MaterialRef guid="{B5D442E5-E4F0-4F4B-95B2-C59F33CD7742}"/>
+              <MaterialRef guid="{0DACFDBA-4ECC-45A9-B04C-5C6F73E8EE1B}"/>
+              <MaterialRef guid="{F4B664D2-D443-4C59-AAA3-79B965B6994D}"/>
+              <MaterialRef guid="{33A3D835-298C-4583-9C6E-6AA469AF26F3}"/>
+              <MaterialRef guid="{A81BA807-60B0-4A0E-9A75-F24E36DAB5D2}"/>
+              <MaterialRef guid="{EB4D3C3F-F308-4526-9623-F9919A02D429}"/>
+              <MaterialRef guid="{9F8D5C4F-DBE2-4706-887D-B5D8C5652E4D}"/>
+              <MaterialRef guid="{4388CA65-A104-440F-9B0E-AF8A159B6516}"/>
+              <MaterialRef guid="{AB24659F-C66F-4660-A89A-F01DC8CD6557}"/>
+              <MaterialRef guid="{B2D892B8-36F9-4802-93D2-BABBE27D7194}"/>
+            </Mesh>
+            <Mesh guid="{78ACD7D8-66B7-4B07-BBEA-1245D17485EA}" path="Content\Characters\Mercs\marine_DirecX.X.mesh" submesh="12">
+              <MaterialRef guid="{C90A0830-D67F-4283-BFBC-F823B1E96046}"/>
+              <MaterialRef guid="{887B004A-4ECE-45CC-A790-42488E5C177D}"/>
+              <MaterialRef guid="{B265EF2B-932E-47B6-B263-E342F1AF7E5F}"/>
+              <MaterialRef guid="{2E346C2F-B5A4-47D6-BA6F-F9AAAEFF5DFE}"/>
+              <MaterialRef guid="{35DCA34F-8EA6-4BFB-9F70-BE2AD3F54171}"/>
+              <MaterialRef guid="{2CC7F828-DCFE-41BE-9A5B-28E3B2469E02}"/>
+              <MaterialRef guid="{9708473B-D057-4C55-8306-29289CC81E4B}"/>
+              <MaterialRef guid="{A11873A5-F624-432A-ABD5-F590489A14AA}"/>
+              <MaterialRef guid="{359AF14E-2C6E-44D8-9539-FEA9DCD7313B}"/>
+              <MaterialRef guid="{DE7C69F0-5EDB-4D43-A354-107F1C55FD5B}"/>
+            </Mesh>
+          </Slot>
+          <Slot name="Pants" guid="{4594E7DF-2AF5-4CB0-90F3-956E8ED98568}">
+            <Mesh guid="{4399BA90-3EF9-42D7-90C9-F7DF77AE1C62}" path="Content\Characters\Mercs\marine_DirecX.X.mesh" submesh="10">
+              <MaterialRef guid="{E03512CC-7A3A-478A-917D-649F199B2CA5}"/>
+              <MaterialRef guid="{35882032-309B-4ABC-A2BC-18C4198BB779}"/>
+              <MaterialRef guid="{E0C14F5C-5F23-4A77-AC2F-00DD0BA69F83}"/>
+              <MaterialRef guid="{0BE1637C-DE44-4C1E-A550-650A5FFDB65B}"/>
+              <MaterialRef guid="{32465E8B-0370-42C9-93C8-8521C502FFD4}"/>
+              <MaterialRef guid="{615B3ABC-4F74-401E-A8C1-C3DFF163CE12}"/>
+              <MaterialRef guid="{43FFC5D6-341B-42D4-92FD-B2C3407B7C9B}"/>
+              <MaterialRef guid="{DF3C21E7-863C-4B2C-BD11-82CEAE8B8DD1}"/>
+              <MaterialRef guid="{648AF4FC-A935-468A-927F-624AF9B9324E}"/>
+              <MaterialRef guid="{43A8CD1C-E1C4-457D-AC6E-19D66722431D}"/>
+            </Mesh>
+            <Mesh guid="{EA5EC20F-7488-4E6F-8507-5AB8A2027FEC}" path="Content\Characters\Mercs\marine_DirecX.X.mesh" submesh="19">
+              <MaterialRef guid="{48FF36A1-FD86-435B-B408-4B78964709FE}"/>
+              <MaterialRef guid="{7DCC399E-7002-45EE-88B4-89773BEE7FDC}"/>
+              <MaterialRef guid="{925550B6-607D-41DC-85DC-DF949B5C5F93}"/>
+              <MaterialRef guid="{98B0239B-4AA7-49DD-8D15-EF1718147739}"/>
+              <MaterialRef guid="{3579800D-5F87-46C7-8BCA-DFD297185356}"/>
+              <MaterialRef guid="{F5F5B999-0D70-4469-9AED-9E2975D2BDFE}"/>
+              <MaterialRef guid="{74753694-B9C7-42F0-A0D1-AD3D748819A6}"/>
+              <MaterialRef guid="{FE91E76C-66E3-4D3B-B3C4-9B3B4D28D18B}"/>
+              <MaterialRef guid="{4993B88B-0EDE-4DFB-9AA8-B388183E409C}"/>
+              <MaterialRef guid="{9D9C037E-4C2E-4D73-970F-1ACAE8D59C31}"/>
+            </Mesh>
+            <Mesh guid="{98825895-36DB-4DAA-B5CF-F96627F2B773}" path="Content\Characters\Mercs\marine_DirecX.X.mesh" submesh="16">
+              <MaterialRef guid="{01EF78D1-C58E-47D6-ADE3-C492674967AA}"/>
+              <MaterialRef guid="{7BA19F4F-5B7C-4059-9606-96B0D65464E9}"/>
+              <MaterialRef guid="{F4A87F35-ECF4-4BE8-946B-139E947BE016}"/>
+              <MaterialRef guid="{F5FBA7D0-E9D5-4792-9997-D6F42126E927}"/>
+              <MaterialRef guid="{79DE0734-A203-44CE-8A2C-D65EC9B4462F}"/>
+              <MaterialRef guid="{55E938F6-CBB9-44C2-BA7C-D2CFE2F3F702}"/>
+              <MaterialRef guid="{3FEFC252-85B1-4ECF-89F2-2AC787C56682}"/>
+              <MaterialRef guid="{AA483E8C-F19F-4DE8-8000-6FB4A66F2A49}"/>
+              <MaterialRef guid="{6D7E6152-F56E-46B3-8B77-586FD93637A2}"/>
+              <MaterialRef guid="{9A6EF3D3-464A-4094-AE02-030B21A08134}"/>
+            </Mesh>
+            <Mesh guid="{4A25F16A-315C-42E3-8C35-58C1CB4FEBA5}" path="Content\Characters\Mercs\marine_DirecX.X.mesh" submesh="15">
+              <MaterialRef guid="{B063BA0A-FBAB-487B-9C4B-AD094384A460}"/>
+              <MaterialRef guid="{C1119914-2CAF-4D6C-B043-3EDB4419CCE4}"/>
+              <MaterialRef guid="{78B92261-3B13-4113-809F-2E8FE9F1C06A}"/>
+              <MaterialRef guid="{77177BE9-49CF-4C8A-9F6E-0905DF648515}"/>
+              <MaterialRef guid="{9036FFD1-ED3E-4BED-920B-4CCF9924B61C}"/>
+              <MaterialRef guid="{A83321FD-F3D5-4516-BD14-41035CF3FBDE}"/>
+              <MaterialRef guid="{449252D8-A0DE-4807-84FE-5576DDC269F2}"/>
+              <MaterialRef guid="{6A84D72B-AFAD-4E21-BC36-5E36A52711A7}"/>
+              <MaterialRef guid="{79FEE3B9-6FBF-4A9A-8D06-355DC62D757B}"/>
+              <MaterialRef guid="{57D15EED-88AF-414F-BE9A-2B879374B22B}"/>
+            </Mesh>
+            <Mesh guid="{1340F06D-5A69-4939-9261-A2C1C8C2B4E1}" path="Content\Characters\Mercs\marine_DirecX.X.mesh" submesh="14">
+              <MaterialRef guid="{A0929CC5-50AB-495E-BE6F-2C14905E466B}"/>
+              <MaterialRef guid="{6377082E-D8E8-4C80-A764-D4FF2627786F}"/>
+              <MaterialRef guid="{8A9BC0D3-E2BA-462A-9563-BD5084EA484A}"/>
+              <MaterialRef guid="{AA714D99-64AA-4B19-AC23-6A481BE562D1}"/>
+              <MaterialRef guid="{F889E37E-9F91-45B6-827E-F44B7DB4BCC0}"/>
+              <MaterialRef guid="{160ADD4C-A92D-43F3-9329-1830BF7F9DB0}"/>
+              <MaterialRef guid="{CFE0B261-8E14-4D0F-A501-3BC93BF285BB}"/>
+              <MaterialRef guid="{725CD79E-DA15-4120-989B-14181008C1FD}"/>
+              <MaterialRef guid="{07E0FE4C-93F2-46B3-8AAA-1EB396DF23CD}"/>
+              <MaterialRef guid="{71035DA4-C974-4D91-85FE-7CEB442373A5}"/>
+            </Mesh>
+          </Slot>
+          <Slot name="Hands" guid="{952647B2-B398-4F10-92F4-9C84A64D40F8}">
+            <Mesh guid="{91E76629-9FD7-4479-96FC-66D2D4E23FB2}" path="Content\Characters\Mercs\marine_DirecX.X.mesh" submesh="4">
+              <MaterialRef guid="{FF0EB223-C603-4C87-B81B-35BB7213CE82}"/>
+            </Mesh>
+            <Mesh guid="{14E6B933-4527-47F7-ADEF-D25F976EDAE7}" path="Content\Characters\Mercs\marine_DirecX.X.mesh" submesh="7">
+              <MaterialRef guid="{703F18D2-B314-46BC-B559-E353EC65CF04}"/>
+            </Mesh>
+            <Mesh guid="{563B241B-03DC-43A4-B98B-E81EE2C4011D}" path="Content\Characters\Mercs\marine_DirecX.X.mesh" submesh="6">
+              <MaterialRef guid="{BA726028-1CC4-481D-A5B9-25037EAF2C4A}"/>
+            </Mesh>
+            <Mesh guid="{E5A2169F-5850-4C69-A4A0-5EAD47621AA1}" path="Content\Characters\Mercs\marine_DirecX.X.mesh" submesh="5">
+              <MaterialRef guid="{1862A8EB-D4F7-4442-B2F9-138F4BFCFA58}"/>
+            </Mesh>
+            <Mesh guid="{44B585A9-5995-406F-828C-7C9C226B6A85}" path="Content\Characters\Mercs\marine_DirecX.X.mesh" submesh="18">
+              <MaterialRef guid="{29564BCC-5184-4936-B932-A8AEB972FCAF}"/>
+            </Mesh>
+          </Slot>
+          <Slot name="Feet" guid="{128E34B1-7751-4E67-A843-B8C2A0431544}">
+            <Mesh guid="{17DBDCF7-840D-4ECA-B69B-346935EC9C5C}" path="Content\Characters\Mercs\marine_DirecX.X.mesh" submesh="2">
+              <MaterialRef guid="{69301494-AA28-446C-B531-666D33B3B768}"/>
+            </Mesh>
+            <Mesh guid="{FE806DCE-346B-4C18-B539-26A29AF7A48D}" path="Content\Characters\Mercs\marine_DirecX.X.mesh" submesh="0">
+              <MaterialRef guid="{46F1D488-26D9-4D9B-80FC-B409830661E0}"/>
+            </Mesh>
+            <Mesh guid="{103C5466-E503-4E94-92F4-E63CF59CDC3F}" path="Content\Characters\Mercs\marine_DirecX.X.mesh" submesh="1">
+              <MaterialRef guid="{FF50377B-CE5E-42F2-894E-B71941088217}"/>
+            </Mesh>
+            <Mesh guid="{4536F6AE-E2D5-4FFE-9A85-B68B2DEC2A01}" path="Content\Characters\Mercs\marine_DirecX.X.mesh" submesh="3">
+              <MaterialRef guid="{7B3D92E8-0EE6-40F0-86CE-B6619DA5C5E9}"/>
+            </Mesh>
+            <Mesh guid="{91662EA5-AAB7-4BCB-8AD7-CDE6E2BB8D97}" path="Content\Characters\Mercs\marine_DirecX.X.mesh" submesh="32">
+              <MaterialRef guid="{D6356E03-8E85-420D-9E70-E4B931731B4E}"/>
+            </Mesh>
+          </Slot>
+          <Slot name="Ammo" guid="{51AF8878-C633-4D42-AFD2-C007C389E675}">
+            <Mesh guid="{292EFD53-0838-4657-979D-31D0C0602DD6}" path="Content\Characters\Mercs\marine_DirecX.X.mesh" submesh="27">
+              <MaterialRef guid="{6BB65238-F031-47B3-9BB7-E65F69BC0EF5}"/>
+              <MaterialRef guid="{A4EE0ABB-714A-4D3A-94E1-88FBF0E63BD1}"/>
+              <MaterialRef guid="{96CC5829-F209-4199-92BA-04940F4959B8}"/>
+              <MaterialRef guid="{353EC8AD-9C68-403D-BE65-276C42144C32}"/>
+              <MaterialRef guid="{E4A83A40-CEC7-4052-A33B-09CB5B650CAC}"/>
+              <MaterialRef guid="{A7418A9F-B2F2-4C3C-9C85-002B25FDD514}"/>
+              <MaterialRef guid="{99186FF3-63FE-4CEA-972A-0BE1AA847D69}"/>
+              <MaterialRef guid="{563B18FD-6830-467F-A45F-1E7BBBC15A2A}"/>
+              <MaterialRef guid="{693DFACA-D6F4-457E-83D8-4F5A4544E428}"/>
+              <MaterialRef guid="{2F62C176-E639-4BA4-9228-97AF1559AA23}"/>
+            </Mesh>
+            <Mesh guid="{FA77CBC1-F90D-4B29-B4B2-A0980D1B0B73}" path="Content\Characters\Mercs\marine_DirecX.X.mesh" submesh="30">
+              <MaterialRef guid="{6BB65238-F031-47B3-9BB7-E65F69BC0EF5}"/>
+              <MaterialRef guid="{A4EE0ABB-714A-4D3A-94E1-88FBF0E63BD1}"/>
+              <MaterialRef guid="{96CC5829-F209-4199-92BA-04940F4959B8}"/>
+              <MaterialRef guid="{353EC8AD-9C68-403D-BE65-276C42144C32}"/>
+              <MaterialRef guid="{E4A83A40-CEC7-4052-A33B-09CB5B650CAC}"/>
+              <MaterialRef guid="{A7418A9F-B2F2-4C3C-9C85-002B25FDD514}"/>
+              <MaterialRef guid="{99186FF3-63FE-4CEA-972A-0BE1AA847D69}"/>
+              <MaterialRef guid="{563B18FD-6830-467F-A45F-1E7BBBC15A2A}"/>
+              <MaterialRef guid="{693DFACA-D6F4-457E-83D8-4F5A4544E428}"/>
+              <MaterialRef guid="{2F62C176-E639-4BA4-9228-97AF1559AA23}"/>
+            </Mesh>
+            <Mesh guid="{BBBC1C6D-8CFA-48EA-9F4E-77EFFFDDF2D1}" path="Content\Characters\Mercs\marine_DirecX.X.mesh" submesh="31">
+              <MaterialRef guid="{6BB65238-F031-47B3-9BB7-E65F69BC0EF5}"/>
+              <MaterialRef guid="{A4EE0ABB-714A-4D3A-94E1-88FBF0E63BD1}"/>
+              <MaterialRef guid="{96CC5829-F209-4199-92BA-04940F4959B8}"/>
+              <MaterialRef guid="{353EC8AD-9C68-403D-BE65-276C42144C32}"/>
+              <MaterialRef guid="{E4A83A40-CEC7-4052-A33B-09CB5B650CAC}"/>
+              <MaterialRef guid="{A7418A9F-B2F2-4C3C-9C85-002B25FDD514}"/>
+              <MaterialRef guid="{99186FF3-63FE-4CEA-972A-0BE1AA847D69}"/>
+              <MaterialRef guid="{563B18FD-6830-467F-A45F-1E7BBBC15A2A}"/>
+              <MaterialRef guid="{693DFACA-D6F4-457E-83D8-4F5A4544E428}"/>
+              <MaterialRef guid="{2F62C176-E639-4BA4-9228-97AF1559AA23}"/>
+            </Mesh>
+            <Mesh guid="{01116C5A-FCCE-4237-BC94-64D7E0F18BE8}" path="Content\Characters\Mercs\marine_DirecX.X.mesh" submesh="28">
+              <MaterialRef guid="{6BB65238-F031-47B3-9BB7-E65F69BC0EF5}"/>
+              <MaterialRef guid="{A4EE0ABB-714A-4D3A-94E1-88FBF0E63BD1}"/>
+              <MaterialRef guid="{96CC5829-F209-4199-92BA-04940F4959B8}"/>
+              <MaterialRef guid="{353EC8AD-9C68-403D-BE65-276C42144C32}"/>
+              <MaterialRef guid="{E4A83A40-CEC7-4052-A33B-09CB5B650CAC}"/>
+              <MaterialRef guid="{A7418A9F-B2F2-4C3C-9C85-002B25FDD514}"/>
+              <MaterialRef guid="{99186FF3-63FE-4CEA-972A-0BE1AA847D69}"/>
+              <MaterialRef guid="{563B18FD-6830-467F-A45F-1E7BBBC15A2A}"/>
+              <MaterialRef guid="{693DFACA-D6F4-457E-83D8-4F5A4544E428}"/>
+              <MaterialRef guid="{2F62C176-E639-4BA4-9228-97AF1559AA23}"/>
+            </Mesh>
+            <Mesh guid="{E2C14019-3C21-46D9-89DC-B23123F55450}" path="Content\Characters\Mercs\marine_DirecX.X.mesh" submesh="29">
+              <MaterialRef guid="{6BB65238-F031-47B3-9BB7-E65F69BC0EF5}"/>
+              <MaterialRef guid="{A4EE0ABB-714A-4D3A-94E1-88FBF0E63BD1}"/>
+              <MaterialRef guid="{96CC5829-F209-4199-92BA-04940F4959B8}"/>
+              <MaterialRef guid="{353EC8AD-9C68-403D-BE65-276C42144C32}"/>
+              <MaterialRef guid="{E4A83A40-CEC7-4052-A33B-09CB5B650CAC}"/>
+              <MaterialRef guid="{A7418A9F-B2F2-4C3C-9C85-002B25FDD514}"/>
+              <MaterialRef guid="{99186FF3-63FE-4CEA-972A-0BE1AA847D69}"/>
+              <MaterialRef guid="{563B18FD-6830-467F-A45F-1E7BBBC15A2A}"/>
+              <MaterialRef guid="{693DFACA-D6F4-457E-83D8-4F5A4544E428}"/>
+              <MaterialRef guid="{2F62C176-E639-4BA4-9228-97AF1559AA23}"/>
+            </Mesh>
+          </Slot>
+          <Slot name="Weapon" guid="{61730B7E-8DC3-4627-B566-FCCEE6BACD03}">
+            <Mesh guid="{1AD21ECB-5F76-4AC6-AC49-EC019062BBDC}" path="Content\Characters\Mercs\marine_DirecX.X.mesh" submesh="39">
+              <MaterialRef guid="{6B4F6BD0-2164-41F3-AB1D-95B422D335C3}"/>
+            </Mesh>
+            <Mesh guid="{C9E7C1B2-F6C2-4FCC-8621-207BC716314B}" path="Content\Characters\Mercs\marine_DirecX.X.mesh" submesh="40">
+              <MaterialRef guid="{84CA7F50-3839-4346-9B3D-7561FB57E70D}"/>
+            </Mesh>
+            <Mesh guid="{E024AA8A-5EF3-4300-ACEA-E4905A123C44}" path="Content\Characters\Mercs\marine_DirecX.X.mesh" submesh="41">
+              <MaterialRef guid="{870C4C9B-1109-426D-9183-D50C5C40F0F9}"/>
+            </Mesh>
+            <Mesh guid="{441DE36B-B66E-4F60-A4E8-BCEC862A4EA0}" path="Content\Characters\Mercs\marine_DirecX.X.mesh" submesh="42">
+              <MaterialRef guid="{8E1FF5DB-3FFE-47E5-B978-14F7245B8C6D}"/>
+            </Mesh>
+            <Mesh guid="{793FC7F8-5812-4CBE-80B3-41C664F22137}" path="Content\Characters\Mercs\marine_DirecX.X.mesh" submesh="44">
+              <MaterialRef guid="{6B4F6BD0-2164-41F3-AB1D-95B422D335C3}"/>
+            </Mesh>
+            <!-- Knife
+                        <Mesh guid="{C5AA7033-1157-4670-B373-71528B560589}" path="Content\Characters\Mercs\marine_DirecX.X.mesh" submesh="45">
+                            <MaterialRef guid="{19C4E2B0-7610-4070-904E-BDC7BFE18B76}"/>
+                        </Mesh>
+                        -->
+            <!-- Pistol
+                        <Mesh guid="{EFDFACE5-540B-49E5-A2D0-9D1225C71EEC}" path="Content\Characters\Mercs\marine_DirecX.X.mesh" submesh="46">
+                            <MaterialRef guid="{D7CED70F-B7E1-4068-A8DC-107C021F3834}"/>
+                        </Mesh>
+                        -->
+          </Slot>
+        </Frame>
+      </Visuals>
+    </Entity>
+  </Entities>
+</UWPSandboxGame>
