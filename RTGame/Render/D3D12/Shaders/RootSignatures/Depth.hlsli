@@ -5,7 +5,7 @@
                        "RootConstants( b0, num32BitConstants = 1 )," \
                        "CBV( b1 )," \
                        "CBV( b2, space = 2 )," \
-                       "DescriptorTable( SRV( t1, offset = " MaterialTextureBaseSlotStr ", numDescriptors = " MaterialTextureCountStr ", flags = DESCRIPTORS_VOLATILE, space = 1 )," \
+                       "DescriptorTable( SRV( t1, offset = " VaryingResourceBaseSlotStr ", numDescriptors = " VaryingResourceCountStr ", flags = DESCRIPTORS_VOLATILE, space = 1 )," \
                        "                 SRV( t2, offset = " AllMeshParamsSlotStr ",       numDescriptors = 1,                           flags = DESCRIPTORS_VOLATILE, space = 2 ) )," \
                        "StaticSampler( s0," \
                        "               filter = FILTER_ANISOTROPIC," \

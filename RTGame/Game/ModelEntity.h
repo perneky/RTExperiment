@@ -27,7 +27,7 @@ public:
   void Serialize  ( uint32_t id, tinyxml2::XMLNode& node ) override;
   void Deserialize( tinyxml2::XMLNode& node ) override;
 
-  void Update( CommandList& commandList, double timeElapsed ) override;
+  void Update( CommandList& commandList, bool mayUseGPU, double timeElapsed ) override;
 
   std::unique_ptr< Entity > Duplicate( CommandList& commandList ) override;
 

@@ -4,7 +4,7 @@
 #define _RootSignature "RootFlags( ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT | DENY_HULL_SHADER_ROOT_ACCESS | DENY_DOMAIN_SHADER_ROOT_ACCESS | DENY_GEOMETRY_SHADER_ROOT_ACCESS )," \
                        "RootConstants( num32BitConstants=16, b0 )," \
                        "CBV( b1 )," \
-                       "DescriptorTable( SRV( t0, offset = " VolTextureBaseSlotStr ", numDescriptors = " VolTextureCountStr ", flags = DESCRIPTORS_VOLATILE, space = 0 ) )," \
+                       "DescriptorTable( SRV( t0, offset = " EngineVolResourceBaseSlotStr ", numDescriptors = " EngineVolResourceCountStr ", flags = DESCRIPTORS_VOLATILE, space = 0 ) )," \
                        "StaticSampler( s0," \
                        "               filter = FILTER_ANISOTROPIC," \
                        "               addressU = TEXTURE_ADDRESS_WRAP," \

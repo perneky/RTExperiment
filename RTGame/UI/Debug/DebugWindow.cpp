@@ -2,7 +2,7 @@
 #include "../DearImGui/imgui.h"
 #include "Render/ShaderStructuresNative.h"
 
-static constexpr int fpsPeriod = 60;
+static constexpr int fpsPeriod = 10;
 
 static const char* GetFrameDebugModeName( FrameDebugModeCB mode )
 {

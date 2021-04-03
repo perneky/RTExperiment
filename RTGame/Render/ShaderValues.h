@@ -10,29 +10,31 @@
 #define GIProbeWidth   44
 #define GIProbeHeight  22
 
-#define TwoDTextureCount     1000
-#define EngineResourceCount  30
-#define MaterialTextureCount ( TwoDTextureCount - EngineResourceCount )
-#define CubeTextureCount     10
-#define VolTextureCount      10
-#define AllResourceCount     ( TwoDTextureCount + CubeTextureCount + VolTextureCount )
+#define RTSceneCount            100
+#define Engine2DResourceCount   30
+#define EngineCubeResourceCount 10
+#define EngineVolResourceCount  10
+#define VaryingResourceCount    1000
 
-#define EngineTextureBaseSlot   0
-#define MaterialTextureBaseSlot EngineResourceCount
-#define CubeTextureBaseSlot     TwoDTextureCount
-#define VolTextureBaseSlot      ( CubeTextureBaseSlot + CubeTextureCount )
+#define AllResourceCount ( RTSceneCount + Engine2DResourceCount + EngineCubeResourceCount + EngineVolResourceCount + VaryingResourceCount )
 
-#define RandomTextureSlotCPP  VolTextureBaseSlot
-#define RandomTextureSlotHLSL ( RandomTextureSlotCPP - VolTextureBaseSlot )
+#define RTSceneBaseSlot            0
+#define Engine2DResourceBaseSlot   ( RTSceneBaseSlot            + RTSceneCount )
+#define EngineCubeResourceBaseSlot ( Engine2DResourceBaseSlot   + Engine2DResourceCount )
+#define EngineVolResourceBaseSlot  ( EngineCubeResourceBaseSlot + EngineCubeResourceCount )
+#define VaryingResourceBaseSlot    ( EngineVolResourceBaseSlot  + EngineVolResourceCount )
+
+#define RandomTextureSlotCPP  EngineVolResourceBaseSlot
+#define RandomTextureSlotHLSL ( RandomTextureSlotCPP - EngineVolResourceBaseSlot )
 #define RandomTextureSize     128
 #define RandomTextureScale    0.1
 
 #define GITexture1Slot     ( RandomTextureSlotCPP + 1 )
-#define GITexture1SlotHLSL ( GITexture1Slot - VolTextureBaseSlot )
+#define GITexture1SlotHLSL ( GITexture1Slot - EngineVolResourceBaseSlot )
 #define GITexture1UAVSlot  ( GITexture1Slot + 1 )
 
 #define GITexture2Slot     ( GITexture1UAVSlot + 1 )
-#define GITexture2SlotHLSL ( GITexture2Slot - VolTextureBaseSlot )
+#define GITexture2SlotHLSL ( GITexture2Slot - EngineVolResourceBaseSlot )
 #define GITexture2UAVSlot  ( GITexture2Slot + 1 )
 
 #define MaxMeshCount     500
@@ -46,25 +48,31 @@
 #define CBVIBBaseSlot AllResourceCount
 #define CBVVBBaseSlot ( CBVIBBaseSlot + MaxMeshCount )
 
-#define EngineTextureCountStr   "30"
-#define MaterialTextureCountStr "970"
-#define CubeTextureCountStr     "10"
-#define VolTextureCountStr      "10"
+#define RTSceneCountStr            "100"
+#define Engine2DResourceCountStr   "30"
+#define EngineCubeResourceCountStr "10"
+#define EngineVolResourceCountStr  "10"
+#define VaryingResourceCountStr    "1000"
 
-#define EngineTextureBaseSlotStr   "0"
-#define MaterialTextureBaseSlotStr "30"
-#define CubeTextureBaseSlotStr     "1000"
-#define VolTextureBaseSlotStr      "1010"
+#define RTSceneBaseSlotStr            "0"
+#define Engine2DResourceBaseSlotStr   "100"
+#define EngineCubeResourceBaseSlotStr "130"
+#define EngineVolResourceBaseSlotStr  "140"
+#define VaryingResourceBaseSlotStr    "150"
 
-#define CBVIBBaseSlotStr "1020"
-#define CBVVBBaseSlotStr "1520"
+#define CBVIBBaseSlotStr "1150"
+#define CBVVBBaseSlotStr "1650"
 
 #define CBVIBCountStr "500"
 #define CBVVBCountStr "500"
 
 enum TextureSlots
 {
-  SDRSlot,
+  SDRSlot
+#ifdef __cplusplus
+  = Engine2DResourceBaseSlot
+#endif // __cplusplus
+  ,
   HDRSlot,
   DirectLighting1Slot,
   DirectLighting2Slot,
@@ -95,10 +103,10 @@ enum TextureSlots
 };
 
 #ifdef __cplusplus
-  static_assert( TextureSlotCount < 30, "Too many engine textures!" );
+  static_assert( TextureSlotCount < Engine2DResourceBaseSlot + 30, "Too many engine textures!" );
 #endif // __cplusplus
 
-#define AllMeshParamsSlotStr "7"
+#define AllMeshParamsSlotStr "107"
 
 #define ToneMappingKernelWidth  8
 #define ToneMappingKernelHeight 8

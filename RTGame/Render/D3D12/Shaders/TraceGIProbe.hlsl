@@ -5,18 +5,18 @@
 
 #define _RootSignature "RootFlags( 0 )," \
                        "RootConstants( b0, num32BitConstants = 1 )," \
-                       "SRV( t0, space = 0, flags = DATA_VOLATILE )," \
                        "CBV( b1 )," \
                        "CBV( b2 )," \
                        "CBV( b3 )," \
                        "CBV( b4 )," \
                        "DescriptorTable( UAV( u0, flags = DATA_VOLATILE ) )," \
-                       "DescriptorTable( SRV( t1, offset = " EngineTextureBaseSlotStr   ", numDescriptors = " EngineTextureCountStr   ", flags = DESCRIPTORS_VOLATILE, space = 1 )," \
-                       "                 SRV( t2, offset = " MaterialTextureBaseSlotStr ", numDescriptors = " MaterialTextureCountStr ", flags = DESCRIPTORS_VOLATILE, space = 2 )," \
-                       "                 SRV( t3, offset = " CubeTextureBaseSlotStr     ", numDescriptors = " CubeTextureCountStr     ", flags = DESCRIPTORS_VOLATILE, space = 3 )," \
-                       "                 SRV( t4, offset = " VolTextureBaseSlotStr      ", numDescriptors = " VolTextureCountStr      ", flags = DESCRIPTORS_VOLATILE, space = 4 )," \
-                       "                 SRV( t5, offset = " CBVIBBaseSlotStr           ", numDescriptors = " CBVIBCountStr           ", flags = DESCRIPTORS_VOLATILE, space = 5 )," \
-                       "                 SRV( t6, offset = " CBVVBBaseSlotStr           ", numDescriptors = " CBVVBCountStr           ", flags = DESCRIPTORS_VOLATILE, space = 6 ) )," \
+                       "DescriptorTable( SRV( t0, offset = " RTSceneBaseSlotStr            ", numDescriptors = " RTSceneCountStr            ", flags = DESCRIPTORS_VOLATILE, space = 0 )," \
+                       "                 SRV( t1, offset = " Engine2DResourceBaseSlotStr   ", numDescriptors = " Engine2DResourceCountStr   ", flags = DESCRIPTORS_VOLATILE, space = 1 )," \
+                       "                 SRV( t2, offset = " VaryingResourceBaseSlotStr    ", numDescriptors = " VaryingResourceCountStr    ", flags = DESCRIPTORS_VOLATILE, space = 2 )," \
+                       "                 SRV( t3, offset = " EngineCubeResourceBaseSlotStr ", numDescriptors = " EngineCubeResourceCountStr ", flags = DESCRIPTORS_VOLATILE, space = 3 )," \
+                       "                 SRV( t4, offset = " EngineVolResourceBaseSlotStr  ", numDescriptors = " EngineVolResourceCountStr  ", flags = DESCRIPTORS_VOLATILE, space = 4 )," \
+                       "                 SRV( t5, offset = " CBVIBBaseSlotStr              ", numDescriptors = " CBVIBCountStr              ", flags = DESCRIPTORS_VOLATILE, space = 5 )," \
+                       "                 SRV( t6, offset = " CBVVBBaseSlotStr              ", numDescriptors = " CBVVBCountStr              ", flags = DESCRIPTORS_VOLATILE, space = 6 ) )," \
                        "StaticSampler( s0," \
                        "               filter = FILTER_ANISOTROPIC," \
                        "               addressU = TEXTURE_ADDRESS_WRAP," \
@@ -65,7 +65,7 @@ ConstantBuffer< AllMaterialsCB >  allMaterials  : register( b4 );
 
 RWTexture3D< float4 > destination : register( u0 );
 
-RaytracingAccelerationStructure rayTracingScene : register( t0, space0 );
+RaytracingAccelerationStructure rayTracingScenes[] : register( t0, space0 );
 
 Texture2D    allEngineTextures[]   : register( t1, space1 );
 Texture2D    allMaterialTextures[] : register( t2, space2 );
@@ -143,12 +143,7 @@ void main( uint3 groupThreadID : SV_GroupThreadID, uint3 groupId : SV_GroupID )
   
     int3 wix = GIProbeWorldIndex( probeId, frameParams );
 
-    ClosestOpaqueQuery query;
-
-    RayDesc ray;
-    ray.Origin    = worldPosition;
-    ray.TMin      = castMinDistance;
-    ray.TMax      = 1;
+    Query query;
 
     for ( int rayIx = 0; rayIx < 6; rayIx++ )
     {
@@ -157,16 +152,12 @@ void main( uint3 groupThreadID : SV_GroupThreadID, uint3 groupId : SV_GroupID )
       if ( any( nix < 0 ) || any( nix >= frameParams.giProbeCount.xyz ) )
         continue;
 
-      ray.Direction = nDir[ rayIx ] * GIProbeSpacing;
-
-      query.TraceRayInline( rayTracingScene, ClosestOpaqueQueryFlags, 0xFF, ray );
-      query.Proceed();
+      HitGeometry hitGeom = TraceRay( worldPosition, nDir[ rayIx ] * GIProbeSpacing, castMinDistance, 1 );
 
       [branch]
-      if ( query.CommittedStatus() == COMMITTED_TRIANGLE_HIT )
+      if ( hitGeom.t >= 0 )
       {
-        HitGeometry hitGeom      = CalcHitGeometry( query );
-        float       surfaceAlpha = 1;
+        float surfaceAlpha = 1;
 
         [branch]
         if ( IsOpaqueMaterial( hitGeom.materialIndex ) )

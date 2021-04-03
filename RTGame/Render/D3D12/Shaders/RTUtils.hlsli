@@ -1,10 +1,7 @@
 #pragma once
 
-static const uint ClosestOpaqueQueryFlags = RAY_FLAG_CULL_NON_OPAQUE | RAY_FLAG_SKIP_PROCEDURAL_PRIMITIVES;
-typedef RayQuery< ClosestOpaqueQueryFlags > ClosestOpaqueQuery;
-
-static const uint AnyOpaqueQueryFlags = RAY_FLAG_CULL_NON_OPAQUE | RAY_FLAG_SKIP_PROCEDURAL_PRIMITIVES | RAY_FLAG_ACCEPT_FIRST_HIT_AND_END_SEARCH;
-typedef RayQuery< AnyOpaqueQueryFlags > AnyOpaqueQuery;
+static const uint QueryFlags = 0;
+typedef RayQuery< QueryFlags > Query;
 
 static const float castMinDistance = 0.0001f;
 
@@ -16,7 +13,10 @@ struct HitGeometry
   float3 worldBitangent;
   float2 texcoord;
   int    materialIndex;
+  float  t;
 };
+
+static const HitGeometry hitGeomMiss = { 0, 0, 0, /**/ 0, 0, 0, /***/ 0, 0, 0, /**/ 0, 0, 0, /**/ 0, 0, /**/ 0, /**/ -1 };
 
 HitGeometry CalcHitGeometry( uint instanceId, uint triangleIndex, float2 barycentrics2, float hitDistance, float3x4 toWorld, float3 worldRayOrigin, float3 worldRayDirection )
 {
@@ -59,10 +59,12 @@ HitGeometry CalcHitGeometry( uint instanceId, uint triangleIndex, float2 barycen
   if ( IsScaleUVMaterial( result.materialIndex ) )
     result.texcoord *= length( float3( toWorld._11, toWorld._22, toWorld._33 ) );
 
+  result.t = hitDistance;
+
   return result;
 }
 
-HitGeometry CalcHitGeometry( ClosestOpaqueQuery query )
+HitGeometry CalcHitGeometry( Query query )
 {
   return CalcHitGeometry( query.CommittedInstanceID()
                         , query.CommittedPrimitiveIndex()
@@ -73,13 +75,29 @@ HitGeometry CalcHitGeometry( ClosestOpaqueQuery query )
                         , query.WorldRayDirection() );
 }
 
-HitGeometry CalcHitGeometry( AnyOpaqueQuery query )
+HitGeometry TraceRay( float3 origin
+                    , float3 direction
+                    , float tmin
+                    , float tmax )
 {
-  return CalcHitGeometry( query.CommittedInstanceID()
-                        , query.CommittedPrimitiveIndex()
-                        , query.CommittedTriangleBarycentrics()
-                        , query.CommittedRayT()
-                        , query.CommittedObjectToWorld3x4()
-                        , query.WorldRayOrigin()
-                        , query.WorldRayDirection() );
+#if ENABLE_RAYTRACING_FOR_RENDER
+  Query   query;
+  RayDesc ray;
+
+  ray.Origin    = origin;
+  ray.Direction = direction;
+  ray.TMin      = tmin;
+  ray.TMax      = tmax;
+
+  query.TraceRayInline( rayTracingScenes[ 0 ], QueryFlags, 0xFF, ray );
+  query.Proceed();
+  
+  [branch]
+  if ( query.CommittedStatus() == COMMITTED_TRIANGLE_HIT )
+    return CalcHitGeometry( query );
+
+  return hitGeomMiss;
+#else
+  return hitGeomMiss;
+#endif // ENABLE_RAYTRACING_FOR_RENDER
 }

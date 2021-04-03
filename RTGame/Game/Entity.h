@@ -32,7 +32,7 @@ public:
   virtual void Serialize  ( uint32_t id, tinyxml2::XMLNode& node );
   virtual void Deserialize( tinyxml2::XMLNode& node );
 
-  virtual void Update( CommandList& commandList, double timeElapsed ) {}
+  virtual void Update( CommandList& commandList, bool mayUseGPU, double timeElapsed ) {}
 
   virtual std::unique_ptr< Entity > Duplicate( CommandList& commandList ) = 0;
 

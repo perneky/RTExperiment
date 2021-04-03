@@ -5,8 +5,8 @@
                        "RootConstants( b0, num32BitConstants = 1 )," \
                        "CBV( b1 )," \
                        "CBV( b2, space = 2 )," \
-                       "DescriptorTable( SRV( t0, offset = " CubeTextureBaseSlotStr ", numDescriptors = " CubeTextureCountStr ", flags = DESCRIPTORS_VOLATILE, space = 0 )," \
-                       "                 SRV( t1, offset = " AllMeshParamsSlotStr ",   numDescriptors = 1,                       flags = DESCRIPTORS_VOLATILE, space = 1 ) )," \
+                       "DescriptorTable( SRV( t0, offset = " EngineCubeResourceBaseSlotStr ", numDescriptors = " EngineCubeResourceCountStr ", flags = DESCRIPTORS_VOLATILE, space = 0 )," \
+                       "                 SRV( t1, offset = " AllMeshParamsSlotStr ",          numDescriptors = 1,                              flags = DESCRIPTORS_VOLATILE, space = 1 ) )," \
                        "StaticSampler( s0," \
                        "               filter = FILTER_MIN_MAG_MIP_LINEAR," \
                        "               addressU = TEXTURE_ADDRESS_WRAP," \

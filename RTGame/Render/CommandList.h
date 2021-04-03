@@ -17,6 +17,8 @@ struct CommandList
 {
   virtual ~CommandList() = default;
 
+  virtual void BindHeaps( Device& device ) = 0;
+
   virtual void ChangeResourceState( Resource& resource, ResourceState newState ) = 0;
 
   virtual void Clear( Resource& texture, const Color& color ) = 0;
