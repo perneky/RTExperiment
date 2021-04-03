@@ -77,6 +77,8 @@ public:
 private:
   void RefreshGIProbeInstances( CommandList& commandList );
 
+  void CreateBRDFLUTTexture( CommandList& commandList );
+
   struct ModelEntry
   {
     ModelEntry() = default;
@@ -147,7 +149,8 @@ private:
   std::unique_ptr< ComputeShader > extractBloomShader;
   std::unique_ptr< ComputeShader > blurBloomShader;
 
-  std::unique_ptr< RTTopLevelAccelerator > rtDescriptor;
+  std::unique_ptr< RTTopLevelAccelerator > rtScene;
+  std::unique_ptr< ResourceDescriptor >    rtDescriptor;
 
   std::unique_ptr< Mesh > skybox;
   int                     skyMaterial = -1;

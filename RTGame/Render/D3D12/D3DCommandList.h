@@ -12,6 +12,8 @@ class D3DCommandList : public CommandList
 public:
   ~D3DCommandList();
 
+  void BindHeaps( Device& device ) override;
+
   void ChangeResourceState( Resource& resource, ResourceState newState ) override;
 
   void Clear( Resource& texture, const Color& color ) override;

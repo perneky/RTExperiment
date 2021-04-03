@@ -8,27 +8,20 @@ static const float lightClippingThreshold = 0.001;
 
 float3 CastToPoint( float3 worldPosition, float3 pointCoord )
 {
+  float3 origin  = worldPosition;
+  float  maxT    = length( pointCoord - worldPosition );
+  float3 toPoint = normalize( pointCoord - worldPosition );
+
+  bool   ended = false;
   float3 color = 1;
 
-#if ENABLE_RAYTRACING_FOR_RENDER
-  float3 toLight = pointCoord - worldPosition;
-
-  ClosestOpaqueQuery query;
-
-  RayDesc ray;
-  ray.Origin    = worldPosition;
-  ray.TMin      = castMinDistance;
-  ray.TMax      = length( toLight );
-  ray.Direction = normalize( toLight );
-
-  bool ended = false;
   while ( !ended && any( color > 0 ) )
   {
-    query.TraceRayInline( rayTracingScene, ClosestOpaqueQueryFlags, 0xFF, ray );
-    query.Proceed();
-    if ( query.CommittedStatus() == COMMITTED_TRIANGLE_HIT )
+    HitGeometry hitGeom = TraceRay( origin, toPoint, castMinDistance, maxT );
+
+    [branch]
+    if ( hitGeom.t >= 0 )
     {
-      HitGeometry hitGeom = CalcHitGeometry( query );
       [branch]
       if ( IsOneBitAlphaMaterial( hitGeom.materialIndex ) )
       {
@@ -62,12 +55,11 @@ float3 CastToPoint( float3 worldPosition, float3 pointCoord )
         ended = true;
       }
 
-      ray.Origin = hitGeom.worldPosition;
+      origin = hitGeom.worldPosition;
     }
     else
       ended = true;
   }
-#endif // ENABLE_RAYTRACING_FOR_RENDER
 
   return color;
 }
@@ -278,28 +270,21 @@ float3 CalcReflection( float3 worldPosition, float3 worldNormal, FrameParamsCB f
   float3 toCamera     = normalize( frameParams.cameraPosition.xyz - worldPosition );
   float3 toReflection = reflect( -toCamera, worldNormal );
 
-#if ENABLE_RAYTRACING_FOR_RENDER
-  RayDesc ray;
-  ray.Origin    = worldPosition;
-  ray.TMin      = castMinDistance;
-  ray.TMax      = 1000;
-  ray.Direction = toReflection;
-
-  ClosestOpaqueQuery query;
-  HitGeometry        hitGeom;
-
   float  visibility = 1;
   float3 tint       = 1;
   bool   ended      = false;
+
+  float3 origin = worldPosition;
+
+  HitGeometry hitGeom;
+
   while ( !ended && visibility > 0 )
   {
-    query.TraceRayInline( rayTracingScene, ClosestOpaqueQueryFlags, 0xFF, ray );
-    query.Proceed();
+    hitGeom = TraceRay( origin, toReflection, castMinDistance, 1000 );
 
-    if ( query.CommittedStatus() == COMMITTED_TRIANGLE_HIT )
+    [branch]
+    if ( hitGeom.t >= 0 )
     {
-      hitGeom = CalcHitGeometry( query );
-
       [branch]
       if ( IsOneBitAlphaMaterial( hitGeom.materialIndex ) )
       {
@@ -325,10 +310,10 @@ float3 CalcReflection( float3 worldPosition, float3 worldNormal, FrameParamsCB f
       else
         ended = true;
 
-      ray.Origin = hitGeom.worldPosition;
+      origin = hitGeom.worldPosition;
     }
     else
-      return allCubeTextures[ allMaterials.mat[ env.skyMaterial ].textureIndices.x ].SampleLevel( wrapSampler, ray.Direction, 0 ).rgb;
+      return allCubeTextures[ allMaterials.mat[ env.skyMaterial ].textureIndices.x ].SampleLevel( wrapSampler, toReflection, 0 ).rgb;
   }
 
   float3 surfaceWorldNormal = CalcSurfaceNormal( hitGeom.materialIndex, hitGeom.texcoord, hitGeom.worldNormal, hitGeom.worldTangent, hitGeom.worldBitangent );
@@ -342,76 +327,57 @@ float3 CalcReflection( float3 worldPosition, float3 worldNormal, FrameParamsCB f
   float3 effectiveAlbedo  = lerp( tint, surfaceAlbedo, visibility );
   float3 directLighting   = TraceDirectLighting( effectiveAlbedo, surfaceRoughness, surfaceMetallic, surfaceIsSpecular, hitGeom.worldPosition, surfaceWorldNormal, worldPosition, env );
 
-  surfaceEmissive *= 1.0 - saturate( query.CommittedRayT() / 5 );
-  
   float3 diffuseIBL;
   float3 specularIBL;
   TraceIndirectLighting( probeGI, allEngineTextures[ SpecBRDFLUTSlot ], effectiveAlbedo, surfaceRoughness, surfaceMetallic, hitGeom.materialIndex, hitGeom.worldPosition, surfaceWorldNormal, frameParams.cameraPosition.xyz, lightingEnvironmentParams, diffuseIBL, specularIBL );
   return surfaceEmissive + directLighting + diffuseIBL;
-#else
-  return allCubeTextures[ allMaterials.mat[ env.skyMaterial ].textureIndices.x ].SampleLevel( wrapSampler, toReflection, 0 ).rgb;
-#endif // ENABLE_RAYTRACING_FOR_RENDER
 }
 
-float TraceOcclusionForOffset( ClosestOpaqueQuery query, RayDesc ray, float3 geometryWorldNormal, float3 offset, float3 px, float3 py )
+float TraceOcclusionForOffset( float3 origin, float3 geometryWorldNormal, float3 offset, float3 px, float3 py, float range )
 {
-  ray.Direction = PertubNormal( geometryWorldNormal, px, py, offset );
-
-  query.TraceRayInline( rayTracingScene, ClosestOpaqueQueryFlags, 0xFF, ray );
-  query.Proceed();
-
-  float visibility = 1;
+  HitGeometry hitGeom = TraceRay( origin
+                                , PertubNormal( geometryWorldNormal, px, py, offset )
+                                , castMinDistance
+                                , range );
 
   [branch]
-  if ( query.CommittedStatus() == COMMITTED_TRIANGLE_HIT )
+  if ( hitGeom.t >= 0 )
   {
-    HitGeometry hitGeom = CalcHitGeometry( query );
-
     [branch]
     if ( IsOpaqueMaterial( hitGeom.materialIndex ) )
-      visibility -= 1.0 - query.CommittedRayT();
+      return saturate( hitGeom.t );
     else
-      visibility -= SampleAlbedoAlpha( hitGeom.materialIndex, hitGeom.texcoord ).a - query.CommittedRayT();
+      return saturate( 1.0 - SampleAlbedoAlpha( hitGeom.materialIndex, hitGeom.texcoord ).a - hitGeom.t );
   }
 
-  return saturate( visibility );
+  return 1;
 }
 
 float TraceOcclusion( float3 worldPosition, float3 geometryWorldNormal, float3 randomValues, float3 randomOffset, Texture3D randomTexture, float range, int quality )
 {
-#if ENABLE_RAYTRACING_FOR_RENDER
-  ClosestOpaqueQuery query;
   float contribution = 0;
 
   float3 px, py;
   CalcAxesForVector( geometryWorldNormal, px, py );
 
-  RayDesc ray;
-  ray.Origin = worldPosition;
-  ray.TMin   = castMinDistance;
-  ray.TMax   = range;
-
   for ( int rayIx = 0; rayIx < quality; ++rayIx )
   {
     float3 offset = GetNextRandomOffset( randomTexture, noiseSampler, randomOffset, randomValues );
-    contribution += TraceOcclusionForOffset( query, ray, geometryWorldNormal, offset, px, py );
+    contribution += TraceOcclusionForOffset( worldPosition, geometryWorldNormal, offset, px, py, range );
 
     offset.xy = -offset.xy;
-    contribution += TraceOcclusionForOffset( query, ray, geometryWorldNormal, offset, px, py );
+    contribution += TraceOcclusionForOffset( worldPosition, geometryWorldNormal, offset, px, py, range );
 
     float x = offset.x;
     offset.x = -offset.y;
     offset.y = x;
-    contribution += TraceOcclusionForOffset( query, ray, geometryWorldNormal, offset, px, py );
+    contribution += TraceOcclusionForOffset( worldPosition, geometryWorldNormal, offset, px, py, range );
 
     offset.xy = -offset.xy;
-    contribution += TraceOcclusionForOffset( query, ray, geometryWorldNormal, offset, px, py );
+    contribution += TraceOcclusionForOffset( worldPosition, geometryWorldNormal, offset, px, py, range );
   }
 
   contribution /= quality * 4;
 
   return pow( contribution, 1.5 );
-#else
-  return 1;
-#endif // ENABLE_RAYTRACING_FOR_RENDER
 }

@@ -150,9 +150,9 @@ void ModelEntity::Deserialize( tinyxml2::XMLNode& node )
         animationPlayer->SetCurrentAnimation( W( animName ).data() );
 }
 
-void ModelEntity::Update( CommandList& commandList, double timeElapsed )
+void ModelEntity::Update( CommandList& commandList, bool mayUseGPU, double timeElapsed )
 {
-  if ( animationPlayer )
+  if ( animationPlayer && mayUseGPU )
   {
     animationPlayer->Update( timeElapsed );
 

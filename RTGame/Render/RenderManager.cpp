@@ -323,7 +323,7 @@ void RenderManager::PrepareAllMaterials( CommandList& commandList )
     int normalIx = material.second.normalMapPath.empty() ? -1 : LoadCubeTexture( commandList, material.second.normalMapPath );
 
     auto& cbMaterial = allMaterials[ iter ];
-    cbMaterial.textureIndices = XMINT4( albedoIx - CubeTextureBaseSlot, normalIx - CubeTextureBaseSlot, -1, -1 );
+    cbMaterial.textureIndices = XMINT4( albedoIx - EngineCubeResourceBaseSlot, normalIx - EngineCubeResourceBaseSlot, -1, -1 );
 
     allMaterialMap[ material.first ] = iter;
 
@@ -447,17 +447,26 @@ Swapchain& RenderManager::GetSwapchain()
 RenderManager::RenderManager( std::shared_ptr< Window > window )
   : window( window )
 {
-  assert( EngineTextureBaseSlot   == atoi( EngineTextureBaseSlotStr   ) );
-  assert( MaterialTextureBaseSlot == atoi( MaterialTextureBaseSlotStr ) );
-  assert( CubeTextureBaseSlot     == atoi( CubeTextureBaseSlotStr     ) );
-  assert( VolTextureBaseSlot      == atoi( VolTextureBaseSlotStr      ) );
-  assert( EngineResourceCount     == atoi( EngineTextureCountStr      ) );
-  assert( MaterialTextureCount    == atoi( MaterialTextureCountStr    ) );
-  assert( CubeTextureCount        == atoi( CubeTextureCountStr        ) );
-  assert( VolTextureCount         == atoi( VolTextureCountStr         ) );
-  assert( CBVIBBaseSlot           == atoi( CBVIBBaseSlotStr           ) );
-  assert( CBVVBBaseSlot           == atoi( CBVVBBaseSlotStr           ) );
+  assert( RTSceneBaseSlot            == atoi( RTSceneBaseSlotStr            ) );
+  assert( Engine2DResourceBaseSlot   == atoi( Engine2DResourceBaseSlotStr   ) );
+  assert( EngineCubeResourceBaseSlot == atoi( EngineCubeResourceBaseSlotStr ) );
+  assert( EngineVolResourceBaseSlot  == atoi( EngineVolResourceBaseSlotStr  ) );
+  assert( VaryingResourceBaseSlot    == atoi( VaryingResourceBaseSlotStr    ) );
 
+  assert( RTSceneCount            == atoi( RTSceneCountStr            ) );
+  assert( Engine2DResourceCount   == atoi( Engine2DResourceCountStr   ) );
+  assert( EngineCubeResourceCount == atoi( EngineCubeResourceCountStr ) );
+  assert( EngineVolResourceCount  == atoi( EngineVolResourceCountStr  ) );
+  assert( VaryingResourceCount    == atoi( VaryingResourceCountStr    ) );
+
+  assert( CBVIBBaseSlot == atoi( CBVIBBaseSlotStr ) );
+  assert( CBVVBBaseSlot == atoi( CBVVBBaseSlotStr ) );
+
+  assert( MaxMeshCount == atoi( CBVIBCountStr ) );
+  assert( MaxMeshCount == atoi( CBVVBCountStr ) );
+
+  assert( AllMeshParamsSlot == atoi( AllMeshParamsSlotStr ) );
+  
   freeRTIndexBufferSlots.reserve( MaxMeshCount );
   for ( int slot = 0; slot < MaxMeshCount; ++slot )
     freeRTIndexBufferSlots.emplace_back( CBVIBBaseSlot + slot );
@@ -807,15 +816,15 @@ int RenderManager::DoLoad2DTexture( CommandList& commandList, const std::wstring
   if ( fileData.empty() )
     return -1;
 
-  int slot = 0;
+  int slot = VaryingResourceBaseSlot;
   while ( allTextures[ slot ] )
     slot++;
 
-  assert( slot < MaterialTextureCount );
+  assert( slot < VaryingResourceBaseSlot + VaryingResourceCount );
 
-  allTextures[ slot ] = device->Load2DTexture( commandList, std::move( fileData ), MaterialTextureBaseSlot + slot, path.data() );
+  allTextures[ slot ] = device->Load2DTexture( commandList, std::move( fileData ), slot, path.data() );
 
-  return slot;
+  return slot - VaryingResourceBaseSlot;
 }
 
 int RenderManager::LoadCubeTexture( CommandList& commandList, const std::wstring& path )
@@ -836,11 +845,11 @@ int RenderManager::DoLoadCubeTexture( CommandList& commandList, const std::wstri
   if ( fileData.empty() )
     return -1;
 
-  int slot = CubeTextureBaseSlot;
+  int slot = EngineCubeResourceBaseSlot;
   while ( allTextures[ slot ] )
     slot++;
 
-  assert( slot < CubeTextureBaseSlot + CubeTextureCount );
+  assert( slot < EngineCubeResourceBaseSlot + EngineCubeResourceCount );
 
   allTextures[ slot ] = device->LoadCubeTexture( commandList, std::move( fileData ), slot, path.data() );
 

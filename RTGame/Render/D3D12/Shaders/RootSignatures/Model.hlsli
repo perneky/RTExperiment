@@ -7,14 +7,14 @@
                        "CBV( b2 )," \
                        "CBV( b3 )," \
                        "CBV( b4, space = 4 )," \
-                       "SRV( t0, space = 0, flags = DATA_VOLATILE )," \
-                       "DescriptorTable( SRV( t1, offset = " EngineTextureBaseSlotStr   ", numDescriptors = " EngineTextureCountStr   ", flags = DESCRIPTORS_VOLATILE, space = 1 )," \
-                       "                 SRV( t3, offset = " MaterialTextureBaseSlotStr ", numDescriptors = " MaterialTextureCountStr ", flags = DESCRIPTORS_VOLATILE, space = 3 )," \
-                       "                 SRV( t4, offset = " CubeTextureBaseSlotStr     ", numDescriptors = " CubeTextureCountStr     ", flags = DESCRIPTORS_VOLATILE, space = 4 )," \
-                       "                 SRV( t5, offset = " VolTextureBaseSlotStr      ", numDescriptors = " VolTextureCountStr      ", flags = DESCRIPTORS_VOLATILE, space = 5 )," \
-                       "                 SRV( t6, offset = " CBVIBBaseSlotStr           ", numDescriptors = " CBVIBCountStr           ", flags = DESCRIPTORS_VOLATILE, space = 6 )," \
-                       "                 SRV( t7, offset = " CBVVBBaseSlotStr           ", numDescriptors = " CBVVBCountStr           ", flags = DESCRIPTORS_VOLATILE, space = 7 )," \
-                       "                 SRV( t8, offset = " AllMeshParamsSlotStr ",       numDescriptors = 1,                           flags = DESCRIPTORS_VOLATILE, space = 8 ) )," \
+                       "DescriptorTable( SRV( t0, offset = " RTSceneBaseSlotStr            ", numDescriptors = " RTSceneCountStr            ", flags = DESCRIPTORS_VOLATILE, space = 0 )," \
+                       "                 SRV( t1, offset = " Engine2DResourceBaseSlotStr   ", numDescriptors = " Engine2DResourceCountStr   ", flags = DESCRIPTORS_VOLATILE, space = 1 )," \
+                       "                 SRV( t3, offset = " VaryingResourceBaseSlotStr    ", numDescriptors = " VaryingResourceCountStr    ", flags = DESCRIPTORS_VOLATILE, space = 3 )," \
+                       "                 SRV( t4, offset = " EngineCubeResourceBaseSlotStr ", numDescriptors = " EngineCubeResourceCountStr ", flags = DESCRIPTORS_VOLATILE, space = 4 )," \
+                       "                 SRV( t5, offset = " EngineVolResourceBaseSlotStr  ", numDescriptors = " EngineVolResourceCountStr  ", flags = DESCRIPTORS_VOLATILE, space = 5 )," \
+                       "                 SRV( t6, offset = " CBVIBBaseSlotStr              ", numDescriptors = " CBVIBCountStr              ", flags = DESCRIPTORS_VOLATILE, space = 6 )," \
+                       "                 SRV( t7, offset = " CBVVBBaseSlotStr              ", numDescriptors = " CBVVBCountStr              ", flags = DESCRIPTORS_VOLATILE, space = 7 )," \
+                       "                 SRV( t8, offset = " AllMeshParamsSlotStr          ", numDescriptors = 1,                              flags = DESCRIPTORS_VOLATILE, space = 8 ) )," \
                        "StaticSampler( s0," \
                        "               filter = FILTER_ANISOTROPIC," \
                        "               addressU = TEXTURE_ADDRESS_WRAP," \
@@ -62,7 +62,7 @@ cbuffer LightingEnvironmentParams : register( b3 )
 ConstantBuffer< AllMaterialsCB > allMaterials  : register( b4, space4 );
 StructuredBuffer< MeshParamsCB > allMeshParams : register( t8, space8 );
 
-RaytracingAccelerationStructure rayTracingScene : register( t0, space0 );
+RaytracingAccelerationStructure rayTracingScenes[] : register( t0, space0 );
 
 Texture2D    allEngineTextures[]   : register( t1, space1 );
 Texture2D    allMaterialTextures[] : register( t3, space3 );

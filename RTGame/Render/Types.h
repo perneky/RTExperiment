@@ -369,3 +369,9 @@ struct IndexRange
 enum class AlphaModeCB : int;
 
 using MaterialTranslator = std::function< void( int, int, int&, bool&, AlphaModeCB& ) >;
+
+struct SubAccel
+{
+  BoundingBox aabb;
+  int         id;
+};

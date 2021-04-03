@@ -10,6 +10,8 @@ public:
   ~D3DDescriptorHeap();
 
   std::unique_ptr< ResourceDescriptor > RequestDescriptor( Device& device, ResourceDescriptorType type, int slot, Resource& resource, int bufferElementSize, int mipLevel = 0 ) override;
+  std::unique_ptr< ResourceDescriptor > RequestDescriptor( Device& device, int slot, RTTopLevelAccelerator& accel ) override;
+
   int GetDescriptorSize() const override;
 
   void FreeDescriptor( int index );
@@ -17,7 +19,9 @@ public:
   ID3D12DescriptorHeap* GetD3DHeap();
 
 private:
-  D3DDescriptorHeap( D3DDevice& device, int descriptorCount, D3D12_DESCRIPTOR_HEAP_TYPE heapType );
+  D3DDescriptorHeap( D3DDevice& device, int freeAutoDescriptorStart, int descriptorCount, D3D12_DESCRIPTOR_HEAP_TYPE heapType );
+
+  int freeAutoDescriptorStart;
 
   CComPtr< ID3D12DescriptorHeap > d3dHeap;
 

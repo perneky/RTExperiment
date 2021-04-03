@@ -90,10 +90,10 @@ D3DDevice::D3DDevice( D3DAdapter& adapter )
   }
 #endif // DEBUG_GFX_API
 
-  descriptorHeaps[ D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV ].reset( new D3DDescriptorHeap( *this, CBVHeapSize, D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV ) );
-  descriptorHeaps[ D3D12_DESCRIPTOR_HEAP_TYPE_SAMPLER     ].reset( new D3DDescriptorHeap( *this, 20,          D3D12_DESCRIPTOR_HEAP_TYPE_SAMPLER     ) );
-  descriptorHeaps[ D3D12_DESCRIPTOR_HEAP_TYPE_RTV         ].reset( new D3DDescriptorHeap( *this, 20,          D3D12_DESCRIPTOR_HEAP_TYPE_RTV         ) );
-  descriptorHeaps[ D3D12_DESCRIPTOR_HEAP_TYPE_DSV         ].reset( new D3DDescriptorHeap( *this, 20,          D3D12_DESCRIPTOR_HEAP_TYPE_DSV         ) );
+  descriptorHeaps[ D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV ].reset( new D3DDescriptorHeap( *this, VaryingResourceBaseSlot, CBVHeapSize, D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV ) );
+  descriptorHeaps[ D3D12_DESCRIPTOR_HEAP_TYPE_SAMPLER     ].reset( new D3DDescriptorHeap( *this, 0, 20, D3D12_DESCRIPTOR_HEAP_TYPE_SAMPLER ) );
+  descriptorHeaps[ D3D12_DESCRIPTOR_HEAP_TYPE_RTV         ].reset( new D3DDescriptorHeap( *this, 0, 20, D3D12_DESCRIPTOR_HEAP_TYPE_RTV     ) );
+  descriptorHeaps[ D3D12_DESCRIPTOR_HEAP_TYPE_DSV         ].reset( new D3DDescriptorHeap( *this, 0, 20, D3D12_DESCRIPTOR_HEAP_TYPE_DSV     ) );
 
   D3D12_DESCRIPTOR_HEAP_DESC desc = {};
   desc.Type           = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
@@ -157,9 +157,9 @@ std::unique_ptr< RTBottomLevelAccelerator > D3DDevice::CreateRTBottomLevelAccele
   return std::unique_ptr< RTBottomLevelAccelerator >( new D3DRTBottomLevelAccelerator( *this, *static_cast< D3DCommandList* >( &commandList ), *static_cast< D3DResource* >( &vertexBuffer ), vertexCount, positionElementSize, vertexStride, *static_cast< D3DResource* >( &indexBuffer ), indexSize, indexCount, allowUpdate, fastBuild ) );
 }
 
-std::unique_ptr< RTTopLevelAccelerator > D3DDevice::CreateRTTopLevelAccelerator( CommandList& commandList, std::vector<RTInstance> instances )
+std::unique_ptr< RTTopLevelAccelerator > D3DDevice::CreateRTTopLevelAccelerator( CommandList& commandList, std::vector< RTInstance > instances, std::vector< SubAccel > areas )
 {
-  return std::unique_ptr< RTTopLevelAccelerator >( new D3DRTTopLevelAccelerator( *this, *static_cast< D3DCommandList* >( &commandList ), std::move( instances ) ) );
+  return std::unique_ptr< RTTopLevelAccelerator >( new D3DRTTopLevelAccelerator( *this, *static_cast< D3DCommandList* >( &commandList ), std::move( instances ), std::move( areas ) ) );
 }
 
 std::unique_ptr< Resource > D3DDevice::CreateVolumeTexture( CommandList& commandList, int width, int height, int depth, const void* data, int dataSize, PixelFormat format, int slot, std::optional< int > uavSlot, const wchar_t* debugName )

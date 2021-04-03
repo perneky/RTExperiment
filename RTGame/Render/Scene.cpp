@@ -97,7 +97,15 @@ void Scene::SetUp( CommandList& commandList, Window& window )
   auto allMeshParamsDesc = device.GetShaderResourceHeap().RequestDescriptor( device, ResourceDescriptorType::ShaderResourceView, AllMeshParamsSlot, *allMeshParamsBuffer, sizeof( MeshParamsCB ) );
   allMeshParamsBuffer->AttachResourceDescriptor( ResourceDescriptorType::ShaderResourceView, std::move( allMeshParamsDesc ) );
 
-  specBRDFLUTTexture = device.Create2DTexture( commandList, SpecBRDFLUTSize, SpecBRDFLUTSize, nullptr, 0, PixelFormat::RG1616F, false, SpecBRDFLUTSlot, SpecBRDFLUTUAVSlot, false, L"SpecBRDFLUT" );
+  RecreateWindowSizeDependantResources( commandList, window );
+}
+
+void Scene::CreateBRDFLUTTexture( CommandList& commandList )
+{
+  if ( specBRDFLUTTexture )
+    return;
+
+  specBRDFLUTTexture = RenderManager::GetInstance().GetDevice().Create2DTexture( commandList, SpecBRDFLUTSize, SpecBRDFLUTSize, nullptr, 0, PixelFormat::RG1616F, false, SpecBRDFLUTSlot, SpecBRDFLUTUAVSlot, false, L"SpecBRDFLUT" );
 
   commandList.ChangeResourceState( *specBRDFLUTTexture, ResourceStateBits::UnorderedAccess );
   commandList.SetComputeShader( *specBRDFLUTShader );
@@ -105,8 +113,6 @@ void Scene::SetUp( CommandList& commandList, Window& window )
   commandList.Dispatch( SpecBRDFLUTSize / 32, SpecBRDFLUTSize / 32, 1 );
   commandList.AddUAVBarrier( *specBRDFLUTTexture );
   commandList.ChangeResourceState( *specBRDFLUTTexture, ResourceStateBits::PixelShaderInput | ResourceStateBits::NonPixelShaderInput );
-
-  RecreateWindowSizeDependantResources( commandList, window );
 }
 
 void Scene::SetSky( CommandList& commandList, const GUID& guid )
@@ -364,6 +370,8 @@ std::pair< Resource&, Resource& > Scene::Render( CommandList& commandList, const
 
   assert( allMeshParams.size() < MaxInstanceCount );
 
+  CreateBRDFLUTTexture( commandList );
+
   auto allMeshParamsSize = int( sizeof( MeshParamsCB ) * allMeshParams.size() );
   auto uploadAllMeshParamsBuffer = RenderManager::GetInstance().GetUploadConstantBufferForResource( *allMeshParamsBuffer );
   commandList.UploadBufferResource( std::move( uploadAllMeshParamsBuffer ), *allMeshParamsBuffer, allMeshParams.data(), allMeshParamsSize );
@@ -403,8 +411,7 @@ std::pair< Resource&, Resource& > Scene::Render( CommandList& commandList, const
     commandList.SetConstantBuffer( 1, *frameConstantBuffer );
     commandList.SetConstantBuffer( 2, *prevFrameConstantBuffer );
     commandList.SetConstantBuffer( 3, *lightingConstantBuffer );
-    commandList.SetRayTracingScene( 5, *rtDescriptor );
-    commandList.SetTextureHeap( 6, renderManager.GetShaderResourceHeap(), 0 );
+    commandList.SetTextureHeap( 5, renderManager.GetShaderResourceHeap(), 0 );
 
     renderManager.BindAllMaterials( commandList, 4 );
   };
@@ -432,13 +439,12 @@ std::pair< Resource&, Resource& > Scene::Render( CommandList& commandList, const
     commandList.SetComputeShader( *traceGIProbeShader );
 
     commandList.SetComputeConstantValues( 0, giProbeUpdateNext );
-    commandList.SetComputeRayTracingScene( 1, *rtDescriptor );
-    commandList.SetComputeConstantBuffer( 2, *lightingConstantBuffer );
-    commandList.SetComputeConstantBuffer( 3, *frameConstantBuffer );
-    commandList.SetComputeConstantBuffer( 4, *prevFrameConstantBuffer );
-    renderManager.BindAllMaterialsToCompute( commandList, 5 );
-    commandList.SetComputeResource( 6, *giProbeTextures[ currentGISource ]->GetResourceDescriptor( ResourceDescriptorType::UnorderedAccessView ) );
-    commandList.SetComputeTextureHeap( 7, renderManager.GetShaderResourceHeap(), 0 );
+    commandList.SetComputeConstantBuffer( 1, *lightingConstantBuffer );
+    commandList.SetComputeConstantBuffer( 2, *frameConstantBuffer );
+    commandList.SetComputeConstantBuffer( 3, *prevFrameConstantBuffer );
+    renderManager.BindAllMaterialsToCompute( commandList, 4 );
+    commandList.SetComputeResource( 5, *giProbeTextures[ currentGISource ]->GetResourceDescriptor( ResourceDescriptorType::UnorderedAccessView ) );
+    commandList.SetComputeTextureHeap( 6, renderManager.GetShaderResourceHeap(), 0 );
 
     commandList.Dispatch( giProbeUpdatePerFrame, 1, 1 );
     commandList.AddUAVBarrier( *giProbeTextures[ currentGISource ] );
@@ -1146,10 +1152,16 @@ void Scene::UpdateRaytracing( CommandList& commandList )
     }
   }
 
-  if ( rtState == RTState::TrianglesModified && rtDescriptor )
-    rtDescriptor->Update( device, commandList, std::move( rtInstances ) );
+  if ( rtState == RTState::TrianglesModified && rtScene )
+  {
+    if ( rtScene->Update( device, commandList, std::move( rtInstances ), {} ) )
+      rtDescriptor = device.GetShaderResourceHeap().RequestDescriptor( device, RTSceneBaseSlot, *rtScene );
+  }
   else
-    rtDescriptor = device.CreateRTTopLevelAccelerator( commandList, std::move( rtInstances ) );
+  {
+    rtScene = device.CreateRTTopLevelAccelerator( commandList, std::move( rtInstances ), {} );
+    rtDescriptor = device.GetShaderResourceHeap().RequestDescriptor( device, RTSceneBaseSlot, *rtScene );
+  }
 
   rtState = RTState::Ready;
 }

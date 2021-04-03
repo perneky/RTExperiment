@@ -36,17 +36,17 @@ static D3D12_SHADING_RATE Convert( VRSBlock block )
 D3DCommandList::D3DCommandList( D3DDevice& device, D3DCommandAllocator& commandAllocator, CommandQueueType queueType )
 {
   device.GetD3DDevice()->CreateCommandList( 1, Convert( queueType ), commandAllocator.GetD3DCommandAllocator(), nullptr, IID_PPV_ARGS( &d3dGraphicsCommandList ) );
-  
-  if ( queueType == CommandQueueType::Direct )
-  {
-    ID3D12DescriptorHeap* allHeaps[] = { device.GetD3DDescriptorHeap( D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV )
-                                       , device.GetD3DDescriptorHeap( D3D12_DESCRIPTOR_HEAP_TYPE_SAMPLER ) };
-    d3dGraphicsCommandList->SetDescriptorHeaps( _countof( allHeaps ), allHeaps );
-  }
 }
 
 D3DCommandList::~D3DCommandList()
 {
+}
+
+void D3DCommandList::BindHeaps( Device& device )
+{
+  ID3D12DescriptorHeap* allHeaps[] = { static_cast< D3DDevice* >( &device )->GetD3DDescriptorHeap( D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV )
+                                     , static_cast< D3DDevice* >( &device )->GetD3DDescriptorHeap( D3D12_DESCRIPTOR_HEAP_TYPE_SAMPLER ) };
+  d3dGraphicsCommandList->SetDescriptorHeaps( _countof( allHeaps ), allHeaps );
 }
 
 void D3DCommandList::AddUAVBarrier( std::initializer_list< Resource* > resources )

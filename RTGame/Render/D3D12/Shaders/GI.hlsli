@@ -8,15 +8,6 @@ float3 TraceDirectLighting( float3 albedo, float roughness, float metallic, bool
 
 int FilterGIProbes( float3 worldPosition, float3 worldNormal, FrameParamsCB frameParams, inout NearestProbes closest )
 {
-#if ENABLE_RAYTRACING_FOR_RENDER
-  ClosestOpaqueQuery query;
-
-  RayDesc ray;
-  ray.Origin = worldPosition + worldNormal * 0.01;
-  ray.TMin   = 0.002;
-  ray.TMax   = 1;
-#endif // ENABLE_RAYTRACING_FOR_RENDER
-
   int count = 8;
   for ( int ix = 0; ix < 8; ++ix )
   {
@@ -39,22 +30,13 @@ int FilterGIProbes( float3 worldPosition, float3 worldNormal, FrameParamsCB fram
       continue;
     }
 
-#if ENABLE_RAYTRACING_FOR_RENDER
-    ray.Direction = toProbe;
-    query.TraceRayInline( rayTracingScene, ClosestOpaqueQueryFlags, 0xFF, ray );
-    query.Proceed();
-    
-    if ( query.CommittedStatus() == COMMITTED_TRIANGLE_HIT )
+    HitGeometry hitGeom = TraceRay( worldPosition + worldNormal * 0.01, toProbe, 0.002, 1 );
+
+    if ( hitGeom.t >= 0 && IsOpaqueMaterial( hitGeom.materialIndex ) )
     {
-      HitGeometry hitGeom = CalcHitGeometry( query );
-    
-      if ( IsOpaqueMaterial( hitGeom.materialIndex ) )
-      {
-        closest.indices[ ix ].w = -1;
-        count--;
-      }
+      closest.indices[ ix ].w = -1;
+      count--;
     }
-#endif // ENABLE_RAYTRACING_FOR_RENDER
   }
   
   return count;
@@ -196,24 +178,12 @@ float3 SampleGI( float3 worldPosition, float3 worldNormal, FrameParamsCB framePa
   [branch]
   if ( items == 0 )
   {
-#if ENABLE_RAYTRACING_FOR_RENDER
-    ClosestOpaqueQuery query;
+    HitGeometry hitGeom = TraceRay( worldPosition, worldNormal, castMinDistance, 1 );
 
-    RayDesc ray;
-    ray.Origin    = worldPosition;
-    ray.TMin      = castMinDistance;
-    ray.TMax      = 1;
-    ray.Direction = worldNormal;
-    query.TraceRayInline( rayTracingScene, ClosestOpaqueQueryFlags, 0xFF, ray );
-    query.Proceed();
-    
-    if ( query.CommittedStatus() == COMMITTED_TRIANGLE_HIT )
-    {
-      HitGeometry hitGeom = CalcHitGeometry( query );
+    [branch]
+    if ( hitGeom.t >= 0 )
       return SampleSecondGI( hitGeom.worldPosition, hitGeom.worldNormal, worldPosition, worldNormal, frameParams, probeTexture );
-    }
     else
-#endif // ENABLE_RAYTRACING_FOR_RENDER
     {
       closest = GetNearestProbes( worldPosition, frameParams );
       items = FilterGIProbesWORT( worldPosition, worldNormal, frameParams, closest );
@@ -225,28 +195,19 @@ float3 SampleGI( float3 worldPosition, float3 worldNormal, FrameParamsCB framePa
 
 bool TraceOpaquePosition( float3 worldPosition, float3 worldDirection, out float visibility, out HitGeometry hitGeom )
 {
-  ClosestOpaqueQuery query;
-
-  RayDesc ray;
-  ray.Origin    = worldPosition;
-  ray.TMin      = castMinDistance;
-  ray.TMax      = 1000;
-  ray.Direction = worldDirection;
-
   visibility = 1;
 
   hitGeom = (HitGeometry)0;
 
+  float3 origin = worldPosition;
+
   while ( visibility > 0 )
   {
-    query.TraceRayInline( rayTracingScene, ClosestOpaqueQueryFlags, 0xFF, ray );
-    query.Proceed();
+    hitGeom = TraceRay( origin, worldDirection, castMinDistance, 1000 );
 
     [branch]
-    if ( query.CommittedStatus() == COMMITTED_TRIANGLE_HIT )
+    if ( hitGeom.t >= 0 )
     {
-      hitGeom = CalcHitGeometry( query );
-
       [branch]
       if ( IsOpaqueMaterial( hitGeom.materialIndex ) )
         return true;
@@ -271,7 +232,7 @@ bool TraceOpaquePosition( float3 worldPosition, float3 worldDirection, out float
         }
       }
 
-      ray.Origin = hitGeom.worldPosition + worldDirection * castMinDistance;
+      origin = hitGeom.worldPosition + worldDirection * castMinDistance;
     }
     else
       break;
@@ -280,9 +241,7 @@ bool TraceOpaquePosition( float3 worldPosition, float3 worldDirection, out float
   return false;
 }
 
-float3 CalcGI( HitGeometry hitGeom
-             , LightingEnvironmentParamsCB env
-             , FrameParamsCB frameParams )
+float3 CalcGI( HitGeometry hitGeom, LightingEnvironmentParamsCB env, FrameParamsCB frameParams )
 {
   float4 surfaceAlbedoAlpha = SampleAlbedoAlpha( hitGeom.materialIndex, hitGeom.texcoord, 0 );
   float  roughness          = SampleRoughness( hitGeom.materialIndex, hitGeom.texcoord, 0 );
@@ -294,21 +253,14 @@ float3 CalcGI( HitGeometry hitGeom
   return directLighting;
 }
 
-float3 TraceGI( float3 worldPosition
-              , float3 worldDirection
-              , LightingEnvironmentParamsCB env
-              , FrameParamsCB frameParams )
+float3 TraceGI( float3 worldPosition, float3 worldDirection, LightingEnvironmentParamsCB env, FrameParamsCB frameParams )
 {
   float       visibility;
   HitGeometry hitGeom = (HitGeometry)0;
 
   [branch]
   if ( TraceOpaquePosition( worldPosition, worldDirection, visibility, hitGeom ) )
-  {
     return CalcGI( hitGeom, env, frameParams ) * visibility;
-  }
   else
-  {
     return allCubeTextures[ allMaterials.mat[ env.skyMaterial ].textureIndices.y ].SampleLevel( wrapSampler, worldDirection, 0 ).rgb * visibility;
-  }
 }

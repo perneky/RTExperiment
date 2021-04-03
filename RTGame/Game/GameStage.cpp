@@ -90,6 +90,11 @@ std::pair< Resource&, Resource& > GameStage::Render( CommandList& commandList, E
 
   scene->UpdateRaytracing( commandList );
 
+  commandList.BindHeaps( RenderManager::GetInstance().GetDevice() );
+
+  for ( auto& entity : entities )
+    entity.second->Update( commandList, true, dt );
+
   std::vector< LightCB > renderLights;
   for ( auto& entity : entities )
     if ( auto lightEntity = dynamic_cast< LightEntity* >( entity.second.get() ) )
@@ -403,7 +408,7 @@ void GameStage::Update( CommandList& commandList, double timeElapsed )
   commandList.BeginEvent( 23, L"GameStage::Update(%f)", timeElapsed );
 
   for ( auto& entity : entities )
-    entity.second->Update( commandList, timeElapsed );
+    entity.second->Update( commandList, false, timeElapsed );
 
   commandList.EndEvent();
 }
