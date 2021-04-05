@@ -79,6 +79,7 @@ enum TextureSlots
   IndirectLightingSlot,
   DepthSlot0,
   DepthSlot1,
+  DepthHQSlot,
   AllMeshParamsSlot,
   ReflectionSlot,
   ReflectionUAVSlot,
@@ -86,9 +87,10 @@ enum TextureSlots
   ReflectionProc1UAVSlot,
   ReflectionProc2Slot,
   ReflectionProc2UAVSlot,
-  GaussianBufferSlot,
   SDRUAVSlot,
   HDRUAVSlot,
+  HDRHQSlot,
+  HDRHQUAVSlot,
   HDRLowLevelUAVSlot,
   ExposureBufferUAVSlot,
   SpecBRDFLUTSlot,
@@ -106,7 +108,7 @@ enum TextureSlots
   static_assert( TextureSlotCount < Engine2DResourceBaseSlot + 30, "Too many engine textures!" );
 #endif // __cplusplus
 
-#define AllMeshParamsSlotStr "107"
+#define AllMeshParamsSlotStr "108"
 
 #define ToneMappingKernelWidth  8
 #define ToneMappingKernelHeight 8
@@ -146,6 +148,9 @@ enum TextureSlots
 
 #define BlurBloomKernelWidth  8
 #define BlurBloomKernelHeight 8
+
+#define LinearUSKernelWidth  8
+#define LinearUSKernelHeight 8
 
 #define SpecBRDFLUTSize 256
 

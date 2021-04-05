@@ -167,6 +167,12 @@
     <ClCompile Include="UI\Editor\ToolWindow.cpp">
       <Filter>UI\Editor</Filter>
     </ClCompile>
+    <ClCompile Include="Render\LinearUpscaling.cpp">
+      <Filter>Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\Upscaling.cpp">
+      <Filter>Render</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PCH\PCH.h">
@@ -386,6 +392,12 @@
     <ClInclude Include="UI\Editor\ToolWindow.h">
       <Filter>UI\Editor</Filter>
     </ClInclude>
+    <ClInclude Include="Render\Upscaling.h">
+      <Filter>Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\LinearUpscaling.h">
+      <Filter>Render</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Render\D3D12\Shaders\ModelVS.hlsl">
@@ -467,6 +479,9 @@
       <Filter>Render\D3D12\Shaders</Filter>
     </FxCompile>
     <FxCompile Include="Render\D3D12\Shaders\Downsample4.hlsl">
+      <Filter>Render\D3D12\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Render\D3D12\Shaders\LinearUpscaling.hlsl">
       <Filter>Render\D3D12\Shaders</Filter>
     </FxCompile>
   </ItemGroup>

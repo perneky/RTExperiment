@@ -14,6 +14,7 @@ struct Resource;
 struct ResourceDescriptor;
 struct ComputeShader;
 struct Window;
+struct Upscaling;
 
 enum class GizmoType;
 
@@ -110,12 +111,14 @@ private:
   FrameParamsCB prevFrameParams;
   FrameParamsCB frameParams;
 
-  std::unique_ptr< Resource > depthTextures[ 2 ];
+  std::unique_ptr< Resource > lowResDepthTextures[ 2 ];
+  std::unique_ptr< Resource > highResDepthTexture;
   std::unique_ptr< Resource > directLightingTextures[ 2 ];
   std::unique_ptr< Resource > indirectLightingTexture;
   std::unique_ptr< Resource > reflectionTexture;
   std::unique_ptr< Resource > reflectionProcTextures[ 2 ];
-  std::unique_ptr< Resource > hdrTexture;
+  std::unique_ptr< Resource > lowResHDRTexture;
+  std::unique_ptr< Resource > highResHDRTexture;
   std::unique_ptr< Resource > sdrTexture;
   std::unique_ptr< Resource > exposureBuffer;
   std::unique_ptr< Resource > giProbeTextures[ 2 ];
@@ -127,8 +130,6 @@ private:
   std::unique_ptr< Resource > frameConstantBuffer;
   std::unique_ptr< Resource > prevFrameConstantBuffer;
   std::unique_ptr< Resource > lightingConstantBuffer;
-
-  std::unique_ptr< Resource > gaussianBuffer;
 
   std::unique_ptr< Resource > giProbeVB;
   std::unique_ptr< Resource > giProbeIB;
@@ -148,6 +149,8 @@ private:
   std::unique_ptr< ComputeShader > processReflectionShader;
   std::unique_ptr< ComputeShader > extractBloomShader;
   std::unique_ptr< ComputeShader > blurBloomShader;
+
+  std::unique_ptr< Upscaling > upscaling;
 
   std::unique_ptr< RTTopLevelAccelerator > rtScene;
   std::unique_ptr< ResourceDescriptor >    rtDescriptor;

@@ -28,7 +28,7 @@ void main( VertexOutput input
 
   float3 worldNormal = isFrontFace ? input.worldNormal : -input.worldNormal;
 
-  float2 edgeSize = frameParams.screenSize.zw;
+  float2 edgeSize = frameParams.screenSizeLQ.zw;
 
   // Calc surface params
   float3 surfaceWorldNormal  = CalcSurfaceNormal( meshParams.materialIndex, input.texcoord, worldNormal, input.worldTangent, input.worldBitangent );

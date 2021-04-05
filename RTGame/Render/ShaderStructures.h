@@ -46,7 +46,8 @@ struct FrameParamsCB
   XMFLOAT4X4       invProjTransform;
   XMFLOAT4         cameraPosition;
   XMFLOAT4         cameraDirection;
-  XMFLOAT4         screenSize;
+  XMFLOAT4         screenSizeLQ;
+  XMFLOAT4         screenSizeHQ;
   XMFLOAT4         invWorldSize;
   XMFLOAT4         worldMinCorner;
   XMFLOAT4         wetnessOriginInvSize;
