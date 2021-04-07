@@ -195,7 +195,7 @@ void D3DCommandList::SetUnorderedAccessView( int index, Resource& bufferResource
   d3dGraphicsCommandList->SetGraphicsRootDescriptorTable( index, d3dDescriptor->GetD3DGPUHandle() );
 }
 
-void D3DCommandList::SetTextureHeap( int index, DescriptorHeap& heap, int offset )
+void D3DCommandList::SetDescriptorHeap( int index, DescriptorHeap& heap, int offset )
 {
   auto d3dHeap   = static_cast< D3DDescriptorHeap* >( &heap );
   auto gpuHandle = d3dHeap->GetD3DHeap()->GetGPUDescriptorHandleForHeapStart();

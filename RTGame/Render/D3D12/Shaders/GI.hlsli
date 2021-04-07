@@ -4,6 +4,8 @@
 #include "MaterialUtils.hlsli"
 #include "RTUtils.hlsli"
 
+static const float giSampleMipLevel = 2;
+
 float3 TraceDirectLighting( float3 albedo, float roughness, float metallic, bool isSpecular, float3 worldPosition, float3 worldNormal, float3 cameraPosition, LightingEnvironmentParamsCB env );
 
 int FilterGIProbes( float3 worldPosition, float3 worldNormal, FrameParamsCB frameParams, inout NearestProbes closest )
@@ -212,7 +214,7 @@ bool TraceOpaquePosition( float3 worldPosition, float3 worldDirection, out float
       if ( IsOpaqueMaterial( hitGeom.materialIndex ) )
         return true;
 
-      float4 surfaceAlbedoAlpha = SampleAlbedoAlpha( hitGeom.materialIndex, hitGeom.texcoord, 0 );
+      float4 surfaceAlbedoAlpha = SampleAlbedoAlpha( hitGeom.materialIndex, hitGeom.texcoord, giSampleMipLevel );
 
       [branch]
       if ( IsOneBitAlphaMaterial( hitGeom.materialIndex ) && !ShouldBeDiscared( surfaceAlbedoAlpha.a ) )
@@ -243,9 +245,9 @@ bool TraceOpaquePosition( float3 worldPosition, float3 worldDirection, out float
 
 float3 CalcGI( HitGeometry hitGeom, LightingEnvironmentParamsCB env, FrameParamsCB frameParams )
 {
-  float4 surfaceAlbedoAlpha = SampleAlbedoAlpha( hitGeom.materialIndex, hitGeom.texcoord, 0 );
-  float  roughness          = SampleRoughness( hitGeom.materialIndex, hitGeom.texcoord, 0 );
-  float  metallic           = SampleMetallic( hitGeom.materialIndex, hitGeom.texcoord, 0 );
+  float4 surfaceAlbedoAlpha = SampleAlbedoAlpha( hitGeom.materialIndex, hitGeom.texcoord, giSampleMipLevel );
+  float  roughness          = SampleRoughness( hitGeom.materialIndex, hitGeom.texcoord, giSampleMipLevel );
+  float  metallic           = SampleMetallic( hitGeom.materialIndex, hitGeom.texcoord, giSampleMipLevel );
   bool   isSpecular         = IsSpecularMaterial( hitGeom.materialIndex );
 
   float3 directLighting = TraceDirectLighting( surfaceAlbedoAlpha.rgb, roughness, metallic, isSpecular, hitGeom.worldPosition, hitGeom.worldNormal, frameParams.cameraPosition.xyz, env );

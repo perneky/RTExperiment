@@ -285,6 +285,11 @@ DescriptorHeap& RenderManager::GetShaderResourceHeap()
   return device->GetShaderResourceHeap();
 }
 
+DescriptorHeap& RenderManager::GetSamplerHeap()
+{
+  return device->GetSamplerHeap();
+}
+
 void RenderManager::PrepareAllMaterials( CommandList& commandList )
 {
   assert( gameDefinition.GetEntityMaterials().size() < MaxMaterials );
@@ -523,6 +528,40 @@ RenderManager::RenderManager( std::shared_ptr< Window > window )
   }
 
   {
+    auto vertexShader = ReadFileToMemory( L"Content/Shaders/DepthWithMotionVS.cso" );
+    auto  pixelShader = ReadFileToMemory( L"Content/Shaders/DepthWithMotionPS.cso" );
+
+    PipelineDesc pipelineDesc;
+
+    CreateRigidVertexDesc( pipelineDesc.vertexDesc );
+    pipelineDesc.rasterizerDesc.cullFront = RasterizerDesc::CullFront::Clockwise;
+    pipelineDesc.blendDesc                = BlendDesc( BlendPreset::DirectWrite );
+    pipelineDesc.vsData                   = vertexShader.data();
+    pipelineDesc.psData                   = pixelShader.data();
+    pipelineDesc.vsSize                   = vertexShader.size();
+    pipelineDesc.psSize                   = pixelShader.size();
+    pipelineDesc.primitiveType            = PrimitiveType::TriangleList;
+    pipelineDesc.targetFormat[ 0 ]        = RenderManager::MotionVectorFormat;
+    pipelineDesc.depthFormat              = DepthFormat;
+    pipelineDesc.samples                  = 1;
+    pipelinePresets[ int( PipelinePresets::DepthWithMotionVectors ) ] = device->CreatePipelineState( pipelineDesc );
+
+    pipelineDesc.rasterizerDesc.cullMode  = RasterizerDesc::CullMode::None;
+    pipelineDesc.rasterizerDesc.depthBias = oneBitAlphaDepthBias;
+    pipelinePresets[ int( PipelinePresets::DepthOneBitAlphaWithMotionVectors ) ] = device->CreatePipelineState( pipelineDesc );
+
+    CreateRigidVertexWithHistoryDesc( pipelineDesc.vertexDesc );
+
+    pipelineDesc.rasterizerDesc.cullMode  = RasterizerDesc::CullMode::Back;
+    pipelineDesc.rasterizerDesc.depthBias = 0;
+    pipelinePresets[ int( PipelinePresets::DepthWithHistoryWithMotionVectors ) ] = device->CreatePipelineState( pipelineDesc );
+
+    pipelineDesc.rasterizerDesc.cullMode  = RasterizerDesc::CullMode::None;
+    pipelineDesc.rasterizerDesc.depthBias = oneBitAlphaDepthBias;
+    pipelinePresets[ int( PipelinePresets::DepthOneBitAlphaWithHistoryWithMotionVectors ) ] = device->CreatePipelineState( pipelineDesc );
+  }
+
+  {
     auto vertexShader = ReadFileToMemory( L"Content/Shaders/ModelVS.cso" );
     auto  pixelShader = ReadFileToMemory( L"Content/Shaders/ModelPS.cso" );
 
@@ -734,7 +773,7 @@ void RenderManager::FinishSpriteRendering( CommandList& commandList, FXMMATRIX v
 
     commandList.SetPipelineState( GetPipelinePreset( PipelinePresets::Sprite ) );
     commandList.SetConstantValues( 0, t );
-    commandList.SetTextureHeap( 1, GetShaderResourceHeap(), 0 );
+    commandList.SetDescriptorHeap( 1, GetShaderResourceHeap(), 0 );
 
     int  dataSize = int( spriteVertices.size() * sizeof( SpriteVertexFormat ) );
     auto ub       = this->GetUploadConstantBufferForResource( *spriteVertexBuffer );

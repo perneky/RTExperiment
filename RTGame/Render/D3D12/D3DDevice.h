@@ -30,8 +30,11 @@ public:
   std::unique_ptr< Resource > LoadCubeTexture( CommandList& commandList, std::vector< uint8_t >&& textureData, int slot, const wchar_t* debugName ) override;
 
   DescriptorHeap& GetShaderResourceHeap() override;
+  DescriptorHeap& GetSamplerHeap() override;
 
   int GetUploadSizeForResource( Resource& resource ) override;
+
+  void SetTextureLODBias( float bias ) override;
 
   void  DearImGuiNewFrame() override;
   void* GetDearImGuiHeap() override;
@@ -51,6 +54,8 @@ public:
 private:
   D3DDevice( D3DAdapter& adapter );
 
+  void UpdateSamplers();
+
   std::unique_ptr< D3DResource > CreateTexture( CommandList& commandList, int width, int height, int depth, const void* data, int dataSize, PixelFormat format, bool renderable, int slot, std::optional< int > uavSlot, bool mipLevels, const wchar_t* debugName );
 
   CComPtr< ID3D12DeviceX > d3dDevice;
@@ -65,4 +70,6 @@ private:
   std::unique_ptr< D3DComputeShader > mipmapGenComputeShader;
   CComPtr< ID3D12DescriptorHeap >     d3dmipmapGenHeap;
   int                                 mipmapGenDescCounter;
+
+  float textureLODBias = 0;
 };

@@ -15,24 +15,13 @@
                        "                 SRV( t6, offset = " CBVIBBaseSlotStr              ", numDescriptors = " CBVIBCountStr              ", flags = DESCRIPTORS_VOLATILE, space = 6 )," \
                        "                 SRV( t7, offset = " CBVVBBaseSlotStr              ", numDescriptors = " CBVVBCountStr              ", flags = DESCRIPTORS_VOLATILE, space = 7 )," \
                        "                 SRV( t8, offset = " AllMeshParamsSlotStr          ", numDescriptors = 1,                              flags = DESCRIPTORS_VOLATILE, space = 8 ) )," \
-                       "StaticSampler( s0," \
-                       "               filter = FILTER_ANISOTROPIC," \
-                       "               addressU = TEXTURE_ADDRESS_WRAP," \
-                       "               addressV = TEXTURE_ADDRESS_WRAP," \
-                       "               addressW = TEXTURE_ADDRESS_WRAP," \
-                       "               maxAnisotropy = 16 )," \
-                       "StaticSampler( s1," \
-                       "               filter = FILTER_ANISOTROPIC," \
-                       "               addressU = TEXTURE_ADDRESS_CLAMP," \
-                       "               addressV = TEXTURE_ADDRESS_CLAMP," \
-                       "               addressW = TEXTURE_ADDRESS_CLAMP," \
-                       "               maxAnisotropy = 16 )," \
-                       "StaticSampler( s2," \
+                       "DescriptorTable( Sampler( s0, numDescriptors = 2 ) )," \
+                       "StaticSampler( s1, space = 1," \
                        "               filter = FILTER_MIN_MAG_MIP_LINEAR," \
                        "               addressU = TEXTURE_ADDRESS_WRAP," \
                        "               addressV = TEXTURE_ADDRESS_WRAP," \
                        "               addressW = TEXTURE_ADDRESS_WRAP )," \
-                       "StaticSampler( s3," \
+                       "StaticSampler( s2, space = 2," \
                        "               filter = FILTER_MIN_MAG_MIP_POINT," \
                        "               addressU = TEXTURE_ADDRESS_CLAMP," \
                        "               addressV = TEXTURE_ADDRESS_CLAMP," \
@@ -68,10 +57,12 @@ Texture2D    allEngineTextures[]   : register( t1, space1 );
 Texture2D    allMaterialTextures[] : register( t3, space3 );
 TextureCube  allCubeTextures[]     : register( t4, space4 );
 Texture3D    all3DTextures[]       : register( t5, space5 );
-SamplerState wrapSampler           : register( s0 );
-SamplerState clampSampler          : register( s1 );
-SamplerState noiseSampler          : register( s2 );
-SamplerState pointClampSampler     : register( s3 );
+SamplerState wrapClampSamplers[]   : register( s0 );
+SamplerState noiseSampler          : register( s1, space1 );
+SamplerState pointClampSampler     : register( s2, space2 );
+
+#define wrapSampler  wrapClampSamplers[ 0 ]
+#define clampSampler wrapClampSamplers[ 1 ]
 
 ByteAddressBuffer                  meshIndices [ MaxMeshCount ] : register( t6, space6 );
 StructuredBuffer< RTVertexFormat > meshVertices[ MaxMeshCount ] : register( t7, space7 );

@@ -35,7 +35,7 @@ public:
 
   GizmoType GetType() const;
 
-  void Render( CommandList& commandList, FXMMATRIX wvpTransform );
+  void Render( CommandList& commandList, FXMMATRIX wvpTransformNoJitter );
 
   GizmoElement Pick( FXMMATRIX xform, FXMVECTOR rayOrigin, FXMVECTOR rayDirection ) const;
 

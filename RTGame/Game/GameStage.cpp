@@ -151,7 +151,7 @@ void GameStage::RenderLightMarkers( CommandList& commandList, EntityId camera )
     }
   }
 
-  renderManager.FinishSpriteRendering( commandList, cameraEntity->GetCamera().GetViewTransform(), cameraEntity->GetCamera().GetProjectionTransform() );
+  renderManager.FinishSpriteRendering( commandList, cameraEntity->GetCamera().GetViewTransform(), cameraEntity->GetCamera().GetProjectionTransform( false ) );
 
   commandList.EndEvent();
 }
@@ -509,4 +509,9 @@ void GameStage::PaintWetness( CommandList& commandList, float cx, float cz, floa
         }
 
   scene->SetupWetness( commandList, wetnessOrigin, wetnessSize, wetnessDensity, GetWetnessMap() );
+}
+
+Scene* GameStage::GetScene()
+{
+  return scene.get();
 }

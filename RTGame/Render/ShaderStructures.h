@@ -40,6 +40,10 @@ struct MeshParamsCB
 
 struct FrameParamsCB
 {
+  XMFLOAT4X4       vpTransformNoJitter;
+  XMFLOAT4X4       projTransformNoJitter;
+  XMFLOAT4X4       invProjTransformNoJitter;
+
   XMFLOAT4X4       vpTransform;
   XMFLOAT4X4       viewTransform;
   XMFLOAT4X4       projTransform;
@@ -53,6 +57,7 @@ struct FrameParamsCB
   XMFLOAT4         wetnessOriginInvSize;
   XMFLOAT4         giProbeOrigin;
   XMINT4           giProbeCount;
+  XMFLOAT2         jitter;
   int              frameIndex;
   int              depthIndex;
   int              prevDepthIndex;

@@ -19,7 +19,7 @@ public:
   ID3D12DescriptorHeap* GetD3DHeap();
 
 private:
-  D3DDescriptorHeap( D3DDevice& device, int freeAutoDescriptorStart, int descriptorCount, D3D12_DESCRIPTOR_HEAP_TYPE heapType );
+  D3DDescriptorHeap( D3DDevice& device, int freeAutoDescriptorStart, int descriptorCount, D3D12_DESCRIPTOR_HEAP_TYPE heapType, const wchar_t* debugName );
 
   int freeAutoDescriptorStart;
 

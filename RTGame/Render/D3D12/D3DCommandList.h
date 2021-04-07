@@ -29,7 +29,7 @@ public:
   void SetConstantBuffer( int index, Resource& bufferResource ) override;
   void SetShaderResourceView( int index, Resource& bufferResource ) override;
   void SetUnorderedAccessView( int index, Resource& bufferResource ) override;
-  void SetTextureHeap( int index, DescriptorHeap& heap, int offset ) override;
+  void SetDescriptorHeap( int index, DescriptorHeap& heap, int offset ) override;
   void SetConstantValues( int index, const void* values, int numValues, int offset ) override;
   void SetRayTracingScene( int index, RTTopLevelAccelerator& accelerator ) override;
   void SetPrimitiveType( PrimitiveType primitiveType ) override;

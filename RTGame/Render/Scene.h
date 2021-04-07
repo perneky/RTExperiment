@@ -4,6 +4,7 @@
 #include "ShaderStructuresNative.h"
 #include "Game/GameDefinition.h"
 #include "ShaderStructuresNative.h"
+#include "Upscaling.h"
 
 class Mesh;
 class Gizmo;
@@ -75,6 +76,8 @@ public:
 
   void SetupWetness( CommandList& commandList, const XMINT2& origin, const XMINT2& size, int density, const std::vector< uint8_t >& values );
 
+  void SetUpscalingQuality( CommandList& commandList, Window& window, Upscaling::Quality quality );
+
 private:
   void RefreshGIProbeInstances( CommandList& commandList );
 
@@ -111,8 +114,8 @@ private:
   FrameParamsCB prevFrameParams;
   FrameParamsCB frameParams;
 
-  std::unique_ptr< Resource > lowResDepthTextures[ 2 ];
-  std::unique_ptr< Resource > highResDepthTexture;
+  std::unique_ptr< Resource > depthTextures[ 2 ];
+  std::unique_ptr< Resource > motionVectorTexture;
   std::unique_ptr< Resource > directLightingTextures[ 2 ];
   std::unique_ptr< Resource > indirectLightingTexture;
   std::unique_ptr< Resource > reflectionTexture;
@@ -184,6 +187,8 @@ private:
   RTState rtState = RTState::ElementsModified;
 
   BoundingBox sceneAABB;
+
+  Upscaling::Quality upscalingQuality = Upscaling::DefaultQuality;
 
   std::vector< MeshParamsCB > allMeshParams;
 };

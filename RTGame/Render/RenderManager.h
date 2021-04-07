@@ -22,11 +22,12 @@ class AnimationSet;
 class RenderManager
 {
 public:
-  static constexpr PixelFormat SDRFormat   = PixelFormat::RGBA1010102UN;
-  static constexpr PixelFormat HDRFormat   = PixelFormat::RGBA16161616F;
-  static constexpr PixelFormat HDRFormat2  = PixelFormat::RG1616F;
-  static constexpr PixelFormat DepthFormat = PixelFormat::D32;
-  static constexpr PixelFormat AOFormat    = PixelFormat::RG1616F;
+  static constexpr PixelFormat SDRFormat          = PixelFormat::RGBA1010102UN;
+  static constexpr PixelFormat HDRFormat          = PixelFormat::RGBA16161616F;
+  static constexpr PixelFormat HDRFormat2         = PixelFormat::RG1616F;
+  static constexpr PixelFormat DepthFormat        = PixelFormat::D32;
+  static constexpr PixelFormat AOFormat           = PixelFormat::RG1616F;
+  static constexpr PixelFormat MotionVectorFormat = PixelFormat::RG1616F;
 
   static bool           CreateInstance( std::shared_ptr< Window > window );
   static RenderManager& GetInstance();
@@ -57,6 +58,7 @@ public:
   Swapchain&      GetSwapchain();
   PipelineState&  GetPipelinePreset( PipelinePresets preset );
   DescriptorHeap& GetShaderResourceHeap();
+  DescriptorHeap& GetSamplerHeap();
 
   void PrepareAllMaterials( CommandList& commandList );
   int GetAllMaterialIndex( const GUID& guid ) const;

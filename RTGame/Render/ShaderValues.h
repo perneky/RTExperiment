@@ -11,7 +11,7 @@
 #define GIProbeHeight  22
 
 #define RTSceneCount            100
-#define Engine2DResourceCount   30
+#define Engine2DResourceCount   40
 #define EngineCubeResourceCount 10
 #define EngineVolResourceCount  10
 #define VaryingResourceCount    1000
@@ -49,19 +49,19 @@
 #define CBVVBBaseSlot ( CBVIBBaseSlot + MaxMeshCount )
 
 #define RTSceneCountStr            "100"
-#define Engine2DResourceCountStr   "30"
+#define Engine2DResourceCountStr   "40"
 #define EngineCubeResourceCountStr "10"
 #define EngineVolResourceCountStr  "10"
 #define VaryingResourceCountStr    "1000"
 
 #define RTSceneBaseSlotStr            "0"
 #define Engine2DResourceBaseSlotStr   "100"
-#define EngineCubeResourceBaseSlotStr "130"
-#define EngineVolResourceBaseSlotStr  "140"
-#define VaryingResourceBaseSlotStr    "150"
+#define EngineCubeResourceBaseSlotStr "140"
+#define EngineVolResourceBaseSlotStr  "150"
+#define VaryingResourceBaseSlotStr    "160"
 
-#define CBVIBBaseSlotStr "1150"
-#define CBVVBBaseSlotStr "1650"
+#define CBVIBBaseSlotStr "1160"
+#define CBVVBBaseSlotStr "1660"
 
 #define CBVIBCountStr "500"
 #define CBVVBCountStr "500"
@@ -92,6 +92,7 @@ enum TextureSlots
   HDRHQSlot,
   HDRHQUAVSlot,
   HDRLowLevelUAVSlot,
+  ExposureBufferSlot,
   ExposureBufferUAVSlot,
   SpecBRDFLUTSlot,
   SpecBRDFLUTUAVSlot,
@@ -100,12 +101,13 @@ enum TextureSlots
   BloomBlurredSlot,
   BloomUAVSlot,
   BloomBlurredUAVSlot,
+  MotionVectorsSlot,
 
   TextureSlotCount
 };
 
 #ifdef __cplusplus
-  static_assert( TextureSlotCount < Engine2DResourceBaseSlot + 30, "Too many engine textures!" );
+  static_assert( TextureSlotCount < Engine2DResourceBaseSlot + Engine2DResourceCount, "Too many engine textures!" );
 #endif // __cplusplus
 
 #define AllMeshParamsSlotStr "108"

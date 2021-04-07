@@ -167,10 +167,10 @@
     <ClCompile Include="UI\Editor\ToolWindow.cpp">
       <Filter>UI\Editor</Filter>
     </ClCompile>
-    <ClCompile Include="Render\LinearUpscaling.cpp">
+    <ClCompile Include="Render\Upscaling.cpp">
       <Filter>Render</Filter>
     </ClCompile>
-    <ClCompile Include="Render\Upscaling.cpp">
+    <ClCompile Include="Render\DLSSUpscaling.cpp">
       <Filter>Render</Filter>
     </ClCompile>
   </ItemGroup>
@@ -395,7 +395,10 @@
     <ClInclude Include="Render\Upscaling.h">
       <Filter>Render</Filter>
     </ClInclude>
-    <ClInclude Include="Render\LinearUpscaling.h">
+    <ClInclude Include="Render\DLSSUpscaling.h">
+      <Filter>Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\Halton.h">
       <Filter>Render</Filter>
     </ClInclude>
   </ItemGroup>
@@ -481,7 +484,10 @@
     <FxCompile Include="Render\D3D12\Shaders\Downsample4.hlsl">
       <Filter>Render\D3D12\Shaders</Filter>
     </FxCompile>
-    <FxCompile Include="Render\D3D12\Shaders\LinearUpscaling.hlsl">
+    <FxCompile Include="Render\D3D12\Shaders\DepthWithMotionPS.hlsl">
+      <Filter>Render\D3D12\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Render\D3D12\Shaders\DepthWithMotionVS.hlsl">
       <Filter>Render\D3D12\Shaders</Filter>
     </FxCompile>
   </ItemGroup>

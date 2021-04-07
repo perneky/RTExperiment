@@ -75,6 +75,8 @@ public:
   void ChangeWetnessArea( CommandList& commandList, int originX, int originZ, int sizeX, int sizeZ, int density );
   void PaintWetness ( CommandList& commandList, float cx, float cz, float strength, float radius, float exponent );
 
+  Scene* GetScene();
+
 private:
   GUID  skyGUID;
   float exposure       = 1;

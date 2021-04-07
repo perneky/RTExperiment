@@ -4,7 +4,7 @@
 #include "D3DResource.h"
 #include "D3DRTTopLevelAccelerator.h"
 
-D3DDescriptorHeap::D3DDescriptorHeap( D3DDevice& device, int freeAutoDescriptorStart, int descriptorCount, D3D12_DESCRIPTOR_HEAP_TYPE heapType )
+D3DDescriptorHeap::D3DDescriptorHeap( D3DDevice& device, int freeAutoDescriptorStart, int descriptorCount, D3D12_DESCRIPTOR_HEAP_TYPE heapType, const wchar_t* debugName )
   : freeAutoDescriptorStart( freeAutoDescriptorStart )
 {
   for ( int index = 0; index < descriptorCount; ++index )
@@ -15,6 +15,8 @@ D3DDescriptorHeap::D3DDescriptorHeap( D3DDevice& device, int freeAutoDescriptorS
   heapDesc.Flags          = heapType < D3D12_DESCRIPTOR_HEAP_TYPE_RTV ? D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE : D3D12_DESCRIPTOR_HEAP_FLAG_NONE;
   heapDesc.Type           = heapType;
   device.GetD3DDevice()->CreateDescriptorHeap( &heapDesc, IID_PPV_ARGS( &d3dHeap ) );
+
+  d3dHeap->SetName( debugName );
 
   handleSize = device.GetD3DDevice()->GetDescriptorHandleIncrementSize( heapType );
 }

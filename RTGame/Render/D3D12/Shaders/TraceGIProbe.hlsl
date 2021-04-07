@@ -143,8 +143,6 @@ void main( uint3 groupThreadID : SV_GroupThreadID, uint3 groupId : SV_GroupID )
   
     int3 wix = GIProbeWorldIndex( probeId, frameParams );
 
-    Query query;
-
     for ( int rayIx = 0; rayIx < 6; rayIx++ )
     {
       int3 nix = wix + nDirI[ rayIx ];

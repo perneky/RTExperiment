@@ -1,8 +1,11 @@
 #include "Upscaling.h"
 #include "ComputeShader.h"
-#include "LinearUpscaling.h"
+#include "DLSSUpscaling.h"
 
 std::unique_ptr< Upscaling > Upscaling::Instantiate()
 {
-  return std::make_unique< LinearUpscaling >();
+  if ( DLSSUpscaling::IsAvailable() )
+    return std::make_unique< DLSSUpscaling >();
+
+  return nullptr;
 }
