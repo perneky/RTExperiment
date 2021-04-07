@@ -22,8 +22,10 @@ public:
   XMVECTOR GetUp() const override;
 
   XMMATRIX GetViewTransform() const override;
-  XMMATRIX GetProjectionTransform() const override;
-  XMMATRIX GetViewProjectionTransform() const override;
+  XMMATRIX GetProjectionTransform( bool includeJitter ) const override;
+  XMMATRIX GetViewProjectionTransform( bool includeJitter ) const override;
+
+  void SetJitter( XMFLOAT2 jitter ) override;
 
   float GetFovY() const;
   float GetAspect() const;
@@ -52,9 +54,14 @@ private:
   float nearZ = 0.1f;
   float farZ  = 100.0f;
 
+  XMFLOAT2 jitter = XMFLOAT2( 0, 0 );
+
   mutable XMFLOAT4X4A viewTransform;
   mutable XMFLOAT4X4A projectionTransform;
   mutable XMFLOAT4X4A vpTransform;
+
+  mutable XMFLOAT4X4A projectionTransformNoJitter;
+  mutable XMFLOAT4X4A vpTransformNoJitter;
 
   mutable bool dirty = true;
 

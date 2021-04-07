@@ -34,7 +34,7 @@ struct CommandList
   virtual void SetConstantBuffer( int index, Resource& bufferResource ) = 0;
   virtual void SetShaderResourceView( int index, Resource& bufferResource ) = 0;
   virtual void SetUnorderedAccessView( int index, Resource& bufferResource ) = 0;
-  virtual void SetTextureHeap( int index, DescriptorHeap& heap, int offset ) = 0;
+  virtual void SetDescriptorHeap( int index, DescriptorHeap& heap, int offset ) = 0;
   virtual void SetConstantValues( int index, const void* values, int numValues, int offset = 0 ) = 0;
   virtual void SetRayTracingScene( int index, RTTopLevelAccelerator& accelerator ) = 0;
   virtual void SetPrimitiveType( PrimitiveType primitiveType ) = 0;

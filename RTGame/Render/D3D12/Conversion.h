@@ -57,6 +57,7 @@ inline DXGI_FORMAT Convert( PixelFormat format )
   case PixelFormat::RGBA16161616F: return DXGI_FORMAT_R16G16B16A16_FLOAT;
   case PixelFormat::RG1616F:       return DXGI_FORMAT_R16G16_FLOAT;
   case PixelFormat::R16UN:         return DXGI_FORMAT_R16_UNORM;
+  case PixelFormat::R32F:          return DXGI_FORMAT_R32_FLOAT;
   case PixelFormat::BC1UN:         return DXGI_FORMAT_BC1_UNORM;
   case PixelFormat::BC2UN:         return DXGI_FORMAT_BC2_UNORM;
   case PixelFormat::BC3UN:         return DXGI_FORMAT_BC3_UNORM;
@@ -108,6 +109,7 @@ inline int CalcTexelSize( PixelFormat format )
   case PixelFormat::RGBA1010102UN:
   case PixelFormat::RGBA1010102U:
   case PixelFormat::RG1616F:
+  case PixelFormat::R32F:
     return 4;
   case PixelFormat::RGBA16161616F:
     return 8;

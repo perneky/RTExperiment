@@ -13,7 +13,6 @@
 #include "Common/Files.h"
 #include "Icosahedron.h"
 #include "Gizmo.h"
-#include "Upscaling.h"
 
 static constexpr int BlurParamsFloatCount = ( 17 + 17 + 1 ) * 4;
 
@@ -72,10 +71,12 @@ void Scene::SetUp( CommandList& commandList, Window& window )
   auto extractBloomFile      = ReadFileToMemory( L"Content/Shaders/ExtractBloom.cso" );
   auto blurBloomFile         = ReadFileToMemory( L"Content/Shaders/BlurBloom.cso" );
 
+  float zero = 0;
+
+  exposureBuffer          = device.Create2DTexture( commandList, 1, 1, &zero, sizeof( float ), PixelFormat::R32F, false, ExposureBufferSlot, ExposureBufferUAVSlot, false, L"ExposureBuffer" );
   frameConstantBuffer     = device.CreateBuffer( ResourceType::ConstantBuffer, HeapType::Default, false, sizeof( FrameParamsCB ), sizeof( FrameParamsCB ), L"FrameParams" );
   prevFrameConstantBuffer = device.CreateBuffer( ResourceType::ConstantBuffer, HeapType::Default, false, sizeof( FrameParamsCB ), sizeof( FrameParamsCB ), L"PrevFrameParams" );
   lightingConstantBuffer  = device.CreateBuffer( ResourceType::ConstantBuffer, HeapType::Default, false, sizeof( LightingEnvironmentParamsCB ), sizeof( LightingEnvironmentParamsCB ), L"LightingParams" );
-  exposureBuffer          = device.CreateBuffer( ResourceType::ConstantBuffer, HeapType::Default, true,  sizeof( float ), sizeof( float ), L"ExposureBuffer" );
   allMeshParamsBuffer     = device.CreateBuffer( ResourceType::ConstantBuffer, HeapType::Default, false, sizeof( MeshParamsCB ) * MaxInstanceCount, sizeof( MeshParamsCB ), L"AllMeshParams" );
   toneMappingShader       = device.CreateComputeShader( toneMappingFile.data(), int( toneMappingFile.size() ), L"ToneMapping" );
   combineLightingShader   = device.CreateComputeShader( combineLightingFile.data(), int( combineLightingFile.size() ), L"CombineLighting" );
@@ -88,9 +89,6 @@ void Scene::SetUp( CommandList& commandList, Window& window )
   extractBloomShader      = device.CreateComputeShader( extractBloomFile.data(), int( extractBloomFile.size() ), L"ExtractBloomFile" );
   blurBloomShader         = device.CreateComputeShader( blurBloomFile.data(), int( blurBloomFile.size() ), L"BlurBloomFile" );
   
-  auto exposureBufferUAVDesc = device.GetShaderResourceHeap().RequestDescriptor( device, ResourceDescriptorType::UnorderedAccessView, ExposureBufferUAVSlot, *exposureBuffer, sizeof( float ) );
-  exposureBuffer->AttachResourceDescriptor( ResourceDescriptorType::UnorderedAccessView, std::move( exposureBufferUAVDesc ) );
-
   auto allMeshParamsDesc = device.GetShaderResourceHeap().RequestDescriptor( device, ResourceDescriptorType::ShaderResourceView, AllMeshParamsSlot, *allMeshParamsBuffer, sizeof( MeshParamsCB ) );
   allMeshParamsBuffer->AttachResourceDescriptor( ResourceDescriptorType::ShaderResourceView, std::move( allMeshParamsDesc ) );
 
@@ -226,22 +224,34 @@ void Scene::SetCamera( Camera& camera )
   float nearZ = 0.1f;
   float farZ  = 200.0f;
 
+  XMFLOAT2 jitter = XMFLOAT2( 0, 0 );
+  if ( upscaling )
+  {
+    jitter    = upscaling->GetJitter();
+    jitter.x *=  2.0f / lowResHDRTexture->GetTextureWidth ();
+    jitter.y *= -2.0f / lowResHDRTexture->GetTextureHeight();
+  }
+  camera.SetJitter( jitter );
   camera.SetDepthRange( nearZ, farZ );
 
-  XMStoreFloat4x4( &frameParams.vpTransform,      camera.GetViewProjectionTransform() );
-  XMStoreFloat4x4( &frameParams.viewTransform,    camera.GetViewTransform() );
-  XMStoreFloat4x4( &frameParams.projTransform,    camera.GetProjectionTransform() );
-  XMStoreFloat4x4( &frameParams.invProjTransform, XMMatrixInverse( nullptr, camera.GetProjectionTransform() ) );
-  XMStoreFloat4  ( &frameParams.cameraPosition,   camera.GetPosition() );
-  XMStoreFloat4  ( &frameParams.cameraDirection,  camera.GetDirection() );
+  XMStoreFloat4x4( &frameParams.vpTransform,              camera.GetViewProjectionTransform( true ) );
+  XMStoreFloat4x4( &frameParams.vpTransformNoJitter,      camera.GetViewProjectionTransform( false ) );
+  XMStoreFloat4x4( &frameParams.viewTransform,            camera.GetViewTransform() );
+  XMStoreFloat4x4( &frameParams.projTransform,            camera.GetProjectionTransform( true ) );
+  XMStoreFloat4x4( &frameParams.invProjTransform,         XMMatrixInverse( nullptr, camera.GetProjectionTransform( true ) ) );
+  XMStoreFloat4x4( &frameParams.projTransformNoJitter,    camera.GetProjectionTransform( false ) );
+  XMStoreFloat4x4( &frameParams.invProjTransformNoJitter, XMMatrixInverse( nullptr, camera.GetProjectionTransform( false ) ) );
+  XMStoreFloat4  ( &frameParams.cameraPosition,           camera.GetPosition() );
+  XMStoreFloat4  ( &frameParams.cameraDirection,          camera.GetDirection() );
   frameParams.screenSizeLQ.x = float( lowResHDRTexture->GetTextureWidth() );
   frameParams.screenSizeLQ.y = float( lowResHDRTexture->GetTextureHeight() );
   frameParams.screenSizeLQ.z = 1.0f / frameParams.screenSizeLQ.x;
   frameParams.screenSizeLQ.w = 1.0f / frameParams.screenSizeLQ.y;
-  frameParams.screenSizeHQ.x = float( highResHDRTexture->GetTextureWidth() );
-  frameParams.screenSizeHQ.y = float( highResHDRTexture->GetTextureHeight() );
+  frameParams.screenSizeHQ.x = float( GetTargetWidth () );
+  frameParams.screenSizeHQ.y = float( GetTargetHeight() );
   frameParams.screenSizeHQ.z = 1.0f / frameParams.screenSizeHQ.x;
   frameParams.screenSizeHQ.w = 1.0f / frameParams.screenSizeHQ.y;
+  frameParams.jitter         = upscaling ? upscaling->GetJitter() : XMFLOAT2( 0, 0 );
 }
 
 float GaussianDistribution( float x, float m, float s )
@@ -273,16 +283,19 @@ std::pair< Resource&, Resource& > Scene::Render( CommandList& commandList, const
 {
   sceneTime += dt;
 
-  auto& renderManager   = RenderManager::GetInstance();
-  auto  vTransform      = XMLoadFloat4x4( &frameParams.viewTransform );
-  auto  pTransform      = XMLoadFloat4x4( &frameParams.projTransform );
-  auto  vpTransform     = XMLoadFloat4x4( &frameParams.vpTransform );
-  auto  prevVTransform  = XMLoadFloat4x4( &prevFrameParams.viewTransform );
-  auto  prevVPTransform = XMLoadFloat4x4( &prevFrameParams.vpTransform );
-  auto  cameraPosition  = XMLoadFloat4( &prevFrameParams.cameraPosition );
-  auto  prevTargetIndex = currentTargetIndex;
-  currentTargetIndex    = 1 - currentTargetIndex;
-  currentGISource       = 1 - currentGISource;
+  auto& renderManager           = RenderManager::GetInstance();
+  auto  vTransform              = XMLoadFloat4x4( &frameParams.viewTransform );
+  auto  pTransform              = XMLoadFloat4x4( &frameParams.projTransform );
+  auto  vpTransform             = XMLoadFloat4x4( &frameParams.vpTransform );
+  auto  vpTransformNoJitter     = XMLoadFloat4x4( &frameParams.vpTransformNoJitter );
+  auto  prevVTransform          = XMLoadFloat4x4( &prevFrameParams.viewTransform );
+  auto  prevVPTransform         = XMLoadFloat4x4( &prevFrameParams.vpTransform );
+  auto  prevVPTransformNoJitter = XMLoadFloat4x4( &prevFrameParams.vpTransformNoJitter );
+  auto  cameraPosition          = XMLoadFloat4( &prevFrameParams.cameraPosition );
+  auto  prevTargetIndex         = currentTargetIndex;
+
+  currentTargetIndex = 1 - currentTargetIndex;
+  currentGISource    = 1 - currentGISource;
 
   frameParams.frameIndex     = ( frameParams.frameIndex + 1 ) % 10000;
   frameParams.depthIndex     = currentTargetIndex == 0 ? DepthSlot0 : DepthSlot1;
@@ -305,16 +318,18 @@ std::pair< Resource&, Resource& > Scene::Render( CommandList& commandList, const
 
   frameParams.frameDebugMode = editorInfo.frameDebugMode;
 
-  auto& lowResDepthTexture     = lowResDepthTextures[ currentTargetIndex ];
-  auto& lowResPrevDepthTexture = lowResDepthTextures[ prevTargetIndex ];
+  auto& depthTexture     = depthTextures[ currentTargetIndex ];
+  auto& prevDepthTexture = depthTextures[ prevTargetIndex ];
 
   auto& directLightingTexture     = directLightingTextures[ currentTargetIndex ];
   auto& prevDirectLightingTexture = directLightingTextures[ prevTargetIndex ];
 
+  auto& finalHDRTexture = highResHDRTexture ? highResHDRTexture : lowResHDRTexture;
+
   auto renderWidthLQ  = lowResHDRTexture->GetTextureWidth();
   auto renderHeightLQ = lowResHDRTexture->GetTextureHeight();
-  auto renderWidthHQ  = highResHDRTexture->GetTextureWidth();
-  auto renderHeightHQ = highResHDRTexture->GetTextureHeight();
+  auto renderWidthHQ  = GetTargetWidth ();
+  auto renderHeightHQ = GetTargetHeight();
 
   BoundingFrustum cameraFrustum;
   BoundingFrustum::CreateFromMatrix( cameraFrustum, pTransform );
@@ -331,6 +346,8 @@ std::pair< Resource&, Resource& > Scene::Render( CommandList& commandList, const
   allMeshParams.clear();
 
   skybox->PrepareMeshParams( allMeshParams
+                           , XMMatrixIdentity()
+                           , XMMatrixIdentity()
                            , XMMatrixIdentity()
                            , XMMatrixIdentity()
                            , XMMatrixIdentity()
@@ -355,8 +372,10 @@ std::pair< Resource&, Resource& > Scene::Render( CommandList& commandList, const
                                           , modelTransform
                                           , vTransform
                                           , vpTransform
+                                          , vpTransformNoJitter
                                           , prevModelTransform
                                           , prevVPTransform
+                                          , prevVPTransformNoJitter
                                           , prevVTransform
                                           , entry.second.subsets
                                           , entry.second.randomValues
@@ -403,7 +422,8 @@ std::pair< Resource&, Resource& > Scene::Render( CommandList& commandList, const
   {
     commandList.SetPipelineState( renderManager.GetPipelinePreset( preset ) );
     commandList.SetConstantBuffer( 1, *frameConstantBuffer );
-    commandList.SetTextureHeap( 3, renderManager.GetShaderResourceHeap(), 0 );
+    commandList.SetConstantBuffer( 3, *prevFrameConstantBuffer );
+    commandList.SetDescriptorHeap( 4, renderManager.GetShaderResourceHeap(), 0 );
 
     renderManager.BindAllMaterials( commandList, 2 );
   };
@@ -414,7 +434,8 @@ std::pair< Resource&, Resource& > Scene::Render( CommandList& commandList, const
     commandList.SetConstantBuffer( 1, *frameConstantBuffer );
     commandList.SetConstantBuffer( 2, *prevFrameConstantBuffer );
     commandList.SetConstantBuffer( 3, *lightingConstantBuffer );
-    commandList.SetTextureHeap( 5, renderManager.GetShaderResourceHeap(), 0 );
+    commandList.SetDescriptorHeap( 5, renderManager.GetShaderResourceHeap(), 0 );
+    commandList.SetDescriptorHeap( 6, renderManager.GetSamplerHeap(), 0 );
 
     renderManager.BindAllMaterials( commandList, 4 );
   };
@@ -465,70 +486,69 @@ std::pair< Resource&, Resource& > Scene::Render( CommandList& commandList, const
     commandList.ChangeResourceState( *directLightingTexture, ResourceStateBits::RenderTarget );
     commandList.ChangeResourceState( *indirectLightingTexture, ResourceStateBits::RenderTarget );
     commandList.ChangeResourceState( *reflectionTexture, ResourceStateBits::RenderTarget );
-    commandList.ChangeResourceState( *lowResDepthTexture, ResourceStateBits::DepthWrite );
-    commandList.ChangeResourceState( *lowResPrevDepthTexture, ResourceStateBits::DepthRead | ResourceStateBits::PixelShaderInput | ResourceStateBits::NonPixelShaderInput );
-    commandList.Clear( *reflectionTexture, Color( 0, 0, 0, 0 ) );
+    commandList.ChangeResourceState( *depthTexture, ResourceStateBits::DepthWrite );
+    commandList.ChangeResourceState( *prevDepthTexture, ResourceStateBits::DepthRead | ResourceStateBits::PixelShaderInput | ResourceStateBits::NonPixelShaderInput );
+
+    commandList.SetViewport( 0, 0, renderWidthLQ, renderHeightLQ );
+    commandList.SetScissor ( 0, 0, renderWidthLQ, renderHeightLQ );
+
+    commandList.Clear( *depthTexture, 1 );
 
     commandList.EndEvent();
   }
 
-  for ( int iter = 0; iter < 2; ++iter )
+  if ( upscaling )
   {
-    auto  w            = iter == 1 ? renderWidthLQ      : renderWidthHQ;
-    auto  h            = iter == 1 ? renderHeightLQ     : renderHeightHQ;
-    auto& depthTexture = iter == 1 ? lowResDepthTexture : highResDepthTexture;
-
-    commandList.SetViewport( 0, 0, w, h );
-    commandList.SetScissor( 0, 0, w, h );
-
-    commandList.Clear( *depthTexture, 1 );
-
+    commandList.ChangeResourceState( *motionVectorTexture, ResourceStateBits::RenderTarget );
+    commandList.Clear( *motionVectorTexture, Color() );
+    commandList.SetRenderTarget( *motionVectorTexture, depthTexture.get() );
+  }
+  else
     commandList.SetRenderTarget( {}, depthTexture.get() );
 
-    if ( !visibleEntries.empty() )
-    {
-      commandList.BeginEvent( 0, L"Scene::Render(Depth pass opaque)" );
+  if ( !visibleEntries.empty() )
+  {
+    commandList.BeginEvent( 0, L"Scene::Render(Depth pass opaque)" );
 
-      setUpDepthPass( PipelinePresets::Depth );
+    setUpDepthPass( upscaling ? PipelinePresets::DepthWithMotionVectors : PipelinePresets::Depth );
+
+    for ( auto& entry : visibleEntries )
+      if ( !entry.second.entry.mesh->IsSkin() )
+        renderMesh( entry.first, entry.second.entry, entry.second.index, AlphaModeCB::Opaque );
+
+    if ( hasSkinned )
+    {
+      setUpDepthPass( upscaling ? PipelinePresets::DepthWithHistoryWithMotionVectors : PipelinePresets::DepthWithHistory );
 
       for ( auto& entry : visibleEntries )
-        if ( !entry.second.entry.mesh->IsSkin() )
+        if ( entry.second.entry.mesh->IsSkin() )
           renderMesh( entry.first, entry.second.entry, entry.second.index, AlphaModeCB::Opaque );
 
-      if ( hasSkinned )
-      {
-        setUpDepthPass( PipelinePresets::DepthWithHistory );
-
-        for ( auto& entry : visibleEntries )
-          if ( entry.second.entry.mesh->IsSkin() )
-            renderMesh( entry.first, entry.second.entry, entry.second.index, AlphaModeCB::Opaque );
-
-      }
-
-      commandList.EndEvent();
     }
 
-    if ( !visibleEntries.empty() )
-    {
-      commandList.BeginEvent( 0, L"Scene::Render(Depth pass one bit alpha)" );
+    commandList.EndEvent();
+  }
 
-      setUpDepthPass( PipelinePresets::DepthOneBitAlpha );
+  if ( !visibleEntries.empty() )
+  {
+    commandList.BeginEvent( 0, L"Scene::Render(Depth pass one bit alpha)" );
+
+    setUpDepthPass( upscaling ? PipelinePresets::DepthOneBitAlphaWithMotionVectors : PipelinePresets::DepthOneBitAlpha );
+
+    for ( auto& entry : visibleEntries )
+      if ( !entry.second.entry.mesh->IsSkin() )
+        renderMesh( entry.first, entry.second.entry, entry.second.index, AlphaModeCB::OneBitAlpha );
+
+    if ( hasSkinned )
+    {
+      setUpDepthPass( upscaling ? PipelinePresets::DepthOneBitAlphaWithHistoryWithMotionVectors : PipelinePresets::DepthOneBitAlphaWithHistory );
 
       for ( auto& entry : visibleEntries )
-        if ( !entry.second.entry.mesh->IsSkin() )
+        if ( entry.second.entry.mesh->IsSkin() )
           renderMesh( entry.first, entry.second.entry, entry.second.index, AlphaModeCB::OneBitAlpha );
-
-      if ( hasSkinned )
-      {
-        setUpDepthPass( PipelinePresets::DepthOneBitAlphaWithHistory );
-
-        for ( auto& entry : visibleEntries )
-          if ( entry.second.entry.mesh->IsSkin() )
-            renderMesh( entry.first, entry.second.entry, entry.second.index, AlphaModeCB::OneBitAlpha );
-      }
-
-      commandList.EndEvent();
     }
+
+    commandList.EndEvent();
   }
 
   if ( !visibleEntries.empty() )
@@ -538,10 +558,14 @@ std::pair< Resource&, Resource& > Scene::Render( CommandList& commandList, const
     commandList.ChangeResourceState( *directLightingTexture, ResourceStateBits::RenderTarget );
     commandList.ChangeResourceState( *prevDirectLightingTexture, ResourceStateBits::PixelShaderInput | ResourceStateBits::NonPixelShaderInput );
 
+    commandList.Clear( *directLightingTexture, Color( 0, 0, 0, 0 ) );
+    commandList.Clear( *indirectLightingTexture, Color( 0, 0, 0, 0 ) );
+    commandList.Clear( *reflectionTexture, Color( 0, 0, 0, 0 ) );
+
     commandList.SetRenderTarget( { directLightingTexture.get()
                                  , indirectLightingTexture.get()
                                  , reflectionTexture.get() }
-                               , lowResDepthTexture.get() );
+                               , depthTexture.get() );
 
     setUpOpaquePass( PipelinePresets::Mesh );
 
@@ -604,10 +628,10 @@ std::pair< Resource&, Resource& > Scene::Render( CommandList& commandList, const
 
     //=================================================================================================
 
-    commandList.ChangeResourceState( *lowResDepthTexture, ResourceStateBits::NonPixelShaderInput );
+    commandList.ChangeResourceState( *depthTexture, ResourceStateBits::NonPixelShaderInput );
 
     commandList.SetComputeShader( *processReflectionShader );
-    commandList.SetComputeResource( 1, *lowResDepthTexture->GetResourceDescriptor( ResourceDescriptorType::ShaderResourceView ) );
+    commandList.SetComputeResource( 1, *depthTexture->GetResourceDescriptor( ResourceDescriptorType::ShaderResourceView ) );
 
     int sourceIx = 0;
 
@@ -662,7 +686,7 @@ std::pair< Resource&, Resource& > Scene::Render( CommandList& commandList, const
 
     finalReflectionProcIndex = sourceIx;
 
-    commandList.ChangeResourceState( *lowResDepthTexture, ResourceStateBits::DepthWrite );
+    commandList.ChangeResourceState( *depthTexture, ResourceStateBits::DepthWrite );
 
     commandList.EndEvent();
   }
@@ -703,14 +727,20 @@ std::pair< Resource&, Resource& > Scene::Render( CommandList& commandList, const
     commandList.EndEvent();
   }
 
-  if ( upscaling )
+  if ( skybox )
   {
-    commandList.BeginEvent( 0, L"Scene::Render(Upscaling)" );
+    commandList.BeginEvent( 0, L"Scene::Render(Skybox)" );
 
-    upscaling->Upscale( commandList, *lowResHDRTexture, *lowResDepthTexture, *( Resource* )nullptr, *highResHDRTexture );
+    commandList.ChangeResourceState( *lowResHDRTexture, ResourceStateBits::RenderTarget );
+    commandList.SetRenderTarget( *lowResHDRTexture, depthTexture.get() );
 
-    commandList.SetViewport( 0, 0, renderWidthHQ, renderHeightHQ );
-    commandList.SetScissor ( 0, 0, renderWidthHQ, renderHeightHQ );
+    commandList.SetPipelineState( renderManager.GetPipelinePreset( PipelinePresets::Skybox ) );
+    commandList.SetConstantBuffer( 1, *frameConstantBuffer );
+    commandList.SetDescriptorHeap( 3, renderManager.GetShaderResourceHeap(), 0 );
+
+    renderManager.BindAllMaterials( commandList, 2 );
+
+    skybox->Render( renderManager.GetDevice(), commandList, 0, { 0 }, AlphaModeCB::Opaque, nullptr, PrimitiveType::TriangleStrip );
 
     commandList.EndEvent();
   }
@@ -719,39 +749,16 @@ std::pair< Resource&, Resource& > Scene::Render( CommandList& commandList, const
   {
     commandList.BeginEvent( 0, L"Scene::Render(GI probes)" );
 
-    commandList.ChangeResourceState( *highResHDRTexture, ResourceStateBits::RenderTarget );
-    commandList.SetRenderTarget( *highResHDRTexture, highResDepthTexture.get() );
-
     commandList.SetPipelineState( renderManager.GetPipelinePreset( PipelinePresets::GIProbes ) );
     commandList.SetConstantValues( 0, frameParams.vpTransform );
     commandList.SetConstantBuffer( 1, *frameConstantBuffer );
-    commandList.SetTextureHeap( 2, renderManager.GetShaderResourceHeap(), 0 );
+    commandList.SetDescriptorHeap( 2, renderManager.GetShaderResourceHeap(), 0 );
 
     commandList.SetVertexBuffer( *giProbeVB );
     commandList.SetIndexBuffer( *giProbeIB );
 
-    commandList.SetVariableRateShading( VRSBlock::_1x1 );
-
     commandList.SetPrimitiveType( PrimitiveType::TriangleList );
     commandList.DrawIndexed( giProbeIndexCount, frameParams.giProbeCount.x * frameParams.giProbeCount.y * frameParams.giProbeCount.z );
-
-    commandList.EndEvent();
-  }
-
-  if ( skybox )
-  {
-    commandList.BeginEvent( 0, L"Scene::Render(Skybox)" );
-
-    commandList.ChangeResourceState( *highResHDRTexture, ResourceStateBits::RenderTarget );
-    commandList.SetRenderTarget( *highResHDRTexture, highResDepthTexture.get() );
-
-    commandList.SetPipelineState( renderManager.GetPipelinePreset( PipelinePresets::Skybox ) );
-    commandList.SetConstantBuffer( 1, *frameConstantBuffer );
-    commandList.SetTextureHeap( 3, renderManager.GetShaderResourceHeap(), 0 );
-
-    renderManager.BindAllMaterials( commandList, 2 );
-
-    skybox->Render( renderManager.GetDevice(), commandList, 0, { 0 }, AlphaModeCB::Opaque, nullptr, PrimitiveType::TriangleStrip );
 
     commandList.EndEvent();
   }
@@ -798,8 +805,7 @@ std::pair< Resource&, Resource& > Scene::Render( CommandList& commandList, const
   {
     commandList.BeginEvent( 0, L"Scene::Render(Adapt exposure)" );
 
-    commandList.SetVariableRateShading( VRSBlock::_1x1 );
-    commandList.GenerateMipmaps( *highResHDRTexture );
+    commandList.GenerateMipmaps( *finalHDRTexture );
 
     struct
     {
@@ -825,11 +831,33 @@ std::pair< Resource&, Resource& > Scene::Render( CommandList& commandList, const
     commandList.EndEvent();
   }
 
+  if ( upscaling )
+  {
+    commandList.BeginEvent( 0, L"Scene::Render(Upscaling)" );
+
+    upscaling->Upscale( commandList
+                      , *lowResHDRTexture
+                      , *depthTexture
+                      , *motionVectorTexture
+                      , *highResHDRTexture
+                      , *exposureBuffer
+                      , exposure
+                      , upscaling->GetJitter() );
+
+    commandList.SetViewport( 0, 0, renderWidthHQ, renderHeightHQ );
+    commandList.SetScissor ( 0, 0, renderWidthHQ, renderHeightHQ );
+
+    commandList.ChangeResourceState( *highResHDRTexture, ResourceStateBits::RenderTarget );
+    commandList.SetRenderTarget( *highResHDRTexture, nullptr );
+
+    commandList.EndEvent();
+  }
+
   {
     commandList.BeginEvent( 0, L"Scene::Render(Extract bloom)" );
 
-    commandList.ChangeResourceState( *highResHDRTexture, ResourceStateBits::NonPixelShaderInput );
-    commandList.ChangeResourceState( *exposureBuffer, ResourceStateBits::VertexOrConstantBuffer );
+    commandList.ChangeResourceState( *finalHDRTexture, ResourceStateBits::NonPixelShaderInput );
+    commandList.ChangeResourceState( *exposureBuffer, ResourceStateBits::NonPixelShaderInput );
     commandList.ChangeResourceState( *bloomTexture, ResourceStateBits::UnorderedAccess );
 
     struct
@@ -845,8 +873,8 @@ std::pair< Resource&, Resource& > Scene::Render( CommandList& commandList, const
 
     commandList.SetComputeShader( *extractBloomShader );
     commandList.SetComputeConstantValues( 0, params );
-    commandList.SetComputeResource( 1, *highResHDRTexture->GetResourceDescriptor( ResourceDescriptorType::ShaderResourceView ) );
-    commandList.SetComputeConstantBuffer( 2, *exposureBuffer );
+    commandList.SetComputeResource( 1, *finalHDRTexture->GetResourceDescriptor( ResourceDescriptorType::ShaderResourceView ) );
+    commandList.SetComputeResource( 2, *exposureBuffer->GetResourceDescriptor( ResourceDescriptorType::ShaderResourceView ) );
     commandList.SetComputeResource( 3, *bloomTexture->GetResourceDescriptor( ResourceDescriptorType::UnorderedAccessView ) );
     commandList.Dispatch( ( bloomTexture->GetTextureWidth () + ExtractBloomKernelWidth - 1  ) / ExtractBloomKernelWidth
                         , ( bloomTexture->GetTextureHeight() + ExtractBloomKernelHeight - 1 ) / ExtractBloomKernelHeight
@@ -888,8 +916,8 @@ std::pair< Resource&, Resource& > Scene::Render( CommandList& commandList, const
   {
     commandList.BeginEvent( 0, L"Scene::Render(ToneMapping)" );
 
-    commandList.ChangeResourceState( *exposureBuffer, ResourceStateBits::VertexOrConstantBuffer );
-    commandList.ChangeResourceState( *highResHDRTexture, ResourceStateBits::NonPixelShaderInput );
+    commandList.ChangeResourceState( *exposureBuffer, ResourceStateBits::NonPixelShaderInput );
+    commandList.ChangeResourceState( *finalHDRTexture, ResourceStateBits::NonPixelShaderInput );
     commandList.ChangeResourceState( *bloomBlurredTexture, ResourceStateBits::NonPixelShaderInput );
     commandList.ChangeResourceState( *sdrTexture, ResourceStateBits::UnorderedAccess );
 
@@ -905,13 +933,13 @@ std::pair< Resource&, Resource& > Scene::Render( CommandList& commandList, const
     params.bloomStrength = bloomStrength;
 
     commandList.SetComputeShader( *toneMappingShader );
-    commandList.SetComputeResource( 0, *highResHDRTexture->GetResourceDescriptor( ResourceDescriptorType::ShaderResourceView ) );
-    commandList.SetComputeConstantBuffer( 1, *exposureBuffer );
+    commandList.SetComputeResource( 0, *finalHDRTexture->GetResourceDescriptor( ResourceDescriptorType::ShaderResourceView ) );
+    commandList.SetComputeResource( 1, *exposureBuffer->GetResourceDescriptor( ResourceDescriptorType::ShaderResourceView ) );
     commandList.SetComputeConstantValues( 2, params );
     commandList.SetComputeResource( 3, *bloomBlurredTexture->GetResourceDescriptor( ResourceDescriptorType::ShaderResourceView ) );
     commandList.SetComputeResource( 4, *sdrTexture->GetResourceDescriptor( ResourceDescriptorType::UnorderedAccessView ) );
-    commandList.Dispatch( ( highResHDRTexture->GetTextureWidth () + ToneMappingKernelWidth  - 1 ) / ToneMappingKernelWidth
-                        , ( highResHDRTexture->GetTextureHeight() + ToneMappingKernelHeight - 1 ) / ToneMappingKernelHeight
+    commandList.Dispatch( ( GetTargetWidth () + ToneMappingKernelWidth  - 1 ) / ToneMappingKernelWidth
+                        , ( GetTargetHeight() + ToneMappingKernelHeight - 1 ) / ToneMappingKernelHeight
                         , 1 );
 
     commandList.AddUAVBarrier( *sdrTexture );
@@ -931,23 +959,22 @@ std::pair< Resource&, Resource& > Scene::Render( CommandList& commandList, const
     }
 
     commandList.ChangeResourceState( *sdrTexture, ResourceStateBits::RenderTarget );
-    commandList.SetRenderTarget( *sdrTexture, highResDepthTexture.get() );
-    commandList.Clear( *highResDepthTexture, 1 );
+    commandList.SetRenderTarget( *sdrTexture, nullptr );
+    commandList.Clear( *depthTexture, 1 );
 
     commandList.SetPipelineState( renderManager.GetPipelinePreset( PipelinePresets::Gizmos ) );
     commandList.SetConstantValues( 0, editorInfo.selectedGizmoElement );
-    gizmo->Render( commandList, XMMatrixMultiply( XMLoadFloat4x4( &editorInfo.gizmoTransform ), vpTransform ) );
+    gizmo->Render( commandList, XMMatrixMultiply( XMLoadFloat4x4( &editorInfo.gizmoTransform ), vpTransformNoJitter ) );
 
     commandList.EndEvent();
   }
-
 
   prevFrameParams = frameParams;
 
   for ( auto& entry : modelEntries )
     entry.second.prevNodeTransform = entry.second.nodeTransform;
 
-  return std::pair< Resource&, Resource& >( *sdrTexture, *highResDepthTexture );
+  return std::pair< Resource&, Resource& >( *sdrTexture, *depthTexture );
 }
 
 void Scene::SetPostEffectParams( float exposure, float bloomThreshold, float bloomStrength )
@@ -959,20 +986,21 @@ void Scene::SetPostEffectParams( float exposure, float bloomThreshold, float blo
 
 int Scene::GetTargetWidth() const
 {
-  return highResHDRTexture->GetTextureWidth();
+  return highResHDRTexture ? highResHDRTexture->GetTextureWidth() : lowResHDRTexture->GetTextureWidth();
 }
 
 int Scene::GetTargetHeight() const
 {
-  return highResHDRTexture->GetTextureHeight();
+  return highResHDRTexture ? highResHDRTexture->GetTextureHeight() : lowResHDRTexture->GetTextureHeight();
 }
 
 void Scene::RecreateWindowSizeDependantResources( CommandList& commandList, Window& window )
 {
-  for ( auto& t : lowResDepthTextures ) t.reset();
+  RenderManager::GetInstance().IdleGPU();
+
+  for ( auto& t : depthTextures ) t.reset();
   for ( auto& t : directLightingTextures ) t.reset();
   for ( auto& t : reflectionProcTextures ) t.reset();
-  highResDepthTexture.reset();
   highResHDRTexture.reset();
   lowResHDRTexture.reset();
   hdrTextureLowLevel.reset();
@@ -981,6 +1009,7 @@ void Scene::RecreateWindowSizeDependantResources( CommandList& commandList, Wind
   sdrTexture.reset();
   bloomTexture.reset();
   bloomBlurredTexture.reset();
+  motionVectorTexture.reset();
   if ( upscaling )
   {
     upscaling->TearDown( commandList );
@@ -992,22 +1021,39 @@ void Scene::RecreateWindowSizeDependantResources( CommandList& commandList, Wind
   auto width  = window.GetClientWidth();
   auto height = window.GetClientHeight();
 
-  upscaling = Upscaling::Instantiate();
-  upscaling->Initialize( Upscaling::Quality::UltraPerformance, commandList );
+  if ( upscalingQuality != Upscaling::Quality::Off )
+  {
+    upscaling = Upscaling::Instantiate();
+    upscaling->Initialize( commandList, upscalingQuality, width, height );
+  }
 
-  auto lrts = upscaling->CalcLowResolution( width, height );
+  auto lrts = upscaling ? upscaling->GetRenderingResolution() : XMINT2( width, height );
 
-  lowResDepthTextures[ 0 ]    = device.Create2DTexture( commandList, lrts.x, lrts.y, nullptr, 0, RenderManager::DepthFormat, false, DepthSlot0,           std::nullopt,      false, L"DepthLQ0" );
-  lowResDepthTextures[ 1 ]    = device.Create2DTexture( commandList, lrts.x, lrts.y, nullptr, 0, RenderManager::DepthFormat, false, DepthSlot1,           std::nullopt,      false, L"DepthLQ1" );
-  directLightingTextures[ 0 ] = device.Create2DTexture( commandList, lrts.x, lrts.y, nullptr, 0, RenderManager::HDRFormat,   true,  DirectLighting1Slot,  std::nullopt,      false, L"Lighting1" );
-  directLightingTextures[ 1 ] = device.Create2DTexture( commandList, lrts.x, lrts.y, nullptr, 0, RenderManager::HDRFormat,   true,  DirectLighting2Slot,  std::nullopt,      false, L"Lighting2" );
-  indirectLightingTexture     = device.Create2DTexture( commandList, lrts.x, lrts.y, nullptr, 0, RenderManager::HDRFormat,   true,  IndirectLightingSlot, std::nullopt,      false, L"SpecularIBL" );
-  reflectionTexture           = device.Create2DTexture( commandList, lrts.x, lrts.y, nullptr, 0, RenderManager::HDRFormat,   true,  ReflectionSlot,       ReflectionUAVSlot, false, L"Reflection" );
-  lowResHDRTexture            = device.Create2DTexture( commandList, lrts.x, lrts.y, nullptr, 0, RenderManager::HDRFormat,   true,  HDRSlot,              HDRUAVSlot,        false, L"HDRLQ" );
+  depthTextures[ 0 ]          = device.Create2DTexture( commandList, lrts.x, lrts.y, nullptr, 0, RenderManager::DepthFormat,        false, DepthSlot0,           std::nullopt,      false, L"DepthLQ0" );
+  depthTextures[ 1 ]          = device.Create2DTexture( commandList, lrts.x, lrts.y, nullptr, 0, RenderManager::DepthFormat,        false, DepthSlot1,           std::nullopt,      false, L"DepthLQ1" );
+  directLightingTextures[ 0 ] = device.Create2DTexture( commandList, lrts.x, lrts.y, nullptr, 0, RenderManager::HDRFormat,          true,  DirectLighting1Slot,  std::nullopt,      false, L"Lighting1" );
+  directLightingTextures[ 1 ] = device.Create2DTexture( commandList, lrts.x, lrts.y, nullptr, 0, RenderManager::HDRFormat,          true,  DirectLighting2Slot,  std::nullopt,      false, L"Lighting2" );
+  indirectLightingTexture     = device.Create2DTexture( commandList, lrts.x, lrts.y, nullptr, 0, RenderManager::HDRFormat,          true,  IndirectLightingSlot, std::nullopt,      false, L"SpecularIBL" );
+  reflectionTexture           = device.Create2DTexture( commandList, lrts.x, lrts.y, nullptr, 0, RenderManager::HDRFormat,          true,  ReflectionSlot,       ReflectionUAVSlot, false, L"Reflection" );
+  
+  lowResHDRTexture = device.Create2DTexture( commandList
+                                           , lrts.x
+                                           , lrts.y
+                                           , nullptr
+                                           , 0
+                                           , RenderManager::HDRFormat
+                                           , true
+                                           , HDRSlot
+                                           , HDRUAVSlot
+                                           , !upscaling
+                                           , L"HDRLQ" );
 
-  highResHDRTexture   = device.Create2DTexture( commandList, width, height, nullptr, 0, RenderManager::HDRFormat,   true,  HDRHQSlot,   HDRHQUAVSlot, true,  L"HDRHQ" );
-  sdrTexture          = device.Create2DTexture( commandList, width, height, nullptr, 0, RenderManager::SDRFormat,   true,  SDRSlot,     SDRUAVSlot,   false, L"SDR" );
-  highResDepthTexture = device.Create2DTexture( commandList, width, height, nullptr, 0, RenderManager::DepthFormat, false, DepthHQSlot, std::nullopt, false, L"DepthHQ" );
+  if ( upscaling )
+  {
+    highResHDRTexture   = device.Create2DTexture( commandList, width,  height, nullptr, 0, RenderManager::HDRFormat,          true,  HDRHQSlot,         HDRHQUAVSlot, true,  L"HDRHQ" );
+    motionVectorTexture = device.Create2DTexture( commandList, lrts.x, lrts.y, nullptr, 0, RenderManager::MotionVectorFormat, true,  MotionVectorsSlot, std::nullopt, false, L"MotionVectors" );
+  }
+  sdrTexture = device.Create2DTexture( commandList, width, height, nullptr, 0, RenderManager::SDRFormat, true,SDRSlot, SDRUAVSlot, false, L"SDR" );
   
   reflectionProcTextures[ 0 ] = device.Create2DTexture( commandList, lrts.x / 2, lrts.y / 2, nullptr, 0, RenderManager::HDRFormat, false, ReflectionProc1Slot, ReflectionProc1UAVSlot, false, L"ReflectionProc1" );
   reflectionProcTextures[ 1 ] = device.Create2DTexture( commandList, lrts.x / 2, lrts.y / 2, nullptr, 0, RenderManager::HDRFormat, false, ReflectionProc2Slot, ReflectionProc2UAVSlot, false, L"ReflectionProc2" );
@@ -1015,7 +1061,8 @@ void Scene::RecreateWindowSizeDependantResources( CommandList& commandList, Wind
   bloomTexture        = device.Create2DTexture( commandList, width / 2, height / 2, nullptr, 0, RenderManager::HDRFormat, true, BloomSlot,        BloomUAVSlot,        false, L"Bloom"        );
   bloomBlurredTexture = device.Create2DTexture( commandList, width / 2, height / 2, nullptr, 0, RenderManager::HDRFormat, true, BloomBlurredSlot, BloomBlurredUAVSlot, false, L"BloomBlurred" );
 
-  hdrTextureLowLevel = device.GetShaderResourceHeap().RequestDescriptor( device, ResourceDescriptorType::UnorderedAccessView, HDRLowLevelUAVSlot, *highResHDRTexture, 0, highResHDRTexture->GetTextureMipLevels() - 1 );
+  auto& hdrMipped = upscaling ? *highResHDRTexture : *lowResHDRTexture;
+  hdrTextureLowLevel = device.GetShaderResourceHeap().RequestDescriptor( device, ResourceDescriptorType::UnorderedAccessView, HDRLowLevelUAVSlot, hdrMipped, 0, hdrMipped.GetTextureMipLevels() - 1 );
 }
 
 BoundingBox Scene::CalcModelAABB( uint32_t id ) const
@@ -1084,6 +1131,15 @@ void Scene::SetupWetness( CommandList& commandList, const XMINT2& origin, const 
   }
 
   commandList.ChangeResourceState( *wetnessTexture, ResourceStateBits::NonPixelShaderInput | ResourceStateBits::PixelShaderInput );
+}
+
+void Scene::SetUpscalingQuality( CommandList& commandList, Window& window, Upscaling::Quality quality )
+{
+  if ( upscalingQuality == quality )
+    return;
+
+  upscalingQuality = quality;
+  RecreateWindowSizeDependantResources( commandList, window );
 }
 
 void Scene::RefreshGIProbeInstances( CommandList& commandList )

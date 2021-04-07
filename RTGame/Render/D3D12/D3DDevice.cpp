@@ -90,10 +90,10 @@ D3DDevice::D3DDevice( D3DAdapter& adapter )
   }
 #endif // DEBUG_GFX_API
 
-  descriptorHeaps[ D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV ].reset( new D3DDescriptorHeap( *this, VaryingResourceBaseSlot, CBVHeapSize, D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV ) );
-  descriptorHeaps[ D3D12_DESCRIPTOR_HEAP_TYPE_SAMPLER     ].reset( new D3DDescriptorHeap( *this, 0, 20, D3D12_DESCRIPTOR_HEAP_TYPE_SAMPLER ) );
-  descriptorHeaps[ D3D12_DESCRIPTOR_HEAP_TYPE_RTV         ].reset( new D3DDescriptorHeap( *this, 0, 20, D3D12_DESCRIPTOR_HEAP_TYPE_RTV     ) );
-  descriptorHeaps[ D3D12_DESCRIPTOR_HEAP_TYPE_DSV         ].reset( new D3DDescriptorHeap( *this, 0, 20, D3D12_DESCRIPTOR_HEAP_TYPE_DSV     ) );
+  descriptorHeaps[ D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV ].reset( new D3DDescriptorHeap( *this, VaryingResourceBaseSlot, CBVHeapSize, D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, L"ShaderResourceHeap" ) );
+  descriptorHeaps[ D3D12_DESCRIPTOR_HEAP_TYPE_SAMPLER     ].reset( new D3DDescriptorHeap( *this, 0, 20, D3D12_DESCRIPTOR_HEAP_TYPE_SAMPLER, L"SamplerHeap" ) );
+  descriptorHeaps[ D3D12_DESCRIPTOR_HEAP_TYPE_RTV         ].reset( new D3DDescriptorHeap( *this, 0, 20, D3D12_DESCRIPTOR_HEAP_TYPE_RTV,     L"RenderTargetViewHeap" ) );
+  descriptorHeaps[ D3D12_DESCRIPTOR_HEAP_TYPE_DSV         ].reset( new D3DDescriptorHeap( *this, 0, 20, D3D12_DESCRIPTOR_HEAP_TYPE_DSV,     L"DepthStencilViewHeap" ) );
 
   D3D12_DESCRIPTOR_HEAP_DESC desc = {};
   desc.Type           = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
@@ -120,6 +120,31 @@ D3DDevice::D3DDevice( D3DAdapter& adapter )
   d3dDevice->CreateDescriptorHeap( &mipmapGenHeapDesc, IID_PPV_ARGS( &d3dmipmapGenHeap ) );
 
   mipmapGenDescCounter = 0;
+
+  UpdateSamplers();
+}
+
+void D3DDevice::UpdateSamplers()
+{
+  D3D12_SAMPLER_DESC desc = {};
+  desc.Filter         = D3D12_FILTER_ANISOTROPIC;
+  desc.MaxAnisotropy  = 16;
+  desc.MipLODBias     = textureLODBias;
+  desc.ComparisonFunc = D3D12_COMPARISON_FUNC_ALWAYS;
+  desc.MinLOD         = 0;
+  desc.MaxLOD         = 1000;
+  desc.AddressU       = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
+  desc.AddressV       = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
+  desc.AddressW       = D3D12_TEXTURE_ADDRESS_MODE_WRAP;
+
+  auto heapStart = descriptorHeaps[ D3D12_DESCRIPTOR_HEAP_TYPE_SAMPLER ]->GetD3DHeap()->GetCPUDescriptorHandleForHeapStart();
+  d3dDevice->CreateSampler( &desc, heapStart );
+
+  desc.AddressU = D3D12_TEXTURE_ADDRESS_MODE_CLAMP;
+  desc.AddressV = D3D12_TEXTURE_ADDRESS_MODE_CLAMP;
+  desc.AddressW = D3D12_TEXTURE_ADDRESS_MODE_CLAMP;
+  heapStart.ptr += descriptorHeaps[ D3D12_DESCRIPTOR_HEAP_TYPE_SAMPLER ]->GetDescriptorSize();
+  d3dDevice->CreateSampler( &desc, heapStart );
 }
 
 D3DDevice::~D3DDevice()
@@ -294,6 +319,11 @@ DescriptorHeap& D3DDevice::GetShaderResourceHeap()
   return *descriptorHeaps[ D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV ];
 }
 
+DescriptorHeap& D3DDevice::GetSamplerHeap()
+{
+  return *descriptorHeaps[ D3D12_DESCRIPTOR_HEAP_TYPE_SAMPLER ];
+}
+
 int D3DDevice::GetUploadSizeForResource( Resource& resource )
 {
   D3D12_PLACED_SUBRESOURCE_FOOTPRINT layout;
@@ -305,6 +335,12 @@ int D3DDevice::GetUploadSizeForResource( Resource& resource )
   d3dDevice->GetCopyableFootprints( &desc, 0, 1, 0, &layout, &numRows, &rowSize, &totalBytes );
 
   return int( totalBytes );
+}
+
+void D3DDevice::SetTextureLODBias( float bias )
+{
+  textureLODBias = bias;
+  UpdateSamplers();
 }
 
 ID3D12Resource2* D3DDevice::RequestD3DRTScartchBuffer( D3DCommandList& commandList, int size )

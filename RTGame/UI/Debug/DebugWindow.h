@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../UIWindow.h"
+#include "Render/Upscaling.h"
 
 enum class FrameDebugModeCB : int;
 
@@ -12,8 +13,9 @@ public:
 
   void Tick( CommandList& commandList, double timeElapsed ) override;
 
-  bool             GetShowGIProbes  () const;
-  FrameDebugModeCB GetFrameDebugMode() const;
+  bool               GetShowGIProbes    () const;
+  FrameDebugModeCB   GetFrameDebugMode  () const;
+  Upscaling::Quality GetUpscalingQuality() const;
 
 private:
   double   fpsAccum        = 0;
@@ -22,4 +24,6 @@ private:
   
   bool             showGIProbes = false;
   FrameDebugModeCB frameDebugMode;
+
+  Upscaling::Quality upscalingQuality = Upscaling::DefaultQuality;
 };

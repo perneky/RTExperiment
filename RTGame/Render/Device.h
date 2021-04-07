@@ -31,8 +31,11 @@ struct Device
   virtual std::unique_ptr< Resource > LoadCubeTexture( CommandList& commandList, std::vector< uint8_t >&& textureData, int slot, const wchar_t* debugName ) = 0;
 
   virtual DescriptorHeap& GetShaderResourceHeap() = 0;
+  virtual DescriptorHeap& GetSamplerHeap() = 0;
 
   virtual int GetUploadSizeForResource( Resource& resource ) = 0;
+
+  virtual void SetTextureLODBias( float bias ) = 0;
 
   virtual void  DearImGuiNewFrame() = 0;
   virtual void* GetDearImGuiHeap() = 0;

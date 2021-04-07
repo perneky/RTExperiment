@@ -338,19 +338,24 @@ void Mesh::PrepareMeshParams( std::vector< MeshParamsCB >& allMeshParams
                             , CXMMATRIX worldTransform
                             , CXMMATRIX vTransform
                             , CXMMATRIX vpTransform
+                            , CXMMATRIX vpTransformNoJitter
                             , CXMMATRIX prevWorldTransform
                             , CXMMATRIX prevVPTransform
+                            , CXMMATRIX prevVPTransformNoJitter
                             , CXMMATRIX prevVTransform
                             , const std::set< int >& subsets
                             , const XMFLOAT4& randomValues
                             , float editorAddition ) const
 {
+  auto wvpTransform             = XMMatrixMultiply( worldTransform, vpTransform );
+  auto wvpTransformNoJitter     = XMMatrixMultiply( worldTransform, vpTransformNoJitter );
+  auto prevWVPTransform         = XMMatrixMultiply( prevWorldTransform, prevVPTransform );
+  auto prevWVPTransformNoJitter = XMMatrixMultiply( prevWorldTransform, prevVPTransformNoJitter );
+
   MeshParamsCB meshParams;
   XMStoreFloat4x4( &meshParams.worldTransform,     worldTransform );
-  XMStoreFloat4x4( &meshParams.wvpTransform,       XMMatrixMultiply( worldTransform, vpTransform ) );
   XMStoreFloat4x4( &meshParams.wvTransform,        XMMatrixMultiply( worldTransform, vTransform ) );
   XMStoreFloat4x4( &meshParams.prevWorldTransform, prevWorldTransform );
-  XMStoreFloat4x4( &meshParams.prevWVPTransform,   XMMatrixMultiply( prevWorldTransform, prevVPTransform ) );
   XMStoreFloat4x4( &meshParams.prevWVTransform,    XMMatrixMultiply( prevWorldTransform, prevVTransform ) );
   meshParams.randomValues   = randomValues;
   meshParams.editorAddition = editorAddition;
@@ -358,6 +363,17 @@ void Mesh::PrepareMeshParams( std::vector< MeshParamsCB >& allMeshParams
   for ( auto subset : subsets )
   {
     auto& batch = batches[ subset ];
+
+    if ( batch.alphaMode == AlphaModeCB::Translucent )
+    {
+      XMStoreFloat4x4( &meshParams.wvpTransform, wvpTransformNoJitter );
+      XMStoreFloat4x4( &meshParams.prevWVPTransform, prevWVPTransformNoJitter );
+    }
+    else
+    {
+      XMStoreFloat4x4( &meshParams.wvpTransform, wvpTransform );
+      XMStoreFloat4x4( &meshParams.prevWVPTransform, prevWVPTransform );
+    }
 
     meshParams.materialIndex = batch.materialIndex;
     allMeshParams.emplace_back( meshParams );

@@ -52,13 +52,20 @@ void DirectionalCamera::Recalculate() const
   if ( !dirty )
     return;
 
-  auto viewMatrix = XMMatrixLookToLH( XMLoadFloat3A( &position ), XMLoadFloat3A( &direction ), XMLoadFloat3A( &up ) );
-  auto projMatrix = XMMatrixPerspectiveFovLH( XMConvertToRadians( fovY ), width / height, nearZ, farZ );
-  auto vpMatrix   = XMMatrixMultiply( viewMatrix, projMatrix );
+  auto viewMatrix         = XMMatrixLookToLH( XMLoadFloat3A( &position ), XMLoadFloat3A( &direction ), XMLoadFloat3A( &up ) );
+  auto projMatrix         = XMMatrixPerspectiveFovLH( XMConvertToRadians( fovY ), width / height, nearZ, farZ );
+  auto projMatrixNoJitter = projMatrix;
 
-  XMStoreFloat4x4A( &viewTransform,       viewMatrix );
-  XMStoreFloat4x4A( &projectionTransform, projMatrix );
-  XMStoreFloat4x4A( &vpTransform,         XMMatrixMultiply( viewMatrix, projMatrix ) );
+  projMatrix.r[ 2 ] += XMVectorSet( jitter.x, jitter.y, 0, 0 );
+
+  auto vpMatrix         = XMMatrixMultiply( viewMatrix, projMatrix );
+  auto vpMatrixNoJitter = XMMatrixMultiply( viewMatrix, projMatrixNoJitter );
+
+  XMStoreFloat4x4A( &viewTransform,               viewMatrix );
+  XMStoreFloat4x4A( &projectionTransform,         projMatrix );
+  XMStoreFloat4x4A( &vpTransform,                 vpMatrix );
+  XMStoreFloat4x4A( &projectionTransformNoJitter, projMatrixNoJitter );
+  XMStoreFloat4x4A( &vpTransformNoJitter,         vpMatrixNoJitter );
 
   dirty = false;
 }
@@ -89,16 +96,22 @@ XMMATRIX DirectionalCamera::GetViewTransform() const
   return XMLoadFloat4x4A( &viewTransform );
 }
 
-XMMATRIX DirectionalCamera::GetProjectionTransform() const
+XMMATRIX DirectionalCamera::GetProjectionTransform( bool includeJitter ) const
 {
   Recalculate();
-  return XMLoadFloat4x4A( &projectionTransform );
+  return XMLoadFloat4x4A( includeJitter ? &projectionTransform : &projectionTransformNoJitter );
 }
 
-XMMATRIX DirectionalCamera::GetViewProjectionTransform() const
+XMMATRIX DirectionalCamera::GetViewProjectionTransform( bool includeJitter ) const
 {
   Recalculate();
-  return XMLoadFloat4x4A( &vpTransform );
+  return XMLoadFloat4x4A( includeJitter ? &vpTransform : &vpTransformNoJitter );
+}
+
+void DirectionalCamera::SetJitter( XMFLOAT2 jitter )
+{
+  this->jitter = jitter;
+  dirty = true;
 }
 
 float DirectionalCamera::GetFovY() const

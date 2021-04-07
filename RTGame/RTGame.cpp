@@ -5,6 +5,7 @@
 #include "Render/Swapchain.h"
 #include "Render/Mesh.h"
 #include "Render/Utils.h"
+#include "Render/Scene.h"
 #include "Render/ShaderStructuresNative.h"
 #include "Common/Color.h"
 #include "Common/Finally.h"
@@ -151,6 +152,9 @@ int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmd
         auto commandAllocator = renderManager.RequestCommandAllocator( CommandQueueType::Direct );
         auto commandList      = renderManager.CreateCommandList( commandAllocator, CommandQueueType::Direct );
 
+        if ( stage )
+          stage->GetScene()->SetUpscalingQuality( *commandList, *window, debugWindow.GetUpscalingQuality() );
+
         if ( windowResized )
         {
           renderManager.IdleGPU();
@@ -293,11 +297,11 @@ int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmd
           commandList->CopyResource( sceneDepthTexture.first, backBuffer );
           commandList->EndEvent();
 
-          commandList->ChangeResourceState( backBuffer, ResourceStateBits::RenderTarget );
-          commandList->SetRenderTarget( backBuffer, &sceneDepthTexture.second );
-
-          if ( editorMainWindow.ShouldShowLightMarkers() )
-            stage->RenderLightMarkers( *commandList, cameraEntity );
+          //commandList->ChangeResourceState( backBuffer, ResourceStateBits::RenderTarget );
+          //commandList->SetRenderTarget( backBuffer, &sceneDepthTexture.second );
+          //
+          //if ( editorMainWindow.ShouldShowLightMarkers() )
+          //  stage->RenderLightMarkers( *commandList, cameraEntity );
         }
         else
         {

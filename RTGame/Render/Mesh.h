@@ -25,8 +25,10 @@ public:
                         , CXMMATRIX worldTransform
                         , CXMMATRIX vTransform
                         , CXMMATRIX vpTransform
+                        , CXMMATRIX vpTransformNoJitter
                         , CXMMATRIX prevWorldTransform
                         , CXMMATRIX prevVPTransform
+                        , CXMMATRIX prevVPTransformNoJitter
                         , CXMMATRIX prevVTransform
                         , const std::set< int >& subsets
                         , const XMFLOAT4& randomValues

@@ -4,7 +4,7 @@
 #define _RootSignature "RootFlags( 0 )," \
                        "RootConstants( b0, num32BitConstants = 3 )," \
                        "DescriptorTable( SRV( t0 ) )," \
-                       "CBV( b1 )," \
+                       "DescriptorTable( SRV( t1 ) )," \
                        "DescriptorTable( UAV( u0 ) )," \
                        "StaticSampler( s0," \
                        "               filter = FILTER_MIN_MAG_MIP_LINEAR," \
@@ -18,12 +18,8 @@ cbuffer cb0 : register( b0 )
   float g_bloomThreshold;
 }
 
-cbuffer Exposure : register( b1 )
-{
-  float  exposure;
-};
-
 Texture2D<float3> SourceTex : register( t0 );
+Texture2D<float> Exposure : register( t1 );
 RWTexture2D<float3> BloomResult : register( u0 );
 
 SamplerState BiLinearClamp : register( s0 );
@@ -50,7 +46,7 @@ void main( uint3 DTid : SV_DispatchThreadID )
 
   const float kSmallEpsilon = 0.0001;
 
-  float ScaledThreshold = g_bloomThreshold / exposure;    // BloomThreshold / Exposure
+  float ScaledThreshold = g_bloomThreshold / Exposure[ int2( 0, 0 ) ];
 
   // We perform a brightness filter pass, where lone bright pixels will contribute less.
   color1 *= max( kSmallEpsilon, luma1 - ScaledThreshold ) / ( luma1 + kSmallEpsilon );

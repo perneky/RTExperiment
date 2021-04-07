@@ -335,7 +335,7 @@ float3 CalcReflection( float3 worldPosition, float3 worldNormal, FrameParamsCB f
 
 float TraceOcclusionForOffset( float3 origin, float3 geometryWorldNormal, float3 offset, float3 px, float3 py, float range )
 {
-  HitGeometry hitGeom = TraceRay( origin
+  HitGeometry hitGeom = TraceRay( origin + geometryWorldNormal * 0.002
                                 , PertubNormal( geometryWorldNormal, px, py, offset )
                                 , castMinDistance
                                 , range );

@@ -58,13 +58,13 @@ GizmoType Gizmo::GetType() const
   return type;
 }
 
-void Gizmo::Render( CommandList& commandList, FXMMATRIX wvpTransform )
+void Gizmo::Render( CommandList& commandList, FXMMATRIX wvpTransformNoJitter )
 {
   commandList.SetVertexBuffer( *vertexBuffer );
   commandList.SetIndexBuffer( *indexBuffer );
 
   MeshParamsCB meshParams;
-  XMStoreFloat4x4( &meshParams.wvpTransform, wvpTransform );
+  XMStoreFloat4x4( &meshParams.wvpTransform, wvpTransformNoJitter );
 
   auto uploadConstantBuffer = RenderManager::GetInstance().GetUploadConstantBufferForResource( *constantBuffer );
   commandList.UploadBufferResource( std::move( uploadConstantBuffer ), *constantBuffer, &meshParams, sizeof( MeshParamsCB ) );
