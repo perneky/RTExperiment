@@ -110,6 +110,7 @@ std::pair< Resource&, Resource& > GameStage::Render( CommandList& commandList, E
   sceneEditorInfo.gizmoType            = GizmoType::None;
   sceneEditorInfo.frameDebugMode       = editorInfo.frameDebugMode;
   sceneEditorInfo.selectedGizmoElement = activeGizmoElement;
+  sceneEditorInfo.renderLightMarkers   = editorInfo.renderLightMarkers;
 
   if ( selected )
   {
@@ -122,38 +123,6 @@ std::pair< Resource&, Resource& > GameStage::Render( CommandList& commandList, E
   }
 
   return scene->Render( commandList, sceneEditorInfo, dt );
-}
-
-void GameStage::RenderLightMarkers( CommandList& commandList, EntityId camera )
-{
-  auto cameraEntity = dynamic_cast< CameraEntity* >( camera.GetEntity() );
-  if ( !cameraEntity )
-    return;
-
-  commandList.BeginEvent( 0, L"GameStage::RenderLightMarkers()" );
-
-  auto& renderManager = RenderManager::GetInstance();
-  renderManager.BeginSpriteRendering( commandList );
-
-  for ( auto& entity : entities )
-  {
-    if ( auto light = dynamic_cast< LightEntity* >( entity.second.get() ) )
-    {
-      switch ( light->GetLight().type )
-      {
-      case LightTypeCB::Point:
-        renderManager.AddSprite( commandList, light->GetPosition(), RenderManager::Sprites::Light );
-        break;
-      case LightTypeCB::Spot:
-        renderManager.AddSprite( commandList, light->GetPosition(), RenderManager::Sprites::Light );
-        break;
-      }
-    }
-  }
-
-  renderManager.FinishSpriteRendering( commandList, cameraEntity->GetCamera().GetViewTransform(), cameraEntity->GetCamera().GetProjectionTransform( false ) );
-
-  commandList.EndEvent();
 }
 
 bool GameStage::Intersect( int x, int y, XMFLOAT3& hitPoint )

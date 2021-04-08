@@ -27,6 +27,7 @@ public:
   {
     FrameDebugModeCB frameDebugMode;
     GizmoType        activeGizmo;
+    bool             renderLightMarkers;
   };
 
   GameStage( CommandList& commandList, Window& window );
@@ -43,7 +44,6 @@ public:
   void RemoveEntity( EntityId id );
 
   std::pair< Resource&, Resource& > Render( CommandList& commandList, EntityId camera, float dt, const EditorInfo& editorInfo );
-  void                              RenderLightMarkers( CommandList& commandList, EntityId camera );
 
   bool Intersect( int x, int y, XMFLOAT3& hitPoint );
 

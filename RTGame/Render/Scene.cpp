@@ -801,6 +801,31 @@ std::pair< Resource&, Resource& > Scene::Render( CommandList& commandList, const
     commandList.EndEvent();
   }
 
+  if ( editorInfo.renderLightMarkers )
+  {
+    commandList.BeginEvent( 0, L"Scene::Render(LightMarkers)" );
+
+    renderManager.BeginSpriteRendering( commandList );
+
+    for ( int lightIx = 0; lightIx < lightingEnvironmentParams.lightCount; ++lightIx )
+    {
+      auto& light = lightingEnvironmentParams.sceneLights[ lightIx ];
+      switch ( light.type )
+      {
+      case LightTypeCB::Point:
+        renderManager.AddSprite( commandList, XMLoadFloat4( &light.origin ), RenderManager::Sprites::Light );
+        break;
+      case LightTypeCB::Spot:
+        renderManager.AddSprite( commandList, XMLoadFloat4( &light.origin ), RenderManager::Sprites::Light );
+        break;
+      }
+    }
+
+    renderManager.FinishSpriteRendering( commandList, vTransform, pTransform );
+
+    commandList.EndEvent();
+  }
+
   {
     commandList.BeginEvent( 0, L"Scene::Render(Adapt exposure)" );
 
@@ -1260,7 +1285,6 @@ void Scene::UpdateRaytracing( CommandList& commandList )
 
 void Scene::RebuildLightCB( CommandList& commandList, const std::vector< LightCB >& lights )
 {
-  LightingEnvironmentParamsCB lightingEnvironmentParams;
   lightingEnvironmentParams.lightCount       = 1;
   lightingEnvironmentParams.skyMaterial      = skyMaterial;
   lightingEnvironmentParams.sceneLights[ 0 ] = directionalLight;

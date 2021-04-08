@@ -29,6 +29,7 @@ public:
     XMFLOAT4X4           gizmoTransform;
     int                  selectedGizmoElement;
     FrameDebugModeCB     frameDebugMode;
+    bool                 renderLightMarkers;
   };
 
   Scene();
@@ -176,6 +177,8 @@ private:
   float bloomStrength  = 0.1f;
 
   float sceneTime = 0;
+
+  LightingEnvironmentParamsCB lightingEnvironmentParams;
 
   enum class RTState
   {
