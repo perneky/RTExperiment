@@ -8,23 +8,7 @@
                        "CBV( b3 )," \
                        "DescriptorTable( SRV( t1, offset = " VaryingResourceBaseSlotStr ", numDescriptors = " VaryingResourceCountStr ", flags = DESCRIPTORS_VOLATILE, space = 1 )," \
                        "                 SRV( t2, offset = " AllMeshParamsSlotStr ",       numDescriptors = 1,                           flags = DESCRIPTORS_VOLATILE, space = 2 ) )," \
-                       "StaticSampler( s0," \
-                       "               filter = FILTER_ANISOTROPIC," \
-                       "               addressU = TEXTURE_ADDRESS_WRAP," \
-                       "               addressV = TEXTURE_ADDRESS_WRAP," \
-                       "               addressW = TEXTURE_ADDRESS_WRAP," \
-                       "               maxAnisotropy = 16 )," \
-                       "StaticSampler( s1," \
-                       "               filter = FILTER_ANISOTROPIC," \
-                       "               addressU = TEXTURE_ADDRESS_CLAMP," \
-                       "               addressV = TEXTURE_ADDRESS_CLAMP," \
-                       "               addressW = TEXTURE_ADDRESS_CLAMP," \
-                       "               maxAnisotropy = 16 )," \
-                       "StaticSampler( s2," \
-                       "               filter = FILTER_MIN_MAG_MIP_POINT," \
-                       "               addressU = TEXTURE_ADDRESS_CLAMP," \
-                       "               addressV = TEXTURE_ADDRESS_CLAMP," \
-                       "               addressW = TEXTURE_ADDRESS_CLAMP )" \
+                       "DescriptorTable( Sampler( s0, numDescriptors = 2 ) )" \
                        ""
 
 ConstantBuffer< AllMaterialsCB > allMaterials  : register( b2 );
@@ -32,9 +16,10 @@ StructuredBuffer< MeshParamsCB > allMeshParams : register( t2, space2 );
 
 Texture2D allMaterialTextures[ VaryingResourceCount ] : register( t1, space1 );
 
-SamplerState wrapSampler       : register( s0 );
-SamplerState clampSampler      : register( s1 );
-SamplerState pointClampSampler : register( s2 );
+SamplerState wrapClampSamplers[] : register( s0 );
+
+#define wrapSampler  wrapClampSamplers[ 0 ]
+#define clampSampler wrapClampSamplers[ 1 ]
 
 cbuffer ParamIndex : register( b0 )
 {

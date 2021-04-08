@@ -68,11 +68,13 @@
 
 enum TextureSlots
 {
-  SDRSlot
+  BaseSlot
 #ifdef __cplusplus
   = Engine2DResourceBaseSlot
 #endif // __cplusplus
   ,
+
+  SDRSlot = BaseSlot,
   HDRSlot,
   DirectLighting1Slot,
   DirectLighting2Slot,

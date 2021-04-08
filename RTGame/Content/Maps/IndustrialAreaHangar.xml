@@ -6,8 +6,8 @@
         <BloomStrength value="0.336"/>
         <Entities idGen="758">
             <CameraEntity id="1">
-                <Position x="17.809397" y="1.8079417" z="22.755009"/>
-                <Rotation x="2" y="-4119" z="0"/>
+                <Position x="41.537502" y="15.062926" z="-74.326706"/>
+                <Rotation x="60" y="-4193" z="0"/>
                 <Scale x="1" y="1" z="1"/>
             </CameraEntity>
             <ModelEntity guid="{1A4E3D99-DCA4-4FF9-A893-C820DC63C988}" id="3">

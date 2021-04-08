@@ -4,9 +4,10 @@
 #include "GI.hlsli"
 #include "PBRUtils.hlsli"
 
-static const float lightClippingThreshold = 0.001;
+static const float LightClippingThreshold = 0.001;
+static const float OcclusionThreshold     = 0.002;
 
-float3 CastToPoint( float3 worldPosition, float3 pointCoord )
+float3 CastToPoint( float3 worldPosition, float3 pointCoord, float minT )
 {
   float3 origin  = worldPosition;
   float  maxT    = length( pointCoord - worldPosition );
@@ -17,7 +18,7 @@ float3 CastToPoint( float3 worldPosition, float3 pointCoord )
 
   while ( !ended && any( color > 0 ) )
   {
-    HitGeometry hitGeom = TraceRay( origin, toPoint, castMinDistance, maxT );
+    HitGeometry hitGeom = TraceRay( origin, toPoint, minT, maxT );
 
     [branch]
     if ( hitGeom.t >= 0 )
@@ -66,7 +67,7 @@ float3 CastToPoint( float3 worldPosition, float3 pointCoord )
 
 float3 CalcLight( float3 lightCenter, float3 toLight, float lightRadius, float3 worldPosition )
 {
-  return CastToPoint( worldPosition, lightCenter );
+  return CastToPoint( worldPosition, lightCenter, OcclusionThreshold );
 }
 
 struct LightCalcData
@@ -126,13 +127,13 @@ LightCalcData CalcLightData( LightCB light, float3 worldPosition )
 float CalcDiffuseTerm( LightCalcData lcd, float3 worldPosition, float3 worldNormal )
 {
   float NdotL = saturate( dot( worldNormal, lcd.toLight ) );
-  if ( lcd.hasAttenuation && NdotL > lightClippingThreshold )
+  if ( lcd.hasAttenuation && NdotL > LightClippingThreshold )
   {
     float d = length( lcd.lightCenter - worldPosition );
     float t = saturate( ( d - lcd.attenuationStart ) / ( lcd.attenuationEnd - lcd.attenuationStart ) );
     NdotL *= pow( 1.0 - t, lcd.attenuationFalloff );
   }
-  if ( lcd.isCone && NdotL > lightClippingThreshold )
+  if ( lcd.isCone && NdotL > LightClippingThreshold )
   {
     float d = dot( -lcd.toLight, lcd.lightDirection );
     float t = saturate( ( d - lcd.phi ) / ( lcd.theta - lcd.phi ) );
@@ -168,7 +169,7 @@ float3 CalcDirectLight( float3 albedo
 
   float NdotL = CalcDiffuseTerm( lcd, worldPosition, worldNormal );
   [ branch ]
-  if ( NdotL <= lightClippingThreshold )
+  if ( NdotL <= LightClippingThreshold )
     return 0;
 
   float3 halfVector = normalize( lcd.toLight + toCamera );
@@ -335,7 +336,7 @@ float3 CalcReflection( float3 worldPosition, float3 worldNormal, FrameParamsCB f
 
 float TraceOcclusionForOffset( float3 origin, float3 geometryWorldNormal, float3 offset, float3 px, float3 py, float range )
 {
-  HitGeometry hitGeom = TraceRay( origin + geometryWorldNormal * 0.002
+  HitGeometry hitGeom = TraceRay( origin + geometryWorldNormal * OcclusionThreshold
                                 , PertubNormal( geometryWorldNormal, px, py, offset )
                                 , castMinDistance
                                 , range );

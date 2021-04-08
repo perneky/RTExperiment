@@ -60,9 +60,7 @@ struct FrameParamsCB
   XMFLOAT2         jitter;
   int              frameIndex;
   int              depthIndex;
-  int              prevDepthIndex;
   int              aoIndex;
-  int              prevAOIndex;
   int              giSourceIndex;
   float            wetnessDensity;
   float            globalTime;

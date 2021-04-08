@@ -297,11 +297,9 @@ std::pair< Resource&, Resource& > Scene::Render( CommandList& commandList, const
   currentTargetIndex = 1 - currentTargetIndex;
   currentGISource    = 1 - currentGISource;
 
-  frameParams.frameIndex     = ( frameParams.frameIndex + 1 ) % 10000;
-  frameParams.depthIndex     = currentTargetIndex == 0 ? DepthSlot0 : DepthSlot1;
-  frameParams.prevDepthIndex = currentTargetIndex == 0 ? DepthSlot1 : DepthSlot0;
-  frameParams.aoIndex        = currentTargetIndex == 0 ? DirectLighting1Slot : DirectLighting2Slot;
-  frameParams.prevAOIndex    = currentTargetIndex == 0 ? DirectLighting2Slot : DirectLighting1Slot;
+  frameParams.frameIndex  = ( frameParams.frameIndex + 1 ) % 10000;
+  frameParams.depthIndex  = ( currentTargetIndex == 0 ? DepthSlot0          : DepthSlot1          ) - BaseSlot;
+  frameParams.aoIndex     = ( currentTargetIndex == 0 ? DirectLighting1Slot : DirectLighting2Slot ) - BaseSlot;
 
   frameParams.giSourceIndex = ( currentGISource == 0 ) ? GITexture1SlotHLSL : GITexture2SlotHLSL;
   
@@ -424,6 +422,7 @@ std::pair< Resource&, Resource& > Scene::Render( CommandList& commandList, const
     commandList.SetConstantBuffer( 1, *frameConstantBuffer );
     commandList.SetConstantBuffer( 3, *prevFrameConstantBuffer );
     commandList.SetDescriptorHeap( 4, renderManager.GetShaderResourceHeap(), 0 );
+    commandList.SetDescriptorHeap( 5, renderManager.GetSamplerHeap(), 0 );
 
     renderManager.BindAllMaterials( commandList, 2 );
   };

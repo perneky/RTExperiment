@@ -45,8 +45,8 @@ void main( VertexOutput input
   float2 prevScreenTexcoord   = prevScreenPosition.xy * 0.5 + 0.5;
          prevScreenTexcoord.y = 1.0 - prevScreenTexcoord.y;
   float  prevGViewDepth       = LinearizeDepth( prevScreenPosition.z, prevFrameParams.invProjTransform );
-  float  prevTViewDepth       = LinearizeDepth( allEngineTextures[ frameParams.prevDepthIndex ].Sample( pointClampSampler, prevScreenTexcoord ).r, prevFrameParams.invProjTransform );
-  float  prevAO               = allEngineTextures[ frameParams.prevAOIndex ].Sample( pointClampSampler, prevScreenTexcoord ).a;
+  float  prevTViewDepth       = LinearizeDepth( allEngineTextures[ prevFrameParams.depthIndex ].Sample( pointClampSampler, prevScreenTexcoord ).r, prevFrameParams.invProjTransform );
+  float  prevAO               = allEngineTextures[ prevFrameParams.aoIndex ].Sample( pointClampSampler, prevScreenTexcoord ).a;
   bool   fromOutOfScreen      = prevScreenTexcoord.x <= edgeSize.x || prevScreenTexcoord.y <= edgeSize.y || prevScreenTexcoord.x >= 1.0 - edgeSize.x || prevScreenTexcoord.y > 1.0 - edgeSize.y;
   float  prevAODepthD         = saturate( 1.0 - abs( prevGViewDepth - prevTViewDepth ) * 5 );
   float  prevAOGoodness       = prevAODepthD * 0.95;
