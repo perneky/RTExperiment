@@ -11,7 +11,7 @@
 #include "DLSS/Include/nvsdk_ngx.h"
 #include "DLSS/Include/nvsdk_ngx_helpers.h"
 
-uint64_t nvAppId = 2875904;
+uint64_t nvAppId = 907465;
 
 static bool CheckNVAPI( NVSDK_NGX_Result result )
 {
