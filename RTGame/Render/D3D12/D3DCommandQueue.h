@@ -25,6 +25,8 @@ public:
   void WaitForFence( uint64_t fenceValue ) override;
   void WaitForIdle() override;
 
+  uint64_t GetFrequency() override;
+
   ID3D12CommandQueue* GetD3DCommandQueue();
 
 private:

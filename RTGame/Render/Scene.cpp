@@ -8,6 +8,7 @@
 #include "ComputeShader.h"
 #include "ResourceDescriptor.h"
 #include "DescriptorHeap.h"
+#include "MeasureCPUTime.h"
 #include "Platform/Window.h"
 #include "Common/Color.h"
 #include "Common/Files.h"
@@ -49,6 +50,7 @@ BoundingOrientedBox Scene::ModelEntry::CalcBoundingOrientedBox() const
 
 Scene::Scene()
 {
+  ZeroMemory( &giArea, sizeof( giArea ) );
 }
 
 Scene::~Scene()
@@ -93,6 +95,8 @@ void Scene::SetUp( CommandList& commandList, Window& window )
   allMeshParamsBuffer->AttachResourceDescriptor( ResourceDescriptorType::ShaderResourceView, std::move( allMeshParamsDesc ) );
 
   RecreateWindowSizeDependantResources( commandList, window );
+
+  giTimer = std::make_unique< MeasureCPUTime >( device );
 }
 
 void Scene::CreateBRDFLUTTexture( CommandList& commandList )
@@ -469,7 +473,30 @@ std::pair< Resource&, Resource& > Scene::Render( CommandList& commandList, const
     commandList.SetComputeResource( 5, *giProbeTextures[ currentGISource ]->GetResourceDescriptor( ResourceDescriptorType::UnorderedAccessView ) );
     commandList.SetComputeTextureHeap( 6, renderManager.GetShaderResourceHeap(), 0 );
 
+    if ( giTimer->GetStatus() == MeasureCPUTime::Status::Stopped )
+    {
+      auto giTime = giTimer->GetResult( commandList );
+      if ( giTime > 0 )
+      {
+        giProbeUpdatePerFrame += giTime > giProbeUpdatePerFrameTimeBudget  ? -10 : 10;
+
+        static char giTimeMessage[ 1024 ] = {};
+        sprintf_s( giTimeMessage, "giProbeUpdatePerFrame: %d, time: %f\n", giProbeUpdatePerFrame, giTime );
+        OutputDebugStringA( giTimeMessage );
+      }
+
+      if ( giTime >= 0 )
+        giTimer->Reset();
+    }
+
+    if ( giTimer->GetStatus() == MeasureCPUTime::Status::Idle )
+      giTimer->Start( commandList );
+
     commandList.Dispatch( giProbeUpdatePerFrame, 1, 1 );
+
+    if ( giTimer->GetStatus() == MeasureCPUTime::Status::Started )
+      giTimer->Stop( commandList );
+
     commandList.AddUAVBarrier( *giProbeTextures[ currentGISource ] );
     commandList.ChangeResourceState( *giProbeTextures[ currentGISource ], ResourceStateBits::PixelShaderInput | ResourceStateBits::NonPixelShaderInput );
 
@@ -1166,6 +1193,12 @@ void Scene::SetUpscalingQuality( CommandList& commandList, Window& window, Upsca
   RecreateWindowSizeDependantResources( commandList, window );
 }
 
+void Scene::SetGIArea( const BoundingBox& area )
+{
+  giArea = area;
+  giProbeInstancesDirty = true;
+}
+
 void Scene::RefreshGIProbeInstances( CommandList& commandList )
 {
   auto& device = RenderManager::GetInstance().GetDevice();
@@ -1180,16 +1213,22 @@ void Scene::RefreshGIProbeInstances( CommandList& commandList )
   for ( auto& t : empty )
     t = 0;
 
-  frameParams.giProbeOrigin.x = sceneAABB.Center.x - sceneAABB.Extents.x - GIProbeSpacing / 2;
-  frameParams.giProbeOrigin.y = sceneAABB.Center.y - sceneAABB.Extents.y + GIProbeSpacing / 2;
-  frameParams.giProbeOrigin.z = sceneAABB.Center.z - sceneAABB.Extents.z - GIProbeSpacing / 2;
+  auto giAABB = ( giArea.Extents.x < 4 || giArea.Extents.y < 4 || giArea.Extents.z < 4 ) ? sceneAABB : giArea;
 
-  frameParams.giProbeCount.x = int( round( ( 2.0 + sceneAABB.Extents.x * 2 ) / GIProbeSpacing ) );
-  frameParams.giProbeCount.y = int( round( ( 1.5 + sceneAABB.Extents.y * 2 ) / GIProbeSpacing ) );
-  frameParams.giProbeCount.z = int( round( ( 2.0 + sceneAABB.Extents.z * 2 ) / GIProbeSpacing ) );
+  frameParams.giProbeOrigin.x = giAABB.Center.x - giAABB.Extents.x - GIProbeSpacing / 2;
+  frameParams.giProbeOrigin.y = giAABB.Center.y - giAABB.Extents.y + GIProbeSpacing / 2;
+  frameParams.giProbeOrigin.z = giAABB.Center.z - giAABB.Extents.z - GIProbeSpacing / 2;
+
+  frameParams.giProbeCount.x = int( round( ( 2.0 + giAABB.Extents.x * 2 ) / GIProbeSpacing ) );
+  frameParams.giProbeCount.y = int( round( ( 1.5 + giAABB.Extents.y * 2 ) / GIProbeSpacing ) );
+  frameParams.giProbeCount.z = int( round( ( 2.0 + giAABB.Extents.z * 2 ) / GIProbeSpacing ) );
   frameParams.giProbeCount.w = frameParams.giProbeCount.x * frameParams.giProbeCount.z;
 
   std::vector< uint64_t > initGI( frameParams.giProbeCount.x * frameParams.giProbeCount.y * frameParams.giProbeCount.z, 0 );
+
+  RenderManager::GetInstance().IdleGPU();
+  giProbeTextures[ 0 ].reset();
+  giProbeTextures[ 1 ].reset();
 
   giProbeTextures[ 0 ] = device.CreateVolumeTexture( commandList
                                                    , frameParams.giProbeCount.x

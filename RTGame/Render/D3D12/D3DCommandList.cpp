@@ -33,9 +33,10 @@ static D3D12_SHADING_RATE Convert( VRSBlock block )
   }
 }
 
-D3DCommandList::D3DCommandList( D3DDevice& device, D3DCommandAllocator& commandAllocator, CommandQueueType queueType )
+D3DCommandList::D3DCommandList( D3DDevice& device, D3DCommandAllocator& commandAllocator, CommandQueueType queueType, uint64_t queueFrequency )
 {
   device.GetD3DDevice()->CreateCommandList( 1, Convert( queueType ), commandAllocator.GetD3DCommandAllocator(), nullptr, IID_PPV_ARGS( &d3dGraphicsCommandList ) );
+  frequency = queueFrequency;
 }
 
 D3DCommandList::~D3DCommandList()
@@ -482,6 +483,16 @@ void D3DCommandList::EndEvent()
 #endif // ENABLE_GPU_DEBUG
 }
 
+void D3DCommandList::RegisterEndFrameCallback( EndFrameCallback&& callback )
+{
+  endFrameCallbacks.emplace_back( std::move( callback ) );
+}
+
+std::vector< CommandList::EndFrameCallback > D3DCommandList::TakeEndFrameCallbacks()
+{
+  return std::move( endFrameCallbacks );
+}
+
 void D3DCommandList::HoldResource( ID3D12Resource2* d3dResource )
 {
   HoldResource( std::unique_ptr< Resource >( new D3DResource( d3dResource, ResourceStateBits::Common ) ) );
@@ -490,4 +501,9 @@ void D3DCommandList::HoldResource( ID3D12Resource2* d3dResource )
 ID3D12GraphicsCommandList6* D3DCommandList::GetD3DGraphicsCommandList()
 {
   return d3dGraphicsCommandList;
+}
+
+uint64_t D3DCommandList::GetFrequency() const
+{
+  return frequency;
 }

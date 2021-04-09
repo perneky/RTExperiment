@@ -354,6 +354,7 @@ enum class HeapType
 {
   Default,
   Upload,
+  Readback,
 };
 
 struct RTInstance

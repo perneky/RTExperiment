@@ -51,6 +51,12 @@ void StageWindow::Tick( CommandList& commandList, double timeElapsed )
       }
       ImGui::EndCombo();
     }
+
+    auto giArea = stage->GetGIArea();
+
+    if ( ImGui::InputFloat3( "GI area center",  &giArea.Center.x )
+      || ImGui::InputFloat3( "GI area extents", &giArea.Extents.x ) )
+      stage->SetGIArea( giArea );
   }
   ImGui::End();
 }

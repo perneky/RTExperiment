@@ -52,6 +52,7 @@ D3DResource::D3DResource( D3DDevice& device, ResourceType resourceType, HeapType
   size = ( size + 255 ) & ~255;    // CB size is required to be 256-byte aligned.
 
   resourceState = heapType == HeapType::Upload ? ResourceStateBits::GenericRead : ( resourceType == ResourceType::IndexBuffer ? ResourceStateBits::IndexBuffer : ResourceStateBits::VertexOrConstantBuffer );
+  resourceState = heapType == HeapType::Readback ? ResourceStateBits::CopyDestination : resourceState;
 
   D3D12_HEAP_PROPERTIES streamHeapProperties = {};
   streamHeapProperties.Type                  = Convert( heapType );

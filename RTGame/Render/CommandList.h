@@ -71,6 +71,10 @@ struct CommandList
   virtual void BeginEvent( int eventId, const wchar_t* format, ... ) = 0;
   virtual void EndEvent() = 0;
 
+  using EndFrameCallback = std::function< void() >;
+  virtual void RegisterEndFrameCallback( EndFrameCallback&& callback ) = 0;
+  virtual std::vector< EndFrameCallback > TakeEndFrameCallbacks() = 0;
+
   template< typename T >
   void SetConstantValues( int index, const T& values )
   {
@@ -89,5 +93,4 @@ struct CommandList
   {
     AddUAVBarrier( { &resource } );
   }
-
 };

@@ -21,5 +21,5 @@ struct CommandQueue
   virtual void WaitForFence( uint64_t fenceValue ) = 0;
   virtual void WaitForIdle() = 0;
 
-
+  virtual uint64_t GetFrequency() = 0;
 };

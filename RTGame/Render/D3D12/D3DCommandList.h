@@ -66,14 +66,22 @@ public:
   void BeginEvent( int eventId, const wchar_t* format, ... ) override;
   void EndEvent() override;
 
+  void RegisterEndFrameCallback( EndFrameCallback&& callback ) override;
+  std::vector< EndFrameCallback > TakeEndFrameCallbacks() override;
+
   void HoldResource( ID3D12Resource2* d3dResource );
 
   ID3D12GraphicsCommandList6* GetD3DGraphicsCommandList();
 
+  uint64_t GetFrequency() const;
+
 private:
-  D3DCommandList( D3DDevice& device, D3DCommandAllocator& commandAllocator, CommandQueueType queueType );
+  D3DCommandList( D3DDevice& device, D3DCommandAllocator& commandAllocator, CommandQueueType queueType, uint64_t queueFrequency );
 
   CComPtr< ID3D12GraphicsCommandList6 > d3dGraphicsCommandList;
 
   std::vector< std::unique_ptr< Resource > > heldResources;
+  std::vector< EndFrameCallback > endFrameCallbacks;
+
+  uint64_t frequency = 1;
 };

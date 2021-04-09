@@ -77,6 +77,9 @@ public:
 
   Scene* GetScene();
 
+  const BoundingBox& GetGIArea() const;
+  void SetGIArea( const BoundingBox& area );
+
 private:
   GUID  skyGUID;
   float exposure       = 1;
@@ -100,4 +103,6 @@ private:
   int    wetnessDensity = 5;
 
   std::vector< float > wetness;
+
+  BoundingBox giArea;
 };

@@ -173,6 +173,12 @@
     <ClCompile Include="Render\DLSSUpscaling.cpp">
       <Filter>Render</Filter>
     </ClCompile>
+    <ClCompile Include="Render\D3D12\D3DGPUTimeQuery.cpp">
+      <Filter>Render\D3D12</Filter>
+    </ClCompile>
+    <ClCompile Include="Render\MeasureCPUTime.cpp">
+      <Filter>Render</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="PCH\PCH.h">
@@ -399,6 +405,15 @@
       <Filter>Render</Filter>
     </ClInclude>
     <ClInclude Include="Render\Halton.h">
+      <Filter>Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\GPUTimeQuery.h">
+      <Filter>Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\D3D12\D3DGPUTimeQuery.h">
+      <Filter>Render\D3D12</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\MeasureCPUTime.h">
       <Filter>Render</Filter>
     </ClInclude>
   </ItemGroup>

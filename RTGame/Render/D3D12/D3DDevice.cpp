@@ -10,6 +10,7 @@
 #include "D3DRTBottomLevelAccelerator.h"
 #include "D3DRTTopLevelAccelerator.h"
 #include "D3DComputeShader.h"
+#include "D3DGPUTimeQuery.h"
 #include "D3DUtils.h"
 #include "Conversion.h"
 #include "DirectXTex/DDSTextureLoader/DDSTextureLoader12.h"
@@ -162,9 +163,9 @@ std::unique_ptr< CommandAllocator > D3DDevice::CreateCommandAllocator( CommandQu
   return std::unique_ptr< CommandAllocator >( new D3DCommandAllocator( *this, type ) );
 }
 
-std::unique_ptr< CommandList > D3DDevice::CreateCommandList( CommandAllocator& commandAllocator, CommandQueueType queueType )
+std::unique_ptr< CommandList > D3DDevice::CreateCommandList( CommandAllocator& commandAllocator, CommandQueueType queueType, uint64_t queueFrequency )
 {
-  return std::unique_ptr< CommandList >( new D3DCommandList( *this, *static_cast< D3DCommandAllocator* >( &commandAllocator ), queueType ) );
+  return std::unique_ptr< CommandList >( new D3DCommandList( *this, *static_cast< D3DCommandAllocator* >( &commandAllocator ), queueType, queueFrequency ) );
 }
 
 std::unique_ptr< PipelineState > D3DDevice::CreatePipelineState( const PipelineDesc& desc )
@@ -218,6 +219,11 @@ std::unique_ptr< Resource > D3DDevice::Create2DTexture( CommandList& commandList
 std::unique_ptr<ComputeShader> D3DDevice::CreateComputeShader( const void* shaderData, int shaderSize, const wchar_t* debugName )
 {
   return std::unique_ptr< ComputeShader >( new D3DComputeShader( *this, shaderData, shaderSize, debugName ) );
+}
+
+std::unique_ptr<GPUTimeQuery> D3DDevice::CreateGPUTimeQuery()
+{
+  return std::unique_ptr< GPUTimeQuery >( new D3DGPUTimeQuery( *this ) );
 }
 
 std::unique_ptr<Resource> D3DDevice::Load2DTexture( CommandList& commandList, std::vector< uint8_t >&& textureData, int slot, const wchar_t* debugName, void* customHeap )

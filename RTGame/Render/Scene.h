@@ -8,6 +8,7 @@
 
 class Mesh;
 class Gizmo;
+class MeasureCPUTime;
 struct Camera;
 struct RTTopLevelAccelerator;
 struct CommandList;
@@ -78,6 +79,8 @@ public:
   void SetupWetness( CommandList& commandList, const XMINT2& origin, const XMINT2& size, int density, const std::vector< uint8_t >& values );
 
   void SetUpscalingQuality( CommandList& commandList, Window& window, Upscaling::Quality quality );
+
+  void SetGIArea( const BoundingBox& area );
 
 private:
   void RefreshGIProbeInstances( CommandList& commandList );
@@ -166,9 +169,11 @@ private:
 
   bool drawGIProbes          = false;
   bool giProbeInstancesDirty = true;
-  int  giProbeUpdatePerFrame = 4000;
+  int  giProbeUpdatePerFrame = 1000;
   int  giProbeUpdateNext     = 0;
   int  currentGISource       = 0;
+
+  double giProbeUpdatePerFrameTimeBudget = 0.002;
 
   int currentTargetIndex = 0;
 
@@ -190,6 +195,9 @@ private:
   RTState rtState = RTState::ElementsModified;
 
   BoundingBox sceneAABB;
+  BoundingBox giArea;
+
+  std::unique_ptr< MeasureCPUTime > giTimer;
 
   Upscaling::Quality upscalingQuality = Upscaling::DefaultQuality;
 

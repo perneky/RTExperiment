@@ -210,7 +210,7 @@ void RenderManager::DiscardCommandAllocator( CommandQueueType queueType, Command
 
 std::unique_ptr< CommandList > RenderManager::CreateCommandList( CommandAllocator* allocator, CommandQueueType queueType )
 {
-  auto commandList = device->CreateCommandList( *allocator, queueType );
+  auto commandList = device->CreateCommandList( *allocator, queueType, commandQueueManager->GetQueue( queueType ).GetFrequency() );
   commandList->BeginEvent( 0, L"CommandList" );
   return commandList;
 }
@@ -235,6 +235,13 @@ uint64_t RenderManager::Submit( std::unique_ptr< CommandList > commandList, Comm
     {
       auto& hold = stagingResources[ queueType ][ fenceValue ];
       std::move( heldResources.begin(), heldResources.end(), std::back_inserter( hold ) );
+    }
+
+    auto newEndFrameCallbacks = commandList->TakeEndFrameCallbacks();
+    if ( !newEndFrameCallbacks.empty() )
+    {
+      auto& hold = endFrameCallbacks[ queueType ][ fenceValue ];
+      std::move( newEndFrameCallbacks.begin(), newEndFrameCallbacks.end(), std::back_inserter( hold ) );
     }
   }
   return fenceValue;
@@ -399,6 +406,7 @@ void RenderManager::TidyUp()
   {
     auto& queue     = commandQueueManager->GetQueue( CommandQueueType( queueType ) );
     auto& resources = stagingResources[ CommandQueueType( queueType ) ];
+    auto& efcs      = endFrameCallbacks[ CommandQueueType( queueType ) ];
     for ( auto iter = resources.begin(); iter != resources.end(); )
     {
       if ( queue.IsFenceComplete( iter->first ) )
@@ -409,6 +417,17 @@ void RenderManager::TidyUp()
             ReuseUploadConstantBuffer( std::move( resource ) );
         }
         iter = resources.erase( iter );
+      }
+      else
+        ++iter;
+    }
+    for ( auto iter = efcs.begin(); iter != efcs.end(); )
+    {
+      if ( queue.IsFenceComplete( iter->first ) )
+      {
+        for ( auto& efc : iter->second )
+          efc();
+        iter = efcs.erase( iter );
       }
       else
         ++iter;
@@ -674,7 +693,7 @@ RenderManager::RenderManager( std::shared_ptr< Window > window )
     pipelineDesc.vsSize                      = vertexShader.size();
     pipelineDesc.psSize                      = pixelShader.size();
     pipelineDesc.primitiveType               = PrimitiveType::TriangleList;
-    pipelineDesc.targetFormat[ 0 ]           = RenderManager::SDRFormat;
+    pipelineDesc.targetFormat[ 0 ]           = RenderManager::HDRFormat;
     pipelineDesc.depthFormat                 = RenderManager::DepthFormat;
     pipelineDesc.samples                     = 1;
     pipelinePresets[ int( PipelinePresets::Sprite ) ] = device->CreatePipelineState( pipelineDesc );

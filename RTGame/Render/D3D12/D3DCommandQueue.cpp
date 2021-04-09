@@ -63,6 +63,15 @@ void D3DCommandQueue::WaitForIdle()
   WaitForFence( IncrementFence() );
 }
 
+uint64_t D3DCommandQueue::GetFrequency()
+{
+  UINT64 frequency;
+  if FAILED( d3dCommandQueue->GetTimestampFrequency( &frequency ) )
+    frequency = 1;
+
+  return frequency;
+}
+
 uint64_t D3DCommandQueue::IncrementFence()
 {
   std::lock_guard< std::mutex > lockGuard( fenceMutex );

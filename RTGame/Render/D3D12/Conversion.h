@@ -230,6 +230,7 @@ inline D3D12_HEAP_TYPE Convert( HeapType heapType )
   {
   case HeapType::Default:   return D3D12_HEAP_TYPE_DEFAULT;
   case HeapType::Upload:    return D3D12_HEAP_TYPE_UPLOAD;
+  case HeapType::Readback:  return D3D12_HEAP_TYPE_READBACK;
   default: assert( false ); return D3D12_HEAP_TYPE_DEFAULT;
   }
 }

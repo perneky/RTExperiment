@@ -13,6 +13,8 @@
 
 GameStage::GameStage( CommandList& commandList, Window& window )
 {
+  ZeroMemory( &giArea, sizeof( giArea ) );
+
   scene = std::make_unique< Scene >();
   scene->SetUp( commandList, window );
 
@@ -265,10 +267,11 @@ void GameStage::Serialize( tinyxml2::XMLNode& node )
   auto bloomStrengthElement  = static_cast<XMLElement*>( stageElement->InsertEndChild( stageElement->GetDocument()->NewElement( "BloomStrength" ) ) );
   auto entitiesElement       = static_cast<XMLElement*>( stageElement->InsertEndChild( stageElement->GetDocument()->NewElement( "Entities" ) ) );
   auto wetnessElement        = static_cast<XMLElement*>( stageElement->InsertEndChild( stageElement->GetDocument()->NewElement( "Wetness" ) ) );
+  auto giAreaElement         = static_cast<XMLElement*>( stageElement->InsertEndChild( stageElement->GetDocument()->NewElement( "GIArea" ) ) );
 
   stageElement->SetAttribute( "lastCameraId", lastUsedCamera.GetId() );
   skyElement->SetAttribute( "guid", to_string( skyGUID ).data() );
-  exposureElement->SetAttribute( "value", exposureElement );
+  exposureElement->SetAttribute( "value", exposure );
   bloomThresholdElement->SetAttribute( "value", bloomThreshold );
   bloomStrengthElement->SetAttribute( "value", bloomStrength );
   entitiesElement->SetAttribute( "idGen", entityIdGen );
@@ -289,6 +292,13 @@ void GameStage::Serialize( tinyxml2::XMLNode& node )
   }
 
   wetnessElement->InsertEndChild( wetnessElement->GetDocument()->NewText( wetnessValuesValue.data() ) );
+
+  giAreaElement->SetAttribute( "cx", giArea.Center.x );
+  giAreaElement->SetAttribute( "cy", giArea.Center.y );
+  giAreaElement->SetAttribute( "cz", giArea.Center.z );
+  giAreaElement->SetAttribute( "ex", giArea.Extents.x );
+  giAreaElement->SetAttribute( "ey", giArea.Extents.y );
+  giAreaElement->SetAttribute( "ez", giArea.Extents.z );
 
   for ( auto& entity : entities )
     entity.second->Serialize( entity.first, *entitiesElement );
@@ -335,6 +345,18 @@ void GameStage::Deserialize( CommandList& commandList, tinyxml2::XMLNode& node )
     }
 
     scene->SetupWetness( commandList, wetnessOrigin, wetnessSize, wetnessDensity, GetWetnessMap() );
+  }
+
+  if ( auto giAreaElement = node.FirstChildElement( "GIArea" ) )
+  {
+    giAreaElement->QueryFloatAttribute( "cx", &giArea.Center.x );
+    giAreaElement->QueryFloatAttribute( "cy", &giArea.Center.y );
+    giAreaElement->QueryFloatAttribute( "cz", &giArea.Center.z );
+    giAreaElement->QueryFloatAttribute( "ex", &giArea.Extents.x );
+    giAreaElement->QueryFloatAttribute( "ey", &giArea.Extents.y );
+    giAreaElement->QueryFloatAttribute( "ez", &giArea.Extents.z );
+
+    scene->SetGIArea( giArea );
   }
 
   if ( auto entitiesElement = node.FirstChildElement( "Entities" ) )
@@ -483,4 +505,24 @@ void GameStage::PaintWetness( CommandList& commandList, float cx, float cz, floa
 Scene* GameStage::GetScene()
 {
   return scene.get();
+}
+
+const BoundingBox& GameStage::GetGIArea() const
+{
+  return giArea;
+}
+
+void GameStage::SetGIArea( const BoundingBox& area )
+{
+  if ( giArea.Center.x  == area.Center.x
+    && giArea.Center.y  == area.Center.y 
+    && giArea.Center.z  == area.Center.z
+    && giArea.Extents.x == area.Extents.x
+    && giArea.Extents.y == area.Extents.y
+    && giArea.Extents.z == area.Extents.z )
+    return;
+
+  giArea = area;
+
+  scene->SetGIArea( area );
 }

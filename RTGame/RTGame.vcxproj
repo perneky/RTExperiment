@@ -132,6 +132,7 @@
     <ClCompile Include="Render\D3D12\D3DDescriptorHeap.cpp" />
     <ClCompile Include="Render\D3D12\D3DDevice.cpp" />
     <ClCompile Include="Render\D3D12\D3DFactory.cpp" />
+    <ClCompile Include="Render\D3D12\D3DGPUTimeQuery.cpp" />
     <ClCompile Include="Render\D3D12\D3DPipelineState.cpp" />
     <ClCompile Include="Render\D3D12\D3DResource.cpp" />
     <ClCompile Include="Render\D3D12\D3DResourceDescriptor.cpp" />
@@ -141,6 +142,7 @@
     <ClCompile Include="Render\DirectionalCamera.cpp" />
     <ClCompile Include="Render\DLSSUpscaling.cpp" />
     <ClCompile Include="Render\Gizmo.cpp" />
+    <ClCompile Include="Render\MeasureCPUTime.cpp" />
     <ClCompile Include="Render\Mesh.cpp" />
     <ClCompile Include="Render\RenderManager.cpp" />
     <ClCompile Include="Render\Scene.cpp" />
@@ -191,6 +193,7 @@
     <ClInclude Include="Render\D3D12\D3DDescriptorHeap.h" />
     <ClInclude Include="Render\D3D12\D3DDevice.h" />
     <ClInclude Include="Render\D3D12\D3DFactory.h" />
+    <ClInclude Include="Render\D3D12\D3DGPUTimeQuery.h" />
     <ClInclude Include="Render\D3D12\D3DPipelineState.h" />
     <ClInclude Include="Render\D3D12\D3DResource.h" />
     <ClInclude Include="Render\D3D12\D3DResourceDescriptor.h" />
@@ -203,8 +206,10 @@
     <ClInclude Include="Render\DLSSUpscaling.h" />
     <ClInclude Include="Render\Factory.h" />
     <ClInclude Include="Render\Gizmo.h" />
+    <ClInclude Include="Render\GPUTimeQuery.h" />
     <ClInclude Include="Render\Halton.h" />
     <ClInclude Include="Render\Icosahedron.h" />
+    <ClInclude Include="Render\MeasureCPUTime.h" />
     <ClInclude Include="Render\Mesh.h" />
     <ClInclude Include="Render\ModelFeatures.h" />
     <ClInclude Include="Render\PipelineState.h" />
