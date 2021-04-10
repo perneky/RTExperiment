@@ -49,6 +49,7 @@ struct VertexOutput
   float3 worldNormal    : WORLD_NORMAL;
   float4 screenPosition : SV_POSITION;
 #ifdef USE_MOTION_VECTORS
+  float4 clipPosition     : CLIP_POSITION;
   float4 prevClipPosition : PREV_CLIP_POSITION;
 #endif // USE_MOTION_VECTORS
 };

@@ -28,9 +28,11 @@ struct MeshParamsCB
 {
   XMFLOAT4X4 worldTransform;
   XMFLOAT4X4 wvpTransform;
+  XMFLOAT4X4 wvpTransformWoJitter;
   XMFLOAT4X4 wvTransform;
   XMFLOAT4X4 prevWorldTransform;
   XMFLOAT4X4 prevWVPTransform;
+  XMFLOAT4X4 prevWVPTransformWoJitter;
   XMFLOAT4X4 prevWVTransform;
   XMFLOAT4   randomValues;
   int        materialIndex;

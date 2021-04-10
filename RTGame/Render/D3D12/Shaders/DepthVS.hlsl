@@ -16,11 +16,14 @@ VertexOutput main( VertexInput input )
   output.worldNormal    = mul( ( float3x3 )meshParams.worldTransform, input.normal );
 
 #ifdef USE_MOTION_VECTORS
+  output.clipPosition = mul( meshParams.wvpTransformWoJitter, input.position );
+
 #ifdef HAS_OLD_POSITION
-  output.prevClipPosition = mul( meshParams.prevWVPTransform, input.oldPosition );
+  output.prevClipPosition = mul( meshParams.prevWVPTransformWoJitter, input.oldPosition );
 #else
-  output.prevClipPosition = mul( meshParams.prevWVPTransform, input.position );
+  output.prevClipPosition = mul( meshParams.prevWVPTransformWoJitter, input.position );
 #endif // HAS_OLD_POSITION
+
 #endif // USE_MOTION_VECTORS
 
   return output;
