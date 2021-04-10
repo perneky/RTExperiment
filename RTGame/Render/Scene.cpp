@@ -14,6 +14,7 @@
 #include "Common/Files.h"
 #include "Icosahedron.h"
 #include "Gizmo.h"
+#include "Halton.h"
 
 static constexpr int BlurParamsFloatCount = ( 17 + 17 + 1 ) * 4;
 
@@ -80,6 +81,7 @@ void Scene::SetUp( CommandList& commandList, Window& window )
   prevFrameConstantBuffer = device.CreateBuffer( ResourceType::ConstantBuffer, HeapType::Default, false, sizeof( FrameParamsCB ), sizeof( FrameParamsCB ), L"PrevFrameParams" );
   lightingConstantBuffer  = device.CreateBuffer( ResourceType::ConstantBuffer, HeapType::Default, false, sizeof( LightingEnvironmentParamsCB ), sizeof( LightingEnvironmentParamsCB ), L"LightingParams" );
   allMeshParamsBuffer     = device.CreateBuffer( ResourceType::ConstantBuffer, HeapType::Default, false, sizeof( MeshParamsCB ) * MaxInstanceCount, sizeof( MeshParamsCB ), L"AllMeshParams" );
+  haltonSequenceBuffer    = device.CreateBuffer( ResourceType::ConstantBuffer, HeapType::Default, false, sizeof( HaltonSequenceCB ), sizeof( HaltonSequenceCB ), L"HaltonSequence" );
   toneMappingShader       = device.CreateComputeShader( toneMappingFile.data(), int( toneMappingFile.size() ), L"ToneMapping" );
   combineLightingShader   = device.CreateComputeShader( combineLightingFile.data(), int( combineLightingFile.size() ), L"CombineLighting" );
   downsampleShader        = device.CreateComputeShader( downsampleFile.data(), int( downsampleFile.size() ), L"Downsample" );
@@ -97,6 +99,21 @@ void Scene::SetUp( CommandList& commandList, Window& window )
   RecreateWindowSizeDependantResources( commandList, window );
 
   giTimer = std::make_unique< MeasureCPUTime >( device );
+
+  HaltonSequenceCB hsb;
+  int haltonBase[] = { 2, 3 };
+  for ( int hix = 0; hix < HaltonSequenceLength; ++hix )
+  {
+    auto vals = halton_base( hix + 1, 2, haltonBase );
+
+    hsb.values[ hix ].x = vals[ 0 ];
+    hsb.values[ hix ].y = vals[ 1 ];
+    hsb.values[ hix ].z = vals[ 0 ] * 2 - 1;
+    hsb.values[ hix ].w = vals[ 1 ] * 2 - 1;
+  }
+
+  auto hub = RenderManager::GetInstance().GetUploadConstantBufferForResource( *haltonSequenceBuffer );
+  commandList.UploadBufferResource( std::move( hub ), *haltonSequenceBuffer, &hsb, sizeof( HaltonSequenceCB ) );
 }
 
 void Scene::CreateBRDFLUTTexture( CommandList& commandList )
@@ -125,7 +142,7 @@ void Scene::SetSky( CommandList& commandList, const GUID& guid )
     auto& sky   = iter->second;
     skyMaterial = RenderManager::GetInstance().GetAllMaterialIndex( sky.material );
     skybox      = Mesh::CreateSkybox( commandList, skyMaterial );
-    SetDirectionalLight( XMVector3Normalize( XMLoadFloat3( &sky.lightDirection ) ), 1000, 40, XMLoadFloat3( &sky.lightColor ), sky.lightIntensity, true );
+    SetDirectionalLight( XMVector3Normalize( XMLoadFloat3( &sky.lightDirection ) ), 1000, 5, XMLoadFloat3( &sky.lightColor ), sky.lightIntensity, true );
   }
   else
     skybox.reset();
@@ -218,6 +235,7 @@ void Scene::SetDirectionalLight( FXMVECTOR direction, float distance, float radi
   directionalLight.sourceRadius     = radius;
   directionalLight.attenuationStart = distance;
   directionalLight.castShadow       = castShadow;
+  directionalLight.scatterShadow    = true;
   XMStoreFloat4( &directionalLight.direction, direction );
   XMStoreFloat4( &directionalLight.color, color * intensity );
 }
@@ -437,8 +455,9 @@ std::pair< Resource&, Resource& > Scene::Render( CommandList& commandList, const
     commandList.SetConstantBuffer( 1, *frameConstantBuffer );
     commandList.SetConstantBuffer( 2, *prevFrameConstantBuffer );
     commandList.SetConstantBuffer( 3, *lightingConstantBuffer );
-    commandList.SetDescriptorHeap( 5, renderManager.GetShaderResourceHeap(), 0 );
-    commandList.SetDescriptorHeap( 6, renderManager.GetSamplerHeap(), 0 );
+    commandList.SetConstantBuffer( 5, *haltonSequenceBuffer );
+    commandList.SetDescriptorHeap( 6, renderManager.GetShaderResourceHeap(), 0 );
+    commandList.SetDescriptorHeap( 7, renderManager.GetSamplerHeap(), 0 );
 
     renderManager.BindAllMaterials( commandList, 4 );
   };
@@ -470,8 +489,9 @@ std::pair< Resource&, Resource& > Scene::Render( CommandList& commandList, const
     commandList.SetComputeConstantBuffer( 2, *frameConstantBuffer );
     commandList.SetComputeConstantBuffer( 3, *prevFrameConstantBuffer );
     renderManager.BindAllMaterialsToCompute( commandList, 4 );
-    commandList.SetComputeResource( 5, *giProbeTextures[ currentGISource ]->GetResourceDescriptor( ResourceDescriptorType::UnorderedAccessView ) );
-    commandList.SetComputeTextureHeap( 6, renderManager.GetShaderResourceHeap(), 0 );
+    commandList.SetComputeConstantBuffer( 5, *haltonSequenceBuffer );
+    commandList.SetComputeResource( 6, *giProbeTextures[ currentGISource ]->GetResourceDescriptor( ResourceDescriptorType::UnorderedAccessView ) );
+    commandList.SetComputeTextureHeap( 7, renderManager.GetShaderResourceHeap(), 0 );
 
     if ( giTimer->GetStatus() == MeasureCPUTime::Status::Stopped )
     {

@@ -7,6 +7,7 @@
                        "CBV( b2 )," \
                        "CBV( b3 )," \
                        "CBV( b4, space = 4 )," \
+                       "CBV( b5, space = 5 )," \
                        "DescriptorTable( SRV( t0, offset = " RTSceneBaseSlotStr            ", numDescriptors = " RTSceneCountStr            ", flags = DESCRIPTORS_VOLATILE, space = 0 )," \
                        "                 SRV( t1, offset = " Engine2DResourceBaseSlotStr   ", numDescriptors = " Engine2DResourceCountStr   ", flags = DESCRIPTORS_VOLATILE, space = 1 )," \
                        "                 SRV( t3, offset = " VaryingResourceBaseSlotStr    ", numDescriptors = " VaryingResourceCountStr    ", flags = DESCRIPTORS_VOLATILE, space = 3 )," \
@@ -48,8 +49,9 @@ cbuffer LightingEnvironmentParams : register( b3 )
   LightingEnvironmentParamsCB lightingEnvironmentParams;
 };
 
-ConstantBuffer< AllMaterialsCB > allMaterials  : register( b4, space4 );
-StructuredBuffer< MeshParamsCB > allMeshParams : register( t8, space8 );
+ConstantBuffer< AllMaterialsCB >   allMaterials   : register( b4, space4 );
+ConstantBuffer< HaltonSequenceCB > haltonSequence : register( b5, space5 );
+StructuredBuffer< MeshParamsCB >   allMeshParams  : register( t8, space8 );
 
 RaytracingAccelerationStructure rayTracingScenes[] : register( t0, space0 );
 

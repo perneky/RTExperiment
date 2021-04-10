@@ -244,6 +244,7 @@ LightCB LightEntity::GetLight() const
   light.phi                = std::cos( XMConvertToRadians( phi ) / 2 );
   light.coneFalloff        = coneFalloff;
   light.castShadow         = castShadow ? 1 : 0;
+  light.scatterShadow      = false;
   light.type               = type;
   return light;
 }

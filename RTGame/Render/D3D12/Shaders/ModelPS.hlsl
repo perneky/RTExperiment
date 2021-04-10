@@ -53,7 +53,7 @@ void main( VertexOutput input
 
   float3 probeGI = SampleGI( input.worldPosition, geometryWorldNormal, frameParams, all3DTextures[ frameParams.giSourceIndex ] );
   
-  float3 tracedDirectLighting = TraceDirectLighting( surfaceAlbedo, roughness, metallic, isSpecular, input.worldPosition, surfaceWorldNormal, frameParams.cameraPosition.xyz, lightingEnvironmentParams );
+  float3 tracedDirectLighting = TraceDirectLighting( surfaceAlbedo, roughness, metallic, isSpecular, input.worldPosition, surfaceWorldNormal, frameParams.cameraPosition.xyz, lightingEnvironmentParams, false );
 
   float3 randomOffset = float( frameParams.frameIndex * RandomTextureSize / aoFrameChainLength ) / RandomTextureSize;
 

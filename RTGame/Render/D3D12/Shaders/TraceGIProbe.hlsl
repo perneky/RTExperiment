@@ -9,6 +9,7 @@
                        "CBV( b2 )," \
                        "CBV( b3 )," \
                        "CBV( b4 )," \
+                       "CBV( b5 )," \
                        "DescriptorTable( UAV( u0, flags = DATA_VOLATILE ) )," \
                        "DescriptorTable( SRV( t0, offset = " RTSceneBaseSlotStr            ", numDescriptors = " RTSceneCountStr            ", flags = DESCRIPTORS_VOLATILE, space = 0 )," \
                        "                 SRV( t1, offset = " Engine2DResourceBaseSlotStr   ", numDescriptors = " Engine2DResourceCountStr   ", flags = DESCRIPTORS_VOLATILE, space = 1 )," \
@@ -61,7 +62,8 @@ cbuffer PrevFrameParams : register( b3 )
   FrameParamsCB prevFrameParams;
 };
 
-ConstantBuffer< AllMaterialsCB >  allMaterials  : register( b4 );
+ConstantBuffer< AllMaterialsCB >   allMaterials   : register( b4 );
+ConstantBuffer< HaltonSequenceCB > haltonSequence : register( b5 );
 
 RWTexture3D< float4 > destination : register( u0 );
 

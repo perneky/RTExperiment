@@ -65,9 +65,33 @@ float3 CastToPoint( float3 worldPosition, float3 pointCoord, float minT )
   return color;
 }
 
-float3 CalcLight( float3 lightCenter, float3 toLight, float lightRadius, float3 worldPosition )
+float3 CalcLight( float3 lightCenter, float3 worldPosition )
 {
   return CastToPoint( worldPosition, lightCenter, OcclusionThreshold );
+}
+
+float3 CalcLight( float3 lightCenter, float3 worldPosition, float lightRadius, float3 cameraPosition )
+{
+  const float farScatterDistance = 10;
+  const float minScatter         = 8;
+  const float maxScatter         = HaltonSequenceLength;
+
+  float3 px, py;
+  CalcAxesForVector( normalize( lightCenter - worldPosition ), px, py );
+
+  float pointDistance = length( worldPosition - cameraPosition );
+  float dt            = saturate( pointDistance / farScatterDistance );
+  int   scatter       = lerp( maxScatter, minScatter, pow( dt, 0.5 ) );
+
+  float3 access = 0;
+  for ( int secIx = 0; secIx < scatter; ++secIx )
+  {
+    float2 offset = haltonSequence.values[ secIx ].zw * lightRadius;
+    float3 samplePos = lightCenter + px * offset.x + py * offset.y;
+    access += CastToPoint( worldPosition, samplePos, OcclusionThreshold );
+  }
+
+  return access / scatter;
 }
 
 struct LightCalcData
@@ -163,7 +187,8 @@ float3 CalcDirectLight( float3 albedo
                       , float3 cameraPosition
                       , float3 toCamera
                       , float3 F0
-                      , float  NdotC )
+                      , float  NdotC
+                      , bool   noScatter )
 {
   LightCalcData lcd = CalcLightData( light, worldPosition );
 
@@ -204,8 +229,10 @@ float3 CalcDirectLight( float3 albedo
   }
 
   [branch]
-  if ( lcd.castShadow )
-    directLighting *= CalcLight( lcd.lightCenter, lcd.toLight, lcd.lightRadius, worldPosition );
+  if ( lcd.castShadow && light.scatterShadow && !noScatter )
+    directLighting *= CalcLight( lcd.lightCenter, worldPosition, lcd.lightRadius, cameraPosition );
+  else if ( lcd.castShadow )
+    directLighting *= CalcLight( lcd.lightCenter, worldPosition );
 
   return directLighting;
 }
@@ -217,7 +244,8 @@ float3 TraceDirectLighting( float3 albedo
                           , float3 worldPosition
                           , float3 worldNormal
                           , float3 cameraPosition
-                          , LightingEnvironmentParamsCB env )
+                          , LightingEnvironmentParamsCB env
+                          , bool noScatter )
 {
   float3 toCamera = normalize( cameraPosition - worldPosition );
   float  NdotC    = saturate( dot( worldNormal, toCamera ) );
@@ -226,7 +254,7 @@ float3 TraceDirectLighting( float3 albedo
 
   float3 directLighting = 0;
   for ( int lightIx = 0; lightIx < env.lightCount; ++lightIx )
-    directLighting += CalcDirectLight( albedo, roughness, metallic, isSpecular, env.sceneLights[ lightIx ], worldPosition, worldNormal, cameraPosition, toCamera, F0, NdotC );
+    directLighting += CalcDirectLight( albedo, roughness, metallic, isSpecular, env.sceneLights[ lightIx ], worldPosition, worldNormal, cameraPosition, toCamera, F0, NdotC, noScatter );
 
   return directLighting;
 }
@@ -326,7 +354,7 @@ float3 CalcReflection( float3 worldPosition, float3 worldNormal, FrameParamsCB f
 
   float3 probeGI          = SampleGI( hitGeom.worldPosition, hitGeom.worldNormal, frameParams, giTexture );
   float3 effectiveAlbedo  = lerp( tint, surfaceAlbedo, visibility );
-  float3 directLighting   = TraceDirectLighting( effectiveAlbedo, surfaceRoughness, surfaceMetallic, surfaceIsSpecular, hitGeom.worldPosition, surfaceWorldNormal, worldPosition, env );
+  float3 directLighting   = TraceDirectLighting( effectiveAlbedo, surfaceRoughness, surfaceMetallic, surfaceIsSpecular, hitGeom.worldPosition, surfaceWorldNormal, worldPosition, env, true );
 
   float3 diffuseIBL;
   float3 specularIBL;

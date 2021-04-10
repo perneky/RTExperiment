@@ -31,7 +31,7 @@ float4 main( VertexOutput input ) : SV_Target
 
   float3 probeGI = SampleGI( input.worldPosition, geometryWorldNormal, frameParams, all3DTextures[ frameParams.giSourceIndex ] );
 
-  float3 directLighting = TraceDirectLighting( surfaceAlbedo, roughness, metallic, isSpecular, input.worldPosition, surfaceWorldNormal, frameParams.cameraPosition.xyz, lightingEnvironmentParams );
+  float3 directLighting = TraceDirectLighting( surfaceAlbedo, roughness, metallic, isSpecular, input.worldPosition, surfaceWorldNormal, frameParams.cameraPosition.xyz, lightingEnvironmentParams, false );
 
   float3 diffuseIBL  = 0;
   float3 specularIBL = 0;

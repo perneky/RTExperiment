@@ -137,6 +137,7 @@ private:
   std::unique_ptr< Resource > frameConstantBuffer;
   std::unique_ptr< Resource > prevFrameConstantBuffer;
   std::unique_ptr< Resource > lightingConstantBuffer;
+  std::unique_ptr< Resource > haltonSequenceBuffer;
 
   std::unique_ptr< Resource > giProbeVB;
   std::unique_ptr< Resource > giProbeIB;

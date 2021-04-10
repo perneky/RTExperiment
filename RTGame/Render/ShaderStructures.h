@@ -88,8 +88,9 @@ struct LightCB
   float       phi;
   float       coneFalloff;
   int         castShadow;
+  int         scatterShadow;
   LightTypeCB type;
-  XMINT3      padding;
+  XMINT2      padding;
 };
 
 struct LightingEnvironmentParamsCB
@@ -119,6 +120,11 @@ struct MaterialCB
 struct AllMaterialsCB
 {
   MaterialCB mat[ MaxMaterials ];
+};
+
+struct HaltonSequenceCB
+{
+  XMFLOAT4 values[ HaltonSequenceLength ];
 };
 
 struct InstanceParamsCB

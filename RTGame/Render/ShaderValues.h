@@ -160,6 +160,8 @@ enum TextureSlots
 
 #define RTSlotMask ( ( 1 << 12 ) - 1 )
 
+#define HaltonSequenceLength 32
+
 #define ENABLE_RAYTRACING_FOR_RENDER 1
 
 #endif // SHADER_VARS_H

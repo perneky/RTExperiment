@@ -75,10 +75,7 @@ HitGeometry CalcHitGeometry( Query query )
                         , query.WorldRayDirection() );
 }
 
-HitGeometry TraceRay( float3 origin
-                    , float3 direction
-                    , float tmin
-                    , float tmax )
+HitGeometry TraceRay( float3 origin, float3 direction, float tmin, float tmax )
 {
 #if ENABLE_RAYTRACING_FOR_RENDER
   Query   query;
@@ -99,5 +96,28 @@ HitGeometry TraceRay( float3 origin
   return hitGeomMiss;
 #else
   return hitGeomMiss;
+#endif // ENABLE_RAYTRACING_FOR_RENDER
+}
+
+bool CanAccess( float3 origin, float3 direction, float tmin, float tmax )
+{
+#if ENABLE_RAYTRACING_FOR_RENDER
+
+  const uint QueryFlags = RAY_FLAG_CULL_NON_OPAQUE | RAY_FLAG_SKIP_PROCEDURAL_PRIMITIVES | RAY_FLAG_ACCEPT_FIRST_HIT_AND_END_SEARCH;
+
+  RayQuery< QueryFlags > query;
+  RayDesc                ray;
+
+  ray.Origin    = origin;
+  ray.Direction = direction;
+  ray.TMin      = tmin;
+  ray.TMax      = tmax;
+
+  query.TraceRayInline( rayTracingScenes[ 0 ], QueryFlags, 0xFF, ray );
+  query.Proceed();
+
+  return query.CommittedStatus() != COMMITTED_TRIANGLE_HIT;
+#else
+  return true;
 #endif // ENABLE_RAYTRACING_FOR_RENDER
 }
