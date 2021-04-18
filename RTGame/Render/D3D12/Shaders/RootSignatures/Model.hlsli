@@ -16,6 +16,7 @@
                        "                 SRV( t6, offset = " CBVIBBaseSlotStr              ", numDescriptors = " CBVIBCountStr              ", flags = DESCRIPTORS_VOLATILE, space = 6 )," \
                        "                 SRV( t7, offset = " CBVVBBaseSlotStr              ", numDescriptors = " CBVVBCountStr              ", flags = DESCRIPTORS_VOLATILE, space = 7 )," \
                        "                 SRV( t8, offset = " AllMeshParamsSlotStr          ", numDescriptors = 1,                              flags = DESCRIPTORS_VOLATILE, space = 8 ) )," \
+                       "SRV( t9, space = 9, flags = DATA_VOLATILE )," \
                        "DescriptorTable( Sampler( s0, numDescriptors = 2 ) )," \
                        "StaticSampler( s1, space = 1," \
                        "               filter = FILTER_MIN_MAG_MIP_LINEAR," \
@@ -53,7 +54,7 @@ ConstantBuffer< AllMaterialsCB >   allMaterials   : register( b4, space4 );
 ConstantBuffer< HaltonSequenceCB > haltonSequence : register( b5, space5 );
 StructuredBuffer< MeshParamsCB >   allMeshParams  : register( t8, space8 );
 
-RaytracingAccelerationStructure rayTracingScenes[] : register( t0, space0 );
+RaytracingAccelerationStructure rayTracingScene : register( t9, space9 );
 
 Texture2D    allEngineTextures[]   : register( t1, space1 );
 Texture2D    allMaterialTextures[] : register( t3, space3 );

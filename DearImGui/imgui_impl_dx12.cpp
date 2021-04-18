@@ -39,21 +39,27 @@
 #pragma comment(lib, "d3dcompiler") // Automatically link with d3dcompiler.lib as we are using D3DCompile() below.
 #endif
 
+#include "../External/D3D12MemoryAllocator/D3D12MemAlloc.h"
+extern D3D12MA::Allocator* globalGPUAllocator;
+
 // DirectX data
 static ID3D12Device*                g_pd3dDevice = NULL;
 static ID3D12RootSignature*         g_pRootSignature = NULL;
 static ID3D12PipelineState*         g_pPipelineState = NULL;
 static DXGI_FORMAT                  g_RTVFormat = DXGI_FORMAT_UNKNOWN;
 static ID3D12Resource*              g_pFontTextureResource = NULL;
+static D3D12MA::Allocation*         g_pFontTextureResourceAllocation = NULL;
 static D3D12_CPU_DESCRIPTOR_HANDLE  g_hFontSrvCpuDescHandle = {};
 static D3D12_GPU_DESCRIPTOR_HANDLE  g_hFontSrvGpuDescHandle = {};
 
 struct FrameResources
 {
-    ID3D12Resource*     IndexBuffer;
-    ID3D12Resource*     VertexBuffer;
-    int                 IndexBufferSize;
-    int                 VertexBufferSize;
+    ID3D12Resource*      IndexBuffer;
+    ID3D12Resource*      VertexBuffer;
+    D3D12MA::Allocation* IndexBufferAllocation;
+    D3D12MA::Allocation* VertexBufferAllocation;
+    int                  IndexBufferSize;
+    int                  VertexBufferSize;
 };
 static FrameResources*  g_pFrameResources = NULL;
 static UINT             g_numFramesInFlight = 0;
@@ -144,6 +150,7 @@ void ImGui_ImplDX12_RenderDrawData(ImDrawData* draw_data, ID3D12GraphicsCommandL
     if (fr->VertexBuffer == NULL || fr->VertexBufferSize < draw_data->TotalVtxCount)
     {
         SafeRelease(fr->VertexBuffer);
+        SafeRelease(fr->VertexBufferAllocation);
         fr->VertexBufferSize = draw_data->TotalVtxCount + 5000;
         D3D12_HEAP_PROPERTIES props;
         memset(&props, 0, sizeof(D3D12_HEAP_PROPERTIES));
@@ -161,12 +168,16 @@ void ImGui_ImplDX12_RenderDrawData(ImDrawData* draw_data, ID3D12GraphicsCommandL
         desc.SampleDesc.Count = 1;
         desc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
         desc.Flags = D3D12_RESOURCE_FLAG_NONE;
-        if (g_pd3dDevice->CreateCommittedResource(&props, D3D12_HEAP_FLAG_NONE, &desc, D3D12_RESOURCE_STATE_GENERIC_READ, NULL, IID_PPV_ARGS(&fr->VertexBuffer)) < 0)
-            return;
+
+        D3D12MA::ALLOCATION_DESC allocDesc = {};
+        allocDesc.HeapType = D3D12_HEAP_TYPE_UPLOAD;
+        if (globalGPUAllocator->CreateResource(&allocDesc, &desc, D3D12_RESOURCE_STATE_GENERIC_READ, NULL, &fr->VertexBufferAllocation, IID_PPV_ARGS(&fr->VertexBuffer)) < 0)
+          return;
     }
     if (fr->IndexBuffer == NULL || fr->IndexBufferSize < draw_data->TotalIdxCount)
     {
         SafeRelease(fr->IndexBuffer);
+        SafeRelease(fr->IndexBufferAllocation);
         fr->IndexBufferSize = draw_data->TotalIdxCount + 10000;
         D3D12_HEAP_PROPERTIES props;
         memset(&props, 0, sizeof(D3D12_HEAP_PROPERTIES));
@@ -184,8 +195,11 @@ void ImGui_ImplDX12_RenderDrawData(ImDrawData* draw_data, ID3D12GraphicsCommandL
         desc.SampleDesc.Count = 1;
         desc.Layout = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
         desc.Flags = D3D12_RESOURCE_FLAG_NONE;
-        if (g_pd3dDevice->CreateCommittedResource(&props, D3D12_HEAP_FLAG_NONE, &desc, D3D12_RESOURCE_STATE_GENERIC_READ, NULL, IID_PPV_ARGS(&fr->IndexBuffer)) < 0)
-            return;
+
+        D3D12MA::ALLOCATION_DESC allocDesc = {};
+        allocDesc.HeapType = D3D12_HEAP_TYPE_UPLOAD;
+        if (globalGPUAllocator->CreateResource(&allocDesc, &desc, D3D12_RESOURCE_STATE_GENERIC_READ, NULL, &fr->IndexBufferAllocation, IID_PPV_ARGS(&fr->IndexBuffer)) < 0)
+          return;
     }
 
     // Upload vertex/index data into a single contiguous GPU buffer
@@ -280,8 +294,12 @@ static void ImGui_ImplDX12_CreateFontsTexture()
         desc.Flags = D3D12_RESOURCE_FLAG_NONE;
 
         ID3D12Resource* pTexture = NULL;
-        g_pd3dDevice->CreateCommittedResource(&props, D3D12_HEAP_FLAG_NONE, &desc,
-            D3D12_RESOURCE_STATE_COPY_DEST, NULL, IID_PPV_ARGS(&pTexture));
+        D3D12MA::Allocation* pTextureAllocation = NULL;
+
+        D3D12MA::ALLOCATION_DESC allocDesc = {};
+        allocDesc.HeapType = D3D12_HEAP_TYPE_DEFAULT;
+        
+        globalGPUAllocator->CreateResource( &allocDesc, &desc, D3D12_RESOURCE_STATE_COPY_DEST, NULL, &pTextureAllocation, IID_PPV_ARGS( &pTexture ) );
 
         UINT uploadPitch = (width * 4 + D3D12_TEXTURE_DATA_PITCH_ALIGNMENT - 1u) & ~(D3D12_TEXTURE_DATA_PITCH_ALIGNMENT - 1u);
         UINT uploadSize = height * uploadPitch;
@@ -302,8 +320,11 @@ static void ImGui_ImplDX12_CreateFontsTexture()
         props.MemoryPoolPreference = D3D12_MEMORY_POOL_UNKNOWN;
 
         ID3D12Resource* uploadBuffer = NULL;
-        HRESULT hr = g_pd3dDevice->CreateCommittedResource(&props, D3D12_HEAP_FLAG_NONE, &desc,
-            D3D12_RESOURCE_STATE_GENERIC_READ, NULL, IID_PPV_ARGS(&uploadBuffer));
+        D3D12MA::Allocation* uploadBufferAllocation = NULL;
+
+        allocDesc.HeapType = D3D12_HEAP_TYPE_UPLOAD;
+
+        HRESULT hr = globalGPUAllocator->CreateResource( &allocDesc, &desc, D3D12_RESOURCE_STATE_GENERIC_READ, NULL, &uploadBufferAllocation, IID_PPV_ARGS( &uploadBuffer ) );
         IM_ASSERT(SUCCEEDED(hr));
 
         void* mapped = NULL;
@@ -379,6 +400,7 @@ static void ImGui_ImplDX12_CreateFontsTexture()
         CloseHandle(event);
         fence->Release();
         uploadBuffer->Release();
+        uploadBufferAllocation->Release();
 
         // Create texture view
         D3D12_SHADER_RESOURCE_VIEW_DESC srvDesc;
@@ -390,7 +412,9 @@ static void ImGui_ImplDX12_CreateFontsTexture()
         srvDesc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
         g_pd3dDevice->CreateShaderResourceView(pTexture, &srvDesc, g_hFontSrvCpuDescHandle);
         SafeRelease(g_pFontTextureResource);
+        SafeRelease(g_pFontTextureResourceAllocation);
         g_pFontTextureResource = pTexture;
+        g_pFontTextureResourceAllocation = pTextureAllocation;
     }
 
     // Store our identifier
@@ -612,6 +636,7 @@ void    ImGui_ImplDX12_InvalidateDeviceObjects()
     SafeRelease(g_pRootSignature);
     SafeRelease(g_pPipelineState);
     SafeRelease(g_pFontTextureResource);
+    SafeRelease(g_pFontTextureResourceAllocation);
 
     ImGuiIO& io = ImGui::GetIO();
     io.Fonts->TexID = NULL; // We copied g_pFontTextureView to io.Fonts->TexID so let's clear that as well.
@@ -621,6 +646,8 @@ void    ImGui_ImplDX12_InvalidateDeviceObjects()
         FrameResources* fr = &g_pFrameResources[i];
         SafeRelease(fr->IndexBuffer);
         SafeRelease(fr->VertexBuffer);
+        SafeRelease(fr->IndexBufferAllocation);
+        SafeRelease(fr->VertexBufferAllocation);
     }
 }
 
@@ -647,6 +674,8 @@ bool ImGui_ImplDX12_Init(ID3D12Device* device, int num_frames_in_flight, DXGI_FO
         FrameResources* fr = &g_pFrameResources[i];
         fr->IndexBuffer = NULL;
         fr->VertexBuffer = NULL;
+        fr->IndexBufferAllocation = NULL;
+        fr->VertexBufferAllocation = NULL;
         fr->IndexBufferSize = 10000;
         fr->VertexBufferSize = 5000;
     }

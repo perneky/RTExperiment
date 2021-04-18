@@ -5,6 +5,8 @@
 #include "Game/CameraEntity.h"
 #include "Platform/Window.h"
 #include "Render/Camera.h"
+#include "Render/RenderManager.h"
+#include "Render/Device.h"
 #include "UI/Editor/ToolWindow.h"
 
 namespace Sandbox
@@ -72,6 +74,16 @@ namespace Sandbox
       case 'E':        cameraMoveY   -= 1;    break;
       case VK_SHIFT:   cameraFastMode = true; break;
       case VK_CONTROL: cameraSlowMode = true; break;
+
+      case VK_HOME:
+        OutputDebugStringW( RenderManager::GetInstance().GetDevice().GetMemoryInfo( false ).data() );
+        OutputDebugStringW( L"\n" );
+        break;
+
+      case VK_END:
+        OutputDebugStringW( RenderManager::GetInstance().GetDevice().GetMemoryInfo( true ).data() );
+        OutputDebugStringW( L"\n" );
+        break;
       }
     } ) );
     windowSignalsForCamera.emplace_back( window.SigKeyUp.Connect( []( int key )

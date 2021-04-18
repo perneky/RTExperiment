@@ -4,6 +4,9 @@
 #include "../Types.h"
 
 class D3DCommandAllocator;
+struct AllocatedResource;
+
+namespace D3D12MA { class Allocation; }
 
 class D3DCommandList : public CommandList
 {
@@ -69,7 +72,8 @@ public:
   void RegisterEndFrameCallback( EndFrameCallback&& callback ) override;
   std::vector< EndFrameCallback > TakeEndFrameCallbacks() override;
 
-  void HoldResource( ID3D12Resource2* d3dResource );
+  void HoldResource( D3D12MA::Allocation* allocation );
+  void HoldResource( AllocatedResource&& allocation );
 
   ID3D12GraphicsCommandList6* GetD3DGraphicsCommandList();
 

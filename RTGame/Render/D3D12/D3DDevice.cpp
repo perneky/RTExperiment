@@ -17,6 +17,7 @@
 #include "Common/Files.h"
 #include "../ShaderValues.h"
 #include "../DearImGui/imgui_impl_dx12.h"
+#include "../D3D12MemoryAllocator/D3D12MemAlloc.h"
 
 struct D3DDeviceHelper
 {
@@ -27,14 +28,14 @@ struct D3DDeviceHelper
     UINT64 intermediateSize;
     d3dDevice.GetD3DDevice()->GetCopyableFootprints( &resourceDesc, 0, numSubresources, 0, nullptr, nullptr, nullptr, &intermediateSize );
 
-    CComPtr< ID3D12Resource > d3dUploadResource = AllocateUploadBuffer( d3dDevice.GetD3DDevice(), intermediateSize );
+    auto uploadResource = AllocateUploadBuffer( d3dDevice, intermediateSize );
 
     auto oldState = d3dResource.GetCurrentResourceState();
     commandList.ChangeResourceState( d3dResource, ResourceStateBits::CopyDestination );
 
     auto uploadResult = UpdateSubresources( static_cast< D3DCommandList* >( &commandList )->GetD3DGraphicsCommandList()
                                           , d3dResource.GetD3DResource()
-                                          , d3dUploadResource
+                                          , *uploadResource
                                           , 0
                                           , 0
                                           , numSubresources
@@ -46,13 +47,29 @@ struct D3DDeviceHelper
 
     commandList.ChangeResourceState( d3dResource, ResourceStateBits::NonPixelShaderInput | ResourceStateBits::PixelShaderInput );
 
-    CComPtr< ID3D12Resource2 > d3dUploadResource2;
-    d3dUploadResource.QueryInterface( &d3dUploadResource2 );
-    commandList.HoldResource( std::unique_ptr< Resource >( new D3DResource( d3dUploadResource2, ResourceStateBits::Common ) ) );
+    commandList.HoldResource( std::unique_ptr< Resource >( new D3DResource( std::move( uploadResource ), ResourceStateBits::Common ) ) );
   }
 };
 
 constexpr int mipmapGenHeapSize = 200;
+
+static const GUID allocationSlot = { 1546146, 1234, 9857, { 123, 45, 23, 76, 45, 98, 56, 75 } };
+
+D3D12MA::Allocator* globalGPUAllocator = nullptr;
+void SetAllocationToD3DResource( ID3D12Resource* d3dResource, D3D12MA::Allocation* allocation )
+{
+  d3dResource->SetPrivateData( allocationSlot, sizeof( allocation ), &allocation );
+}
+D3D12MA::Allocation* GetAllocationFromD3DResource( ID3D12Resource* d3dResource )
+{
+  D3D12MA::Allocation* allocation = nullptr;
+
+  UINT dataSize = sizeof( allocation );
+  auto result = d3dResource->GetPrivateData( allocationSlot, &dataSize, &allocation );
+  assert( SUCCEEDED( result ) && dataSize == sizeof( allocation ) );
+
+  return allocation;
+}
 
 D3DDevice::D3DDevice( D3DAdapter& adapter )
 {
@@ -90,6 +107,18 @@ D3DDevice::D3DDevice( D3DAdapter& adapter )
     infoQueue->PushStorageFilter( &newFilter );
   }
 #endif // DEBUG_GFX_API
+
+  {
+    D3D12MA::ALLOCATOR_DESC desc = {};
+    desc.Flags    = D3D12MA::ALLOCATOR_FLAG_NONE;
+    desc.pDevice  = d3dDevice;
+    desc.pAdapter = adapter.GetDXGIAdapter();
+
+    if FAILED( D3D12MA::CreateAllocator( &desc, &allocator ) )
+      return;
+
+    globalGPUAllocator = allocator;
+  }
 
   descriptorHeaps[ D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV ].reset( new D3DDescriptorHeap( *this, VaryingResourceBaseSlot, CBVHeapSize, D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, L"ShaderResourceHeap" ) );
   descriptorHeaps[ D3D12_DESCRIPTOR_HEAP_TYPE_SAMPLER     ].reset( new D3DDescriptorHeap( *this, 0, 20, D3D12_DESCRIPTOR_HEAP_TYPE_SAMPLER, L"SamplerHeap" ) );
@@ -151,6 +180,17 @@ void D3DDevice::UpdateSamplers()
 D3DDevice::~D3DDevice()
 {
   ImGui_ImplDX12_Shutdown();
+
+  for ( auto& heap : descriptorHeaps )
+    heap.reset();
+
+  d3dRTScartchBuffer.Release();
+  d3dDearImGuiHeap.Release();
+  d3dmipmapGenHeap.Release();
+  mipmapGenComputeShader.reset();
+
+  allocator->Release();
+  globalGPUAllocator = allocator;
 }
 
 std::unique_ptr< CommandQueue > D3DDevice::CreateCommandQueue( CommandQueueType type )
@@ -183,9 +223,9 @@ std::unique_ptr< RTBottomLevelAccelerator > D3DDevice::CreateRTBottomLevelAccele
   return std::unique_ptr< RTBottomLevelAccelerator >( new D3DRTBottomLevelAccelerator( *this, *static_cast< D3DCommandList* >( &commandList ), *static_cast< D3DResource* >( &vertexBuffer ), vertexCount, positionElementSize, vertexStride, *static_cast< D3DResource* >( &indexBuffer ), indexSize, indexCount, allowUpdate, fastBuild ) );
 }
 
-std::unique_ptr< RTTopLevelAccelerator > D3DDevice::CreateRTTopLevelAccelerator( CommandList& commandList, std::vector< RTInstance > instances, std::vector< SubAccel > areas )
+std::unique_ptr< RTTopLevelAccelerator > D3DDevice::CreateRTTopLevelAccelerator( CommandList& commandList, std::vector< RTInstance > instances )
 {
-  return std::unique_ptr< RTTopLevelAccelerator >( new D3DRTTopLevelAccelerator( *this, *static_cast< D3DCommandList* >( &commandList ), std::move( instances ), std::move( areas ) ) );
+  return std::unique_ptr< RTTopLevelAccelerator >( new D3DRTTopLevelAccelerator( *this, *static_cast< D3DCommandList* >( &commandList ), std::move( instances ) ) );
 }
 
 std::unique_ptr< Resource > D3DDevice::CreateVolumeTexture( CommandList& commandList, int width, int height, int depth, const void* data, int dataSize, PixelFormat format, int slot, std::optional< int > uavSlot, const wchar_t* debugName )
@@ -228,27 +268,27 @@ std::unique_ptr<GPUTimeQuery> D3DDevice::CreateGPUTimeQuery()
 
 std::unique_ptr<Resource> D3DDevice::Load2DTexture( CommandList& commandList, std::vector< uint8_t >&& textureData, int slot, const wchar_t* debugName, void* customHeap )
 {
-  CComPtr< ID3D12Resource > d3dResource;
+  CComPtr< ID3D12Resource > resourceLoader;
   std::vector< D3D12_SUBRESOURCE_DATA > d3dSubresources;
   bool isCubeMap;
-  if FAILED( LoadDDSTextureFromMemory( d3dDevice, textureData.data(), textureData.size(), &d3dResource, d3dSubresources, 0, nullptr, &isCubeMap ) )
+  if FAILED( LoadDDSTextureFromMemory( d3dDevice, textureData.data(), textureData.size(), &resourceLoader, d3dSubresources, 0, nullptr, &isCubeMap ) )
     return nullptr;
 
+  AllocatedResource allocatedResource = AllocatedResource( GetAllocationFromD3DResource( resourceLoader ) );
+
   if ( debugName )
-    d3dResource->SetName( debugName );
+    allocatedResource->SetName( debugName );
 
   assert( !isCubeMap );
   if ( isCubeMap )
     return nullptr;
 
-  D3D12_RESOURCE_DESC desc = d3dResource->GetDesc();
+  D3D12_RESOURCE_DESC desc = allocatedResource->GetDesc();
   assert( desc.Dimension == D3D12_RESOURCE_DIMENSION_TEXTURE2D );
   if( desc.Dimension != D3D12_RESOURCE_DIMENSION_TEXTURE2D )
     return nullptr;
 
-  CComPtr< ID3D12Resource2 > d3dResource2;
-  d3dResource.QueryInterface( &d3dResource2 );
-  std::unique_ptr< D3DResource > resource( new D3DResource( d3dResource2, ResourceStateBits::CopyDestination ) );
+  std::unique_ptr< D3DResource > resource( new D3DResource( std::move( allocatedResource ), ResourceStateBits::CopyDestination ) );
 
   if ( customHeap )
   {
@@ -270,7 +310,7 @@ std::unique_ptr<Resource> D3DDevice::Load2DTexture( CommandList& commandList, st
     gpuHandle = d3dHeap->GetGPUDescriptorHandleForHeapStart();
     gpuHandle.ptr += slot * handleSize;
 
-    d3dDevice->CreateShaderResourceView( d3dResource2, &desc, cpuHandle );
+    d3dDevice->CreateShaderResourceView( resource->GetD3DResource(), &desc, cpuHandle );
 
     std::unique_ptr< D3DResourceDescriptor > descriptor( new D3DResourceDescriptor( cpuHandle, gpuHandle ) );
     resource->AttachResourceDescriptor( ResourceDescriptorType::ShaderResourceView, std::move( descriptor ) );
@@ -289,28 +329,29 @@ std::unique_ptr<Resource> D3DDevice::Load2DTexture( CommandList& commandList, st
 
 std::unique_ptr< Resource > D3DDevice::LoadCubeTexture( CommandList& commandList, std::vector< uint8_t >&& textureData, int slot, const wchar_t* debugName )
 {
-  CComPtr< ID3D12Resource > d3dResource;
+  CComPtr< ID3D12Resource > resourceLoader;
   std::vector< D3D12_SUBRESOURCE_DATA > d3dSubresources;
   bool isCubeMap;
-  if FAILED( LoadDDSTextureFromMemory( d3dDevice, textureData.data(), textureData.size(), &d3dResource, d3dSubresources, 0, nullptr, &isCubeMap ) )
+  if FAILED( LoadDDSTextureFromMemory( d3dDevice, textureData.data(), textureData.size(), &resourceLoader, d3dSubresources, 0, nullptr, &isCubeMap ) )
     return nullptr;
 
+  AllocatedResource allocatedResource = AllocatedResource( GetAllocationFromD3DResource( resourceLoader ) );
+
   if ( debugName )
-    d3dResource->SetName( debugName );
+    allocatedResource->SetName( debugName );
 
   assert( isCubeMap );
   if ( !isCubeMap )
     return nullptr;
 
-  CComPtr< ID3D12Resource2 > d3dResource2;
-  d3dResource.QueryInterface( &d3dResource2 );
-  std::unique_ptr< D3DResource > resource( new D3DResource( d3dResource2, ResourceStateBits::CopyDestination ) );
+  auto desc = allocatedResource->GetDesc();
+
+  std::unique_ptr< D3DResource > resource( new D3DResource( std::move( allocatedResource ), ResourceStateBits::CopyDestination ) );
 
   auto& heap = descriptorHeaps[ D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV ];
   auto  descriptor = heap->RequestDescriptor( *this, ResourceDescriptorType::ShaderResourceView, slot, *resource, 0 );
   resource->AttachResourceDescriptor( ResourceDescriptorType::ShaderResourceView, std::move( descriptor ) );
 
-  D3D12_RESOURCE_DESC desc = d3dResource->GetDesc();
   assert( desc.Dimension == D3D12_RESOURCE_DIMENSION_TEXTURE2D );
   if( desc.Dimension != D3D12_RESOURCE_DIMENSION_TEXTURE2D )
     return nullptr;
@@ -349,18 +390,24 @@ void D3DDevice::SetTextureLODBias( float bias )
   UpdateSamplers();
 }
 
-ID3D12Resource2* D3DDevice::RequestD3DRTScartchBuffer( D3DCommandList& commandList, int size )
+void D3DDevice::StartNewFrame()
+{
+  static int frame = 0;
+  allocator->SetCurrentFrameIndex( ++frame );
+}
+
+ID3D12Resource* D3DDevice::RequestD3DRTScartchBuffer( D3DCommandList& commandList, int size )
 {
   if ( d3dRTScratchBufferSize < size )
   {
     if ( d3dRTScartchBuffer )
-      commandList.HoldResource( d3dRTScartchBuffer );
+      commandList.HoldResource( std::move( d3dRTScartchBuffer ) );
 
-    d3dRTScartchBuffer     = AllocateUAVBuffer( d3dDevice, size, D3D12_RESOURCE_STATE_UNORDERED_ACCESS, L"RTScratch" );
-    d3dRTScratchBufferSize = int( d3dRTScartchBuffer->GetDesc1().Width );
+    d3dRTScartchBuffer     = AllocateUAVBuffer( *this, size, ResourceStateBits::UnorderedAccess, L"RTScratch" );
+    d3dRTScratchBufferSize = int( d3dRTScartchBuffer->GetDesc().Width );
   }
 
-  return d3dRTScartchBuffer;
+  return *d3dRTScartchBuffer;
 }
 
 ID3D12DeviceX* D3DDevice::GetD3DDevice()
@@ -376,6 +423,27 @@ ID3D12DescriptorHeap* D3DDevice::GetD3DDescriptorHeap( D3D12_DESCRIPTOR_HEAP_TYP
 ID3D12DescriptorHeap* D3DDevice::GetD3DDearImGuiHeap()
 {
   return d3dDearImGuiHeap;
+}
+
+AllocatedResource D3DDevice::AllocateResource( HeapType heapType, const D3D12_RESOURCE_DESC& desc, ResourceState resourceState, const D3D12_CLEAR_VALUE* optimizedClearValue, bool committed )
+{
+  D3D12MA::Allocation* allocation = nullptr;
+  ID3D12Resource2*     resource   = nullptr;
+
+  D3D12MA::ALLOCATION_DESC allocationDesc = {};
+  allocationDesc.HeapType = Convert( heapType );
+  allocationDesc.Flags    = committed ? D3D12MA::ALLOCATION_FLAG_COMMITTED : D3D12MA::ALLOCATION_FLAG_NONE;
+
+  allocator->CreateResource( &allocationDesc
+                           , &desc
+                           , Convert( resourceState )
+                           , optimizedClearValue
+                           , &allocation
+                           , IID_PPV_ARGS( &resource ) );
+
+  resource->Release(); // it is held by the allocation
+
+  return AllocatedResource( allocation );
 }
 
 ID3D12RootSignature* D3DDevice::GetMipMapGenD3DRootSignature()
@@ -410,6 +478,15 @@ void* D3DDevice::GetDearImGuiHeap()
   return GetD3DDearImGuiHeap();
 }
 
+std::wstring D3DDevice::GetMemoryInfo( bool includeIndividualAllocations )
+{
+  wchar_t* stats = nullptr;
+  allocator->BuildStatsString( &stats, includeIndividualAllocations );
+  std::wstring result( stats );
+  allocator->FreeStatsString( stats );
+  return result;
+}
+
 std::unique_ptr< D3DResource > D3DDevice::CreateTexture( CommandList& commandList, int width, int height, int depth, const void* data, int dataSize, PixelFormat format, bool renderable, int slot, std::optional< int > uavSlot, bool mipLevels, const wchar_t* debugName )
 {
   bool isVolumeTexture = depth > 1;
@@ -432,8 +509,6 @@ std::unique_ptr< D3DResource > D3DDevice::CreateTexture( CommandList& commandLis
     flags = D3D12_RESOURCE_FLAG_ALLOW_RENDER_TARGET;
   if ( uavSlot.has_value() )
     flags |= D3D12_RESOURCE_FLAG_ALLOW_UNORDERED_ACCESS;
-
-  CComPtr< ID3D12Resource2 > d3dResource;
 
   D3D12_HEAP_PROPERTIES heapProperties = {};
   heapProperties.Type                 = D3D12_HEAP_TYPE_DEFAULT;
@@ -467,17 +542,13 @@ std::unique_ptr< D3DResource > D3DDevice::CreateTexture( CommandList& commandLis
     optimizedClearValue.Color[ 3 ] = 0;
   }
 
-  d3dDevice->CreateCommittedResource( &heapProperties
-                                    , D3D12_HEAP_FLAG_NONE
-                                    , &desc
-                                    , Convert( initialState )
-                                    , IsDepthFormat( format ) || renderable ? &optimizedClearValue : nullptr
-                                    , IID_PPV_ARGS( &d3dResource ) );
+  bool committed = ( renderable || IsDepthFormat( format ) ) && width >= 1024 && height >= 1024;
 
-  if ( debugName )
-    d3dResource->SetName( debugName );
+  auto allocatedResource = AllocateResource( HeapType::Default, desc, initialState, IsDepthFormat( format ) || renderable ? &optimizedClearValue : nullptr, committed );
+  if ( allocatedResource )
+    allocatedResource->SetName( debugName );
 
-  std::unique_ptr< D3DResource > resource( new D3DResource( d3dResource, initialState ) );
+  std::unique_ptr< D3DResource > resource( new D3DResource( std::move( allocatedResource ), initialState ) );
 
   auto& heap       = descriptorHeaps[ D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV ];
   auto  descriptor = heap->RequestDescriptor( *this, ResourceDescriptorType::ShaderResourceView, slot, *resource, 0 );
@@ -504,7 +575,7 @@ std::unique_ptr< D3DResource > D3DDevice::CreateTexture( CommandList& commandLis
 
     D3D12_RESOURCE_BARRIER barrier = {};
     barrier.Type                 = D3D12_RESOURCE_BARRIER_TYPE_UAV;
-    barrier.Transition.pResource = d3dResource;
+    barrier.Transition.pResource = resource->GetD3DResource();
 
     static_cast< D3DCommandList* >( &commandList )->GetD3DGraphicsCommandList()->ResourceBarrier( 1, &barrier );
   }

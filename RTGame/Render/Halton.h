@@ -12,7 +12,7 @@ inline int i4vec_sum( int n, int* a )
   return sum;
 }
 
-inline float* halton_base( int i, int m, int* b )
+inline float* halton_base( int i, int m, const int* b )
 
 /******************************************************************************
   Parameters:

@@ -3,10 +3,9 @@
 #include "../../ShaderValues.h"
 #include "MaterialUtils.hlsli"
 #include "RTUtils.hlsli"
+#include "TraceDirectLighting.hlsli"
 
 static const float giSampleMipLevel = 2;
-
-float3 TraceDirectLighting( float3 albedo, float roughness, float metallic, bool isSpecular, float3 worldPosition, float3 worldNormal, float3 cameraPosition, LightingEnvironmentParamsCB env, bool noScatter );
 
 int FilterGIProbes( float3 worldPosition, float3 worldNormal, FrameParamsCB frameParams, inout NearestProbes closest )
 {
@@ -250,16 +249,14 @@ float3 CalcGI( HitGeometry hitGeom, LightingEnvironmentParamsCB env, FrameParams
   float  metallic           = SampleMetallic( hitGeom.materialIndex, hitGeom.texcoord, giSampleMipLevel );
   bool   isSpecular         = IsSpecularMaterial( hitGeom.materialIndex );
 
-  float3 directLighting = TraceDirectLighting( surfaceAlbedoAlpha.rgb, roughness, metallic, isSpecular, hitGeom.worldPosition, hitGeom.worldNormal, frameParams.cameraPosition.xyz, env, true );
-
-  return directLighting;
+  return TraceDirectLighting( surfaceAlbedoAlpha.rgb, roughness, metallic, isSpecular, hitGeom.worldPosition, hitGeom.worldNormal, frameParams.cameraPosition.xyz, env, true );
 }
 
 float3 TraceGI( float3 worldPosition, float3 worldDirection, LightingEnvironmentParamsCB env, FrameParamsCB frameParams )
 {
   float       visibility;
   HitGeometry hitGeom = (HitGeometry)0;
-
+  
   [branch]
   if ( TraceOpaquePosition( worldPosition, worldDirection, visibility, hitGeom ) )
     return CalcGI( hitGeom, env, frameParams ) * visibility;

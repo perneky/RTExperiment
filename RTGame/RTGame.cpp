@@ -341,6 +341,8 @@ int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmd
         nextFrameFenceValue = renderManager.Present( fenceValue );
 
         renderManager.TidyUp();
+
+        renderManager.GetDevice().StartNewFrame();
       }
 
       renderManager.IdleGPU();

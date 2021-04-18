@@ -10,7 +10,6 @@ public:
   ~D3DDescriptorHeap();
 
   std::unique_ptr< ResourceDescriptor > RequestDescriptor( Device& device, ResourceDescriptorType type, int slot, Resource& resource, int bufferElementSize, int mipLevel = 0 ) override;
-  std::unique_ptr< ResourceDescriptor > RequestDescriptor( Device& device, int slot, RTTopLevelAccelerator& accel ) override;
 
   int GetDescriptorSize() const override;
 

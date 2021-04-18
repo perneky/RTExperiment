@@ -2,7 +2,6 @@
 #include "D3DDescriptorHeap.h"
 #include "D3DDevice.h"
 #include "D3DResource.h"
-#include "D3DRTTopLevelAccelerator.h"
 #include "Conversion.h"
 
 D3DResourceDescriptor::D3DResourceDescriptor( D3DDevice& device, D3DDescriptorHeap& heap, ResourceDescriptorType type, int slot, D3DResource& resource, int mipLevel, int bufferElementSize, D3D12_CPU_DESCRIPTOR_HANDLE d3dCPUHandle, D3D12_GPU_DESCRIPTOR_HANDLE d3dGPUHandle )
@@ -22,7 +21,7 @@ D3DResourceDescriptor::D3DResourceDescriptor( D3DDevice& device, D3DDescriptorHe
   {
     D3D12_CONSTANT_BUFFER_VIEW_DESC desc;
     desc.BufferLocation = resource.GetD3DResource()->GetGPUVirtualAddress();
-    desc.SizeInBytes    = UINT( resource.GetD3DResource()->GetDesc1().Width );
+    desc.SizeInBytes    = UINT( resource.GetD3DResource()->GetDesc().Width );
     device.GetD3DDevice()->CreateConstantBufferView( &desc, d3dCPUHandle );
     break;
   }
@@ -111,17 +110,6 @@ D3DResourceDescriptor::D3DResourceDescriptor( D3DDevice& device, D3DDescriptorHe
     break;
   }
   }
-}
-
-D3DResourceDescriptor::D3DResourceDescriptor( D3DDevice& device, D3DDescriptorHeap& heap, int slot, D3DRTTopLevelAccelerator& accel, D3D12_CPU_DESCRIPTOR_HANDLE d3dCPUHandle, D3D12_GPU_DESCRIPTOR_HANDLE d3dGPUHandle )
-{
-  D3D12_SHADER_RESOURCE_VIEW_DESC desc = {};
-  desc.Format                                   = DXGI_FORMAT_UNKNOWN;
-  desc.ViewDimension                            = D3D12_SRV_DIMENSION_RAYTRACING_ACCELERATION_STRUCTURE;
-  desc.Shader4ComponentMapping                  = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
-  desc.RaytracingAccelerationStructure.Location = accel.GetD3DUAVBuffer()->GetGPUVirtualAddress();
-
-  device.GetD3DDevice()->CreateShaderResourceView( nullptr, &desc, d3dCPUHandle );
 }
 
 D3DResourceDescriptor::D3DResourceDescriptor( D3D12_CPU_DESCRIPTOR_HANDLE d3dCPUHandle )

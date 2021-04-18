@@ -5,7 +5,6 @@
 #include "Common/Finally.h"
 
 class D3DResource;
-class D3DRTTopLevelAccelerator;
 
 class D3DResourceDescriptor : public ResourceDescriptor
 {
@@ -23,7 +22,6 @@ public:
 
 private:
   D3DResourceDescriptor( D3DDevice& device, D3DDescriptorHeap& heap, ResourceDescriptorType type, int slot, D3DResource& resource, int mipLevel, int bufferElementSize, D3D12_CPU_DESCRIPTOR_HANDLE d3dCPUHandle, D3D12_GPU_DESCRIPTOR_HANDLE d3dGPUHandle );
-  D3DResourceDescriptor( D3DDevice& device, D3DDescriptorHeap& heap, int slot, D3DRTTopLevelAccelerator& accel, D3D12_CPU_DESCRIPTOR_HANDLE d3dCPUHandle, D3D12_GPU_DESCRIPTOR_HANDLE d3dGPUHandle );
   D3DResourceDescriptor( D3D12_CPU_DESCRIPTOR_HANDLE d3dCPUHandle );
   D3DResourceDescriptor( D3D12_GPU_DESCRIPTOR_HANDLE d3dGPUHandle );
   D3DResourceDescriptor( D3D12_CPU_DESCRIPTOR_HANDLE d3dCPUHandle, D3D12_GPU_DESCRIPTOR_HANDLE d3dGPUHandle );

@@ -86,7 +86,7 @@ HitGeometry TraceRay( float3 origin, float3 direction, float tmin, float tmax )
   ray.TMin      = tmin;
   ray.TMax      = tmax;
 
-  query.TraceRayInline( rayTracingScenes[ 0 ], QueryFlags, 0xFF, ray );
+  query.TraceRayInline( rayTracingScene, QueryFlags, 0xFF, ray );
   query.Proceed();
   
   [branch]
@@ -113,7 +113,7 @@ bool CanAccess( float3 origin, float3 direction, float tmin, float tmax )
   ray.TMin      = tmin;
   ray.TMax      = tmax;
 
-  query.TraceRayInline( rayTracingScenes[ 0 ], QueryFlags, 0xFF, ray );
+  query.TraceRayInline( rayTracingScene, QueryFlags, 0xFF, ray );
   query.Proceed();
 
   return query.CommittedStatus() != COMMITTED_TRIANGLE_HIT;

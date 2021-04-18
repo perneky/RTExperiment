@@ -18,14 +18,15 @@
                        "                 SRV( t4, offset = " EngineVolResourceBaseSlotStr  ", numDescriptors = " EngineVolResourceCountStr  ", flags = DESCRIPTORS_VOLATILE, space = 4 )," \
                        "                 SRV( t5, offset = " CBVIBBaseSlotStr              ", numDescriptors = " CBVIBCountStr              ", flags = DESCRIPTORS_VOLATILE, space = 5 )," \
                        "                 SRV( t6, offset = " CBVVBBaseSlotStr              ", numDescriptors = " CBVVBCountStr              ", flags = DESCRIPTORS_VOLATILE, space = 6 ) )," \
+                       "SRV( t7, space = 7, flags = DATA_VOLATILE )," \
                        "StaticSampler( s0," \
-                       "               filter = FILTER_ANISOTROPIC," \
+                       "               filter = FILTER_MIN_MAG_LINEAR_MIP_POINT," \
                        "               addressU = TEXTURE_ADDRESS_WRAP," \
                        "               addressV = TEXTURE_ADDRESS_WRAP," \
                        "               addressW = TEXTURE_ADDRESS_WRAP," \
                        "               maxAnisotropy = 16 )," \
                        "StaticSampler( s1," \
-                       "               filter = FILTER_ANISOTROPIC," \
+                       "               filter = FILTER_MIN_MAG_LINEAR_MIP_POINT," \
                        "               addressU = TEXTURE_ADDRESS_CLAMP," \
                        "               addressV = TEXTURE_ADDRESS_CLAMP," \
                        "               addressW = TEXTURE_ADDRESS_CLAMP," \
@@ -67,8 +68,6 @@ ConstantBuffer< HaltonSequenceCB > haltonSequence : register( b5 );
 
 RWTexture3D< float4 > destination : register( u0 );
 
-RaytracingAccelerationStructure rayTracingScenes[] : register( t0, space0 );
-
 Texture2D    allEngineTextures[]   : register( t1, space1 );
 Texture2D    allMaterialTextures[] : register( t2, space2 );
 TextureCube  allCubeTextures[]     : register( t3, space3 );
@@ -77,6 +76,8 @@ SamplerState wrapSampler           : register( s0 );
 SamplerState clampSampler          : register( s1 );
 SamplerState noiseSampler          : register( s2 );
 SamplerState pointClampSampler     : register( s3 );
+
+RaytracingAccelerationStructure rayTracingScene : register( t7, space7 );
 
 ByteAddressBuffer                  meshIndices [ MaxMeshCount ] : register( t5, space5 );
 StructuredBuffer< RTVertexFormat > meshVertices[ MaxMeshCount ] : register( t6, space6 );
@@ -121,10 +122,7 @@ void main( uint3 groupThreadID : SV_GroupThreadID, uint3 groupId : SV_GroupID )
 
   float3 randomOffset = float3( 3, 7, 13 ) * ( float( frameParams.frameIndex ) / RandomTextureSize );
 
-  float3 gi = TraceGI( worldPosition
-                     , worldNormal
-                     , lightingEnvironmentParams
-                     , frameParams );
+  float3 gi = TraceGI( worldPosition, worldNormal, lightingEnvironmentParams, frameParams );
   
   GroupMemoryBarrierWithGroupSync();
 
@@ -153,16 +151,10 @@ void main( uint3 groupThreadID : SV_GroupThreadID, uint3 groupId : SV_GroupID )
         continue;
 
       HitGeometry hitGeom = TraceRay( worldPosition, nDir[ rayIx ] * GIProbeSpacing, castMinDistance, 1 );
-
+      
       [branch]
-      if ( hitGeom.t >= 0 )
-      {
-        float surfaceAlpha = 1;
-
-        [branch]
-        if ( IsOpaqueMaterial( hitGeom.materialIndex ) )
-          continue;
-      }
+      if ( hitGeom.t >= 0 && IsOpaqueMaterial( hitGeom.materialIndex ) )
+        continue;
 
       int probeIx = GIProbeIndex( nix, frameParams );
       neighbours += all3DTextures[ prevFrameParams.giSourceIndex ].Load( int4( nix, 0 ) ).rgb * 0.5;

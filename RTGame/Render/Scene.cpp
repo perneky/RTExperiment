@@ -414,10 +414,14 @@ std::pair< Resource&, Resource& > Scene::Render( CommandList& commandList, const
 
   CreateBRDFLUTTexture( commandList );
 
+  commandList.BeginEvent( 0, L"Scene::Render(All mesh params)" );
+
   auto allMeshParamsSize = int( sizeof( MeshParamsCB ) * allMeshParams.size() );
   auto uploadAllMeshParamsBuffer = RenderManager::GetInstance().GetUploadConstantBufferForResource( *allMeshParamsBuffer );
   commandList.UploadBufferResource( std::move( uploadAllMeshParamsBuffer ), *allMeshParamsBuffer, allMeshParams.data(), allMeshParamsSize );
   commandList.ChangeResourceState( *allMeshParamsBuffer, ResourceStateBits::NonPixelShaderInput | ResourceStateBits::PixelShaderInput );
+
+  commandList.EndEvent();
 
   if ( giProbeInstancesDirty )
   {
@@ -457,7 +461,8 @@ std::pair< Resource&, Resource& > Scene::Render( CommandList& commandList, const
     commandList.SetConstantBuffer( 3, *lightingConstantBuffer );
     commandList.SetConstantBuffer( 5, *haltonSequenceBuffer );
     commandList.SetDescriptorHeap( 6, renderManager.GetShaderResourceHeap(), 0 );
-    commandList.SetDescriptorHeap( 7, renderManager.GetSamplerHeap(), 0 );
+    commandList.SetRayTracingScene( 7, *rtScene );
+    commandList.SetDescriptorHeap( 8, renderManager.GetSamplerHeap(), 0 );
 
     renderManager.BindAllMaterials( commandList, 4 );
   };
@@ -492,6 +497,7 @@ std::pair< Resource&, Resource& > Scene::Render( CommandList& commandList, const
     commandList.SetComputeConstantBuffer( 5, *haltonSequenceBuffer );
     commandList.SetComputeResource( 6, *giProbeTextures[ currentGISource ]->GetResourceDescriptor( ResourceDescriptorType::UnorderedAccessView ) );
     commandList.SetComputeTextureHeap( 7, renderManager.GetShaderResourceHeap(), 0 );
+    commandList.SetComputeRayTracingScene( 8, *rtScene );
 
     if ( giTimer->GetStatus() == MeasureCPUTime::Status::Stopped )
     {
@@ -500,9 +506,9 @@ std::pair< Resource&, Resource& > Scene::Render( CommandList& commandList, const
       {
         giProbeUpdatePerFrame += giTime > giProbeUpdatePerFrameTimeBudget  ? -10 : 10;
 
-        static char giTimeMessage[ 1024 ] = {};
-        sprintf_s( giTimeMessage, "giProbeUpdatePerFrame: %d, time: %f\n", giProbeUpdatePerFrame, giTime );
-        OutputDebugStringA( giTimeMessage );
+        // static char giTimeMessage[ 1024 ] = {};
+        // sprintf_s( giTimeMessage, "giProbeUpdatePerFrame: %d, time: %f\n", giProbeUpdatePerFrame, giTime );
+        // OutputDebugStringA( giTimeMessage );
       }
 
       if ( giTime >= 0 )
@@ -1302,6 +1308,8 @@ void Scene::UpdateRaytracing( CommandList& commandList )
   if ( rtState == RTState::Ready )
     return;
 
+  commandList.BeginEvent( 0, L"Scene::UpdateRaytracing()" );
+
   auto& device = RenderManager::GetInstance().GetDevice();
 
   std::vector< RTInstance > rtInstances;
@@ -1329,21 +1337,19 @@ void Scene::UpdateRaytracing( CommandList& commandList )
   }
 
   if ( rtState == RTState::TrianglesModified && rtScene )
-  {
-    if ( rtScene->Update( device, commandList, std::move( rtInstances ), {} ) )
-      rtDescriptor = device.GetShaderResourceHeap().RequestDescriptor( device, RTSceneBaseSlot, *rtScene );
-  }
+    rtScene->Update( device, commandList, std::move( rtInstances ) );
   else
-  {
-    rtScene = device.CreateRTTopLevelAccelerator( commandList, std::move( rtInstances ), {} );
-    rtDescriptor = device.GetShaderResourceHeap().RequestDescriptor( device, RTSceneBaseSlot, *rtScene );
-  }
+    rtScene = device.CreateRTTopLevelAccelerator( commandList, std::move( rtInstances ) );
 
   rtState = RTState::Ready;
+
+  commandList.EndEvent();
 }
 
 void Scene::RebuildLightCB( CommandList& commandList, const std::vector< LightCB >& lights )
 {
+  commandList.BeginEvent( 0, L"Scene::RebuildLightCB()" );
+
   lightingEnvironmentParams.lightCount       = 1;
   lightingEnvironmentParams.skyMaterial      = skyMaterial;
   lightingEnvironmentParams.sceneLights[ 0 ] = directionalLight;
@@ -1356,4 +1362,6 @@ void Scene::RebuildLightCB( CommandList& commandList, const std::vector< LightCB
 
   auto ub = RenderManager::GetInstance().GetUploadConstantBufferForResource( *lightingConstantBuffer );
   commandList.UploadBufferResource( std::move( ub ), *lightingConstantBuffer, &lightingEnvironmentParams, sizeof( LightingEnvironmentParamsCB ) );
+
+  commandList.EndEvent();
 }

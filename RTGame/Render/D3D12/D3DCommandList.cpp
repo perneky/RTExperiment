@@ -37,6 +37,9 @@ D3DCommandList::D3DCommandList( D3DDevice& device, D3DCommandAllocator& commandA
 {
   device.GetD3DDevice()->CreateCommandList( 1, Convert( queueType ), commandAllocator.GetD3DCommandAllocator(), nullptr, IID_PPV_ARGS( &d3dGraphicsCommandList ) );
   frequency = queueFrequency;
+
+  if ( queueType == CommandQueueType::Direct )
+    BindHeaps( device );
 }
 
 D3DCommandList::~D3DCommandList()
@@ -273,7 +276,7 @@ void D3DCommandList::Dispatch( int groupsX, int groupsY, int groupsZ )
 void D3DCommandList::GenerateMipmaps( Resource& resource )
 {
   auto d3dResource = static_cast< D3DResource* >( &resource )->GetD3DResource();
-  auto desc = d3dResource->GetDesc1();
+  auto desc = d3dResource->GetDesc();
   if ( desc.MipLevels == 1 )
     return;
 
@@ -493,9 +496,14 @@ std::vector< CommandList::EndFrameCallback > D3DCommandList::TakeEndFrameCallbac
   return std::move( endFrameCallbacks );
 }
 
-void D3DCommandList::HoldResource( ID3D12Resource2* d3dResource )
+void D3DCommandList::HoldResource( D3D12MA::Allocation* allocation )
 {
-  HoldResource( std::unique_ptr< Resource >( new D3DResource( d3dResource, ResourceStateBits::Common ) ) );
+  HoldResource( std::unique_ptr< Resource >( new D3DResource( allocation, ResourceStateBits::Common ) ) );
+}
+
+void D3DCommandList::HoldResource( AllocatedResource&& allocation )
+{
+  HoldResource( std::unique_ptr< Resource >( new D3DResource( std::forward< AllocatedResource >( allocation ), ResourceStateBits::Common ) ) );
 }
 
 ID3D12GraphicsCommandList6* D3DCommandList::GetD3DGraphicsCommandList()

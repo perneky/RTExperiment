@@ -64,7 +64,7 @@ void D3DSwapchain::BuildBackBufferTextures( Device& device )
 
     d3dDevice->CreateRenderTargetView( backBuffer, nullptr, rtvHandle );
 
-    frameData[ index ].texture.reset( new D3DResource( backBuffer, ResourceStateBits::Present ) );
+    frameData[ index ].texture.reset( new D3DResource( AllocatedResource( backBuffer ), ResourceStateBits::Present ) );
     frameData[ index ].texture->AttachResourceDescriptor( ResourceDescriptorType::RenderTargetView, std::unique_ptr< ResourceDescriptor >( new D3DResourceDescriptor( rtvHandle ) ) );
 
     rtvHandle.ptr += rtvDescriptorSize;

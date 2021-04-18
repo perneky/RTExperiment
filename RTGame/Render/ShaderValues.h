@@ -164,4 +164,7 @@ enum TextureSlots
 
 #define ENABLE_RAYTRACING_FOR_RENDER 1
 
+#define LightClippingThreshold 0.001
+#define OcclusionThreshold     0.002
+
 #endif // SHADER_VARS_H

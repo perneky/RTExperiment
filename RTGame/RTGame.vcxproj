@@ -106,6 +106,14 @@
     </CustomBuildStep>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\External\D3D12MemoryAllocator\D3D12MemAlloc.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">NotUsing</PrecompiledHeader>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </ForcedIncludeFiles>
+      <ForcedIncludeFiles Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+      </ForcedIncludeFiles>
+    </ClCompile>
     <ClCompile Include="..\External\DirectXTex\DDSTextureLoader\DDSTextureLoader12.cpp" />
     <ClCompile Include="..\External\tinyxml2\tinyxml2.cpp" />
     <ClCompile Include="Game\AnimationPlayer.cpp" />
@@ -156,6 +164,7 @@
     <ClCompile Include="UI\Editor\ToolWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\External\D3D12MemoryAllocator\D3D12MemAlloc.h" />
     <ClInclude Include="..\External\DirectXTex\DDSTextureLoader\DDSTextureLoader12.h" />
     <ClInclude Include="..\External\tinyxml2\tinyxml2.h" />
     <ClInclude Include="Common\Color.h" />
@@ -184,6 +193,7 @@
     <ClInclude Include="Render\CommandAllocator.h" />
     <ClInclude Include="Render\CommandQueue.h" />
     <ClInclude Include="Render\ComputeShader.h" />
+    <ClInclude Include="Render\D3D12\AllocatedResource.h" />
     <ClInclude Include="Render\D3D12\Conversion.h" />
     <ClInclude Include="Render\D3D12\D3DAdapter.h" />
     <ClInclude Include="Render\D3D12\D3DCommandAllocator.h" />
@@ -538,6 +548,7 @@
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">6.5</ShaderModel>
       <AllResourcesBound Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</AllResourcesBound>
       <AllResourcesBound Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</AllResourcesBound>
+      <DisableOptimizations Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</DisableOptimizations>
     </FxCompile>
     <FxCompile Include="Render\D3D12\Shaders\TranslucentModelPS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
@@ -565,6 +576,7 @@
     <None Include="Render\D3D12\Shaders\RootSignatures\Skybox.hlsli" />
     <None Include="Render\D3D12\Shaders\RootSignatures\Sprite.hlsli" />
     <None Include="Render\D3D12\Shaders\RTUtils.hlsli" />
+    <None Include="Render\D3D12\Shaders\TraceDirectLighting.hlsli" />
     <None Include="Render\D3D12\Shaders\Utils.hlsli" />
   </ItemGroup>
   <ItemGroup>

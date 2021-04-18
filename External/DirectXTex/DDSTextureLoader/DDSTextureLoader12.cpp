@@ -32,6 +32,11 @@
 #define D3DX12_NO_STATE_OBJECT_HELPERS
 #include "d3dx12.h"
 
+#include "../D3D12MemoryAllocator/D3D12MemAlloc.h"
+extern D3D12MA::Allocator* globalGPUAllocator;
+
+void SetAllocationToD3DResource( ID3D12Resource* d3dResource, D3D12MA::Allocation* allocation );
+
 using namespace DirectX;
 
 //--------------------------------------------------------------------------------------
@@ -1121,21 +1126,25 @@ namespace
         desc.SampleDesc.Quality = 0;
         desc.Dimension = resDim;
 
-        CD3DX12_HEAP_PROPERTIES defaultHeapProperties(D3D12_HEAP_TYPE_DEFAULT);
+        D3D12MA::ALLOCATION_DESC allocationDesc = {};
+        allocationDesc.HeapType = D3D12_HEAP_TYPE_DEFAULT;
 
-        hr = d3dDevice->CreateCommittedResource(
-            &defaultHeapProperties,
-            D3D12_HEAP_FLAG_NONE,
-            &desc,
-            D3D12_RESOURCE_STATE_COPY_DEST,
-            nullptr,
-            IID_ID3D12Resource, reinterpret_cast<void**>(texture));
+        D3D12MA::Allocation* allocation = nullptr;
+
+        hr = globalGPUAllocator->CreateResource( &allocationDesc
+                                               , &desc
+                                               , D3D12_RESOURCE_STATE_COPY_DEST
+                                               , nullptr
+                                               , &allocation
+                                               , IID_ID3D12Resource
+                                               , reinterpret_cast<void**>( texture ) );
         if (SUCCEEDED(hr))
         {
             assert(texture != nullptr && *texture != nullptr);
             _Analysis_assume_(texture != nullptr && *texture != nullptr);
 
             SetDebugObjectName(*texture, L"DDSTextureLoader");
+            SetAllocationToD3DResource( *texture, allocation );
         }
 
         return hr;

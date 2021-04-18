@@ -28,38 +28,45 @@ static int ToIndex( ResourceDescriptorType type )
   }
 }
 
-D3DResource::D3DResource( ID3D12Resource2* d3dResource, ResourceState initialState )
-  : resourceState( initialState )
-  , d3dResource( d3dResource )
+static ResourceType GetD3DResourceType( ID3D12Resource* d3dResource )
 {
-  auto desc = d3dResource->GetDesc1();
+  auto desc = d3dResource->GetDesc();
 
   switch ( desc.Dimension )
   {
-  case D3D12_RESOURCE_DIMENSION_BUFFER:    resourceType = ResourceType::ConstantBuffer; break;
-  case D3D12_RESOURCE_DIMENSION_TEXTURE1D: resourceType = ResourceType::Texture1D; break;
-  case D3D12_RESOURCE_DIMENSION_TEXTURE2D: resourceType = ResourceType::Texture2D; break;
-  case D3D12_RESOURCE_DIMENSION_TEXTURE3D: resourceType = ResourceType::Texture3D; break;
+  case D3D12_RESOURCE_DIMENSION_TEXTURE1D: return ResourceType::Texture1D; break;
+  case D3D12_RESOURCE_DIMENSION_TEXTURE2D: return ResourceType::Texture2D; break;
+  case D3D12_RESOURCE_DIMENSION_TEXTURE3D: return ResourceType::Texture3D; break;
+  case D3D12_RESOURCE_DIMENSION_BUFFER:
+  default:
+    return ResourceType::ConstantBuffer; break;
   }
-  
-  isUploadResource = false;
+}
+
+D3DResource::D3DResource( AllocatedResource&& allocation, ResourceState initialState )
+  : resourceState( initialState )
+  , d3dResource( std::forward< AllocatedResource >( allocation ) )
+{
+  resourceType = GetD3DResourceType( *d3dResource );
+
+  isUploadResource = false; // Is this always true?
+}
+
+D3DResource::D3DResource( D3D12MA::Allocation* allocation, ResourceState initialState )
+  : resourceState( initialState )
+  , d3dResource( allocation )
+{
+  resourceType = GetD3DResourceType( *d3dResource );
+
+  isUploadResource = false; // Is this always true?
 }
 
 D3DResource::D3DResource( D3DDevice& device, ResourceType resourceType, HeapType heapType, bool unorderedAccess, int size, int elementSize, const wchar_t* debugName )
   : resourceType( resourceType )
   , isUploadResource( heapType == HeapType::Upload )
 {
-  size = ( size + 255 ) & ~255;    // CB size is required to be 256-byte aligned.
-
   resourceState = heapType == HeapType::Upload ? ResourceStateBits::GenericRead : ( resourceType == ResourceType::IndexBuffer ? ResourceStateBits::IndexBuffer : ResourceStateBits::VertexOrConstantBuffer );
   resourceState = heapType == HeapType::Readback ? ResourceStateBits::CopyDestination : resourceState;
-
-  D3D12_HEAP_PROPERTIES streamHeapProperties = {};
-  streamHeapProperties.Type                  = Convert( heapType );
-  streamHeapProperties.CPUPageProperty       = D3D12_CPU_PAGE_PROPERTY_UNKNOWN;
-  streamHeapProperties.MemoryPoolPreference  = D3D12_MEMORY_POOL_UNKNOWN;
-  streamHeapProperties.CreationNodeMask      = 1;
-  streamHeapProperties.VisibleNodeMask       = 1;
 
   D3D12_RESOURCE_DESC streamResourceDesc = {};
   streamResourceDesc.Dimension          = D3D12_RESOURCE_DIMENSION_BUFFER;
@@ -74,14 +81,7 @@ D3DResource::D3DResource( D3DDevice& device, ResourceType resourceType, HeapType
   streamResourceDesc.Layout             = D3D12_TEXTURE_LAYOUT_ROW_MAJOR;
   streamResourceDesc.Flags              = unorderedAccess ? D3D12_RESOURCE_FLAG_ALLOW_UNORDERED_ACCESS : D3D12_RESOURCE_FLAG_NONE;
 
-  auto d3dDevice = static_cast< D3DDevice* >( &device )->GetD3DDevice();
-  d3dDevice->CreateCommittedResource( &streamHeapProperties
-                                    , D3D12_HEAP_FLAG_NONE
-                                    , &streamResourceDesc
-                                    , Convert( resourceState )
-                                    , nullptr
-                                    , IID_PPV_ARGS( &d3dResource ) );
-
+  d3dResource = static_cast<D3DDevice*>( &device )->AllocateResource( heapType, streamResourceDesc, resourceState );
   d3dResource->SetName( debugName );
 
   if ( resourceType == ResourceType::IndexBuffer )
@@ -150,27 +150,27 @@ bool D3DResource::IsUploadResource() const
 
 int D3DResource::GetBufferSize() const
 {
-  return int( d3dResource->GetDesc1().Width );
+  return int( d3dResource->GetDesc().Width );
 }
 
 int D3DResource::GetTextureWidth() const
 {
-  return int( d3dResource->GetDesc1().Width );
+  return int( d3dResource->GetDesc().Width );
 }
 
 int D3DResource::GetTextureHeight() const
 {
-  return int( d3dResource->GetDesc1().Height );
+  return int( d3dResource->GetDesc().Height );
 }
 
 int D3DResource::GetTextureMipLevels() const
 {
-  return int( d3dResource->GetDesc1().MipLevels );
+  return int( d3dResource->GetDesc().MipLevels );
 }
 
 PixelFormat D3DResource::GetTexturePixelFormat() const
 {
-  switch ( d3dResource->GetDesc1().Format )
+  switch ( d3dResource->GetDesc().Format )
   {
   case DXGI_FORMAT_R8_UNORM:
     return PixelFormat::R8UN;
@@ -207,9 +207,9 @@ void D3DResource::Unmap()
   d3dResource->Unmap( 0, nullptr );
 }
 
-ID3D12Resource2* D3DResource::GetD3DResource()
+ID3D12Resource* D3DResource::GetD3DResource()
 {
-  return d3dResource;
+  return *d3dResource;
 }
 
 D3D12_VERTEX_BUFFER_VIEW D3DResource::GetD3DVertexBufferView()

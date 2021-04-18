@@ -161,7 +161,6 @@ private:
   std::unique_ptr< Upscaling > upscaling;
 
   std::unique_ptr< RTTopLevelAccelerator > rtScene;
-  std::unique_ptr< ResourceDescriptor >    rtDescriptor;
 
   std::unique_ptr< Mesh > skybox;
   int                     skyMaterial = -1;

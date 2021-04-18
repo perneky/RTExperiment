@@ -40,16 +40,17 @@ D3DRTBottomLevelAccelerator::D3DRTBottomLevelAccelerator( D3DDevice& device, D3D
   device.GetD3DDevice()->GetRaytracingAccelerationStructurePrebuildInfo( &bottomLevelInputs, &bottomLevelPrebuildInfo );
   assert( bottomLevelPrebuildInfo.ResultDataMaxSizeInBytes > 0 );
 
-  CComPtr< ID3D12Resource2 > d3dScratchBuffer = device.RequestD3DRTScartchBuffer( commandList, int( bottomLevelPrebuildInfo.ScratchDataSizeInBytes ) );
-  d3dUAVBuffer = AllocateUAVBuffer( device.GetD3DDevice(), bottomLevelPrebuildInfo.ResultDataMaxSizeInBytes, D3D12_RESOURCE_STATE_RAYTRACING_ACCELERATION_STRUCTURE, L"BLAS" );
+  CComPtr< ID3D12Resource > d3dScratchBuffer = device.RequestD3DRTScartchBuffer( commandList, int( bottomLevelPrebuildInfo.ScratchDataSizeInBytes ) );
+  d3dUAVBuffer = AllocateUAVBuffer( device, bottomLevelPrebuildInfo.ResultDataMaxSizeInBytes, ResourceStateBits::RTAccelerationStructure, L"BLAS" );
 
+  ZeroMemory( &d3dAcceleratorDesc, sizeof( d3dAcceleratorDesc ) );
   d3dAcceleratorDesc.Inputs                           = bottomLevelInputs;
   d3dAcceleratorDesc.ScratchAccelerationStructureData = d3dScratchBuffer->GetGPUVirtualAddress();
   d3dAcceleratorDesc.DestAccelerationStructureData    = d3dUAVBuffer->GetGPUVirtualAddress();
 
   D3D12_RESOURCE_BARRIER barrier = {};
   barrier.Type                   = D3D12_RESOURCE_BARRIER_TYPE_UAV;
-  barrier.Transition.pResource   = d3dUAVBuffer;
+  barrier.Transition.pResource   = *d3dUAVBuffer;
 
   commandList.GetD3DGraphicsCommandList()->BuildRaytracingAccelerationStructure( &d3dAcceleratorDesc, 0, nullptr );
   commandList.GetD3DGraphicsCommandList()->ResourceBarrier( 1, &barrier );
@@ -71,7 +72,7 @@ void D3DRTBottomLevelAccelerator::Update( Device& device, CommandList& commandLi
   d3dDevice.GetD3DDevice()->GetRaytracingAccelerationStructurePrebuildInfo( &d3dAcceleratorDesc.Inputs, &bottomLevelPrebuildInfo );
   assert( bottomLevelPrebuildInfo.ResultDataMaxSizeInBytes > 0 );
 
-  CComPtr< ID3D12Resource2 > d3dScratchBuffer = d3dDevice.RequestD3DRTScartchBuffer( d3dCommandList, int( bottomLevelPrebuildInfo.ScratchDataSizeInBytes ) );
+  CComPtr< ID3D12Resource > d3dScratchBuffer = d3dDevice.RequestD3DRTScartchBuffer( d3dCommandList, int( bottomLevelPrebuildInfo.ScratchDataSizeInBytes ) );
 
   d3dAcceleratorDesc.Inputs.Flags                    |= D3D12_RAYTRACING_ACCELERATION_STRUCTURE_BUILD_FLAG_PERFORM_UPDATE;
   d3dAcceleratorDesc.ScratchAccelerationStructureData = d3dScratchBuffer->GetGPUVirtualAddress();
@@ -80,16 +81,16 @@ void D3DRTBottomLevelAccelerator::Update( Device& device, CommandList& commandLi
 
   D3D12_RESOURCE_BARRIER barrier = {};
   barrier.Type                   = D3D12_RESOURCE_BARRIER_TYPE_UAV;
-  barrier.Transition.pResource   = d3dUAVBuffer;
+  barrier.Transition.pResource   = *d3dUAVBuffer;
   d3dCommandList.GetD3DGraphicsCommandList()->ResourceBarrier( 1, &barrier );
 
   d3dCommandList.GetD3DGraphicsCommandList()->BuildRaytracingAccelerationStructure( &d3dAcceleratorDesc, 0, nullptr );
 
-  barrier.Transition.pResource = d3dUAVBuffer;
+  barrier.Transition.pResource = *d3dUAVBuffer;
   d3dCommandList.GetD3DGraphicsCommandList()->ResourceBarrier( 1, &barrier );
 }
 
-ID3D12Resource2* D3DRTBottomLevelAccelerator::GetD3DUAVBuffer()
+ID3D12Resource* D3DRTBottomLevelAccelerator::GetD3DUAVBuffer()
 {
-  return d3dUAVBuffer;
+  return *d3dUAVBuffer;
 }

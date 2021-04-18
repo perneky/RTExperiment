@@ -44,6 +44,9 @@
     <Filter Include="UI\Editor">
       <UniqueIdentifier>{b943820d-16ff-4c59-af05-5d7af9ed0926}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Render\D3D12\D3D12MemoryAllocator">
+      <UniqueIdentifier>{28a023d9-6a7c-442b-ad68-00a7d1c8c815}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="RTGame.cpp" />
@@ -178,6 +181,9 @@
     </ClCompile>
     <ClCompile Include="Render\MeasureCPUTime.cpp">
       <Filter>Render</Filter>
+    </ClCompile>
+    <ClCompile Include="..\External\D3D12MemoryAllocator\D3D12MemAlloc.cpp">
+      <Filter>Render\D3D12\D3D12MemoryAllocator</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -416,6 +422,12 @@
     <ClInclude Include="Render\MeasureCPUTime.h">
       <Filter>Render</Filter>
     </ClInclude>
+    <ClInclude Include="..\External\D3D12MemoryAllocator\D3D12MemAlloc.h">
+      <Filter>Render\D3D12\D3D12MemoryAllocator</Filter>
+    </ClInclude>
+    <ClInclude Include="Render\D3D12\AllocatedResource.h">
+      <Filter>Render\D3D12</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="Render\D3D12\Shaders\ModelVS.hlsl">
@@ -545,6 +557,9 @@
       <Filter>Render\D3D12\Shaders\RootSignatures</Filter>
     </None>
     <None Include="Render\D3D12\Shaders\PBRUtils.hlsli">
+      <Filter>Render\D3D12\Shaders</Filter>
+    </None>
+    <None Include="Render\D3D12\Shaders\TraceDirectLighting.hlsli">
       <Filter>Render\D3D12\Shaders</Filter>
     </None>
   </ItemGroup>

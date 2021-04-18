@@ -2,7 +2,6 @@
 #include "D3DDevice.h"
 #include "D3DResourceDescriptor.h"
 #include "D3DResource.h"
-#include "D3DRTTopLevelAccelerator.h"
 
 D3DDescriptorHeap::D3DDescriptorHeap( D3DDevice& device, int freeAutoDescriptorStart, int descriptorCount, D3D12_DESCRIPTOR_HEAP_TYPE heapType, const wchar_t* debugName )
   : freeAutoDescriptorStart( freeAutoDescriptorStart )
@@ -55,21 +54,6 @@ std::unique_ptr< ResourceDescriptor > D3DDescriptorHeap::RequestDescriptor( Devi
   gpuHandle.ptr += slot * handleSize;
 
   return std::unique_ptr< ResourceDescriptor >( new D3DResourceDescriptor( *static_cast< D3DDevice* >( &device ), *this, type, slot, *static_cast< D3DResource* >( &resource ), mipLevel, bufferElementSize, cpuHandle, gpuHandle ) );
-}
-
-std::unique_ptr< ResourceDescriptor > D3DDescriptorHeap::RequestDescriptor( Device& device, int slot, RTTopLevelAccelerator& accel )
-{
-  std::lock_guard< std::mutex > autoLock( descriptorLock );
-  
-  D3D12_CPU_DESCRIPTOR_HANDLE cpuHandle;
-  D3D12_GPU_DESCRIPTOR_HANDLE gpuHandle;
-  
-  cpuHandle = d3dHeap->GetCPUDescriptorHandleForHeapStart();
-  cpuHandle.ptr += slot * handleSize;
-  gpuHandle = d3dHeap->GetGPUDescriptorHandleForHeapStart();
-  gpuHandle.ptr += slot * handleSize;
-
-  return std::unique_ptr< ResourceDescriptor >( new D3DResourceDescriptor( *static_cast< D3DDevice* >( &device ), *this, slot, *static_cast< D3DRTTopLevelAccelerator* >( &accel ), cpuHandle, gpuHandle ) );
 }
 
 int D3DDescriptorHeap::GetDescriptorSize() const

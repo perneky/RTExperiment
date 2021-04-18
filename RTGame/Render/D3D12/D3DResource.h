@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../Resource.h"
+#include "AllocatedResource.h"
 
 class D3DDescriptorHeap;
 
@@ -38,21 +39,22 @@ public:
   void* Map() override;
   void  Unmap() override;
 
-  ID3D12Resource2*            GetD3DResource();
+  ID3D12Resource*             GetD3DResource();
   D3D12_VERTEX_BUFFER_VIEW    GetD3DVertexBufferView();
   D3D12_INDEX_BUFFER_VIEW     GetD3DIndexBufferView();
   D3D12_GPU_VIRTUAL_ADDRESS   GetD3DGPUVirtualAddress();
 
 protected:
-  D3DResource( ID3D12Resource2* d3dResource, ResourceState initialState );
+  D3DResource( AllocatedResource&& allocation, ResourceState initialState );
+  D3DResource( D3D12MA::Allocation* allocation, ResourceState initialState );
   D3DResource( D3DDevice& device, ResourceType resourceType, HeapType heapType, bool unorderedAccess, int size, int elementSize, const wchar_t* debugName );
 
   ResourceType resourceType;
   bool         isUploadResource;
 
-  ResourceState                         resourceState;
-  CComPtr< ID3D12Resource2 >            d3dResource;
-  int                                   descriptorIndex;
+  ResourceState                resourceState;
+  AllocatedResource            d3dResource;
+  int                          descriptorIndex;
   
   std::unique_ptr< ResourceDescriptor > resourceDescriptors[ 4 ];
 

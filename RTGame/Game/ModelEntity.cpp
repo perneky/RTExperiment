@@ -150,10 +150,12 @@ void ModelEntity::Deserialize( tinyxml2::XMLNode& node )
         animationPlayer->SetCurrentAnimation( W( animName ).data() );
 }
 
-void ModelEntity::Update( CommandList& commandList, bool mayUseGPU, double timeElapsed )
+void ModelEntity::Update( CommandList& commandList, double timeElapsed )
 {
-  if ( animationPlayer && mayUseGPU )
+  if ( animationPlayer )
   {
+    commandList.BeginEvent( 0, L"ModelEntity::Update(Animation)" );
+
     animationPlayer->Update( timeElapsed );
 
     auto& renderManager = RenderManager::GetInstance();
@@ -245,6 +247,8 @@ void ModelEntity::Update( CommandList& commandList, bool mayUseGPU, double timeE
     }
 
     scene->SetVertexBufferForMesh( sceneMeshes.front(), transformedSkinVertices.get() );
+
+    commandList.EndEvent();
   }
 }
 
