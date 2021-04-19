@@ -294,7 +294,7 @@ int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmd
           editorInfo.renderLightMarkers = editorMainWindow.ShouldShowLightMarkers();
 
           auto sceneColorAndDepthTexture = stage->Render( *commandList, cameraEntity, float( timeElapsed ), editorInfo );
-
+          
           commandList->BeginEvent( 251, L"Copy to back buffer" );
           commandList->CopyResource( sceneColorAndDepthTexture.first, backBuffer );
           commandList->EndEvent();

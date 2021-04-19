@@ -13,9 +13,8 @@ inline std::unique_ptr< Resource > CreateBufferFromData( const T* firstElement
                                                        , CommandList& commandList
                                                        , const wchar_t* debugName )
 {
-  int  es           = sizeof( T );
-  int  bs           = elementCount * es;
-  bs = ( bs & ~3 ) + 4;
+  int  es = sizeof( T );
+  int  bs = elementCount * es;
 
   auto resultBuffer = device.CreateBuffer( resourceType, HeapType::Default, false, bs, es, debugName );
   auto uploadBuffer = RenderManager::GetInstance().GetUploadConstantBufferForResource( *resultBuffer );

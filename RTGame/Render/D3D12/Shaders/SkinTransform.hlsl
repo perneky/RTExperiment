@@ -23,7 +23,7 @@ cbuffer Params : register( b1 )
 };
 
 StructuredBuffer< uint >                           materials     : register( t0 );
-StructuredBuffer< uint >                           indices       : register( t2 );
+ByteAddressBuffer                                  indices       : register( t2 );
 StructuredBuffer< SkinnedVertexFormat >            vertices      : register( t3 );
 RWStructuredBuffer< RigidVertexFormatWithHistory > destination   : register( u0 );
 RWStructuredBuffer< RTVertexFormat    >            rtDestination : register( u1 );
@@ -87,15 +87,7 @@ float4 UnpackFloat4( uint val )
 [numthreads( SkinTransformKernelWidth, 1, 1 )]
 void main( uint3 dispatchThreadID : SV_DispatchThreadID )
 {
-  [branch]
-  if ( dispatchThreadID.x >= indexCount )
-    return;
-
-  uint index = indices[ dispatchThreadID.x ];
-
-  [branch]
-  if ( index >= vertexCount )
-    return;
+  uint index = Load16BitIndex( indices, dispatchThreadID.x * 2 );
 
   SkinnedVertexFormat skin = vertices[ index ];
 
