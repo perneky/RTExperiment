@@ -93,16 +93,9 @@ enum TextureSlots
   HDRUAVSlot,
   HDRHQSlot,
   HDRHQUAVSlot,
-  HDRLowLevelUAVSlot,
-  ExposureBufferSlot,
-  ExposureBufferUAVSlot,
   SpecBRDFLUTSlot,
   SpecBRDFLUTUAVSlot,
   WetnessSlot,
-  BloomSlot,
-  BloomBlurredSlot,
-  BloomUAVSlot,
-  BloomBlurredUAVSlot,
   MotionVectorsSlot,
 
   TextureSlotCount
@@ -150,11 +143,26 @@ enum TextureSlots
 #define ExtractBloomKernelWidth  8
 #define ExtractBloomKernelHeight 8
 
+#define DownsampleBloomKernelWidth  8
+#define DownsampleBloomKernelHeight 8
+
+#define UpsampleBlurBloomKernelWidth  8
+#define UpsampleBlurBloomKernelHeight 8
+
 #define BlurBloomKernelWidth  8
 #define BlurBloomKernelHeight 8
 
 #define LinearUSKernelWidth  8
 #define LinearUSKernelHeight 8
+
+#define ExtractLumaKernelWidth  8
+#define ExtractLumaKernelHeight 8
+
+#define GenerateHistogramKernelWidth  16
+#define GenerateHistogramKernelHeight 16
+
+#define AdaptExposureKernelWidth  256
+#define AdaptExposureKernelHeight 1
 
 #define SpecBRDFLUTSize 256
 

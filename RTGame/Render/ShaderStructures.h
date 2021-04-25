@@ -102,6 +102,19 @@ struct LightingEnvironmentParamsCB
   int      skyMaterial;
 };
 
+struct ExposureBufferCB
+{
+  float exposure;
+  float invExposure;
+  float targetExposure;
+  float weightedHistAvg;
+  float minLog;
+  float maxLog;
+  float logRange;
+  float invLogRange;
+};
+
+
 enum MaterialFeatures : int
 {
   FlipNormalX   = 1,

@@ -28,6 +28,8 @@ public:
     FrameDebugModeCB frameDebugMode;
     GizmoType        activeGizmo;
     bool             renderLightMarkers;
+    bool             showGIProbes;
+    bool             showLuminanceHistogram;
   };
 
   GameStage( CommandList& commandList, Window& window );
@@ -61,8 +63,6 @@ public:
 
   void Update( CommandList& commandList, double timeElapsed );
 
-  void ShowGIProbes( bool show );
-
   GizmoElement GetActiveGizmoElement() const;
   bool         GetDraggingGizmo() const;
   void         ReleaseGizmo();
@@ -82,7 +82,14 @@ public:
 
 private:
   GUID  skyGUID;
-  float exposure       = 1;
+
+  bool  enableAdaptation = true;
+  float targetLuminance  = 0.08f;
+  float exposure         = 2;
+  float adaptationRate   = 0.05f;
+  float minExposure      = 1.0f / 64;
+  float maxExposure      = 64;
+
   float bloomThreshold = 4.0f;
   float bloomStrength  = 0.1f;
 

@@ -517,6 +517,21 @@
     <FxCompile Include="Render\D3D12\Shaders\DepthWithMotionVS.hlsl">
       <Filter>Render\D3D12\Shaders</Filter>
     </FxCompile>
+    <FxCompile Include="Render\D3D12\Shaders\ExtractLuma.hlsl">
+      <Filter>Render\D3D12\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Render\D3D12\Shaders\GenerateHistogram.hlsl">
+      <Filter>Render\D3D12\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Render\D3D12\Shaders\DebugDrawHistogram.hlsl">
+      <Filter>Render\D3D12\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Render\D3D12\Shaders\DownsampleBloom.hlsl">
+      <Filter>Render\D3D12\Shaders</Filter>
+    </FxCompile>
+    <FxCompile Include="Render\D3D12\Shaders\UpsampleAndBlurBloom.hlsl">
+      <Filter>Render\D3D12\Shaders</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Render\D3D12\Shaders\Lighting.hlsli">

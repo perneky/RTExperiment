@@ -48,6 +48,7 @@ inline DXGI_FORMAT Convert( PixelFormat format )
 {
   switch ( format )
   {
+  case PixelFormat::R8U:           return DXGI_FORMAT_R8_UINT;
   case PixelFormat::R8UN:          return DXGI_FORMAT_R8_UNORM;
   case PixelFormat::A8UN:          return DXGI_FORMAT_A8_UNORM;
   case PixelFormat::RG88UN:        return DXGI_FORMAT_R8G8_UNORM;
@@ -99,6 +100,7 @@ inline int CalcTexelSize( PixelFormat format )
 {
   switch ( format )
   {
+  case PixelFormat::R8U:
   case PixelFormat::R8UN:
   case PixelFormat::A8UN:
     return 1;

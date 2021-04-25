@@ -100,6 +100,8 @@ void DLSSUpscaling::Initialize( CommandList& commandList, Quality quality, int o
     jitterSequence[ hi ].x = vals[ 0 ] - 0.5f;
     jitterSequence[ hi ].y = vals[ 1 ] - 0.5f;
   }
+
+  commandList.BindHeaps( RenderManager::GetInstance().GetDevice() );
 }
 
 void DLSSUpscaling::TearDown( CommandList& commandList )
@@ -130,7 +132,6 @@ void DLSSUpscaling::Upscale( CommandList& commandList
                            , Resource& lowResMotionVectors
                            , Resource& highResColor
                            , Resource& exposure
-                           , float prevExposure
                            , const XMFLOAT2& jitter )
 {
   commandList.ChangeResourceState( lowResColor,         ResourceStateBits::PixelShaderInput );
@@ -159,7 +160,7 @@ void DLSSUpscaling::Upscale( CommandList& commandList
   evalParams.InJitterOffsetX                  = jitter.x;
   evalParams.InJitterOffsetY                  = jitter.y;
   evalParams.pInExposureTexture               = d3dExposure->GetD3DResource();
-  evalParams.InPreExposure                    = prevExposure;
+  evalParams.InPreExposure                    = 0;
 
   CheckNVAPI( NGX_D3D12_EVALUATE_DLSS_EXT( d3dCommandList->GetD3DGraphicsCommandList(), dlss, params, &evalParams ) );
 

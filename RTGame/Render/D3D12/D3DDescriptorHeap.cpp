@@ -65,7 +65,6 @@ void D3DDescriptorHeap::FreeDescriptor( int index )
 {
   std::lock_guard< std::mutex > autoLock( descriptorLock );
 
-  assert( !freeDescriptors.empty() );
   freeDescriptors.emplace( index );
 }
 

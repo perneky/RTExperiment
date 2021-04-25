@@ -289,9 +289,11 @@ int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmd
           Sandbox::TickCamera( *cameraEntity.GetEntity(), float( timeElapsed ) );
 
           GameStage::EditorInfo editorInfo;
-          editorInfo.frameDebugMode     = debugWindow.GetFrameDebugMode();
-          editorInfo.activeGizmo        = toolWindow.GetActiveGizmo();
-          editorInfo.renderLightMarkers = editorMainWindow.ShouldShowLightMarkers();
+          editorInfo.frameDebugMode         = debugWindow.GetFrameDebugMode();
+          editorInfo.activeGizmo            = toolWindow.GetActiveGizmo();
+          editorInfo.renderLightMarkers     = editorMainWindow.ShouldShowLightMarkers();
+          editorInfo.showGIProbes           = debugWindow.GetShowGIProbes();
+          editorInfo.showLuminanceHistogram = debugWindow.GetShowLuminanceHistogram();
 
           auto sceneColorAndDepthTexture = stage->Render( *commandList, cameraEntity, float( timeElapsed ), editorInfo );
           
@@ -331,9 +333,6 @@ int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmd
 
           commandList->EndEvent();
         }
-
-        if ( stage )
-          stage->ShowGIProbes( debugWindow.GetShowGIProbes() );
 
         commandList->ChangeResourceState( backBuffer, ResourceStateBits::Present );
         auto fenceValue = renderManager.Submit( std::move( commandList ), CommandQueueType::Direct, false );

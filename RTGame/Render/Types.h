@@ -62,6 +62,7 @@ enum class PixelFormat
 {
   Unknown,
 
+  R8U,
   R8UN,
   A8UN,
   RG88UN,

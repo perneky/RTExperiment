@@ -172,6 +172,9 @@ PixelFormat D3DResource::GetTexturePixelFormat() const
 {
   switch ( d3dResource->GetDesc().Format )
   {
+  case DXGI_FORMAT_R8_UINT:
+    return PixelFormat::R8U;
+
   case DXGI_FORMAT_R8_UNORM:
     return PixelFormat::R8UN;
   }

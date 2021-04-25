@@ -81,6 +81,7 @@ void DebugWindow::Tick( CommandList& commandList, double timeElapsed )
     ImGui::Text( "Frames per second: %d", framesPerSecond );
 
     ImGui::Checkbox( "Show GI probes", &showGIProbes );
+    ImGui::Checkbox( "Show luminance histogram", &showLuminanceHg );
 
     if ( ImGui::BeginCombo( "Frame debug mode", GetFrameDebugModeName( frameDebugMode ), ImGuiComboFlags_PopupAlignLeft | ImGuiComboFlags_HeightRegular ) )
     {
@@ -118,6 +119,11 @@ void DebugWindow::Tick( CommandList& commandList, double timeElapsed )
 bool DebugWindow::GetShowGIProbes() const
 {
   return showGIProbes;
+}
+
+bool DebugWindow::GetShowLuminanceHistogram() const
+{
+  return showLuminanceHg;
 }
 
 FrameDebugModeCB DebugWindow::GetFrameDebugMode() const

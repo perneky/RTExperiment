@@ -21,7 +21,7 @@ public:
 
   void Clear( Resource& texture, const Color& color ) override;
   void Clear( Resource& texture, float depth ) override;
-
+  
   void SetRenderTarget( Resource& colorBuffer, Resource* depthBuffer ) override;
   void SetRenderTarget( const std::vector< Resource* >& colorBuffers, Resource* depthBuffer ) override;
   void SetViewport( int left, int top, int width, int height ) override;

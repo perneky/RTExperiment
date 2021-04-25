@@ -1,13 +1,11 @@
 <RTGame>
     <GameStage lastCameraId="1">
         <Sky guid="{ED542769-36A3-4AC8-ADE5-8E08E2F1EB32}"/>
-        <Exposure value="0.514"/>
-        <BloomThreshold value="2.0929999"/>
-        <BloomStrength value="0.336"/>
+        <PostFx enableAdaptation="true" targetLuminance ="0.079999998" exposure="2" adaptationRate="0.050000001" minExposure="0.015625" maxExposure="64" bloomThreshold="2.0439999" bloomStrength="0.308"/>
         <Entities idGen="758">
             <CameraEntity id="1">
-                <Position x="20.47801" y="3.6855371" z="-48.852291"/>
-                <Rotation x="-2" y="-4405" z="0"/>
+                <Position x="21.139812" y="3.4340775" z="-42.425629"/>
+                <Rotation x="0" y="-5097" z="0"/>
                 <Scale x="1" y="1" z="1"/>
             </CameraEntity>
             <ModelEntity guid="{1A4E3D99-DCA4-4FF9-A893-C820DC63C988}" id="3">

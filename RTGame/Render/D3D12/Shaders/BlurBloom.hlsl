@@ -7,21 +7,19 @@
 
 cbuffer cb0 : register( b0 )
 {
-  float2 g_inverseDimensions;
+  float2 inverseDimensions;
 }
 
-Texture2D<float3>   InputBuf : register( t0 );
-RWTexture2D<float3> Result   : register( u0 );
+Texture2D< float3 >   InputBuf : register( t0 );
+RWTexture2D< float3 > Result   : register( u0 );
 
-// The guassian blur weights (derived from Pascal's triangle)
-static const float Weights[ 5 ] = { 70.0f / 256.0f, 56.0f / 256.0f, 28.0f / 256.0f, 8.0f / 256.0f, 1.0f / 256.0f };
+static const float weights[ 5 ] = { 70.0f / 256.0f, 56.0f / 256.0f, 28.0f / 256.0f, 8.0f / 256.0f, 1.0f / 256.0f };
 
 float3 BlurPixels( float3 a, float3 b, float3 c, float3 d, float3 e, float3 f, float3 g, float3 h, float3 i )
 {
-  return Weights[ 0 ] * e + Weights[ 1 ] * ( d + f ) + Weights[ 2 ] * ( c + g ) + Weights[ 3 ] * ( b + h ) + Weights[ 4 ] * ( a + i );
+  return weights[ 0 ] * e + weights[ 1 ] * ( d + f ) + weights[ 2 ] * ( c + g ) + weights[ 3 ] * ( b + h ) + weights[ 4 ] * ( a + i );
 }
 
-// 16x16 pixels with an 8x8 center that we will be blurring writing out.  Each uint is two color channels packed together
 groupshared uint CacheR[ 128 ];
 groupshared uint CacheG[ 128 ];
 groupshared uint CacheB[ 128 ];
@@ -54,7 +52,6 @@ void Load1Pixel( uint index, out float3 pixel )
   pixel = asfloat( uint3( CacheR[ index ], CacheG[ index ], CacheB[ index ] ) );
 }
 
-// Blur two pixels horizontally.  This reduces LDS reads and pixel unpacking.
 void BlurHorizontally( uint outIndex, uint leftMostIndex )
 {
   float3 s0, s1, s2, s3, s4, s5, s6, s7, s8, s9;
@@ -88,31 +85,19 @@ void BlurVertically( uint2 pixelCoord, uint topMostIndex )
 [numthreads( BlurBloomKernelWidth, BlurBloomKernelHeight, 1 )]
 void main( uint3 Gid : SV_GroupID, uint3 GTid : SV_GroupThreadID, uint3 DTid : SV_DispatchThreadID )
 {
-  //
-  // Load 4 pixels per thread into LDS
-  //
-  int2 GroupUL = ( Gid.xy << 3 ) - 4;                // Upper-left pixel coordinate of group read location
-  int2 ThreadUL = ( GTid.xy << 1 ) + GroupUL;        // Upper-left pixel coordinate of quad that this thread will read
+  int2 GroupUL = ( Gid.xy << 3 ) - 4;
+  int2 ThreadUL = ( GTid.xy << 1 ) + GroupUL;
 
-  //
-  // Store 4 unblurred pixels in LDS
-  //
   int destIdx = GTid.x + ( GTid.y << 4 );
   Store2Pixels( destIdx + 0, InputBuf[ ThreadUL + uint2( 0, 0 ) ], InputBuf[ ThreadUL + uint2( 1, 0 ) ] );
   Store2Pixels( destIdx + 8, InputBuf[ ThreadUL + uint2( 0, 1 ) ], InputBuf[ ThreadUL + uint2( 1, 1 ) ] );
 
   GroupMemoryBarrierWithGroupSync();
 
-  //
-  // Horizontally blur the pixels in Cache
-  //
   uint row = GTid.y << 4;
   BlurHorizontally( row + ( GTid.x << 1 ), row + GTid.x + ( GTid.x & 4 ) );
 
   GroupMemoryBarrierWithGroupSync();
 
-  //
-  // Vertically blur the pixels and write the result to memory
-  //
   BlurVertically( DTid.xy, ( GTid.y << 3 ) + GTid.x );
 }

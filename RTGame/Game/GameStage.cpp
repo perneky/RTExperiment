@@ -101,13 +101,16 @@ std::pair< Resource&, Resource& > GameStage::Render( CommandList& commandList, E
   cameraEntity->SetSize( float( scene->GetTargetWidth() ), float( scene->GetTargetHeight() ) );
   scene->SetCamera( cameraEntity->GetCamera() );
   scene->RebuildLightCB( commandList, renderLights );
-  scene->SetPostEffectParams( exposure, bloomThreshold, bloomStrength );
+  scene->SetBloomParams( commandList, bloomThreshold, bloomStrength );
+  scene->SetToneMappingParams( commandList, enableAdaptation, targetLuminance, exposure, adaptationRate, minExposure, maxExposure );
 
   Scene::EditorInfo sceneEditorInfo;
-  sceneEditorInfo.gizmoType            = GizmoType::None;
-  sceneEditorInfo.frameDebugMode       = editorInfo.frameDebugMode;
-  sceneEditorInfo.selectedGizmoElement = activeGizmoElement;
-  sceneEditorInfo.renderLightMarkers   = editorInfo.renderLightMarkers;
+  sceneEditorInfo.gizmoType              = GizmoType::None;
+  sceneEditorInfo.frameDebugMode         = editorInfo.frameDebugMode;
+  sceneEditorInfo.selectedGizmoElement   = activeGizmoElement;
+  sceneEditorInfo.renderLightMarkers     = editorInfo.renderLightMarkers;
+  sceneEditorInfo.showGIProbes           = editorInfo.showGIProbes;
+  sceneEditorInfo.showLuminanceHistogram = editorInfo.showLuminanceHistogram;
 
   if ( selected )
   {
@@ -255,21 +258,25 @@ void GameStage::Serialize( tinyxml2::XMLNode& node )
 {
   using namespace tinyxml2;
 
-  auto stageElement          = static_cast< XMLElement* >( node.InsertEndChild( node.GetDocument()->NewElement( "GameStage" ) ) );
-  auto skyElement            = static_cast< XMLElement* >( stageElement->InsertEndChild( stageElement->GetDocument()->NewElement( "Sky" ) ) );
-  auto exposureElement       = static_cast< XMLElement* >( stageElement->InsertEndChild( stageElement->GetDocument()->NewElement( "Exposure" ) ) );
-  auto bloomThresholdElement = static_cast<XMLElement*>( stageElement->InsertEndChild( stageElement->GetDocument()->NewElement( "BloomThreshold" ) ) );
-  auto bloomStrengthElement  = static_cast<XMLElement*>( stageElement->InsertEndChild( stageElement->GetDocument()->NewElement( "BloomStrength" ) ) );
-  auto entitiesElement       = static_cast<XMLElement*>( stageElement->InsertEndChild( stageElement->GetDocument()->NewElement( "Entities" ) ) );
-  auto wetnessElement        = static_cast<XMLElement*>( stageElement->InsertEndChild( stageElement->GetDocument()->NewElement( "Wetness" ) ) );
-  auto giAreaElement         = static_cast<XMLElement*>( stageElement->InsertEndChild( stageElement->GetDocument()->NewElement( "GIArea" ) ) );
+  auto stageElement    = static_cast< XMLElement* >( node.InsertEndChild( node.GetDocument()->NewElement( "GameStage" ) ) );
+  auto skyElement      = static_cast< XMLElement* >( stageElement->InsertEndChild( stageElement->GetDocument()->NewElement( "Sky"      ) ) );
+  auto postfxElement   = static_cast< XMLElement* >( stageElement->InsertEndChild( stageElement->GetDocument()->NewElement( "PostFx"   ) ) );
+  auto entitiesElement = static_cast< XMLElement* >( stageElement->InsertEndChild( stageElement->GetDocument()->NewElement( "Entities" ) ) );
+  auto wetnessElement  = static_cast< XMLElement* >( stageElement->InsertEndChild( stageElement->GetDocument()->NewElement( "Wetness"  ) ) );
+  auto giAreaElement   = static_cast< XMLElement* >( stageElement->InsertEndChild( stageElement->GetDocument()->NewElement( "GIArea"   ) ) );
 
   stageElement->SetAttribute( "lastCameraId", lastUsedCamera.GetId() );
   skyElement->SetAttribute( "guid", to_string( skyGUID ).data() );
-  exposureElement->SetAttribute( "value", exposure );
-  bloomThresholdElement->SetAttribute( "value", bloomThreshold );
-  bloomStrengthElement->SetAttribute( "value", bloomStrength );
   entitiesElement->SetAttribute( "idGen", entityIdGen );
+
+  postfxElement->SetAttribute( "enableAdaptation", enableAdaptation );
+  postfxElement->SetAttribute( "targetLuminance ", targetLuminance  );
+  postfxElement->SetAttribute( "exposure",         exposure         );
+  postfxElement->SetAttribute( "adaptationRate",   adaptationRate   );
+  postfxElement->SetAttribute( "minExposure",      minExposure      );
+  postfxElement->SetAttribute( "maxExposure",      maxExposure      );
+  postfxElement->SetAttribute( "bloomThreshold",   bloomThreshold   );
+  postfxElement->SetAttribute( "bloomStrength",    bloomStrength    );
 
   wetnessElement->SetAttribute( "minx", wetnessOrigin.x );
   wetnessElement->SetAttribute( "minz", wetnessOrigin.y );
@@ -312,14 +319,17 @@ void GameStage::Deserialize( CommandList& commandList, tinyxml2::XMLNode& node )
       SetSky( commandList, ParseGUID( guidAttribute->Value() ) );
   }
 
-  if ( auto pfxElement = node.FirstChildElement( "Exposure" ) )
-    pfxElement->QueryFloatAttribute( "value", &exposure );
-
-  if ( auto pfxElement = node.FirstChildElement( "BloomThreshold" ) )
-    pfxElement->QueryFloatAttribute( "value", &bloomThreshold );
-
-  if ( auto pfxElement = node.FirstChildElement( "BloomStrength" ) )
-    pfxElement->QueryFloatAttribute( "value", &bloomStrength );
+  if ( auto pfxElement = node.FirstChildElement( "PostFx" ) )
+  {
+    pfxElement->QueryBoolAttribute ( "enableAdaptation", &enableAdaptation );
+    pfxElement->QueryFloatAttribute( "targetLuminance ", &targetLuminance  );
+    pfxElement->QueryFloatAttribute( "exposure",         &exposure         );
+    pfxElement->QueryFloatAttribute( "adaptationRate",   &adaptationRate   );
+    pfxElement->QueryFloatAttribute( "minExposure",      &minExposure      );
+    pfxElement->QueryFloatAttribute( "maxExposure",      &maxExposure      );
+    pfxElement->QueryFloatAttribute( "bloomThreshold",   &bloomThreshold   );
+    pfxElement->QueryFloatAttribute( "bloomStrength",    &bloomStrength    );
+  }
 
   if ( auto wetnessElement = node.FirstChildElement( "Wetness" ) )
   {
@@ -397,11 +407,6 @@ void GameStage::Update( CommandList& commandList, double timeElapsed )
     entity.second->Update( commandList, timeElapsed );
 
   commandList.EndEvent();
-}
-
-void GameStage::ShowGIProbes( bool show )
-{
-  scene->ShowGIProbes( show );
 }
 
 GizmoElement GameStage::GetActiveGizmoElement() const

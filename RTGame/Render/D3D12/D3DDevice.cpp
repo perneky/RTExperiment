@@ -130,6 +130,7 @@ D3DDevice::D3DDevice( D3DAdapter& adapter )
   desc.NumDescriptors = 100;
   desc.Flags          = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
   d3dDevice->CreateDescriptorHeap( &desc, IID_PPV_ARGS( &d3dDearImGuiHeap ) );
+  d3dDearImGuiHeap->SetName( L"ImGuiHeap" );
 
   ImGui_ImplDX12_Init( d3dDevice
                      , 3
@@ -148,6 +149,7 @@ D3DDevice::D3DDevice( D3DAdapter& adapter )
   mipmapGenHeapDesc.Type           = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
   mipmapGenHeapDesc.Flags          = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
   d3dDevice->CreateDescriptorHeap( &mipmapGenHeapDesc, IID_PPV_ARGS( &d3dmipmapGenHeap ) );
+  d3dDearImGuiHeap->SetName( L"MipMapGenHeap" );
 
   mipmapGenDescCounter = 0;
 
@@ -567,7 +569,7 @@ std::unique_ptr< D3DResource > D3DDevice::CreateTexture( CommandList& commandLis
     resource->AttachResourceDescriptor( ResourceDescriptorType::RenderTargetView, std::move( descriptor ) );
   }
 
-  if ( uavSlot.value_or( -1 ) >= 0 )
+  if ( uavSlot.has_value() )
   {
     auto& heap = descriptorHeaps[ D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV ];
     auto  descriptor = heap->RequestDescriptor( *this, ResourceDescriptorType::UnorderedAccessView, *uavSlot, *resource, 0 );

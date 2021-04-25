@@ -18,6 +18,28 @@
 
 static constexpr int BlurParamsFloatCount = ( 17 + 17 + 1 ) * 4;
 
+static constexpr float initialMinLog = -12.0f;
+static constexpr float initialMaxLog = 4.0f;
+
+static void InitializeManualExposure( CommandList& commandList, Resource& expBuffer, Resource& expOnlyBuffer, float exposure )
+{
+  ExposureBufferCB params;
+  params.exposure        = exposure;
+  params.invExposure     = 1.0f / exposure;
+  params.targetExposure  = exposure;
+  params.weightedHistAvg = 0;
+  params.minLog          = initialMinLog;
+  params.maxLog          = initialMaxLog;
+  params.logRange        = initialMaxLog - initialMinLog;
+  params.invLogRange     = 1.0f / params.logRange;
+
+  auto uploadExposure = RenderManager::GetInstance().GetUploadConstantBufferForResource( expBuffer );
+  commandList.UploadBufferResource( std::move( uploadExposure ), expBuffer, &params, sizeof( params ) );
+
+  auto uploadExposureOnly = RenderManager::GetInstance().GetUploadConstantBufferForResource( expOnlyBuffer );
+  commandList.UploadBufferResource( std::move( uploadExposureOnly ), expOnlyBuffer, &exposure, sizeof( exposure ) );
+}
+
 Scene::ModelEntry::ModelEntry( std::shared_ptr<Mesh> mesh, FXMMATRIX transform, std::set< int > subsets )
   : mesh( mesh )
   , subsets( subsets )
@@ -73,10 +95,16 @@ void Scene::SetUp( CommandList& commandList, Window& window )
   auto processReflectionFile = ReadFileToMemory( L"Content/Shaders/ProcessReflection.cso" );
   auto extractBloomFile      = ReadFileToMemory( L"Content/Shaders/ExtractBloom.cso" );
   auto blurBloomFile         = ReadFileToMemory( L"Content/Shaders/BlurBloom.cso" );
+  auto extractLumaFile       = ReadFileToMemory( L"Content/Shaders/ExtractLuma.cso" );
+  auto generateHistogramFile = ReadFileToMemory( L"Content/Shaders/GenerateHistogram.cso" );
+  auto debugHistogramFile    = ReadFileToMemory( L"Content/Shaders/DebugDrawHistogram.cso" );
+  auto downsampleBloomFile   = ReadFileToMemory( L"Content/Shaders/DownsampleBloom.cso" );
+  auto upsampleBlurBloomFile = ReadFileToMemory( L"Content/Shaders/UpsampleAndBlurBloom.cso" );
 
   float zero = 0;
 
-  exposureBuffer          = device.Create2DTexture( commandList, 1, 1, &zero, sizeof( float ), PixelFormat::R32F, false, ExposureBufferSlot, ExposureBufferUAVSlot, false, L"ExposureBuffer" );
+  histogramBuffer         = device.CreateBuffer( ResourceType::ConstantBuffer, HeapType::Default, true,  256 * sizeof( uint32_t ), sizeof( uint32_t ), L"Histogram" );
+  exposureBuffer          = device.CreateBuffer( ResourceType::ConstantBuffer, HeapType::Default, true,  sizeof( ExposureBufferCB ), sizeof( ExposureBufferCB ), L"Exposure" );
   frameConstantBuffer     = device.CreateBuffer( ResourceType::ConstantBuffer, HeapType::Default, false, sizeof( FrameParamsCB ), sizeof( FrameParamsCB ), L"FrameParams" );
   prevFrameConstantBuffer = device.CreateBuffer( ResourceType::ConstantBuffer, HeapType::Default, false, sizeof( FrameParamsCB ), sizeof( FrameParamsCB ), L"PrevFrameParams" );
   lightingConstantBuffer  = device.CreateBuffer( ResourceType::ConstantBuffer, HeapType::Default, false, sizeof( LightingEnvironmentParamsCB ), sizeof( LightingEnvironmentParamsCB ), L"LightingParams" );
@@ -90,11 +118,31 @@ void Scene::SetUp( CommandList& commandList, Window& window )
   adaptExposureShader     = device.CreateComputeShader( adaptExposureFile.data(), int( adaptExposureFile.size() ), L"AdaptExposure" );
   specBRDFLUTShader       = device.CreateComputeShader( specBRDFLUTFile.data(), int( specBRDFLUTFile.size() ), L"SpecBRDFLUT" );
   processReflectionShader = device.CreateComputeShader( processReflectionFile.data(), int( processReflectionFile.size() ), L"ProcessReflection" );
-  extractBloomShader      = device.CreateComputeShader( extractBloomFile.data(), int( extractBloomFile.size() ), L"ExtractBloomFile" );
-  blurBloomShader         = device.CreateComputeShader( blurBloomFile.data(), int( blurBloomFile.size() ), L"BlurBloomFile" );
-  
+  extractBloomShader      = device.CreateComputeShader( extractBloomFile.data(), int( extractBloomFile.size() ), L"ExtractBloom" );
+  blurBloomShader         = device.CreateComputeShader( blurBloomFile.data(), int( blurBloomFile.size() ), L"BlurBloom" );
+  extractLumaShader       = device.CreateComputeShader( extractLumaFile.data(), int( extractLumaFile.size() ), L"ExtractLuma" );
+  generateHistogramShader = device.CreateComputeShader( generateHistogramFile.data(), int( generateHistogramFile.size() ), L"GenerateHistogram" );
+  debugHistogramShader    = device.CreateComputeShader( debugHistogramFile.data(), int( debugHistogramFile.size() ), L"DebugHistogram" );
+  downsampleBloomShader   = device.CreateComputeShader( downsampleBloomFile.data(), int( downsampleBloomFile.size() ), L"DownsampleBloom" );
+  upsampleBlurBloomShader = device.CreateComputeShader( upsampleBlurBloomFile.data(), int( upsampleBlurBloomFile.size() ), L"UpsampleBlurBloom" );
+  exposureOnlyBuffer      = device.Create2DTexture( commandList, 1, 1, nullptr, 0, PixelFormat::R32F, true, -1, -1, false, L"ExposureOnly" );
+
   auto allMeshParamsDesc = device.GetShaderResourceHeap().RequestDescriptor( device, ResourceDescriptorType::ShaderResourceView, AllMeshParamsSlot, *allMeshParamsBuffer, sizeof( MeshParamsCB ) );
   allMeshParamsBuffer->AttachResourceDescriptor( ResourceDescriptorType::ShaderResourceView, std::move( allMeshParamsDesc ) );
+
+  auto exposureBufferDesc = device.GetShaderResourceHeap().RequestDescriptor( device, ResourceDescriptorType::ShaderResourceView, -1, *exposureBuffer, sizeof( ExposureBufferCB ) );
+  exposureBuffer->AttachResourceDescriptor( ResourceDescriptorType::ShaderResourceView, std::move( exposureBufferDesc ) );
+
+  auto exposureBufferUAVDesc = device.GetShaderResourceHeap().RequestDescriptor( device, ResourceDescriptorType::UnorderedAccessView, -1, *exposureBuffer, sizeof( ExposureBufferCB ) );
+  exposureBuffer->AttachResourceDescriptor( ResourceDescriptorType::UnorderedAccessView, std::move( exposureBufferUAVDesc ) );
+
+  auto histogramBufferDesc = device.GetShaderResourceHeap().RequestDescriptor( device, ResourceDescriptorType::ShaderResourceView, -1, *histogramBuffer, sizeof( uint32_t ) );
+  histogramBuffer->AttachResourceDescriptor( ResourceDescriptorType::ShaderResourceView, std::move( histogramBufferDesc ) );
+
+  auto histogramBufferUAVDesc = device.GetShaderResourceHeap().RequestDescriptor( device, ResourceDescriptorType::UnorderedAccessView, -1, *histogramBuffer, sizeof( uint32_t ) );
+  histogramBuffer->AttachResourceDescriptor( ResourceDescriptorType::UnorderedAccessView, std::move( histogramBufferUAVDesc ) );
+
+  InitializeManualExposure( commandList, *exposureBuffer, *exposureOnlyBuffer, exposure );
 
   RecreateWindowSizeDependantResources( commandList, window );
 
@@ -797,7 +845,7 @@ std::pair< Resource&, Resource& > Scene::Render( CommandList& commandList, const
     commandList.EndEvent();
   }
 
-  if ( drawGIProbes && giProbeTextures[ currentGISource ] )
+  if ( editorInfo.showGIProbes && giProbeTextures[ currentGISource ] )
   {
     commandList.BeginEvent( 0, L"Scene::Render(GI probes)" );
 
@@ -879,35 +927,6 @@ std::pair< Resource&, Resource& > Scene::Render( CommandList& commandList, const
     commandList.EndEvent();
   }
 
-  {
-    commandList.BeginEvent( 0, L"Scene::Render(Adapt exposure)" );
-
-    commandList.GenerateMipmaps( *finalHDRTexture );
-
-    struct
-    {
-      float manualExposure;
-      float timeElapsed;
-      float speed;
-    } params;
-
-    params.manualExposure = exposure;
-    params.timeElapsed    = dt;
-    params.speed          = 50;
-
-    commandList.ChangeResourceState( *exposureBuffer, ResourceStateBits::UnorderedAccess );
-
-    commandList.SetComputeShader( *adaptExposureShader );
-    commandList.SetComputeConstantValues( 0, params );
-    commandList.SetComputeResource( 1, *hdrTextureLowLevel );
-    commandList.SetComputeResource( 2, *exposureBuffer->GetResourceDescriptor( ResourceDescriptorType::UnorderedAccessView ) );
-    commandList.Dispatch( 1, 1, 1 );
-
-    commandList.AddUAVBarrier( *exposureBuffer );
-
-    commandList.EndEvent();
-  }
-
   if ( upscaling )
   {
     commandList.BeginEvent( 0, L"Scene::Render(Upscaling)" );
@@ -917,8 +936,7 @@ std::pair< Resource&, Resource& > Scene::Render( CommandList& commandList, const
                       , *depthTexture
                       , *motionVectorTexture
                       , *highResHDRTexture
-                      , *exposureBuffer
-                      , exposure
+                      , *exposureOnlyBuffer
                       , upscaling->GetJitter() );
 
     commandList.SetViewport( 0, 0, renderWidthHQ, renderHeightHQ );
@@ -931,63 +949,138 @@ std::pair< Resource&, Resource& > Scene::Render( CommandList& commandList, const
   }
 
   {
-    commandList.BeginEvent( 0, L"Scene::Render(Extract bloom)" );
-
-    commandList.ChangeResourceState( *finalHDRTexture, ResourceStateBits::NonPixelShaderInput );
-    commandList.ChangeResourceState( *exposureBuffer, ResourceStateBits::NonPixelShaderInput );
-    commandList.ChangeResourceState( *bloomTexture, ResourceStateBits::UnorderedAccess );
-
-    struct
     {
-      float invOutputWidth;
-      float invOutputHeight;
-      float bloomThreshold;
-    } params;
+      commandList.BeginEvent( 0, L"Scene::Render(Extract bloom)" );
 
-    params.invOutputWidth  = 1.0f / bloomTexture->GetTextureWidth();
-    params.invOutputHeight = 1.0f / bloomTexture->GetTextureHeight();
-    params.bloomThreshold  = bloomThreshold;
+      commandList.ChangeResourceState( *finalHDRTexture, ResourceStateBits::NonPixelShaderInput );
+      commandList.ChangeResourceState( *exposureBuffer, ResourceStateBits::VertexOrConstantBuffer );
+      commandList.ChangeResourceState( *bloomTextures[ 0 ][ 0 ], ResourceStateBits::UnorderedAccess );
+      commandList.ChangeResourceState( *lumaTexture, ResourceStateBits::UnorderedAccess );
 
-    commandList.SetComputeShader( *extractBloomShader );
-    commandList.SetComputeConstantValues( 0, params );
-    commandList.SetComputeResource( 1, *finalHDRTexture->GetResourceDescriptor( ResourceDescriptorType::ShaderResourceView ) );
-    commandList.SetComputeResource( 2, *exposureBuffer->GetResourceDescriptor( ResourceDescriptorType::ShaderResourceView ) );
-    commandList.SetComputeResource( 3, *bloomTexture->GetResourceDescriptor( ResourceDescriptorType::UnorderedAccessView ) );
-    commandList.Dispatch( ( bloomTexture->GetTextureWidth () + ExtractBloomKernelWidth - 1  ) / ExtractBloomKernelWidth
-                        , ( bloomTexture->GetTextureHeight() + ExtractBloomKernelHeight - 1 ) / ExtractBloomKernelHeight
-                        , 1 );
+      struct
+      {
+        float invOutputWidth;
+        float invOutputHeight;
+        float bloomThreshold;
+      } params;
 
-    commandList.AddUAVBarrier( *bloomTexture );
+      params.invOutputWidth  = 1.0f / bloomTextures[ 0 ][ 0 ]->GetTextureWidth();
+      params.invOutputHeight = 1.0f / bloomTextures[ 0 ][ 0 ]->GetTextureHeight();
+      params.bloomThreshold  = bloomThreshold;
 
-    commandList.EndEvent();
-  }
+      commandList.SetComputeShader( *extractBloomShader );
+      commandList.SetComputeConstantValues( 0, params );
+      commandList.SetComputeConstantBuffer( 1, *exposureBuffer );
+      commandList.SetComputeResource( 2, *finalHDRTexture->GetResourceDescriptor( ResourceDescriptorType::ShaderResourceView ) );
+      commandList.SetComputeResource( 3, *bloomTextures[ 0 ][ 0 ]->GetResourceDescriptor( ResourceDescriptorType::UnorderedAccessView ) );
+      commandList.SetComputeResource( 4, *lumaTexture->GetResourceDescriptor( ResourceDescriptorType::UnorderedAccessView ) );
+      commandList.Dispatch( ( bloomTextures[ 0 ][ 0 ]->GetTextureWidth () + ExtractBloomKernelWidth - 1  ) / ExtractBloomKernelWidth
+                          , ( bloomTextures[ 0 ][ 0 ]->GetTextureHeight() + ExtractBloomKernelHeight - 1 ) / ExtractBloomKernelHeight
+                          , 1 );
 
-  {
-    commandList.BeginEvent( 0, L"Scene::Render(Blur bloom)" );
+      commandList.AddUAVBarrier( *bloomTextures[ 0 ][ 0 ] );
+      commandList.AddUAVBarrier( *lumaTexture );
 
-    commandList.ChangeResourceState( *bloomTexture, ResourceStateBits::NonPixelShaderInput );
-    commandList.ChangeResourceState( *bloomBlurredTexture, ResourceStateBits::UnorderedAccess );
+      commandList.EndEvent();
+    }
 
-    struct
     {
-      float invOutputWidth;
-      float invOutputHeight;
-    } params;
+      commandList.BeginEvent( 0, L"Scene::Render(Downsample bloom)" );
 
-    params.invOutputWidth  = 1.0f / bloomTexture->GetTextureWidth();
-    params.invOutputHeight = 1.0f / bloomTexture->GetTextureHeight();
+      commandList.ChangeResourceState( *bloomTextures[ 0 ][ 0 ], ResourceStateBits::NonPixelShaderInput );
+      commandList.ChangeResourceState( *bloomTextures[ 1 ][ 0 ], ResourceStateBits::UnorderedAccess );
+      commandList.ChangeResourceState( *bloomTextures[ 2 ][ 0 ], ResourceStateBits::UnorderedAccess );
+      commandList.ChangeResourceState( *bloomTextures[ 3 ][ 0 ], ResourceStateBits::UnorderedAccess );
+      commandList.ChangeResourceState( *bloomTextures[ 4 ][ 0 ], ResourceStateBits::UnorderedAccess );
 
-    commandList.SetComputeShader( *blurBloomShader );
-    commandList.SetComputeConstantValues( 0, params );
-    commandList.SetComputeResource( 1, *bloomTexture->GetResourceDescriptor( ResourceDescriptorType::ShaderResourceView ) );
-    commandList.SetComputeResource( 2, *bloomBlurredTexture->GetResourceDescriptor( ResourceDescriptorType::UnorderedAccessView ) );
-    commandList.Dispatch( ( bloomBlurredTexture->GetTextureWidth () + BlurBloomKernelWidth - 1  ) / BlurBloomKernelWidth
-                        , ( bloomBlurredTexture->GetTextureHeight() + BlurBloomKernelHeight - 1 ) / BlurBloomKernelHeight
-                        , 1 );
+      struct
+      {
+        float invOutputWidth;
+        float invOutputHeight;
+      } params;
 
-    commandList.AddUAVBarrier( *bloomBlurredTexture );
+      params.invOutputWidth  = 1.0f / bloomTextures[ 0 ][ 0 ]->GetTextureWidth();
+      params.invOutputHeight = 1.0f / bloomTextures[ 0 ][ 0 ]->GetTextureHeight();
 
-    commandList.EndEvent();
+      commandList.SetComputeShader( *downsampleBloomShader );
+      commandList.SetComputeConstantValues( 0, params );
+      commandList.SetComputeResource( 1, *bloomTextures[ 0 ][ 0 ]->GetResourceDescriptor( ResourceDescriptorType::ShaderResourceView ) );
+      commandList.SetComputeResource( 2, *bloomTextures[ 1 ][ 0 ]->GetResourceDescriptor( ResourceDescriptorType::UnorderedAccessView ) );
+      commandList.SetComputeResource( 3, *bloomTextures[ 2 ][ 0 ]->GetResourceDescriptor( ResourceDescriptorType::UnorderedAccessView ) );
+      commandList.SetComputeResource( 4, *bloomTextures[ 3 ][ 0 ]->GetResourceDescriptor( ResourceDescriptorType::UnorderedAccessView ) );
+      commandList.SetComputeResource( 5, *bloomTextures[ 4 ][ 0 ]->GetResourceDescriptor( ResourceDescriptorType::UnorderedAccessView ) );
+      commandList.Dispatch( ( bloomTextures[ 0 ][ 0 ]->GetTextureWidth () / 2 + ExtractBloomKernelWidth - 1  ) / ExtractBloomKernelWidth
+                          , ( bloomTextures[ 0 ][ 0 ]->GetTextureHeight() / 2 + ExtractBloomKernelHeight - 1 ) / ExtractBloomKernelHeight
+                          , 1 );
+
+      commandList.AddUAVBarrier( *bloomTextures[ 1 ][ 0 ] );
+      commandList.AddUAVBarrier( *bloomTextures[ 2 ][ 0 ] );
+      commandList.AddUAVBarrier( *bloomTextures[ 3 ][ 0 ] );
+      commandList.AddUAVBarrier( *bloomTextures[ 4 ][ 0 ] );
+
+      commandList.EndEvent();
+    }
+
+    {
+      commandList.BeginEvent( 0, L"Scene::Render(Blur bloom)" );
+
+      commandList.ChangeResourceState( *bloomTextures[ 4 ][ 0 ], ResourceStateBits::NonPixelShaderInput );
+      commandList.ChangeResourceState( *bloomTextures[ 4 ][ 1 ], ResourceStateBits::UnorderedAccess );
+
+      struct
+      {
+        float invOutputWidth;
+        float invOutputHeight;
+      } params;
+
+      params.invOutputWidth  = 1.0f / bloomTextures[ 4 ][ 0 ]->GetTextureWidth();
+      params.invOutputHeight = 1.0f / bloomTextures[ 4 ][ 0 ]->GetTextureHeight();
+
+      commandList.SetComputeShader( *blurBloomShader );
+      commandList.SetComputeConstantValues( 0, params );
+      commandList.SetComputeResource( 1, *bloomTextures[ 4 ][ 0 ]->GetResourceDescriptor( ResourceDescriptorType::ShaderResourceView ) );
+      commandList.SetComputeResource( 2, *bloomTextures[ 4 ][ 1 ]->GetResourceDescriptor( ResourceDescriptorType::UnorderedAccessView ) );
+      commandList.Dispatch( ( bloomTextures[ 4 ][ 0 ]->GetTextureWidth () + ExtractBloomKernelWidth - 1  ) / ExtractBloomKernelWidth
+                          , ( bloomTextures[ 4 ][ 0 ]->GetTextureHeight() + ExtractBloomKernelHeight - 1 ) / ExtractBloomKernelHeight
+                          , 1 );
+
+      commandList.AddUAVBarrier( *bloomTextures[ 4 ][ 1 ] );
+
+      commandList.EndEvent();
+    }
+
+    for ( int us = 0; us < 4; ++us )
+    {
+      commandList.BeginEvent( 0, L"Scene::Render(Upsample blur bloom)" );
+
+      commandList.ChangeResourceState( *bloomTextures[ 3 - us ][ 0 ], ResourceStateBits::NonPixelShaderInput );
+      commandList.ChangeResourceState( *bloomTextures[ 4 - us ][ 1 ], ResourceStateBits::NonPixelShaderInput );
+      commandList.ChangeResourceState( *bloomTextures[ 3 - us ][ 1 ], ResourceStateBits::UnorderedAccess );
+
+      struct
+      {
+        float invOutputWidth;
+        float invOutputHeight;
+        float upsampleBlendFactor;
+      } params;
+
+      params.invOutputWidth      = 1.0f / bloomTextures[ 3 - us ][ 0 ]->GetTextureWidth();
+      params.invOutputHeight     = 1.0f / bloomTextures[ 3 - us ][ 0 ]->GetTextureHeight();
+      params.upsampleBlendFactor = 0.65f;
+
+      commandList.SetComputeShader( *upsampleBlurBloomShader );
+      commandList.SetComputeConstantValues( 0, params );
+      commandList.SetComputeResource( 1, *bloomTextures[ 3 - us ][ 0 ]->GetResourceDescriptor( ResourceDescriptorType::ShaderResourceView ) );
+      commandList.SetComputeResource( 2, *bloomTextures[ 4 - us ][ 1 ]->GetResourceDescriptor( ResourceDescriptorType::ShaderResourceView ) );
+      commandList.SetComputeResource( 3, *bloomTextures[ 3 - us ][ 1 ]->GetResourceDescriptor( ResourceDescriptorType::UnorderedAccessView ) );
+      commandList.Dispatch( ( bloomTextures[ 3 - us ][ 0 ]->GetTextureWidth () + ExtractBloomKernelWidth - 1  ) / ExtractBloomKernelWidth
+                          , ( bloomTextures[ 3 - us ][ 0 ]->GetTextureHeight() + ExtractBloomKernelHeight - 1 ) / ExtractBloomKernelHeight
+                          , 1 );
+
+      commandList.AddUAVBarrier( *bloomTextures[ 3 - us ][ 1 ] );
+
+      commandList.EndEvent();
+    }
   }
 
   {
@@ -995,7 +1088,7 @@ std::pair< Resource&, Resource& > Scene::Render( CommandList& commandList, const
 
     commandList.ChangeResourceState( *exposureBuffer, ResourceStateBits::NonPixelShaderInput );
     commandList.ChangeResourceState( *finalHDRTexture, ResourceStateBits::NonPixelShaderInput );
-    commandList.ChangeResourceState( *bloomBlurredTexture, ResourceStateBits::NonPixelShaderInput );
+    commandList.ChangeResourceState( *bloomTextures[ 0 ][ 1 ], ResourceStateBits::NonPixelShaderInput );
     commandList.ChangeResourceState( *sdrTexture, ResourceStateBits::UnorderedAccess );
 
     struct
@@ -1010,16 +1103,95 @@ std::pair< Resource&, Resource& > Scene::Render( CommandList& commandList, const
     params.bloomStrength = bloomStrength;
 
     commandList.SetComputeShader( *toneMappingShader );
-    commandList.SetComputeResource( 0, *finalHDRTexture->GetResourceDescriptor( ResourceDescriptorType::ShaderResourceView ) );
-    commandList.SetComputeResource( 1, *exposureBuffer->GetResourceDescriptor( ResourceDescriptorType::ShaderResourceView ) );
-    commandList.SetComputeConstantValues( 2, params );
-    commandList.SetComputeResource( 3, *bloomBlurredTexture->GetResourceDescriptor( ResourceDescriptorType::ShaderResourceView ) );
+    commandList.SetComputeConstantValues( 0, params );
+    commandList.SetComputeConstantBuffer( 1, *exposureBuffer );
+    commandList.SetComputeResource( 2, *finalHDRTexture->GetResourceDescriptor( ResourceDescriptorType::ShaderResourceView ) );
+    commandList.SetComputeResource( 3, *bloomTextures[ 0 ][ 1 ]->GetResourceDescriptor( ResourceDescriptorType::ShaderResourceView ) );
     commandList.SetComputeResource( 4, *sdrTexture->GetResourceDescriptor( ResourceDescriptorType::UnorderedAccessView ) );
     commandList.Dispatch( ( GetTargetWidth () + ToneMappingKernelWidth  - 1 ) / ToneMappingKernelWidth
                         , ( GetTargetHeight() + ToneMappingKernelHeight - 1 ) / ToneMappingKernelHeight
                         , 1 );
 
     commandList.AddUAVBarrier( *sdrTexture );
+
+    commandList.EndEvent();
+  }
+
+  {
+    commandList.BeginEvent( 0, L"Scene::Render(Adapt exposure)" );
+    
+    if ( !enableAdaptation || editorInfo.frameDebugMode != FrameDebugModeCB::None )
+    {
+      commandList.BeginEvent( 0, L"Scene::Render(Manual exposure)" );
+      InitializeManualExposure( commandList, *exposureBuffer, *exposureOnlyBuffer, exposure );
+      commandList.EndEvent();
+    }
+    else
+    {
+      {
+        commandList.BeginEvent( 0, L"Scene::Render(Clear histogram)" );
+
+        uint32_t zeroes[ 256 ] = { 0 };
+        auto clearHistoUpload = RenderManager::GetInstance().GetUploadConstantBufferForResource( *histogramBuffer );
+        commandList.UploadBufferResource( std::move( clearHistoUpload ), *histogramBuffer, zeroes, sizeof( zeroes ) );
+
+        commandList.EndEvent();
+
+        commandList.BeginEvent( 0, L"Scene::Render(Build histogram)" );
+
+        commandList.ChangeResourceState( *lumaTexture, ResourceStateBits::NonPixelShaderInput );
+        commandList.ChangeResourceState( *histogramBuffer, ResourceStateBits::UnorderedAccess );
+
+        commandList.SetComputeShader( *generateHistogramShader );
+        commandList.SetComputeResource( 0, *lumaTexture->GetResourceDescriptor( ResourceDescriptorType::ShaderResourceView ) );
+        commandList.SetComputeResource( 1, *histogramBuffer->GetResourceDescriptor( ResourceDescriptorType::UnorderedAccessView ) );
+        commandList.Dispatch( ( lumaTexture->GetTextureWidth()  +  16 - 1 ) /  16
+                            , ( lumaTexture->GetTextureHeight() + 384 - 1 ) / 384
+                            , 1 );
+
+        commandList.AddUAVBarrier( *histogramBuffer );
+
+        commandList.EndEvent();
+      }
+      {
+        commandList.BeginEvent( 0, L"Scene::Render(Calc new exposure)" );
+
+        struct
+        {
+          float    targetLuminance;
+          float    adaptationRate;
+          float    minExposure;
+          float    maxExposure;
+          uint32_t pixelCount; 
+        } params;
+
+        params.targetLuminance = targetLuminance;
+        params.adaptationRate  = adaptationRate;
+        params.minExposure     = minExposure;
+        params.maxExposure     = maxExposure;
+        params.pixelCount      = lumaTexture->GetTextureWidth() * lumaTexture->GetTextureHeight();
+
+        commandList.ChangeResourceState( *histogramBuffer, ResourceStateBits::NonPixelShaderInput );
+        commandList.ChangeResourceState( *exposureBuffer, ResourceStateBits::UnorderedAccess );
+        commandList.ChangeResourceState( *exposureOnlyBuffer, ResourceStateBits::UnorderedAccess );
+
+        commandList.SetComputeShader( *adaptExposureShader );
+        commandList.SetComputeConstantValues( 0, params );
+        commandList.SetComputeResource( 1, *histogramBuffer->GetResourceDescriptor( ResourceDescriptorType::ShaderResourceView ) );
+        commandList.SetComputeResource( 2, *exposureBuffer->GetResourceDescriptor( ResourceDescriptorType::UnorderedAccessView ) );
+        commandList.SetComputeResource( 3, *exposureOnlyBuffer->GetResourceDescriptor( ResourceDescriptorType::UnorderedAccessView ) );
+        commandList.Dispatch( 1, 1, 1 );
+
+        commandList.AddUAVBarrier( *histogramBuffer );
+        commandList.AddUAVBarrier( *exposureBuffer );
+        commandList.AddUAVBarrier( *exposureOnlyBuffer );
+        
+        commandList.ChangeResourceState( *exposureBuffer, ResourceStateBits::NonPixelShaderInput );
+        commandList.ChangeResourceState( *exposureOnlyBuffer, ResourceStateBits::NonPixelShaderInput );
+
+        commandList.EndEvent();
+      }
+    }
 
     commandList.EndEvent();
   }
@@ -1046,6 +1218,25 @@ std::pair< Resource&, Resource& > Scene::Render( CommandList& commandList, const
     commandList.EndEvent();
   }
 
+  if ( editorInfo.showLuminanceHistogram )
+  {
+    commandList.BeginEvent( 0, L"Scene::Render(Draw histogram)" );
+
+    commandList.AddUAVBarrier( *sdrTexture );
+
+    commandList.ChangeResourceState( *exposureBuffer, ResourceStateBits::VertexOrConstantBuffer );
+    commandList.ChangeResourceState( *histogramBuffer, ResourceStateBits::NonPixelShaderInput );
+    commandList.ChangeResourceState( *sdrTexture, ResourceStateBits::UnorderedAccess );
+
+    commandList.SetComputeShader( *debugHistogramShader );
+    commandList.SetComputeConstantBuffer( 0, *exposureBuffer );
+    commandList.SetComputeResource( 1, *histogramBuffer->GetResourceDescriptor( ResourceDescriptorType::ShaderResourceView ) );
+    commandList.SetComputeResource( 2, *sdrTexture->GetResourceDescriptor( ResourceDescriptorType::UnorderedAccessView ) );
+    commandList.Dispatch( 1, 32, 1 );
+
+    commandList.EndEvent();
+  }
+
   prevFrameParams = frameParams;
 
   for ( auto& entry : modelEntries )
@@ -1054,9 +1245,21 @@ std::pair< Resource&, Resource& > Scene::Render( CommandList& commandList, const
   return std::pair< Resource&, Resource& >( *sdrTexture, *depthTexture );
 }
 
-void Scene::SetPostEffectParams( float exposure, float bloomThreshold, float bloomStrength )
+void Scene::SetToneMappingParams( CommandList& commandList, bool enableAdaptation, float targetLuminance, float exposure, float adaptationRate, float minExposure, float maxExposure )
 {
-  this->exposure       = exposure;
+  this->enableAdaptation = enableAdaptation;
+  this->targetLuminance  = targetLuminance;
+  this->exposure         = exposure;
+  this->adaptationRate   = adaptationRate;
+  this->minExposure      = minExposure;
+  this->maxExposure      = maxExposure;
+
+  if ( !enableAdaptation )
+    InitializeManualExposure( commandList, *exposureBuffer, *exposureOnlyBuffer, exposure );
+}
+
+void Scene::SetBloomParams( CommandList& commandList, float bloomThreshold, float bloomStrength )
+{
   this->bloomThreshold = bloomThreshold;
   this->bloomStrength  = bloomStrength;
 }
@@ -1078,14 +1281,13 @@ void Scene::RecreateWindowSizeDependantResources( CommandList& commandList, Wind
   for ( auto& t : depthTextures ) t.reset();
   for ( auto& t : directLightingTextures ) t.reset();
   for ( auto& t : reflectionProcTextures ) t.reset();
+  for ( auto& t : bloomTextures ) for ( auto& tx : t ) tx.reset();
   highResHDRTexture.reset();
   lowResHDRTexture.reset();
-  hdrTextureLowLevel.reset();
   indirectLightingTexture.reset();
   reflectionTexture.reset();
   sdrTexture.reset();
-  bloomTexture.reset();
-  bloomBlurredTexture.reset();
+  lumaTexture.reset();
   motionVectorTexture.reset();
   if ( upscaling )
   {
@@ -1106,28 +1308,17 @@ void Scene::RecreateWindowSizeDependantResources( CommandList& commandList, Wind
 
   auto lrts = upscaling ? upscaling->GetRenderingResolution() : XMINT2( width, height );
 
-  depthTextures[ 0 ]          = device.Create2DTexture( commandList, lrts.x, lrts.y, nullptr, 0, RenderManager::DepthFormat,        false, DepthSlot0,           std::nullopt,      false, L"DepthLQ0" );
-  depthTextures[ 1 ]          = device.Create2DTexture( commandList, lrts.x, lrts.y, nullptr, 0, RenderManager::DepthFormat,        false, DepthSlot1,           std::nullopt,      false, L"DepthLQ1" );
-  directLightingTextures[ 0 ] = device.Create2DTexture( commandList, lrts.x, lrts.y, nullptr, 0, RenderManager::HDRFormat,          true,  DirectLighting1Slot,  std::nullopt,      false, L"Lighting1" );
-  directLightingTextures[ 1 ] = device.Create2DTexture( commandList, lrts.x, lrts.y, nullptr, 0, RenderManager::HDRFormat,          true,  DirectLighting2Slot,  std::nullopt,      false, L"Lighting2" );
-  indirectLightingTexture     = device.Create2DTexture( commandList, lrts.x, lrts.y, nullptr, 0, RenderManager::HDRFormat,          true,  IndirectLightingSlot, std::nullopt,      false, L"SpecularIBL" );
-  reflectionTexture           = device.Create2DTexture( commandList, lrts.x, lrts.y, nullptr, 0, RenderManager::HDRFormat,          true,  ReflectionSlot,       ReflectionUAVSlot, false, L"Reflection" );
-  
-  lowResHDRTexture = device.Create2DTexture( commandList
-                                           , lrts.x
-                                           , lrts.y
-                                           , nullptr
-                                           , 0
-                                           , RenderManager::HDRFormat
-                                           , true
-                                           , HDRSlot
-                                           , HDRUAVSlot
-                                           , !upscaling
-                                           , L"HDRLQ" );
+  depthTextures[ 0 ]          = device.Create2DTexture( commandList, lrts.x, lrts.y, nullptr, 0, RenderManager::DepthFormat, false, DepthSlot0,           std::nullopt,      false, L"DepthLQ0" );
+  depthTextures[ 1 ]          = device.Create2DTexture( commandList, lrts.x, lrts.y, nullptr, 0, RenderManager::DepthFormat, false, DepthSlot1,           std::nullopt,      false, L"DepthLQ1" );
+  directLightingTextures[ 0 ] = device.Create2DTexture( commandList, lrts.x, lrts.y, nullptr, 0, RenderManager::HDRFormat,   true,  DirectLighting1Slot,  std::nullopt,      false, L"Lighting1" );
+  directLightingTextures[ 1 ] = device.Create2DTexture( commandList, lrts.x, lrts.y, nullptr, 0, RenderManager::HDRFormat,   true,  DirectLighting2Slot,  std::nullopt,      false, L"Lighting2" );
+  indirectLightingTexture     = device.Create2DTexture( commandList, lrts.x, lrts.y, nullptr, 0, RenderManager::HDRFormat,   true,  IndirectLightingSlot, std::nullopt,      false, L"SpecularIBL" );
+  reflectionTexture           = device.Create2DTexture( commandList, lrts.x, lrts.y, nullptr, 0, RenderManager::HDRFormat,   true,  ReflectionSlot,       ReflectionUAVSlot, false, L"Reflection" );
+  lowResHDRTexture            = device.Create2DTexture( commandList, lrts.x, lrts.y, nullptr, 0, RenderManager::HDRFormat,   true,  HDRSlot,              HDRUAVSlot,        false, L"HDRLQ" );
 
   if ( upscaling )
   {
-    highResHDRTexture   = device.Create2DTexture( commandList, width,  height, nullptr, 0, RenderManager::HDRFormat,          true,  HDRHQSlot,         HDRHQUAVSlot, true,  L"HDRHQ" );
+    highResHDRTexture   = device.Create2DTexture( commandList, width,  height, nullptr, 0, RenderManager::HDRFormat,          true,  HDRHQSlot,         HDRHQUAVSlot, false, L"HDRHQ" );
     motionVectorTexture = device.Create2DTexture( commandList, lrts.x, lrts.y, nullptr, 0, RenderManager::MotionVectorFormat, true,  MotionVectorsSlot, std::nullopt, false, L"MotionVectors" );
   }
   sdrTexture = device.Create2DTexture( commandList, width, height, nullptr, 0, RenderManager::SDRFormat, true,SDRSlot, SDRUAVSlot, false, L"SDR" );
@@ -1135,11 +1326,16 @@ void Scene::RecreateWindowSizeDependantResources( CommandList& commandList, Wind
   reflectionProcTextures[ 0 ] = device.Create2DTexture( commandList, lrts.x / 2, lrts.y / 2, nullptr, 0, RenderManager::HDRFormat, false, ReflectionProc1Slot, ReflectionProc1UAVSlot, false, L"ReflectionProc1" );
   reflectionProcTextures[ 1 ] = device.Create2DTexture( commandList, lrts.x / 2, lrts.y / 2, nullptr, 0, RenderManager::HDRFormat, false, ReflectionProc2Slot, ReflectionProc2UAVSlot, false, L"ReflectionProc2" );
 
-  bloomTexture        = device.Create2DTexture( commandList, width / 2, height / 2, nullptr, 0, RenderManager::HDRFormat, true, BloomSlot,        BloomUAVSlot,        false, L"Bloom"        );
-  bloomBlurredTexture = device.Create2DTexture( commandList, width / 2, height / 2, nullptr, 0, RenderManager::HDRFormat, true, BloomBlurredSlot, BloomBlurredUAVSlot, false, L"BloomBlurred" );
+  auto bloomWidth  = width  > 2560 ? 1280 : 640;
+  auto bloomHeight = height > 1440 ? 768  : 384;
 
-  auto& hdrMipped = upscaling ? *highResHDRTexture : *lowResHDRTexture;
-  hdrTextureLowLevel = device.GetShaderResourceHeap().RequestDescriptor( device, ResourceDescriptorType::UnorderedAccessView, HDRLowLevelUAVSlot, hdrMipped, 0, hdrMipped.GetTextureMipLevels() - 1 );
+  for ( int bt = 0; bt < 5; ++bt )
+  {
+    bloomTextures[ bt ][ 0 ] = device.Create2DTexture( commandList, bloomWidth >> bt, bloomHeight >> bt, nullptr, 0, RenderManager::HDRFormat, true, -1, -1, false, L"Bloom_a" );
+    bloomTextures[ bt ][ 1 ] = device.Create2DTexture( commandList, bloomWidth >> bt, bloomHeight >> bt, nullptr, 0, RenderManager::HDRFormat, true, -1, -1, false, L"Bloom_b" );
+  }
+
+  lumaTexture = device.Create2DTexture( commandList, bloomWidth, bloomHeight, nullptr, 0, RenderManager::LumaFormat, true, -1, -1, false, L"Luma" );
 }
 
 BoundingBox Scene::CalcModelAABB( uint32_t id ) const
@@ -1160,11 +1356,6 @@ float Scene::Pick( uint32_t id, FXMVECTOR rayStart, FXMVECTOR rayDir ) const
     return -1;
 
   return iter->second.mesh->Pick( XMLoadFloat4x4( &iter->second.nodeTransform ), rayStart, rayDir );
-}
-
-void Scene::ShowGIProbes( bool show )
-{
-  drawGIProbes = show;
 }
 
 Gizmo* Scene::GetGizmo() const

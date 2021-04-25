@@ -33,9 +33,27 @@ void StageWindow::Tick( CommandList& commandList, double timeElapsed )
 
   if ( ImGui::Begin( "Stage parameters", nullptr, ImGuiWindowFlags_None ) )
   {
-    ImGui::SliderFloat( "Scene exposure", &stage->exposure, 0, 5 );
-    ImGui::SliderFloat( "Bloom strength", &stage->bloomStrength, 0, 2 );
+    auto minExposure = log2( stage->minExposure );
+    auto maxExposure = log2( stage->maxExposure );
+    auto exposure    = log2( stage->exposure );
+
+    ImGui::Checkbox( "EnableAdaptation", &stage->enableAdaptation );
+    ImGui::SliderFloat( "Min exposure", &minExposure, -8, 0, "%.3f", ImGuiSliderFlags_Logarithmic );
+    ImGui::SliderFloat( "Max exposure", &maxExposure,  0, 8, "%.3f", ImGuiSliderFlags_Logarithmic );
+    ImGui::SliderFloat( "Exposure",     &exposure,    -8, 8, "%.3f", ImGuiSliderFlags_Logarithmic );
+    ImGui::SliderFloat( "Target luminance", &stage->targetLuminance, 0.01f, 0.99f );
+    ImGui::SliderFloat( "Adaptation rate", &stage->adaptationRate, 0.01f, 1 );
+
+    stage->minExposure = exp2( minExposure );
+    stage->maxExposure = exp2( maxExposure );
+    stage->exposure    = exp2( exposure );
+
+    ImGui::Separator();
+
+    ImGui::SliderFloat( "Bloom strength",  &stage->bloomStrength,  0, 2 );
     ImGui::SliderFloat( "Bloom threshold", &stage->bloomThreshold, 0, 8 );
+
+    ImGui::Separator();
 
     if ( ImGui::BeginCombo( "Sky", selectedSky < 0 ? nullptr : skies[ selectedSky ].name.data(), ImGuiComboFlags_PopupAlignLeft | ImGuiComboFlags_HeightRegular ) )
     {

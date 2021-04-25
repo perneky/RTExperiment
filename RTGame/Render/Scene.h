@@ -31,6 +31,8 @@ public:
     int                  selectedGizmoElement;
     FrameDebugModeCB     frameDebugMode;
     bool                 renderLightMarkers;
+    bool                 showGIProbes;
+    bool                 showLuminanceHistogram;
   };
 
   Scene();
@@ -61,7 +63,14 @@ public:
 
   std::pair< Resource&, Resource& > Render( CommandList& commandList, const EditorInfo& editorInfo, float dt );
 
-  void SetPostEffectParams( float exposure, float bloomThreshold, float bloomStrength );
+  void SetToneMappingParams( CommandList& commandList
+                           , bool enableAdaptation
+                           , float targetLuminance
+                           , float exposure
+                           , float adaptationRate
+                           , float minExposure
+                           , float maxExposure );
+  void SetBloomParams( CommandList& commandList, float bloomThreshold, float bloomStrength );
 
   int GetTargetWidth () const;
   int GetTargetHeight() const;
@@ -71,8 +80,6 @@ public:
   BoundingBox CalcModelAABB( uint32_t id ) const;
 
   float Pick( uint32_t id, FXMVECTOR rayStart, FXMVECTOR rayDir ) const;
-
-  void ShowGIProbes( bool show );
 
   Gizmo* GetGizmo() const;
 
@@ -127,12 +134,14 @@ private:
   std::unique_ptr< Resource > lowResHDRTexture;
   std::unique_ptr< Resource > highResHDRTexture;
   std::unique_ptr< Resource > sdrTexture;
+  std::unique_ptr< Resource > histogramBuffer;
   std::unique_ptr< Resource > exposureBuffer;
+  std::unique_ptr< Resource > exposureOnlyBuffer;
+  std::unique_ptr< Resource > lumaTexture;
   std::unique_ptr< Resource > giProbeTextures[ 2 ];
   std::unique_ptr< Resource > specBRDFLUTTexture;
   std::unique_ptr< Resource > wetnessTexture;
-  std::unique_ptr< Resource > bloomTexture;
-  std::unique_ptr< Resource > bloomBlurredTexture;
+  std::unique_ptr< Resource > bloomTextures[ 5 ][ 2 ];
 
   std::unique_ptr< Resource > frameConstantBuffer;
   std::unique_ptr< Resource > prevFrameConstantBuffer;
@@ -145,8 +154,6 @@ private:
 
   std::unique_ptr< Resource > allMeshParamsBuffer;
 
-  std::unique_ptr< ResourceDescriptor > hdrTextureLowLevel;
-
   std::unique_ptr< ComputeShader > toneMappingShader;
   std::unique_ptr< ComputeShader > downsampleShader;
   std::unique_ptr< ComputeShader > blurShader;
@@ -156,7 +163,12 @@ private:
   std::unique_ptr< ComputeShader > specBRDFLUTShader;
   std::unique_ptr< ComputeShader > processReflectionShader;
   std::unique_ptr< ComputeShader > extractBloomShader;
+  std::unique_ptr< ComputeShader > downsampleBloomShader;
   std::unique_ptr< ComputeShader > blurBloomShader;
+  std::unique_ptr< ComputeShader > upsampleBlurBloomShader;
+  std::unique_ptr< ComputeShader > extractLumaShader;
+  std::unique_ptr< ComputeShader > generateHistogramShader;
+  std::unique_ptr< ComputeShader > debugHistogramShader;
 
   std::unique_ptr< Upscaling > upscaling;
 
@@ -167,7 +179,6 @@ private:
 
   std::unique_ptr< Gizmo > gizmo;
 
-  bool drawGIProbes          = false;
   bool giProbeInstancesDirty = true;
   int  giProbeUpdatePerFrame = 1000;
   int  giProbeUpdateNext     = 0;
@@ -177,7 +188,13 @@ private:
 
   int currentTargetIndex = 0;
 
-  float exposure       = 1;
+  bool  enableAdaptation = true;
+  float targetLuminance  = 0.08f;
+  float exposure         = 2;
+  float adaptationRate   = 0.05f;
+  float minExposure      = 1.0f / 64;
+  float maxExposure      = 64;
+
   float bloomThreshold = 4.0f;
   float bloomStrength  = 0.1f;
 

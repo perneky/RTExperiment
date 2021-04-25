@@ -13,16 +13,18 @@ public:
 
   void Tick( CommandList& commandList, double timeElapsed ) override;
 
-  bool               GetShowGIProbes    () const;
-  FrameDebugModeCB   GetFrameDebugMode  () const;
-  Upscaling::Quality GetUpscalingQuality() const;
+  bool               GetShowGIProbes          () const;
+  bool               GetShowLuminanceHistogram() const;
+  FrameDebugModeCB   GetFrameDebugMode        () const;
+  Upscaling::Quality GetUpscalingQuality      () const;
 
 private:
   double   fpsAccum        = 0;
   uint64_t frameCounter    = 0;
   int      framesPerSecond = 0;
   
-  bool             showGIProbes = false;
+  bool             showGIProbes    = false;
+  bool             showLuminanceHg = false;
   FrameDebugModeCB frameDebugMode;
 
   Upscaling::Quality upscalingQuality = Upscaling::DefaultQuality;

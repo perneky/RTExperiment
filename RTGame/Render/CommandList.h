@@ -23,7 +23,7 @@ struct CommandList
 
   virtual void Clear( Resource& texture, const Color& color ) = 0;
   virtual void Clear( Resource& texture, float depth ) = 0;
-
+  
   virtual void SetRenderTarget( Resource& colorBuffer, Resource* depthBuffer ) = 0;
   virtual void SetRenderTarget( const std::vector< Resource* >& colorBuffers, Resource* depthBuffer ) = 0;
   virtual void SetViewport( int left, int top, int width, int height ) = 0;

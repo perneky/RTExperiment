@@ -32,7 +32,6 @@ struct Upscaling
                       , Resource& lowResMotionVectors
                       , Resource& highResColor
                       , Resource& exposure
-                      , float prevExposure
                       , const XMFLOAT2& jitter ) = 0;
 
   static std::unique_ptr< Upscaling > Instantiate();

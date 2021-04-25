@@ -24,7 +24,6 @@ public:
               , Resource& lowResMotionVectors
               , Resource& highResColor
               , Resource& exposure
-              , float prevExposure
               , const XMFLOAT2& jitter ) override;
 
   static bool IsAvailable();
