@@ -8,7 +8,8 @@ void main( VertexOutput input
          , bool isFrontFace : SV_IsFrontFace
          , out float4 outDirectLighting   : SV_Target0
          , out float4 outSpecularIBL      : SV_Target1
-         , out float4 outReflection       : SV_Target2 )
+         , out float4 outReflection       : SV_Target2 
+         , out float  outHQS              : SV_Target3 )
 {
   const float aoFrameChainLength = 256;
 
@@ -47,21 +48,25 @@ void main( VertexOutput input
   float  prevGViewDepth       = LinearizeDepth( prevScreenPosition.z, prevFrameParams.invProjTransform );
   float  prevTViewDepth       = LinearizeDepth( allEngineTextures[ prevFrameParams.depthIndex ].Sample( pointClampSampler, prevScreenTexcoord ).r, prevFrameParams.invProjTransform );
   float  prevAO               = allEngineTextures[ prevFrameParams.aoIndex ].Sample( pointClampSampler, prevScreenTexcoord ).a;
+  float  prevHQS              = allEngineTextures[ prevFrameParams.hqsIndex ].Sample( clampSampler, prevScreenTexcoord ).r;
   bool   fromOutOfScreen      = prevScreenTexcoord.x <= edgeSize.x || prevScreenTexcoord.y <= edgeSize.y || prevScreenTexcoord.x >= 1.0 - edgeSize.x || prevScreenTexcoord.y > 1.0 - edgeSize.y;
-  float  prevAODepthD         = saturate( 1.0 - abs( prevGViewDepth - prevTViewDepth ) * 5 );
-  float  prevAOGoodness       = prevAODepthD * 0.95;
+  float  prevDepthD           = saturate( 1.0 - abs( prevGViewDepth - prevTViewDepth ) * 5 );
+  float  prevGoodness         = prevDepthD * 0.95;
+
+  if ( fromOutOfScreen )
+    prevGoodness = 0;
 
   float3 probeGI = SampleGI( input.worldPosition, geometryWorldNormal, frameParams, all3DTextures[ frameParams.giSourceIndex ] );
   
-  float3 tracedDirectLighting = TraceDirectLighting( surfaceAlbedo, roughness, metallic, isSpecular, input.worldPosition, surfaceWorldNormal, frameParams.cameraPosition.xyz, lightingEnvironmentParams, false );
+  bool usePrevHQSampling = prevGoodness > 0.6;
+  bool doHQSSampling     = usePrevHQSampling ? prevHQS > 0 : true;
+  bool needsHQSampling   = doHQSSampling;
+  float3 tracedDirectLighting = TraceDirectLighting( surfaceAlbedo, roughness, metallic, isSpecular, input.worldPosition, surfaceWorldNormal, frameParams.cameraPosition.xyz, lightingEnvironmentParams, false, needsHQSampling );
 
   float3 randomOffset = float( frameParams.frameIndex * RandomTextureSize / aoFrameChainLength ) / RandomTextureSize;
 
-  if ( fromOutOfScreen )
-    prevAOGoodness = 0;
-
   float newAO = TraceOcclusion( input.worldPosition, geometryWorldNormal, input.randomValues, randomOffset, all3DTextures[ RandomTextureSlotHLSL ], 0.4, 1 );
-  float ao    = lerp( newAO, prevAO, prevAOGoodness );
+  float ao    = lerp( newAO, prevAO, prevGoodness );
 
   float3 diffuseIBL  = 0;
   float3 specularIBL = 0;
@@ -82,47 +87,47 @@ void main( VertexOutput input
   else
     outReflection = 0;
 
+  outHQS = needsHQSampling ? 1 : 0;
+
   float3 toCamera = normalize( frameParams.cameraPosition.xyz - input.worldPosition.xyz );
   float  NdotC    = saturate( dot( geometryWorldNormal, toCamera ) );
   float  eadd     = meshParams.editorAddition * ( NdotC < 0.15 ? 1 : 0 );
+
+  outSpecularIBL = 0;
 
   switch ( frameParams.frameDebugMode )
   {
   case FrameDebugModeCB::ShowGI:
     outDirectLighting = float4( probeGI, ao );
-    outSpecularIBL    = 0;
     break;
   case FrameDebugModeCB::ShowAO:
     outDirectLighting = float4( ao.xxx, ao );
-    outSpecularIBL    = 0;
     break;
   case FrameDebugModeCB::ShowGIAO:
     outDirectLighting = float4( probeGI * ao, ao );
-    outSpecularIBL    = 0;
     break;
   case FrameDebugModeCB::ShowSurfaceNormal:
     outDirectLighting = float4( surfaceWorldNormal * 0.5 + 0.5, ao );
-    outSpecularIBL = 0;
     break;
   case FrameDebugModeCB::ShowGeometryNormal:
     outDirectLighting = float4( geometryWorldNormal * 0.5 + 0.5, ao );
-    outSpecularIBL = 0;
     break;
   case FrameDebugModeCB::ShowRoughness:
     outDirectLighting = float4( roughness.xxx, ao );
-    outSpecularIBL = 0;
     break;
   case FrameDebugModeCB::ShowMetallic:
     outDirectLighting = float4( metallic.xxx, ao );
-    outSpecularIBL = 0;
     break;
   case FrameDebugModeCB::ShowBaseReflection:
     outDirectLighting = float4( outReflection.rgb, ao );
-    outSpecularIBL = 0;
+    break;
+  case FrameDebugModeCB::ShowNeedHQLightSampling:
+    outDirectLighting.rgb = doHQSSampling ? 0.75 : 0.25;
+    outDirectLighting.a   = ao;
     break;
   default:
     outDirectLighting = float4( emissive + tracedDirectLighting + diffuseIBL + eadd, ao );
-    outSpecularIBL = float4( specularIBL, 1 );
+    outSpecularIBL    = float4( specularIBL, 1 );
     break;
   }
 }

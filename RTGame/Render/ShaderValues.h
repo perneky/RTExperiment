@@ -14,7 +14,7 @@
 #define Engine2DResourceCount   40
 #define EngineCubeResourceCount 10
 #define EngineVolResourceCount  10
-#define VaryingResourceCount    1000
+#define VaryingResourceCount    2000
 
 #define AllResourceCount ( RTSceneCount + Engine2DResourceCount + EngineCubeResourceCount + EngineVolResourceCount + VaryingResourceCount )
 
@@ -52,7 +52,7 @@
 #define Engine2DResourceCountStr   "40"
 #define EngineCubeResourceCountStr "10"
 #define EngineVolResourceCountStr  "10"
-#define VaryingResourceCountStr    "1000"
+#define VaryingResourceCountStr    "2000"
 
 #define RTSceneBaseSlotStr            "0"
 #define Engine2DResourceBaseSlotStr   "100"
@@ -60,8 +60,8 @@
 #define EngineVolResourceBaseSlotStr  "150"
 #define VaryingResourceBaseSlotStr    "160"
 
-#define CBVIBBaseSlotStr "1160"
-#define CBVVBBaseSlotStr "1660"
+#define CBVIBBaseSlotStr "2160"
+#define CBVVBBaseSlotStr "2660"
 
 #define CBVIBCountStr "500"
 #define CBVVBCountStr "500"
@@ -78,6 +78,8 @@ enum TextureSlots
   HDRSlot,
   DirectLighting1Slot,
   DirectLighting2Slot,
+  HQS1Slot,
+  HQS2Slot,
   IndirectLightingSlot,
   DepthSlot0,
   DepthSlot1,
@@ -105,7 +107,7 @@ enum TextureSlots
   static_assert( TextureSlotCount < Engine2DResourceBaseSlot + Engine2DResourceCount, "Too many engine textures!" );
 #endif // __cplusplus
 
-#define AllMeshParamsSlotStr "108"
+#define AllMeshParamsSlotStr "110"
 
 #define ToneMappingKernelWidth  8
 #define ToneMappingKernelHeight 8
@@ -168,7 +170,7 @@ enum TextureSlots
 
 #define RTSlotMask ( ( 1 << 12 ) - 1 )
 
-#define HaltonSequenceLength 32
+#define HaltonSequenceLength 64
 
 #define ENABLE_RAYTRACING_FOR_RENDER 1
 

@@ -597,6 +597,7 @@ RenderManager::RenderManager( std::shared_ptr< Window > window )
     pipelineDesc.targetFormat[ 0 ]           = RenderManager::HDRFormat;
     pipelineDesc.targetFormat[ 1 ]           = RenderManager::HDRFormat;
     pipelineDesc.targetFormat[ 2 ]           = RenderManager::HDRFormat;
+    pipelineDesc.targetFormat[ 3 ]           = RenderManager::HQSFormat;
     pipelineDesc.depthFormat                 = RenderManager::DepthFormat;
     pipelineDesc.samples                     = 1;
     pipelineDesc.depthStencilDesc.depthWrite = false;
@@ -624,6 +625,7 @@ RenderManager::RenderManager( std::shared_ptr< Window > window )
     pipelineDesc.targetFormat[ 0 ]           = RenderManager::HDRFormat;
     pipelineDesc.targetFormat[ 1 ]           = RenderManager::HDRFormat;
     pipelineDesc.targetFormat[ 2 ]           = RenderManager::HDRFormat;
+    pipelineDesc.targetFormat[ 3 ]           = RenderManager::HQSFormat;
     pipelineDesc.depthFormat                 = RenderManager::DepthFormat;
     pipelineDesc.samples                     = 1; 
     pipelineDesc.depthStencilDesc.depthWrite = false;

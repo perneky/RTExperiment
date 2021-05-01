@@ -122,7 +122,7 @@ D3DDevice::D3DDevice( D3DAdapter& adapter )
 
   descriptorHeaps[ D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV ].reset( new D3DDescriptorHeap( *this, VaryingResourceBaseSlot, CBVHeapSize, D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV, L"ShaderResourceHeap" ) );
   descriptorHeaps[ D3D12_DESCRIPTOR_HEAP_TYPE_SAMPLER     ].reset( new D3DDescriptorHeap( *this, 0, 20, D3D12_DESCRIPTOR_HEAP_TYPE_SAMPLER, L"SamplerHeap" ) );
-  descriptorHeaps[ D3D12_DESCRIPTOR_HEAP_TYPE_RTV         ].reset( new D3DDescriptorHeap( *this, 0, 20, D3D12_DESCRIPTOR_HEAP_TYPE_RTV,     L"RenderTargetViewHeap" ) );
+  descriptorHeaps[ D3D12_DESCRIPTOR_HEAP_TYPE_RTV         ].reset( new D3DDescriptorHeap( *this, 0, 30, D3D12_DESCRIPTOR_HEAP_TYPE_RTV,     L"RenderTargetViewHeap" ) );
   descriptorHeaps[ D3D12_DESCRIPTOR_HEAP_TYPE_DSV         ].reset( new D3DDescriptorHeap( *this, 0, 20, D3D12_DESCRIPTOR_HEAP_TYPE_DSV,     L"DepthStencilViewHeap" ) );
 
   D3D12_DESCRIPTOR_HEAP_DESC desc = {};

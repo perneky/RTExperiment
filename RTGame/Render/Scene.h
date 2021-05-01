@@ -128,6 +128,7 @@ private:
   std::unique_ptr< Resource > depthTextures[ 2 ];
   std::unique_ptr< Resource > motionVectorTexture;
   std::unique_ptr< Resource > directLightingTextures[ 2 ];
+  std::unique_ptr< Resource > hqsTextures[ 2 ];
   std::unique_ptr< Resource > indirectLightingTexture;
   std::unique_ptr< Resource > reflectionTexture;
   std::unique_ptr< Resource > reflectionProcTextures[ 2 ];

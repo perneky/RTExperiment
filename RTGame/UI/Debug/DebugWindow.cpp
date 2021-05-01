@@ -28,6 +28,8 @@ static const char* GetFrameDebugModeName( FrameDebugModeCB mode )
     return "Base reflection";
   case FrameDebugModeCB::ShowProcessedReflection:
     return "Processed reflection";
+  case FrameDebugModeCB::ShowNeedHQLightSampling:
+    return "Need HQ light sampling";
   default:
     assert( false );
     return " ";
@@ -96,6 +98,7 @@ void DebugWindow::Tick( CommandList& commandList, double timeElapsed )
       FDM( ShowMetallic );
       FDM( ShowBaseReflection );
       FDM( ShowProcessedReflection );
+      FDM( ShowNeedHQLightSampling );
 #undef FDM
       ImGui::EndCombo();
     }

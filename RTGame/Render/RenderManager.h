@@ -29,6 +29,7 @@ public:
   static constexpr PixelFormat AOFormat           = PixelFormat::RG1616F;
   static constexpr PixelFormat MotionVectorFormat = PixelFormat::RG1616F;
   static constexpr PixelFormat LumaFormat         = PixelFormat::R8U;
+  static constexpr PixelFormat HQSFormat          = PixelFormat::R8UN;
 
   static bool           CreateInstance( std::shared_ptr< Window > window );
   static RenderManager& GetInstance();

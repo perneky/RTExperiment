@@ -45,6 +45,8 @@ std::unique_ptr< ResourceDescriptor > D3DDescriptorHeap::RequestDescriptor( Devi
     freeDescriptors.erase( slot );
   }
 
+  assert( !freeDescriptors.empty() );
+
   D3D12_CPU_DESCRIPTOR_HANDLE cpuHandle;
   D3D12_GPU_DESCRIPTOR_HANDLE gpuHandle;
   

@@ -19,8 +19,10 @@ struct LightCalcData
   bool   isCone;
 };
 
-float3 CastToPoint( float3 worldPosition, float3 pointCoord, float minT )
+float3 CastToPoint( float3 worldPosition, float3 pointCoord, float minT, out bool blocked )
 {
+  blocked = false;
+
   float3 origin  = worldPosition;
   float  maxT    = length( pointCoord - worldPosition );
   float3 toPoint = normalize( pointCoord - worldPosition );
@@ -42,8 +44,9 @@ float3 CastToPoint( float3 worldPosition, float3 pointCoord, float minT )
         [branch]
         if ( !ShouldBeDiscared( alpha ) )
         {
-          color = 0;
-          ended = true;
+          color   = 0;
+          ended   = true;
+          blocked = true;
         }
       }
       else if ( IsTranslucentMaterial( hitGeom.materialIndex ) )
@@ -58,14 +61,16 @@ float3 CastToPoint( float3 worldPosition, float3 pointCoord, float minT )
         }
         else
         {
-          color = 0;
-          ended = true;
+          color   = 0;
+          ended   = true;
+          blocked = true;
         }
       }
       else
       {
-        color = 0;
-        ended = true;
+        color   = 0;
+        ended   = true;
+        blocked = true;
       }
 
       origin = hitGeom.worldPosition;
@@ -77,12 +82,18 @@ float3 CastToPoint( float3 worldPosition, float3 pointCoord, float minT )
   return color;
 }
 
+float3 CastToPoint( float3 worldPosition, float3 pointCoord, float minT )
+{
+  bool blocked = false;
+  return CastToPoint( worldPosition, pointCoord, minT, blocked );
+}
+
 float3 CalcLight( float3 lightCenter, float3 worldPosition )
 {
   return CastToPoint( worldPosition, lightCenter, OcclusionThreshold );
 }
 
-float3 CalcLight( float3 lightCenter, float3 worldPosition, float lightRadius, float3 cameraPosition )
+float3 CalcLight( float3 lightCenter, float3 worldPosition, float lightRadius, float3 cameraPosition, bool doHQSampling, inout bool needHQSampling )
 {
   const float farScatterDistance = 10;
   const float minScatter         = 8;
@@ -95,13 +106,22 @@ float3 CalcLight( float3 lightCenter, float3 worldPosition, float lightRadius, f
   float dt            = saturate( pointDistance / farScatterDistance );
   int   scatter       = lerp( maxScatter, minScatter, pow( dt, 0.5 ) );
 
+  if ( !doHQSampling )
+    scatter = 4;
+
   float3 access = 0;
+  uint   reach  = 0;
   for ( int secIx = 0; secIx < scatter; ++secIx )
   {
-    float2 offset = haltonSequence.values[ secIx ].zw * lightRadius;
+    float2 offset    = haltonSequence.values[ secIx ].zw * lightRadius;
     float3 samplePos = lightCenter + px * offset.x + py * offset.y;
-    access += CastToPoint( worldPosition, samplePos, OcclusionThreshold );
+    bool   blocked   = false;
+    access += CastToPoint( worldPosition, samplePos, OcclusionThreshold, blocked );
+    if ( !blocked )
+      reach++;
   }
+
+  needHQSampling |= ( reach != 0 && reach != scatter );
 
   return access / scatter;
 }
@@ -183,7 +203,9 @@ float3 CalcDirectLight( float3 albedo
                       , float3 toCamera
                       , float3 F0
                       , float  NdotC
-                      , bool   noScatter )
+                      , bool   noScatter
+                      , bool   doHQSampling
+                      , inout bool needHQSampling )
 {
   LightCalcData lcd = CalcLightData( light, worldPosition );
 
@@ -225,7 +247,7 @@ float3 CalcDirectLight( float3 albedo
 
   [branch]
   if ( lcd.castShadow && light.scatterShadow && !noScatter )
-    directLighting *= CalcLight( lcd.lightCenter, worldPosition, lcd.lightRadius, cameraPosition );
+    directLighting *= CalcLight( lcd.lightCenter, worldPosition, lcd.lightRadius, cameraPosition, doHQSampling, needHQSampling );
   else if ( lcd.castShadow )
     directLighting *= CalcLight( lcd.lightCenter, worldPosition );
 
@@ -240,16 +262,35 @@ float3 TraceDirectLighting( float3 albedo
                           , float3 worldNormal
                           , float3 cameraPosition
                           , LightingEnvironmentParamsCB env
-                          , bool noScatter )
+                          , bool noScatter
+                          , inout bool needHQSampling )
 {
   float3 toCamera = normalize( cameraPosition - worldPosition );
   float  NdotC    = saturate( dot( worldNormal, toCamera ) );
   float3 specRef  = 2.0 * NdotC * worldNormal - toCamera;
   float3 F0       = lerp( Fdielectric, albedo, metallic );
 
+  bool doHQSampling = needHQSampling;
+  needHQSampling = false;
+
   float3 directLighting = 0;
   for ( int lightIx = 0; lightIx < env.lightCount; ++lightIx )
-    directLighting += CalcDirectLight( albedo, roughness, metallic, isSpecular, env.sceneLights[ lightIx ], worldPosition, worldNormal, cameraPosition, toCamera, F0, NdotC, noScatter );
+    directLighting += CalcDirectLight( albedo, roughness, metallic, isSpecular, env.sceneLights[ lightIx ], worldPosition, worldNormal, cameraPosition, toCamera, F0, NdotC, noScatter, doHQSampling, needHQSampling );
 
   return directLighting;
+}
+
+float3 TraceDirectLighting( float3 albedo
+                          , float roughness
+                          , float metallic
+                          , bool isSpecular
+                          , float3 worldPosition
+                          , float3 worldNormal
+                          , float3 cameraPosition
+                          , LightingEnvironmentParamsCB env
+                          , bool noScatter )
+{
+  bool needHQSampling = true;
+  return TraceDirectLighting( albedo, roughness, metallic, isSpecular, worldPosition, worldNormal, cameraPosition, env, noScatter, needHQSampling );
+
 }

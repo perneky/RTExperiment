@@ -158,6 +158,15 @@ void Scene::SetUp( CommandList& commandList, Window& window )
     hsb.values[ hix ].y = vals[ 1 ];
     hsb.values[ hix ].z = vals[ 0 ] * 2 - 1;
     hsb.values[ hix ].w = vals[ 1 ] * 2 - 1;
+
+#ifdef _DEBUG
+    for ( int cix = 0; cix < hix; ++cix )
+    {
+      float dx = abs( hsb.values[ hix ].x - hsb.values[ cix ].x );
+      float dy = abs( hsb.values[ hix ].y - hsb.values[ cix ].y );
+      assert( !( dx < 0.001f && dy < 0x001f ) );
+    }
+#endif // _DEBUG
   }
 
   auto hub = RenderManager::GetInstance().GetUploadConstantBufferForResource( *haltonSequenceBuffer );
@@ -190,7 +199,7 @@ void Scene::SetSky( CommandList& commandList, const GUID& guid )
     auto& sky   = iter->second;
     skyMaterial = RenderManager::GetInstance().GetAllMaterialIndex( sky.material );
     skybox      = Mesh::CreateSkybox( commandList, skyMaterial );
-    SetDirectionalLight( XMVector3Normalize( XMLoadFloat3( &sky.lightDirection ) ), 1000, 5, XMLoadFloat3( &sky.lightColor ), sky.lightIntensity, true );
+    SetDirectionalLight( XMVector3Normalize( XMLoadFloat3( &sky.lightDirection ) ), 1000, 10, XMLoadFloat3( &sky.lightColor ), sky.lightIntensity, true );
   }
   else
     skybox.reset();
@@ -370,6 +379,7 @@ std::pair< Resource&, Resource& > Scene::Render( CommandList& commandList, const
   frameParams.frameIndex  = ( frameParams.frameIndex + 1 ) % 10000;
   frameParams.depthIndex  = ( currentTargetIndex == 0 ? DepthSlot0          : DepthSlot1          ) - BaseSlot;
   frameParams.aoIndex     = ( currentTargetIndex == 0 ? DirectLighting1Slot : DirectLighting2Slot ) - BaseSlot;
+  frameParams.hqsIndex    = ( currentTargetIndex == 0 ? HQS1Slot            : HQS2Slot            ) - BaseSlot;
 
   frameParams.giSourceIndex = ( currentGISource == 0 ) ? GITexture1SlotHLSL : GITexture2SlotHLSL;
   
@@ -391,6 +401,9 @@ std::pair< Resource&, Resource& > Scene::Render( CommandList& commandList, const
 
   auto& directLightingTexture     = directLightingTextures[ currentTargetIndex ];
   auto& prevDirectLightingTexture = directLightingTextures[ prevTargetIndex ];
+
+  auto& hqsTexture     = hqsTextures[ currentTargetIndex ];
+  auto& prevHQSTexture = hqsTextures[ prevTargetIndex ];
 
   auto& finalHDRTexture = highResHDRTexture ? highResHDRTexture : lowResHDRTexture;
 
@@ -583,6 +596,7 @@ std::pair< Resource&, Resource& > Scene::Render( CommandList& commandList, const
     commandList.BeginEvent( 0, L"Scene::Render(Back buffer setup)" );
 
     commandList.ChangeResourceState( *sdrTexture, ResourceStateBits::RenderTarget );
+    commandList.ChangeResourceState( *hqsTexture, ResourceStateBits::RenderTarget );
     commandList.ChangeResourceState( *directLightingTexture, ResourceStateBits::RenderTarget );
     commandList.ChangeResourceState( *indirectLightingTexture, ResourceStateBits::RenderTarget );
     commandList.ChangeResourceState( *reflectionTexture, ResourceStateBits::RenderTarget );
@@ -658,13 +672,18 @@ std::pair< Resource&, Resource& > Scene::Render( CommandList& commandList, const
     commandList.ChangeResourceState( *directLightingTexture, ResourceStateBits::RenderTarget );
     commandList.ChangeResourceState( *prevDirectLightingTexture, ResourceStateBits::PixelShaderInput | ResourceStateBits::NonPixelShaderInput );
 
+    commandList.ChangeResourceState( *hqsTexture, ResourceStateBits::RenderTarget );
+    commandList.ChangeResourceState( *prevHQSTexture, ResourceStateBits::PixelShaderInput | ResourceStateBits::NonPixelShaderInput );
+
     commandList.Clear( *directLightingTexture, Color( 0, 0, 0, 0 ) );
     commandList.Clear( *indirectLightingTexture, Color( 0, 0, 0, 0 ) );
+    commandList.Clear( *hqsTexture, Color( 0, 0, 0, 0 ) );
     commandList.Clear( *reflectionTexture, Color( 0, 0, 0, 0 ) );
 
     commandList.SetRenderTarget( { directLightingTexture.get()
                                  , indirectLightingTexture.get()
-                                 , reflectionTexture.get() }
+                                 , reflectionTexture.get() 
+                                 , hqsTexture.get() }
                                , depthTexture.get() );
 
     setUpOpaquePass( PipelinePresets::Mesh );
@@ -1280,6 +1299,7 @@ void Scene::RecreateWindowSizeDependantResources( CommandList& commandList, Wind
 
   for ( auto& t : depthTextures ) t.reset();
   for ( auto& t : directLightingTextures ) t.reset();
+  for ( auto& t : hqsTextures ) t.reset();
   for ( auto& t : reflectionProcTextures ) t.reset();
   for ( auto& t : bloomTextures ) for ( auto& tx : t ) tx.reset();
   highResHDRTexture.reset();
@@ -1312,6 +1332,8 @@ void Scene::RecreateWindowSizeDependantResources( CommandList& commandList, Wind
   depthTextures[ 1 ]          = device.Create2DTexture( commandList, lrts.x, lrts.y, nullptr, 0, RenderManager::DepthFormat, false, DepthSlot1,           std::nullopt,      false, L"DepthLQ1" );
   directLightingTextures[ 0 ] = device.Create2DTexture( commandList, lrts.x, lrts.y, nullptr, 0, RenderManager::HDRFormat,   true,  DirectLighting1Slot,  std::nullopt,      false, L"Lighting1" );
   directLightingTextures[ 1 ] = device.Create2DTexture( commandList, lrts.x, lrts.y, nullptr, 0, RenderManager::HDRFormat,   true,  DirectLighting2Slot,  std::nullopt,      false, L"Lighting2" );
+  hqsTextures[ 0 ]            = device.Create2DTexture( commandList, lrts.x, lrts.y, nullptr, 0, RenderManager::HQSFormat,   true,  HQS1Slot,             std::nullopt,      false, L"HQS1" );
+  hqsTextures[ 1 ]            = device.Create2DTexture( commandList, lrts.x, lrts.y, nullptr, 0, RenderManager::HQSFormat,   true,  HQS2Slot,             std::nullopt,      false, L"HQS2" );
   indirectLightingTexture     = device.Create2DTexture( commandList, lrts.x, lrts.y, nullptr, 0, RenderManager::HDRFormat,   true,  IndirectLightingSlot, std::nullopt,      false, L"SpecularIBL" );
   reflectionTexture           = device.Create2DTexture( commandList, lrts.x, lrts.y, nullptr, 0, RenderManager::HDRFormat,   true,  ReflectionSlot,       ReflectionUAVSlot, false, L"Reflection" );
   lowResHDRTexture            = device.Create2DTexture( commandList, lrts.x, lrts.y, nullptr, 0, RenderManager::HDRFormat,   true,  HDRSlot,              HDRUAVSlot,        false, L"HDRLQ" );

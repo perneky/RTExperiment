@@ -22,6 +22,7 @@ enum class FrameDebugModeCB : int
   ShowMetallic,
   ShowBaseReflection,
   ShowProcessedReflection,
+  ShowNeedHQLightSampling,
 };
 
 struct MeshParamsCB
@@ -63,6 +64,7 @@ struct FrameParamsCB
   int              frameIndex;
   int              depthIndex;
   int              aoIndex;
+  int              hqsIndex;
   int              giSourceIndex;
   float            wetnessDensity;
   float            globalTime;
