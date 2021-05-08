@@ -26,6 +26,7 @@ public:
   static constexpr PixelFormat HDRFormat          = PixelFormat::RGBA16161616F;
   static constexpr PixelFormat HDRFormat2         = PixelFormat::RG1616F;
   static constexpr PixelFormat DepthFormat        = PixelFormat::D32;
+  static constexpr PixelFormat ReflDepthFormat    = PixelFormat::R32F;
   static constexpr PixelFormat AOFormat           = PixelFormat::RG1616F;
   static constexpr PixelFormat MotionVectorFormat = PixelFormat::RG1616F;
   static constexpr PixelFormat LumaFormat         = PixelFormat::R8U;

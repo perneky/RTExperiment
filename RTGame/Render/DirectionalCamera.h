@@ -25,6 +25,9 @@ public:
   XMMATRIX GetProjectionTransform( bool includeJitter ) const override;
   XMMATRIX GetViewProjectionTransform( bool includeJitter ) const override;
 
+  float GetNearDepth() const override;
+  float GetFarDepth() const override;
+
   void SetJitter( XMFLOAT2 jitter ) override;
 
   float GetFovY() const;

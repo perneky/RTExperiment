@@ -108,6 +108,16 @@ XMMATRIX DirectionalCamera::GetViewProjectionTransform( bool includeJitter ) con
   return XMLoadFloat4x4A( includeJitter ? &vpTransform : &vpTransformNoJitter );
 }
 
+float DirectionalCamera::GetNearDepth() const
+{
+  return nearZ;
+}
+
+float DirectionalCamera::GetFarDepth() const
+{
+  return farZ;
+}
+
 void DirectionalCamera::SetJitter( XMFLOAT2 jitter )
 {
   this->jitter = jitter;

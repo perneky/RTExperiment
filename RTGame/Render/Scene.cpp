@@ -88,6 +88,7 @@ void Scene::SetUp( CommandList& commandList, Window& window )
   auto toneMappingFile       = ReadFileToMemory( L"Content/Shaders/ToneMapping.cso" );
   auto combineLightingFile   = ReadFileToMemory( L"Content/Shaders/CombineLighting.cso" );
   auto downsampleFile        = ReadFileToMemory( L"Content/Shaders/Downsample.cso" );
+  auto downsample4File       = ReadFileToMemory( L"Content/Shaders/Downsample4.cso" );
   auto blurFile              = ReadFileToMemory( L"Content/Shaders/Blur.cso" );
   auto traceGIProbeFile      = ReadFileToMemory( L"Content/Shaders/TraceGIProbe.cso" );
   auto adaptExposureFile     = ReadFileToMemory( L"Content/Shaders/AdaptExposure.cso" );
@@ -113,6 +114,7 @@ void Scene::SetUp( CommandList& commandList, Window& window )
   toneMappingShader       = device.CreateComputeShader( toneMappingFile.data(), int( toneMappingFile.size() ), L"ToneMapping" );
   combineLightingShader   = device.CreateComputeShader( combineLightingFile.data(), int( combineLightingFile.size() ), L"CombineLighting" );
   downsampleShader        = device.CreateComputeShader( downsampleFile.data(), int( downsampleFile.size() ), L"Downsample" );
+  downsample4Shader       = device.CreateComputeShader( downsample4File.data(), int( downsample4File.size() ), L"Downsample4" );
   blurShader              = device.CreateComputeShader( blurFile.data(), int( blurFile.size() ), L"Blur" );
   traceGIProbeShader      = device.CreateComputeShader( traceGIProbeFile.data(), int( traceGIProbeFile.size() ), L"TraceGIProbe" );
   adaptExposureShader     = device.CreateComputeShader( adaptExposureFile.data(), int( adaptExposureFile.size() ), L"AdaptExposure" );
@@ -331,6 +333,8 @@ void Scene::SetCamera( Camera& camera )
   frameParams.screenSizeHQ.z = 1.0f / frameParams.screenSizeHQ.x;
   frameParams.screenSizeHQ.w = 1.0f / frameParams.screenSizeHQ.y;
   frameParams.jitter         = upscaling ? upscaling->GetJitter() : XMFLOAT2( 0, 0 );
+  frameParams.nearFarPlane.x = camera.GetNearDepth();
+  frameParams.nearFarPlane.y = camera.GetFarDepth();
 }
 
 float GaussianDistribution( float x, float m, float s )
@@ -370,7 +374,6 @@ std::pair< Resource&, Resource& > Scene::Render( CommandList& commandList, const
   auto  prevVTransform          = XMLoadFloat4x4( &prevFrameParams.viewTransform );
   auto  prevVPTransform         = XMLoadFloat4x4( &prevFrameParams.vpTransform );
   auto  prevVPTransformNoJitter = XMLoadFloat4x4( &prevFrameParams.vpTransformNoJitter );
-  auto  cameraPosition          = XMLoadFloat4( &prevFrameParams.cameraPosition );
   auto  prevTargetIndex         = currentTargetIndex;
 
   currentTargetIndex = 1 - currentTargetIndex;
@@ -736,7 +739,7 @@ std::pair< Resource&, Resource& > Scene::Render( CommandList& commandList, const
     commandList.ChangeResourceState( *reflectionTexture, ResourceStateBits::NonPixelShaderInput );
     commandList.ChangeResourceState( *reflectionProcTextures[ 0 ], ResourceStateBits::UnorderedAccess );
 
-    commandList.SetComputeShader( *downsampleShader );
+    commandList.SetComputeShader( *downsample4Shader );
     commandList.SetComputeResource( 0, *reflectionTexture->GetResourceDescriptor( ResourceDescriptorType::ShaderResourceView ) );
     commandList.SetComputeResource( 1, *reflectionProcTextures[ 0 ]->GetResourceDescriptor( ResourceDescriptorType::UnorderedAccessView ) );
     commandList.Dispatch( ( reflectionProcTextures[ 0 ]->GetTextureWidth () + DownsamplingKernelWidth  - 1 ) / DownsamplingKernelWidth
@@ -745,26 +748,50 @@ std::pair< Resource&, Resource& > Scene::Render( CommandList& commandList, const
 
     commandList.AddUAVBarrier( *reflectionProcTextures[ 0 ] );
 
+    commandList.ChangeResourceState( *depthTexture, ResourceStateBits::NonPixelShaderInput );
+    commandList.ChangeResourceState( *reflectionProcDepth, ResourceStateBits::UnorderedAccess );
+
+    commandList.SetComputeShader( *downsample4Shader );
+    commandList.SetComputeResource( 0, *depthTexture->GetResourceDescriptor( ResourceDescriptorType::ShaderResourceView ) );
+    commandList.SetComputeResource( 1, *reflectionProcDepth->GetResourceDescriptor( ResourceDescriptorType::UnorderedAccessView ) );
+    commandList.Dispatch( ( reflectionProcDepth->GetTextureWidth () + DownsamplingKernelWidth  - 1 ) / DownsamplingKernelWidth
+                        , ( reflectionProcDepth->GetTextureHeight() + DownsamplingKernelHeight - 1 ) / DownsamplingKernelHeight
+                        , 1 );
+
+    commandList.AddUAVBarrier( *reflectionProcDepth );
+
     //=================================================================================================
 
-    commandList.ChangeResourceState( *depthTexture, ResourceStateBits::NonPixelShaderInput );
+    commandList.ChangeResourceState( *reflectionProcDepth, ResourceStateBits::NonPixelShaderInput );
 
     commandList.SetComputeShader( *processReflectionShader );
-    commandList.SetComputeResource( 1, *depthTexture->GetResourceDescriptor( ResourceDescriptorType::ShaderResourceView ) );
+    commandList.SetComputeConstantBuffer( 1, *haltonSequenceBuffer );
+    commandList.SetComputeResource( 2, *reflectionProcDepth->GetResourceDescriptor( ResourceDescriptorType::ShaderResourceView ) );
 
     int sourceIx = 0;
 
     struct
     {
       XMFLOAT4X4 invProj;
+      XMFLOAT4   cornerWorldDirs[ 4 ];
+      XMFLOAT4   cameraPosition;
       int        texWidth;
       int        texHeight;
       float      invTexWidth;
       float      invTexHeight;
-      XMFLOAT2   taps[ ReflectionProcessTaps ];
+      int        dir;
     } params;
 
-    assert( atoi( ReflectionProcessDataSizeStr ) == sizeof( params ) / 4 );
+    float sw = float( depthTexture->GetTextureWidth () );
+    float sh = float( depthTexture->GetTextureHeight() );
+
+    auto cameraPosition = XMLoadFloat4( &frameParams.cameraPosition );
+    XMStoreFloat4( &params.cornerWorldDirs[ 0 ], XMVector3Unproject( XMVectorSet(  0,  0, 1, 1 ), 0, 0, sw, sh, 0, 1, pTransform, vTransform, XMMatrixIdentity() ) - cameraPosition );
+    XMStoreFloat4( &params.cornerWorldDirs[ 1 ], XMVector3Unproject( XMVectorSet( sw,  0, 1, 1 ), 0, 0, sw, sh, 0, 1, pTransform, vTransform, XMMatrixIdentity() ) - cameraPosition );
+    XMStoreFloat4( &params.cornerWorldDirs[ 2 ], XMVector3Unproject( XMVectorSet(  0, sh, 1, 1 ), 0, 0, sw, sh, 0, 1, pTransform, vTransform, XMMatrixIdentity() ) - cameraPosition );
+    XMStoreFloat4( &params.cornerWorldDirs[ 3 ], XMVector3Unproject( XMVectorSet( sw, sh, 1, 1 ), 0, 0, sw, sh, 0, 1, pTransform, vTransform, XMMatrixIdentity() ) - cameraPosition );
+
+    params.cameraPosition = frameParams.cameraPosition;
 
     params.texWidth     = reflectionProcTextures[ 0 ]->GetTextureWidth();
     params.texHeight    = reflectionProcTextures[ 0 ]->GetTextureHeight();
@@ -772,26 +799,15 @@ std::pair< Resource&, Resource& > Scene::Render( CommandList& commandList, const
     params.invTexHeight = 1.0f / reflectionProcTextures[ 0 ]->GetTextureHeight();
     params.invProj      = frameParams.invProjTransform;
 
-    const auto iterations = 12;
-    const auto stepSize   = 2.0f * PI / ReflectionProcessTaps;
-    const auto maxD       = 0.1f;
-    const auto stepD      = maxD / iterations;
-
-    for ( int iter = 0; iter < iterations; ++iter )
+    for ( int iter = 0; iter < 2; ++iter )
     {
+      params.dir = iter;
+
       commandList.ChangeResourceState( *reflectionProcTextures[ sourceIx ], ResourceStateBits::NonPixelShaderInput );
       commandList.ChangeResourceState( *reflectionProcTextures[ 1 - sourceIx ], ResourceStateBits::UnorderedAccess );
 
-      commandList.SetComputeResource( 2, *reflectionProcTextures[ sourceIx ]->GetResourceDescriptor( ResourceDescriptorType::ShaderResourceView ) );
-      commandList.SetComputeResource( 3, *reflectionProcTextures[ 1 - sourceIx ]->GetResourceDescriptor( ResourceDescriptorType::UnorderedAccessView ) );
-
-      auto angle = iter * stepSize / iterations;
-      for ( auto cit = 0; cit < ReflectionProcessTaps; ++cit )
-      {
-        params.taps[ cit ].x = sin( angle ) * ( iter + 1 ) * stepD;
-        params.taps[ cit ].y = cos( angle ) * ( iter + 1 ) * stepD;
-        angle += stepSize;
-      }
+      commandList.SetComputeResource( 3, *reflectionProcTextures[ sourceIx ]->GetResourceDescriptor( ResourceDescriptorType::ShaderResourceView ) );
+      commandList.SetComputeResource( 4, *reflectionProcTextures[ 1 - sourceIx ]->GetResourceDescriptor( ResourceDescriptorType::UnorderedAccessView ) );
 
       commandList.SetComputeConstantValues( 0, params );
       commandList.Dispatch( ( reflectionProcTextures[ 0 ]->GetTextureWidth () + ReflectionProcessKernelWidth  - 1 ) / ReflectionProcessKernelWidth
@@ -1345,8 +1361,9 @@ void Scene::RecreateWindowSizeDependantResources( CommandList& commandList, Wind
   }
   sdrTexture = device.Create2DTexture( commandList, width, height, nullptr, 0, RenderManager::SDRFormat, true,SDRSlot, SDRUAVSlot, false, L"SDR" );
   
-  reflectionProcTextures[ 0 ] = device.Create2DTexture( commandList, lrts.x / 2, lrts.y / 2, nullptr, 0, RenderManager::HDRFormat, false, ReflectionProc1Slot, ReflectionProc1UAVSlot, false, L"ReflectionProc1" );
-  reflectionProcTextures[ 1 ] = device.Create2DTexture( commandList, lrts.x / 2, lrts.y / 2, nullptr, 0, RenderManager::HDRFormat, false, ReflectionProc2Slot, ReflectionProc2UAVSlot, false, L"ReflectionProc2" );
+  reflectionProcTextures[ 0 ] = device.Create2DTexture( commandList, lrts.x / 4, lrts.y / 4, nullptr, 0, RenderManager::HDRFormat,       false, -1, -1, false, L"ReflectionProc1" );
+  reflectionProcTextures[ 1 ] = device.Create2DTexture( commandList, lrts.x / 4, lrts.y / 4, nullptr, 0, RenderManager::HDRFormat,       false, -1, -1, false, L"ReflectionProc2" );
+  reflectionProcDepth         = device.Create2DTexture( commandList, lrts.x / 4, lrts.y / 4, nullptr, 0, RenderManager::ReflDepthFormat, false, -1, -1, false, L"ReflectionDepth" );
 
   auto bloomWidth  = width  > 2560 ? 1280 : 640;
   auto bloomHeight = height > 1440 ? 768  : 384;

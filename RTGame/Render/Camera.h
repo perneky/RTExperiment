@@ -19,5 +19,8 @@ struct Camera
   virtual XMMATRIX GetProjectionTransform( bool includeJitter ) const = 0;
   virtual XMMATRIX GetViewProjectionTransform( bool includeJitter ) const = 0;
 
+  virtual float GetNearDepth() const = 0;
+  virtual float GetFarDepth() const = 0;
+
   virtual void SetJitter( XMFLOAT2 jitter ) = 0;
 };

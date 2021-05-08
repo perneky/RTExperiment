@@ -61,6 +61,7 @@ struct FrameParamsCB
   XMFLOAT4         giProbeOrigin;
   XMINT4           giProbeCount;
   XMFLOAT2         jitter;
+  XMFLOAT2         nearFarPlane;
   int              frameIndex;
   int              depthIndex;
   int              aoIndex;
@@ -69,7 +70,6 @@ struct FrameParamsCB
   float            wetnessDensity;
   float            globalTime;
   FrameDebugModeCB frameDebugMode;
-  XMINT3           padding;
 };
 
 enum class LightTypeCB : int

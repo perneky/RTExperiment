@@ -132,6 +132,7 @@ private:
   std::unique_ptr< Resource > indirectLightingTexture;
   std::unique_ptr< Resource > reflectionTexture;
   std::unique_ptr< Resource > reflectionProcTextures[ 2 ];
+  std::unique_ptr< Resource > reflectionProcDepth;
   std::unique_ptr< Resource > lowResHDRTexture;
   std::unique_ptr< Resource > highResHDRTexture;
   std::unique_ptr< Resource > sdrTexture;
@@ -157,6 +158,7 @@ private:
 
   std::unique_ptr< ComputeShader > toneMappingShader;
   std::unique_ptr< ComputeShader > downsampleShader;
+  std::unique_ptr< ComputeShader > downsample4Shader;
   std::unique_ptr< ComputeShader > blurShader;
   std::unique_ptr< ComputeShader > combineLightingShader;
   std::unique_ptr< ComputeShader > traceGIProbeShader;

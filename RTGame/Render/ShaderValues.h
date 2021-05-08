@@ -87,10 +87,6 @@ enum TextureSlots
   AllMeshParamsSlot,
   ReflectionSlot,
   ReflectionUAVSlot,
-  ReflectionProc1Slot,
-  ReflectionProc1UAVSlot,
-  ReflectionProc2Slot,
-  ReflectionProc2UAVSlot,
   SDRUAVSlot,
   HDRUAVSlot,
   HDRHQSlot,
@@ -140,7 +136,6 @@ enum TextureSlots
 #define ReflectionProcessKernelWidth  8
 #define ReflectionProcessKernelHeight 8
 #define ReflectionProcessTaps         16
-#define ReflectionProcessDataSizeStr  "52"
 
 #define ExtractBloomKernelWidth  8
 #define ExtractBloomKernelHeight 8
@@ -170,7 +165,7 @@ enum TextureSlots
 
 #define RTSlotMask ( ( 1 << 12 ) - 1 )
 
-#define HaltonSequenceLength 64
+#define HaltonSequenceLength 511
 
 #define ENABLE_RAYTRACING_FOR_RENDER 1
 

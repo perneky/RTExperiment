@@ -97,7 +97,7 @@ float3 CalcLight( float3 lightCenter, float3 worldPosition, float lightRadius, f
 {
   const float farScatterDistance = 10;
   const float minScatter         = 8;
-  const float maxScatter         = HaltonSequenceLength;
+  const float maxScatter         = min( HaltonSequenceLength, 64 );
 
   float3 px, py;
   CalcAxesForVector( normalize( lightCenter - worldPosition ), px, py );
