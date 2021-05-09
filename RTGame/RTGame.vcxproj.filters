@@ -532,6 +532,9 @@
     <FxCompile Include="Render\D3D12\Shaders\UpsampleAndBlurBloom.hlsl">
       <Filter>Render\D3D12\Shaders</Filter>
     </FxCompile>
+    <FxCompile Include="Render\D3D12\Shaders\Downsample4WithLuminanceFilter.hlsl">
+      <Filter>Render\D3D12\Shaders</Filter>
+    </FxCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="Render\D3D12\Shaders\Lighting.hlsli">

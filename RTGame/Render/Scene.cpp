@@ -89,6 +89,7 @@ void Scene::SetUp( CommandList& commandList, Window& window )
   auto combineLightingFile   = ReadFileToMemory( L"Content/Shaders/CombineLighting.cso" );
   auto downsampleFile        = ReadFileToMemory( L"Content/Shaders/Downsample.cso" );
   auto downsample4File       = ReadFileToMemory( L"Content/Shaders/Downsample4.cso" );
+  auto downsample4WLumaFile  = ReadFileToMemory( L"Content/Shaders/Downsample4WithLuminanceFilter.cso" );
   auto blurFile              = ReadFileToMemory( L"Content/Shaders/Blur.cso" );
   auto traceGIProbeFile      = ReadFileToMemory( L"Content/Shaders/TraceGIProbe.cso" );
   auto adaptExposureFile     = ReadFileToMemory( L"Content/Shaders/AdaptExposure.cso" );
@@ -115,6 +116,7 @@ void Scene::SetUp( CommandList& commandList, Window& window )
   combineLightingShader   = device.CreateComputeShader( combineLightingFile.data(), int( combineLightingFile.size() ), L"CombineLighting" );
   downsampleShader        = device.CreateComputeShader( downsampleFile.data(), int( downsampleFile.size() ), L"Downsample" );
   downsample4Shader       = device.CreateComputeShader( downsample4File.data(), int( downsample4File.size() ), L"Downsample4" );
+  downsample4WLumaShader  = device.CreateComputeShader( downsample4WLumaFile.data(), int( downsample4WLumaFile.size() ), L"Downsample4WLuma" );
   blurShader              = device.CreateComputeShader( blurFile.data(), int( blurFile.size() ), L"Blur" );
   traceGIProbeShader      = device.CreateComputeShader( traceGIProbeFile.data(), int( traceGIProbeFile.size() ), L"TraceGIProbe" );
   adaptExposureShader     = device.CreateComputeShader( adaptExposureFile.data(), int( adaptExposureFile.size() ), L"AdaptExposure" );
@@ -739,7 +741,7 @@ std::pair< Resource&, Resource& > Scene::Render( CommandList& commandList, const
     commandList.ChangeResourceState( *reflectionTexture, ResourceStateBits::NonPixelShaderInput );
     commandList.ChangeResourceState( *reflectionProcTextures[ 0 ], ResourceStateBits::UnorderedAccess );
 
-    commandList.SetComputeShader( *downsample4Shader );
+    commandList.SetComputeShader( *downsample4WLumaShader );
     commandList.SetComputeResource( 0, *reflectionTexture->GetResourceDescriptor( ResourceDescriptorType::ShaderResourceView ) );
     commandList.SetComputeResource( 1, *reflectionProcTextures[ 0 ]->GetResourceDescriptor( ResourceDescriptorType::UnorderedAccessView ) );
     commandList.Dispatch( ( reflectionProcTextures[ 0 ]->GetTextureWidth () + DownsamplingKernelWidth  - 1 ) / DownsamplingKernelWidth

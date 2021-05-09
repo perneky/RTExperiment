@@ -270,7 +270,7 @@ void GameStage::Serialize( tinyxml2::XMLNode& node )
   entitiesElement->SetAttribute( "idGen", entityIdGen );
 
   postfxElement->SetAttribute( "enableAdaptation", enableAdaptation );
-  postfxElement->SetAttribute( "targetLuminance ", targetLuminance  );
+  postfxElement->SetAttribute( "targetLuminance",  targetLuminance  );
   postfxElement->SetAttribute( "exposure",         exposure         );
   postfxElement->SetAttribute( "adaptationRate",   adaptationRate   );
   postfxElement->SetAttribute( "minExposure",      minExposure      );
@@ -322,7 +322,7 @@ void GameStage::Deserialize( CommandList& commandList, tinyxml2::XMLNode& node )
   if ( auto pfxElement = node.FirstChildElement( "PostFx" ) )
   {
     pfxElement->QueryBoolAttribute ( "enableAdaptation", &enableAdaptation );
-    pfxElement->QueryFloatAttribute( "targetLuminance ", &targetLuminance  );
+    pfxElement->QueryFloatAttribute( "targetLuminance",  &targetLuminance  );
     pfxElement->QueryFloatAttribute( "exposure",         &exposure         );
     pfxElement->QueryFloatAttribute( "adaptationRate",   &adaptationRate   );
     pfxElement->QueryFloatAttribute( "minExposure",      &minExposure      );

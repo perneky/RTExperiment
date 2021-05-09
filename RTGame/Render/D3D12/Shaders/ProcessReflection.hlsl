@@ -38,19 +38,42 @@ Texture2D<half4>   depthTexture       : register( t0 );
 Texture2D<half4>   sourceTexture      : register( t1 );
 RWTexture2D<half4> destinationTexture : register( u0 );
 
-float3 CalcWorldPosition( float2 uv, float depth )
+float3 CalcWorldPosition( uint2 uv )
 {
-  float3 topDir    = lerp( cornerWorldDirs[ 0 ].xyz, cornerWorldDirs[ 1 ].xyz, uv.x );
-  float3 bottomDir = lerp( cornerWorldDirs[ 2 ].xyz, cornerWorldDirs[ 3 ].xyz, uv.x );
-  float3 worldDir  = normalize( lerp( topDir, bottomDir, uv.y ) );
+  float  depth     = LinearizeDepth( depthTexture[ uv ].r, invProj );
+  float3 topDir    = lerp( cornerWorldDirs[ 0 ].xyz, cornerWorldDirs[ 1 ].xyz, ( uv.x + 0.5 ) * invTexSize.x );
+  float3 bottomDir = lerp( cornerWorldDirs[ 2 ].xyz, cornerWorldDirs[ 3 ].xyz, ( uv.x + 0.5 ) * invTexSize.x );
+  float3 worldDir  = normalize( lerp( topDir, bottomDir, ( uv.y + 0.5 ) * invTexSize.y ) );
 
   return cameraPosition.xyz + worldDir * depth;
 }
 
-float3 CalcWorldPosition( float2 uv )
+float3 CalcWorldPositionAndNormal( uint2 uv, out float3 normal )
 {
-  float depth = LinearizeDepth( depthTexture.SampleLevel( linearSampler, uv, 0 ).r, invProj );
-  return CalcWorldPosition( uv, depth );
+  float3 pos00 = CalcWorldPosition( uv );
+  float3 pos10 = CalcWorldPosition( uv + uint2( 1, 0 ) );
+  float3 pos01 = CalcWorldPosition( uv + uint2( 0, 1 ) );
+
+  normal = normalize( cross( pos10 - pos00, pos01 - pos00 ) );
+
+  return pos00;
+}
+
+float3 SampleReflection( uint2 localTc, float3 originPos, float3 originNormal, inout float weightSum )
+{
+  float3 normal;
+  float3 posTap  = CalcWorldPositionAndNormal( localTc, normal );
+  float  weightD = saturate( 2 - length( posTap - originPos ) ) * 0.5;
+  float  weightA = saturate( dot( originNormal, normal ) );
+  float  weight  = weightD * weightA * weightA * weightA;
+
+  weightSum += weight;
+
+  [branch]
+  if ( weight > 0 )
+    return sourceTexture[ localTc ].rgb * weight;
+  else
+    return 0;
 }
 
 [RootSignature( _RootSignature )]
@@ -61,52 +84,26 @@ void main( uint3 dispatchThreadID : SV_DispatchThreadID )
   if ( any( dispatchThreadID.xy >= texSize ) )
     return;
 
-  float2 tc           = ( dispatchThreadID.xy + 0.5 ) * invTexSize;
-  float  originDepthT = depthTexture.SampleLevel( linearSampler, tc, 0 ).r;
-  float  originDepth  = LinearizeDepth( originDepthT, invProj );
-  float3 originPos    = CalcWorldPosition( tc, originDepth );
-  float4 blurRough    = sourceTexture.SampleLevel( pointSampler, tc, 0 );
-  float  roughness    = blurRough.a;
-  float3 blurred      = 0;
-  float  samples      = 0;
+  float3 originNormal;
+  float3 originPos = CalcWorldPositionAndNormal( dispatchThreadID.xy, originNormal );
+  float4 blurRough = sourceTexture[ dispatchThreadID.xy ];
+  float  roughness = blurRough.a;
+  float3 blurred   = 0;
+  float  weightSum = 0;
 
   [branch]
   if ( dir == 0 )
-  {
-    for ( int tap = 0; tap < texSize.y; tap++ )
-    {
-      float2 localTc = float2( ( dispatchThreadID.x + 0.5 ), tap + 0.5 ) * invTexSize;
-      float3 posTap  = CalcWorldPosition( localTc );
-
-      [branch]
-      if ( length( posTap - originPos ) < 2 )
-      {
-        blurred += sourceTexture.SampleLevel( linearSampler, localTc, 0 ).rgb;
-        samples += 1;
-      }
-    }
-  }
+    for ( uint tap = 0; tap < texSize.y; tap++ )
+      blurred += SampleReflection( uint2( dispatchThreadID.x, tap ), originPos, originNormal, weightSum );
   else
-  {
-    for ( int tap = 0; tap < texSize.x; tap++ )
-    {
-      float2 localTc = float2( tap + 0.5, ( dispatchThreadID.y + 0.5 ) ) * invTexSize;
-      float3 posTap  = CalcWorldPosition( localTc );
+    for ( uint tap = 0; tap < texSize.x; tap++ )
+      blurred += SampleReflection( uint2( tap, dispatchThreadID.y ), originPos, originNormal, weightSum );
 
-      [branch]
-      if ( length( posTap - originPos ) < 2 )
-      {
-        blurred += sourceTexture.SampleLevel( linearSampler, localTc, 0 ).rgb;
-        samples += 1;
-      }
-    }
+  if ( weightSum == 0 )
+  {
+    blurred   = blurRough.rgb;
+    weightSum = 1;
   }
 
-  if ( samples == 0 )
-  {
-    blurred = blurRough.rgb;
-    samples = 1;
-  }
-
-  destinationTexture[ dispatchThreadID.xy ] = float4( blurred / samples, roughness );
+  destinationTexture[ dispatchThreadID.xy ] = float4( blurred / weightSum, roughness );
 }

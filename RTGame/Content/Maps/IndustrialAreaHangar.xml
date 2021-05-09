@@ -1,11 +1,11 @@
 <RTGame>
     <GameStage lastCameraId="1">
         <Sky guid="{ED542769-36A3-4AC8-ADE5-8E08E2F1EB32}"/>
-        <PostFx enableAdaptation="true" targetLuminance ="0.204" exposure="2" adaptationRate="0.093000002" minExposure="0.2498268" maxExposure="27.512211" bloomThreshold="2.0439999" bloomStrength="0.308"/>
+        <PostFx enableAdaptation="true" targetLuminance="0.60100001" exposure="2" adaptationRate="0.093000002" minExposure="0.2498268" maxExposure="8.5326862" bloomThreshold="2.0439999" bloomStrength="0.308"/>
         <Entities idGen="758">
             <CameraEntity id="1">
-                <Position x="16.296049" y="5.9796968" z="-41.721096"/>
-                <Rotation x="18" y="-6143" z="0"/>
+                <Position x="-36.711845" y="9.3064108" z="-42.667824"/>
+                <Rotation x="43" y="-6800" z="0"/>
                 <Scale x="1" y="1" z="1"/>
             </CameraEntity>
             <ModelEntity guid="{1A4E3D99-DCA4-4FF9-A893-C820DC63C988}" id="3">
@@ -1915,7 +1915,7 @@
             </ModelEntity>
             <LightEntity id="466">
                 <Type number="2"/>
-                <Intensity value="0.47400001"/>
+                <Intensity value="1.0"/>
                 <SourceRadius value="0.1"/>
                 <AttenuationStart value="0"/>
                 <AttenuationEnd value="18.516001"/>
@@ -1931,12 +1931,12 @@
             </LightEntity>
             <LightEntity id="476">
                 <Type number="2"/>
-                <Intensity value="0.47400001"/>
+                <Intensity value="1.0"/>
                 <SourceRadius value="0.1"/>
                 <AttenuationStart value="0"/>
                 <AttenuationEnd value="18.535"/>
                 <AttenuationFalloff value="3.1110001"/>
-                <Theta value="70.580002"/>
+                <Theta value="130.0"/>
                 <Phi value="160"/>
                 <ConeFalloff value="6.9829998"/>
                 <CastShadow value="true"/>
@@ -2572,7 +2572,7 @@
             </ModelEntity>
             <LightEntity id="618">
                 <Type number="2"/>
-                <Intensity value="0.47400001"/>
+                <Intensity value="1.0"/>
                 <SourceRadius value="0.1"/>
                 <AttenuationStart value="0"/>
                 <AttenuationEnd value="18.516001"/>
@@ -2588,7 +2588,7 @@
             </LightEntity>
             <LightEntity id="619">
                 <Type number="2"/>
-                <Intensity value="0.47400001"/>
+                <Intensity value="1.0"/>
                 <SourceRadius value="0.1"/>
                 <AttenuationStart value="0"/>
                 <AttenuationEnd value="18.516001"/>
@@ -2604,7 +2604,7 @@
             </LightEntity>
             <LightEntity id="621">
                 <Type number="2"/>
-                <Intensity value="0.47400001"/>
+                <Intensity value="1.0"/>
                 <SourceRadius value="0.1"/>
                 <AttenuationStart value="0"/>
                 <AttenuationEnd value="18.516001"/>
@@ -2620,7 +2620,7 @@
             </LightEntity>
             <LightEntity id="622">
                 <Type number="2"/>
-                <Intensity value="0.47400001"/>
+                <Intensity value="1.0"/>
                 <SourceRadius value="0.1"/>
                 <AttenuationStart value="0"/>
                 <AttenuationEnd value="18.516001"/>
@@ -2636,7 +2636,7 @@
             </LightEntity>
             <LightEntity id="623">
                 <Type number="2"/>
-                <Intensity value="0.47400001"/>
+                <Intensity value="1.0"/>
                 <SourceRadius value="0.1"/>
                 <AttenuationStart value="0"/>
                 <AttenuationEnd value="18.516001"/>
@@ -2652,7 +2652,7 @@
             </LightEntity>
             <LightEntity id="624">
                 <Type number="2"/>
-                <Intensity value="0.47400001"/>
+                <Intensity value="1.0"/>
                 <SourceRadius value="0.1"/>
                 <AttenuationStart value="0"/>
                 <AttenuationEnd value="18.516001"/>
@@ -2668,7 +2668,7 @@
             </LightEntity>
             <LightEntity id="625">
                 <Type number="2"/>
-                <Intensity value="0.47400001"/>
+                <Intensity value="1.0"/>
                 <SourceRadius value="0.1"/>
                 <AttenuationStart value="0"/>
                 <AttenuationEnd value="18.516001"/>
@@ -2684,7 +2684,7 @@
             </LightEntity>
             <LightEntity id="626">
                 <Type number="2"/>
-                <Intensity value="0.47400001"/>
+                <Intensity value="1.0"/>
                 <SourceRadius value="0.1"/>
                 <AttenuationStart value="0"/>
                 <AttenuationEnd value="18.516001"/>
@@ -2700,12 +2700,12 @@
             </LightEntity>
             <LightEntity id="627">
                 <Type number="2"/>
-                <Intensity value="0.47400001"/>
+                <Intensity value="1.0"/>
                 <SourceRadius value="0.1"/>
                 <AttenuationStart value="0"/>
                 <AttenuationEnd value="18.535"/>
                 <AttenuationFalloff value="3.1110001"/>
-                <Theta value="70.580002"/>
+                <Theta value="130.0"/>
                 <Phi value="160"/>
                 <ConeFalloff value="6.9829998"/>
                 <CastShadow value="true"/>
@@ -2716,12 +2716,12 @@
             </LightEntity>
             <LightEntity id="628">
                 <Type number="2"/>
-                <Intensity value="0.47400001"/>
+                <Intensity value="1.0"/>
                 <SourceRadius value="0.1"/>
                 <AttenuationStart value="0"/>
                 <AttenuationEnd value="18.535"/>
                 <AttenuationFalloff value="3.1110001"/>
-                <Theta value="70.580002"/>
+                <Theta value="130.0"/>
                 <Phi value="160"/>
                 <ConeFalloff value="6.9829998"/>
                 <CastShadow value="true"/>
@@ -2732,12 +2732,12 @@
             </LightEntity>
             <LightEntity id="630">
                 <Type number="2"/>
-                <Intensity value="0.47400001"/>
+                <Intensity value="1.0"/>
                 <SourceRadius value="0.1"/>
                 <AttenuationStart value="0"/>
                 <AttenuationEnd value="18.535"/>
                 <AttenuationFalloff value="3.1110001"/>
-                <Theta value="70.580002"/>
+                <Theta value="130.0"/>
                 <Phi value="160"/>
                 <ConeFalloff value="6.9829998"/>
                 <CastShadow value="true"/>
@@ -2748,12 +2748,12 @@
             </LightEntity>
             <LightEntity id="631">
                 <Type number="2"/>
-                <Intensity value="0.47400001"/>
+                <Intensity value="1.0"/>
                 <SourceRadius value="0.1"/>
                 <AttenuationStart value="0"/>
                 <AttenuationEnd value="18.535"/>
                 <AttenuationFalloff value="3.1110001"/>
-                <Theta value="70.580002"/>
+                <Theta value="130.0"/>
                 <Phi value="160"/>
                 <ConeFalloff value="6.9829998"/>
                 <CastShadow value="true"/>
@@ -2764,12 +2764,12 @@
             </LightEntity>
             <LightEntity id="632">
                 <Type number="2"/>
-                <Intensity value="0.47400001"/>
+                <Intensity value="1.0"/>
                 <SourceRadius value="0.1"/>
                 <AttenuationStart value="0"/>
                 <AttenuationEnd value="18.535"/>
                 <AttenuationFalloff value="3.1110001"/>
-                <Theta value="70.580002"/>
+                <Theta value="130.0"/>
                 <Phi value="160"/>
                 <ConeFalloff value="6.9829998"/>
                 <CastShadow value="true"/>
@@ -2780,12 +2780,12 @@
             </LightEntity>
             <LightEntity id="633">
                 <Type number="2"/>
-                <Intensity value="0.47400001"/>
+                <Intensity value="1.0"/>
                 <SourceRadius value="0.1"/>
                 <AttenuationStart value="0"/>
                 <AttenuationEnd value="18.535"/>
                 <AttenuationFalloff value="3.1110001"/>
-                <Theta value="70.580002"/>
+                <Theta value="130.0"/>
                 <Phi value="160"/>
                 <ConeFalloff value="6.9829998"/>
                 <CastShadow value="true"/>
@@ -2796,12 +2796,12 @@
             </LightEntity>
             <LightEntity id="634">
                 <Type number="2"/>
-                <Intensity value="0.47400001"/>
+                <Intensity value="1.0"/>
                 <SourceRadius value="0.1"/>
                 <AttenuationStart value="0"/>
                 <AttenuationEnd value="18.535"/>
                 <AttenuationFalloff value="3.1110001"/>
-                <Theta value="70.580002"/>
+                <Theta value="130.0"/>
                 <Phi value="160"/>
                 <ConeFalloff value="6.9829998"/>
                 <CastShadow value="true"/>
@@ -2812,12 +2812,12 @@
             </LightEntity>
             <LightEntity id="635">
                 <Type number="2"/>
-                <Intensity value="0.47400001"/>
+                <Intensity value="4.8899999"/>
                 <SourceRadius value="0.1"/>
                 <AttenuationStart value="0"/>
                 <AttenuationEnd value="18.535"/>
                 <AttenuationFalloff value="3.1110001"/>
-                <Theta value="70.580002"/>
+                <Theta value="130.0"/>
                 <Phi value="160"/>
                 <ConeFalloff value="6.9829998"/>
                 <CastShadow value="true"/>

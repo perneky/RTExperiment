@@ -159,6 +159,7 @@ private:
   std::unique_ptr< ComputeShader > toneMappingShader;
   std::unique_ptr< ComputeShader > downsampleShader;
   std::unique_ptr< ComputeShader > downsample4Shader;
+  std::unique_ptr< ComputeShader > downsample4WLumaShader;
   std::unique_ptr< ComputeShader > blurShader;
   std::unique_ptr< ComputeShader > combineLightingShader;
   std::unique_ptr< ComputeShader > traceGIProbeShader;
