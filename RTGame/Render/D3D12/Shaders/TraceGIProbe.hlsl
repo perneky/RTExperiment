@@ -106,6 +106,13 @@ static const int3 nDirI[ 6 ] =
   int3(  0,  0,  1 ),
 };
 
+float3 MergeByLightness( float3 a, float3 b )
+{
+  float la = Lightness( a );
+  float lb = Lightness( b );
+  return la > lb ? la : lb;
+}
+
 [RootSignature( _RootSignature )]
 [numthreads( GIProbeKernelWidth, GIProbeKernelHeight, 1 )]
 void main( uint3 groupThreadID : SV_GroupThreadID, uint3 groupId : SV_GroupID )
@@ -137,9 +144,9 @@ void main( uint3 groupThreadID : SV_GroupThreadID, uint3 groupId : SV_GroupID )
   [branch]
   if ( all( groupThreadID.xy == 0 ) )
   {
-    float3 avgValue   = ( float3( avg[ 0 ], avg[ 1 ], avg[ 2 ] ) / 1000 ) / ( GIProbeWidth * GIProbeHeight );
-    float3 neighbours = 0;
-    float  ncount     = 0;
+    float3 avgValue            = ( float3( avg[ 0 ], avg[ 1 ], avg[ 2 ] ) / 1000 ) / ( GIProbeWidth * GIProbeHeight );
+    float3 neighbours          = 0;
+    float  neighboursLightness = 0;
   
     int3 wix = GIProbeWorldIndex( probeId, frameParams );
 
@@ -156,14 +163,10 @@ void main( uint3 groupThreadID : SV_GroupThreadID, uint3 groupId : SV_GroupID )
       if ( hitGeom.t >= 0 && IsOpaqueMaterial( hitGeom.materialIndex ) )
         continue;
 
-      int probeIx = GIProbeIndex( nix, frameParams );
-      neighbours += all3DTextures[ prevFrameParams.giSourceIndex ].Load( int4( nix, 0 ) ).rgb * 0.5;
-      ncount += 1;
+      float3 neighbour = all3DTextures[ prevFrameParams.giSourceIndex ].Load( int4( nix, 0 ) ).rgb * 0.9;
+      neighbours = MergeByLightness( neighbour, neighbours );
     }
 
-    if ( ncount > 0 )
-      neighbours /= ncount;
-
-    destination[ wix ] = float4( avgValue + neighbours, 1 );
+    destination[ wix ] = float4( MergeByLightness( avgValue, neighbours ), 1 );
   }
 }
