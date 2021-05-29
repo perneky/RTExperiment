@@ -23,7 +23,7 @@ public:
   std::unique_ptr< CommandList >              CreateCommandList( CommandAllocator& commandAllocator, CommandQueueType queueType, uint64_t queueFrequency ) override;
   std::unique_ptr< PipelineState >            CreatePipelineState( const PipelineDesc& desc ) override;
   std::unique_ptr< Resource >                 CreateBuffer( ResourceType resourceType, HeapType heapType, bool unorderedAccess, int size, int elementSize, const wchar_t* debugName ) override;
-  std::unique_ptr< RTBottomLevelAccelerator > CreateRTBottomLevelAccelerator( CommandList& commandList, Resource& vertexBuffer, int vertexCount, int positionElementSize, int vertexStride, Resource& indexBuffer, int indexSize, int indexCount, bool allowUpdate, bool fastBuild ) override;
+  std::unique_ptr< RTBottomLevelAccelerator > CreateRTBottomLevelAccelerator( CommandList& commandList, Resource& vertexBuffer, int vertexCount, int positionElementSize, int vertexStride, Resource& indexBuffer, int indexSize, int indexCount, int infoIndex, bool allowUpdate, bool fastBuild ) override;
   std::unique_ptr< RTTopLevelAccelerator >    CreateRTTopLevelAccelerator( CommandList& commandList, std::vector< RTInstance > instances ) override;
   std::unique_ptr< Resource >                 CreateVolumeTexture( CommandList& commandList, int width, int height, int depth, const void* data, int dataSize, PixelFormat format, int slot, std::optional< int > uavSlot, const wchar_t* debugName ) override;
   std::unique_ptr< Resource >                 Create2DTexture( CommandList& commandList, int width, int height, const void* data, int dataSize, PixelFormat format, bool renderable, int slot, std::optional< int > uavSlot, bool mipLevels, const wchar_t* debugName ) override;

@@ -17,8 +17,10 @@
                        "                 SRV( t3, offset = " EngineCubeResourceBaseSlotStr ", numDescriptors = " EngineCubeResourceCountStr ", flags = DESCRIPTORS_VOLATILE, space = 3 )," \
                        "                 SRV( t4, offset = " EngineVolResourceBaseSlotStr  ", numDescriptors = " EngineVolResourceCountStr  ", flags = DESCRIPTORS_VOLATILE, space = 4 )," \
                        "                 SRV( t5, offset = " CBVIBBaseSlotStr              ", numDescriptors = " CBVIBCountStr              ", flags = DESCRIPTORS_VOLATILE, space = 5 )," \
-                       "                 SRV( t6, offset = " CBVVBBaseSlotStr              ", numDescriptors = " CBVVBCountStr              ", flags = DESCRIPTORS_VOLATILE, space = 6 ) )," \
-                       "SRV( t7, space = 7, flags = DATA_VOLATILE )," \
+                       "                 SRV( t6, offset = " CBVVBBaseSlotStr              ", numDescriptors = " CBVVBCountStr              ", flags = DESCRIPTORS_VOLATILE, space = 6 )," \
+                       "                 SRV( t7, offset = " CBVVBWHBaseSlotStr            ", numDescriptors = " CBVVBWHCountStr            ", flags = DESCRIPTORS_VOLATILE, space = 7 )," \
+                       "                 SRV( t9, offset = " BLASGPUInfoSlotStr            ", numDescriptors = 1,                              flags = DESCRIPTORS_VOLATILE, space = 9 ) )," \
+                       "SRV( t8, space = 8, flags = DATA_VOLATILE )," \
                        "StaticSampler( s0," \
                        "               filter = FILTER_MIN_MAG_LINEAR_MIP_POINT," \
                        "               addressU = TEXTURE_ADDRESS_WRAP," \
@@ -77,10 +79,13 @@ SamplerState clampSampler          : register( s1 );
 SamplerState noiseSampler          : register( s2 );
 SamplerState pointClampSampler     : register( s3 );
 
-RaytracingAccelerationStructure rayTracingScene : register( t7, space7 );
+RaytracingAccelerationStructure rayTracingScene : register( t8, space8 );
 
-ByteAddressBuffer                  meshIndices [ MaxMeshCount ] : register( t5, space5 );
-StructuredBuffer< RTVertexFormat > meshVertices[ MaxMeshCount ] : register( t6, space6 );
+ByteAddressBuffer                                meshIndices   [ MaxMeshCount ] : register( t5, space5 );
+StructuredBuffer< RigidVertexFormat >            meshVertices  [ MaxMeshCount ] : register( t6, space6 );
+StructuredBuffer< RigidVertexFormatWithHistory > meshVerticesWH[ MaxMeshCount ] : register( t7, space7 );
+
+StructuredBuffer< BLASGPUInfo > blasGPUInfo : register( t9, space9 );
 
 #include "Lighting.hlsli"
 

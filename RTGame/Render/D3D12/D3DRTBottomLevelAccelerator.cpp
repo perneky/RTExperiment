@@ -5,10 +5,12 @@
 #include "D3DDescriptorHeap.h"
 #include "D3DUtils.h"
 
-D3DRTBottomLevelAccelerator::D3DRTBottomLevelAccelerator( D3DDevice& device, D3DCommandList& commandList, D3DResource& vertexBuffer, int vertexCount, int positionElementSize, int vertexStride, D3DResource& indexBuffer, int indexSize, int indexCount, bool allowUpdate, bool fastBuild )
+D3DRTBottomLevelAccelerator::D3DRTBottomLevelAccelerator( D3DDevice& device, D3DCommandList& commandList, D3DResource& vertexBuffer, int vertexCount, int positionElementSize, int vertexStride, D3DResource& indexBuffer, int indexSize, int indexCount, int infoIndex, bool allowUpdate, bool fastBuild )
 {
   assert( positionElementSize == 32 || positionElementSize == 16 );
   assert( indexSize == 32 || indexSize == 16 );
+
+  this->infoIndex = infoIndex;
 
   d3dGeometryDesc.Type                                 = D3D12_RAYTRACING_GEOMETRY_TYPE_TRIANGLES;
   d3dGeometryDesc.Triangles.IndexBuffer                = indexBuffer.GetD3DGPUVirtualAddress();
@@ -88,6 +90,11 @@ void D3DRTBottomLevelAccelerator::Update( Device& device, CommandList& commandLi
 
   barrier.Transition.pResource = *d3dUAVBuffer;
   d3dCommandList.GetD3DGraphicsCommandList()->ResourceBarrier( 1, &barrier );
+}
+
+int D3DRTBottomLevelAccelerator::GetInfoIndex() const
+{
+  return infoIndex;
 }
 
 ID3D12Resource* D3DRTBottomLevelAccelerator::GetD3DUAVBuffer()

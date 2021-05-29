@@ -6,17 +6,6 @@
 #include "D3DUtils.h"
 #include "../ShaderValues.h"
 
-static UINT PackIBVBSlots( const RTInstance& instance )
-{
-  uint32_t hlslIBSlot = instance.rtIBSlot - CBVIBBaseSlot;
-  uint32_t hlslVBSlot = instance.rtVBSlot - CBVVBBaseSlot;
-  assert( hlslIBSlot <= RTSlotMask );
-  assert( hlslVBSlot <= RTSlotMask );
-  hlslIBSlot &= RTSlotMask;
-  hlslVBSlot &= RTSlotMask;
-  return ( hlslIBSlot << 12 ) | hlslVBSlot;
-}
-
 D3DRTTopLevelAccelerator::D3DRTTopLevelAccelerator( D3DDevice& device, D3DCommandList& commandList, std::vector< RTInstance > instances )
 {
   auto instanceDataSize = std::max( sizeof( D3D12_RAYTRACING_INSTANCE_DESC ) * instances.size(), size_t( 1 ) );
@@ -27,6 +16,9 @@ D3DRTTopLevelAccelerator::D3DRTTopLevelAccelerator( D3DDevice& device, D3DComman
   instanceDescs->Map( 0, nullptr, (void**)&mappedData );
   for ( auto& instance : instances )
   {
+    assert( instance.accel->GetInfoIndex() > -1 );
+    assert( instance.accel->GetInfoIndex() < ( 1 << 24 ) );
+
     mappedData->Transform[ 0 ][ 0 ]                 = instance.transform->_11;
     mappedData->Transform[ 0 ][ 1 ]                 = instance.transform->_21;
     mappedData->Transform[ 0 ][ 2 ]                 = instance.transform->_31;
@@ -39,7 +31,7 @@ D3DRTTopLevelAccelerator::D3DRTTopLevelAccelerator( D3DDevice& device, D3DComman
     mappedData->Transform[ 2 ][ 1 ]                 = instance.transform->_23;
     mappedData->Transform[ 2 ][ 2 ]                 = instance.transform->_33;
     mappedData->Transform[ 2 ][ 3 ]                 = instance.transform->_43;
-    mappedData->InstanceID                          = PackIBVBSlots( instance );
+    mappedData->InstanceID                          = instance.accel->GetInfoIndex();
     mappedData->InstanceMask                        = 0xFFU;
     mappedData->InstanceContributionToHitGroupIndex = 0;
     mappedData->Flags	                              = D3D12_RAYTRACING_INSTANCE_FLAG_TRIANGLE_CULL_DISABLE;
@@ -94,6 +86,9 @@ void D3DRTTopLevelAccelerator::Update( Device& device, CommandList& commandList,
   instanceDescs->Map( 0, nullptr, (void**)&mappedData );
   for ( auto& instance : instances )
   {
+    assert( instance.accel->GetInfoIndex() > -1 );
+    assert( instance.accel->GetInfoIndex() < ( 1 << 24 ) );
+
     mappedData->Transform[ 0 ][ 0 ]                 = instance.transform->_11;
     mappedData->Transform[ 0 ][ 1 ]                 = instance.transform->_21;
     mappedData->Transform[ 0 ][ 2 ]                 = instance.transform->_31;
@@ -106,7 +101,7 @@ void D3DRTTopLevelAccelerator::Update( Device& device, CommandList& commandList,
     mappedData->Transform[ 2 ][ 1 ]                 = instance.transform->_23;
     mappedData->Transform[ 2 ][ 2 ]                 = instance.transform->_33;
     mappedData->Transform[ 2 ][ 3 ]                 = instance.transform->_43;
-    mappedData->InstanceID                          = PackIBVBSlots( instance );
+    mappedData->InstanceID                          = instance.accel->GetInfoIndex();
     mappedData->InstanceMask                        = 0xFFU;
     mappedData->InstanceContributionToHitGroupIndex = 0;
     mappedData->Flags	                              = D3D12_RAYTRACING_INSTANCE_FLAG_TRIANGLE_FRONT_COUNTERCLOCKWISE;

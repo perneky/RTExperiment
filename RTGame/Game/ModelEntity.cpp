@@ -162,7 +162,6 @@ void ModelEntity::Update( CommandList& commandList, double timeElapsed )
     auto& device        = renderManager.GetDevice();
     auto  mesh          = scene->GetMesh( sceneMeshes.front() );
     auto& skinVertices  = mesh->GetVertexBufferResource();
-    auto& materials     = mesh->GetPackedMaterialIndices();
     auto  vertexCount   = mesh->GetVertexCount();
 
     auto skinVerticesDesc = skinVertices.GetResourceDescriptor( ResourceDescriptorType::ShaderResourceView );
@@ -173,26 +172,14 @@ void ModelEntity::Update( CommandList& commandList, double timeElapsed )
       skinVertices.AttachResourceDescriptor( ResourceDescriptorType::ShaderResourceView, std::move( desc ) );
     }
 
-    auto materialsDesc = materials.GetResourceDescriptor( ResourceDescriptorType::ShaderResourceView );
-    if ( !materialsDesc )
-    {
-      auto desc = device.GetShaderResourceHeap().RequestDescriptor( device, ResourceDescriptorType::ShaderResourceView, -1, materials, sizeof( uint32_t ) );
-      materialsDesc = desc.get();
-      materials.AttachResourceDescriptor( ResourceDescriptorType::ShaderResourceView, std::move( desc ) );
-    }
-
     auto& skinTransformBuffer = renderManager.GetSkinTransformBuffer();
 
-    commandList.ChangeResourceState( materials, ResourceStateBits::NonPixelShaderInput );
     commandList.ChangeResourceState( skinTransformBuffer, ResourceStateBits::VertexOrConstantBuffer );
     commandList.ChangeResourceState( *transformedSkinVertices, ResourceStateBits::UnorderedAccess );
-    commandList.ChangeResourceState( *transformedSkinRTVertexBuffer, ResourceStateBits::UnorderedAccess );
 
     commandList.SetComputeShader( RenderManager::GetInstance().GetSkinTransformShader() );
-    commandList.SetComputeResource( 1, *materialsDesc );
-    commandList.SetComputeResource( 4, *skinVerticesDesc );
-    commandList.SetComputeResource( 5, *transformedSkinVertices->GetResourceDescriptor( ResourceDescriptorType::UnorderedAccessView ) );
-    commandList.SetComputeResource( 6, *transformedSkinRTVertexBuffer->GetResourceDescriptor( ResourceDescriptorType::UnorderedAccessView ) );
+    commandList.SetComputeResource( 3, *skinVerticesDesc );
+    commandList.SetComputeResource( 4, *transformedSkinVertices->GetResourceDescriptor( ResourceDescriptorType::UnorderedAccessView ) );
 
     // TODO: go through each subset, and compute the batches one-by-one using the index
     // buffer and batch ranges. Generate only the vertices being used. Use that for both RT
@@ -221,15 +208,14 @@ void ModelEntity::Update( CommandList& commandList, double timeElapsed )
       subsetData.vertexCount = vertexCount;
 
       commandList.SetComputeConstantValues( 0, subsetData );
-      commandList.SetComputeConstantBuffer( 2, skinTransformBuffer );
-      commandList.SetComputeResource( 3, *skinIndicesDesc );
+      commandList.SetComputeConstantBuffer( 1, skinTransformBuffer );
+      commandList.SetComputeResource( 2, *skinIndicesDesc );
       commandList.Dispatch( ( indexRange.second + SkinTransformKernelWidth - 1 ) / SkinTransformKernelWidth, 1, 1 );
     }
 
-    commandList.AddUAVBarrier( { transformedSkinVertices.get(), transformedSkinRTVertexBuffer.get() } );
+    commandList.AddUAVBarrier( *transformedSkinVertices );
 
-    commandList.ChangeResourceState( *transformedSkinVertices, ResourceStateBits::VertexOrConstantBuffer | ResourceStateBits::NonPixelShaderInput );
-    commandList.ChangeResourceState( *transformedSkinRTVertexBuffer, ResourceStateBits::PixelShaderInput | ResourceStateBits::NonPixelShaderInput );
+    commandList.ChangeResourceState( *transformedSkinVertices, ResourceStateBits::VertexOrConstantBuffer | ResourceStateBits::PixelShaderInput | ResourceStateBits::NonPixelShaderInput );
 
     for ( auto subset : subsets )
     {
@@ -240,7 +226,9 @@ void ModelEntity::Update( CommandList& commandList, double timeElapsed )
         skinRTAccelerators[ subset ]->Update( device, commandList, *transformedSkinVertices, skinIndices );
       else
       {
-        auto blas = device.CreateRTBottomLevelAccelerator( commandList, *transformedSkinVertices, skinVertexCount, 16, sizeof( RigidVertexFormatWithHistory ), skinIndices, 16, indexRange.second, true, true );
+        mesh->AddBLASGPUInfoForSubset( commandList, subset );
+
+        auto blas = device.CreateRTBottomLevelAccelerator( commandList, *transformedSkinVertices, skinVertexCount, 16, sizeof( RigidVertexFormatWithHistory ), skinIndices, 16, indexRange.second, mesh->GetBLASGPUIndexForSubset( subset ), true, true );
         scene->SetRayTracingForMesh( sceneMeshes.front(), subset, blas.get() );
         skinRTAccelerators[ subset ] = std::move( blas );
       }
@@ -359,20 +347,15 @@ void ModelEntity::AddToScene( CommandList& commandList )
 
       auto& device = RenderManager::GetInstance().GetDevice();
 
-      int   vs     = sizeof( RigidVertexFormatWithHistory );
-      int   bs     = vs * skinVertexCount;
+      int vs     = sizeof( RigidVertexFormatWithHistory );
+      int bs     = vs * skinVertexCount;
+      int rtslot = mesh->GetRTVertexSlot() + MaxMeshCount;
+      
       transformedSkinVertices = device.CreateBuffer( ResourceType::VertexBuffer, HeapType::Default, true, bs, vs, L"MeshTransformedSkinVertices" );
       auto desc = device.GetShaderResourceHeap().RequestDescriptor( device, ResourceDescriptorType::UnorderedAccessView, -1, *transformedSkinVertices, vs );
       transformedSkinVertices->AttachResourceDescriptor( ResourceDescriptorType::UnorderedAccessView, std::move( desc ) );
-
-      int rtvs   = sizeof( RTVertexFormat );
-      int rtbs   = rtvs * skinVertexCount;
-      int rtslot = mesh->GetRTVertexSlot();
-      transformedSkinRTVertexBuffer = device.CreateBuffer( ResourceType::VertexBuffer, HeapType::Default, true, rtbs, rtvs, L"SkinnedVBRT" );
-      desc = device.GetShaderResourceHeap().RequestDescriptor( device, ResourceDescriptorType::UnorderedAccessView, -1, *transformedSkinRTVertexBuffer, rtvs );
-      transformedSkinRTVertexBuffer->AttachResourceDescriptor( ResourceDescriptorType::UnorderedAccessView, std::move( desc ) );
-      desc = device.GetShaderResourceHeap().RequestDescriptor( device, ResourceDescriptorType::ShaderResourceView, rtslot, *transformedSkinRTVertexBuffer, rtvs );
-      transformedSkinRTVertexBuffer->AttachResourceDescriptor( ResourceDescriptorType::ShaderResourceView, std::move( desc ) );
+      desc = device.GetShaderResourceHeap().RequestDescriptor( device, ResourceDescriptorType::ShaderResourceView, rtslot, *transformedSkinVertices, vs );
+      transformedSkinVertices->AttachResourceDescriptor( ResourceDescriptorType::ShaderResourceView, std::move( desc ) );
     }
   }
 }

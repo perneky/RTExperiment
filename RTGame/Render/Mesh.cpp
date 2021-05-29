@@ -14,24 +14,6 @@
 
 using namespace DirectX;
 
-RTVertexFormat Convert( const RigidVertexFormat& v )
-{
-  RTVertexFormat rtv;
-  rtv.normal.x      = XMConvertHalfToFloat( v.normal.x );
-  rtv.normal.y      = XMConvertHalfToFloat( v.normal.y );
-  rtv.normal.z      = XMConvertHalfToFloat( v.normal.z );
-  rtv.tangent.x     = XMConvertHalfToFloat( v.tangent.x );
-  rtv.tangent.y     = XMConvertHalfToFloat( v.tangent.y );
-  rtv.tangent.z     = XMConvertHalfToFloat( v.tangent.z );
-  rtv.bitangent.x   = XMConvertHalfToFloat( v.bitangent.x );
-  rtv.bitangent.y   = XMConvertHalfToFloat( v.bitangent.y );
-  rtv.bitangent.z   = XMConvertHalfToFloat( v.bitangent.z );
-  rtv.texcoord.x    = XMConvertHalfToFloat( v.texcoord.x );
-  rtv.texcoord.y    = XMConvertHalfToFloat( v.texcoord.y );
-  rtv.materialIndex = 0;
-  return rtv;
-}
-
 inline void ConvertToRigidVertexFormat( RigidVertexFormat& vtx, float x, float y, float z, float w, float nx, float ny, float nz, float tx, float ty, float tz, float bx, float by, float bz, float u, float v )
 {
   vtx.position  = XMHALF4( vtx.position );
@@ -56,8 +38,10 @@ struct Mesh::Batch
   }
   ~Batch()
   {
-    if ( rtSlot >= 0 )
-      RenderManager::GetInstance().FreeRTIndexBufferSlot( rtSlot );
+    if ( rtIndexSlot >= 0 )
+      RenderManager::GetInstance().FreeRTIndexBufferSlot( rtIndexSlot );
+    if ( rtInfoIndex >= 0 )
+      RenderManager::GetInstance().FreeBLASGPUInfo( rtInfoIndex );
   }
 
   Batch( const Batch& ) = delete;
@@ -66,6 +50,7 @@ struct Mesh::Batch
   int         startIndex;
   int         indexCount;
   int         materialIndex;
+  int         rtInfoIndex = -1;
   bool        twoSided;
   AlphaModeCB alphaMode;
   BoundingBox aabb;
@@ -73,7 +58,7 @@ struct Mesh::Batch
   std::unique_ptr< Resource > indexBuffer;
 
   std::unique_ptr< RTBottomLevelAccelerator > rtAccelerator;
-  int                                         rtSlot = -1;
+  int                                         rtIndexSlot = -1;
 
   std::vector< std::pair< std::wstring, XMFLOAT4X4 > > boneNames;
 };
@@ -255,52 +240,25 @@ struct MeshHelper
 
       if ( !isSkin )
       {
-        std::vector< RTVertexFormat > rtVertices;
-        rtVertices.reserve( vertexCount );
-        auto mvtx = reinterpret_cast< const RigidVertexFormat* >( vertices );
-        for ( int vtx = 0; vtx < vertexCount; ++vtx, ++mvtx )
-          rtVertices.emplace_back( Convert( *mvtx ) );
-
-        for ( auto& batch : mesh.batches )
-          for ( int ix = batch.startIndex; ix < batch.startIndex + batch.indexCount; ++ix )
-            rtVertices[ indices[ ix ] ].materialIndex = batch.materialIndex;
-
-        mesh.rtVertexBuffer = CreateBufferFromData( rtVertices.data(), int( rtVertices.size() ), ResourceType::ConstantBuffer, device, commandList, L"MeshVBRT" );
-
-        auto vbIndexDesc = device.GetShaderResourceHeap().RequestDescriptor( device, ResourceDescriptorType::ShaderResourceView, mesh.rtVertexSlot, *mesh.rtVertexBuffer, sizeof( RTVertexFormat ) );
-        mesh.rtVertexBuffer->AttachResourceDescriptor( ResourceDescriptorType::ShaderResourceView, std::move( vbIndexDesc ) );
-
-        for ( auto& batch : mesh.batches )
-        {
-          batch.rtSlot = RenderManager::GetInstance().ReserveRTIndexBufferSlot();
-
-          auto ibIndexDesc = device.GetShaderResourceHeap().RequestDescriptor( device, ResourceDescriptorType::ShaderResourceView, batch.rtSlot, *batch.indexBuffer, sizeof( I ) );
-          batch.indexBuffer->AttachResourceDescriptor( ResourceDescriptorType::ShaderResourceView, std::move( ibIndexDesc ) );
-
-          commandList.ChangeResourceState( *batch.indexBuffer, ResourceStateBits::IndexBuffer | ResourceStateBits::NonPixelShaderInput | ResourceStateBits::PixelShaderInput );
-
-          batch.rtAccelerator = device.CreateRTBottomLevelAccelerator( commandList, *mesh.vertexBuffer, vertexCount, 16, sizeof( RigidVertexFormat ), *batch.indexBuffer, 16, batch.indexCount, false, false );
-        }
+        auto vbIndexDesc = device.GetShaderResourceHeap().RequestDescriptor( device, ResourceDescriptorType::ShaderResourceView, mesh.rtVertexSlot, *mesh.vertexBuffer, sizeof( RigidVertexFormat ) );
+        mesh.vertexBuffer->AttachResourceDescriptor( ResourceDescriptorType::ShaderResourceView, std::move( vbIndexDesc ) );
       }
-      else
+
+      for ( auto& batch : mesh.batches )
       {
-        std::vector< uint32_t > packedIndices( vertexCount, 0 );
-        for ( auto& batch : mesh.batches )
-        {
-          for ( int ix = batch.startIndex; ix < batch.startIndex + batch.indexCount; ++ix )
-            packedIndices[ indices[ ix ] ] = batch.materialIndex;
+        batch.rtIndexSlot = RenderManager::GetInstance().ReserveRTIndexBufferSlot();
 
-          batch.rtSlot = RenderManager::GetInstance().ReserveRTIndexBufferSlot();
+        auto ibIndexDesc = device.GetShaderResourceHeap().RequestDescriptor( device, ResourceDescriptorType::ShaderResourceView, batch.rtIndexSlot, *batch.indexBuffer, sizeof( I ) );
+        batch.indexBuffer->AttachResourceDescriptor( ResourceDescriptorType::ShaderResourceView, std::move( ibIndexDesc ) );
 
-          auto ibIndexDesc = device.GetShaderResourceHeap().RequestDescriptor( device, ResourceDescriptorType::ShaderResourceView, batch.rtSlot, *batch.indexBuffer, sizeof( I ) );
-          batch.indexBuffer->AttachResourceDescriptor( ResourceDescriptorType::ShaderResourceView, std::move( ibIndexDesc ) );
+        commandList.ChangeResourceState( *batch.indexBuffer, ResourceStateBits::IndexBuffer | ResourceStateBits::NonPixelShaderInput | ResourceStateBits::PixelShaderInput );
 
-          commandList.ChangeResourceState( *batch.indexBuffer, ResourceStateBits::IndexBuffer | ResourceStateBits::NonPixelShaderInput | ResourceStateBits::PixelShaderInput );
-        }
+        mesh.AddBLASGPUInfoForSubset( commandList, batch );
 
-        mesh.packedMaterialIndices = CreateBufferFromData( packedIndices.data(), int( packedIndices.size() ), ResourceType::ConstantBuffer, device, commandList, L"MeshMaterials" );
-
-        commandList.ChangeResourceState( *mesh.vertexBuffer, ResourceStateBits::NonPixelShaderInput | ResourceStateBits::VertexOrConstantBuffer );
+        if ( !isSkin )
+          batch.rtAccelerator = device.CreateRTBottomLevelAccelerator( commandList, *mesh.vertexBuffer, vertexCount, 16, sizeof( RigidVertexFormat ), *batch.indexBuffer, 16, batch.indexCount, batch.rtInfoIndex, false, false );
+        else
+          commandList.ChangeResourceState( *mesh.vertexBuffer, ResourceStateBits::NonPixelShaderInput | ResourceStateBits::VertexOrConstantBuffer );
       }
     }
 
@@ -420,14 +378,9 @@ Mesh::AccelData Mesh::GetRTAcceleratorForSubset( int subset )
 
   AccelData data;
   data.accel    = batches[ subset ].rtAccelerator.get();
-  data.rtIBSlot = batches[ subset ].rtSlot;
+  data.rtIBSlot = batches[ subset ].rtIndexSlot;
   data.rtVBSlot = rtVertexSlot;
   return data;
-}
-
-Resource& Mesh::GetPackedMaterialIndices()
-{
-  return *packedMaterialIndices;
 }
 
 bool Mesh::IsSkin() const
@@ -476,7 +429,7 @@ int Mesh::GetRTVertexSlot() const
 int Mesh::GetRTIndexSlotForSubset( int subset ) const
 {
   assert( subset < batches.size() );
-  return batches[ subset ].rtSlot;
+  return batches[ subset ].rtIndexSlot;
 }
 
 const std::vector< std::pair< std::wstring, XMFLOAT4X4 > >& Mesh::GetBoneNamesForSubset( int subset ) const
@@ -521,11 +474,32 @@ std::pair< int, int > Mesh::GetIndexRangeForSubset( int subset ) const
   return { batch.startIndex, batch.indexCount };
 }
 
+int Mesh::GetBLASGPUIndexForSubset( int subset ) const
+{
+  assert( subset < batches.size() );
+  auto& batch = batches[ subset ];
+  return batch.rtInfoIndex;
+}
+
+void Mesh::AddBLASGPUInfoForSubset( CommandList& commandList, int subset )
+{
+  assert( subset < batches.size() );
+  auto& batch = batches[ subset ];
+
+  AddBLASGPUInfoForSubset( commandList, batch );
+}
+
+void Mesh::AddBLASGPUInfoForSubset( CommandList& commandList, Batch& batch )
+{
+  batch.rtInfoIndex = RenderManager::GetInstance().AddBLASGPUInfo( { uint32_t( batch.rtIndexSlot )
+                                                                   , uint32_t( rtVertexSlot )
+                                                                   , uint32_t( batch.materialIndex )
+                                                                   , uint32_t( isSkin ? BLASGPUInfoFlags::HasHistory : BLASGPUInfoFlags::None ) } );
+}
+
 void Mesh::Dispose( CommandList& commandList )
 {
   commandList.HoldResource( std::move( vertexBuffer ) );
-  commandList.HoldResource( std::move( rtVertexBuffer ) );
-  commandList.HoldResource( std::move( packedMaterialIndices ) );
   for ( auto& batch : batches )
   {
     batch.indexBuffer->RemoveAllResourceDescriptors();

@@ -200,3 +200,58 @@ float Lightness( float3 c )
 {
   return dot( c, float3( 0.212671, 0.715160, 0.072169 ) );
 }
+
+float2 HalfToFloat2( uint val )
+{
+  float2 result;
+  result.x = f16tof32( val.x );
+  result.y = f16tof32( val.x >> 16 );
+
+  return result;
+}
+
+float3 HalfToFloat3( uint2 val )
+{
+  float3 result;
+  result.x = f16tof32( val.x );
+  result.y = f16tof32( val.x >> 16 );
+  result.z = f16tof32( val.y );
+
+  return result;
+}
+
+uint2 Float4ToHalf( float4 val )
+{
+  uint2 result;
+  result.x = f32tof16( val.x );
+  result.x |= f32tof16( val.y ) << 16;
+  result.y = f32tof16( val.z );
+  result.y |= f32tof16( val.w ) << 16;
+
+  return result;
+}
+
+uint2 Float3ToHalf( float3 val )
+{
+  uint2 result;
+  result.x = f32tof16( val.x );
+  result.x |= f32tof16( val.y ) << 16;
+  result.y = f32tof16( val.z );
+
+  return result;
+}
+
+uint4 UnpackUint4( uint val )
+{
+  uint4 result;
+  result.x = val >> 24;
+  result.y = ( val >> 16 ) & 0xff;
+  result.z = ( val >> 8 ) & 0xff;
+  result.w = val & 0xff;
+  return result;
+}
+
+float4 UnpackFloat4( uint val )
+{
+  return float4( UnpackUint4( val ) ) / 255;
+}

@@ -8,15 +8,17 @@
                        "CBV( b3 )," \
                        "CBV( b4, space = 4 )," \
                        "CBV( b5, space = 5 )," \
-                       "DescriptorTable( SRV( t0, offset = " RTSceneBaseSlotStr            ", numDescriptors = " RTSceneCountStr            ", flags = DESCRIPTORS_VOLATILE, space = 0 )," \
-                       "                 SRV( t1, offset = " Engine2DResourceBaseSlotStr   ", numDescriptors = " Engine2DResourceCountStr   ", flags = DESCRIPTORS_VOLATILE, space = 1 )," \
-                       "                 SRV( t3, offset = " VaryingResourceBaseSlotStr    ", numDescriptors = " VaryingResourceCountStr    ", flags = DESCRIPTORS_VOLATILE, space = 3 )," \
-                       "                 SRV( t4, offset = " EngineCubeResourceBaseSlotStr ", numDescriptors = " EngineCubeResourceCountStr ", flags = DESCRIPTORS_VOLATILE, space = 4 )," \
-                       "                 SRV( t5, offset = " EngineVolResourceBaseSlotStr  ", numDescriptors = " EngineVolResourceCountStr  ", flags = DESCRIPTORS_VOLATILE, space = 5 )," \
-                       "                 SRV( t6, offset = " CBVIBBaseSlotStr              ", numDescriptors = " CBVIBCountStr              ", flags = DESCRIPTORS_VOLATILE, space = 6 )," \
-                       "                 SRV( t7, offset = " CBVVBBaseSlotStr              ", numDescriptors = " CBVVBCountStr              ", flags = DESCRIPTORS_VOLATILE, space = 7 )," \
-                       "                 SRV( t8, offset = " AllMeshParamsSlotStr          ", numDescriptors = 1,                              flags = DESCRIPTORS_VOLATILE, space = 8 ) )," \
-                       "SRV( t9, space = 9, flags = DATA_VOLATILE )," \
+                       "DescriptorTable( SRV( t0,  offset = " RTSceneBaseSlotStr            ", numDescriptors = " RTSceneCountStr            ", flags = DESCRIPTORS_VOLATILE, space = 0  )," \
+                       "                 SRV( t1,  offset = " Engine2DResourceBaseSlotStr   ", numDescriptors = " Engine2DResourceCountStr   ", flags = DESCRIPTORS_VOLATILE, space = 1  )," \
+                       "                 SRV( t3,  offset = " VaryingResourceBaseSlotStr    ", numDescriptors = " VaryingResourceCountStr    ", flags = DESCRIPTORS_VOLATILE, space = 3  )," \
+                       "                 SRV( t4,  offset = " EngineCubeResourceBaseSlotStr ", numDescriptors = " EngineCubeResourceCountStr ", flags = DESCRIPTORS_VOLATILE, space = 4  )," \
+                       "                 SRV( t5,  offset = " EngineVolResourceBaseSlotStr  ", numDescriptors = " EngineVolResourceCountStr  ", flags = DESCRIPTORS_VOLATILE, space = 5  )," \
+                       "                 SRV( t6,  offset = " CBVIBBaseSlotStr              ", numDescriptors = " CBVIBCountStr              ", flags = DESCRIPTORS_VOLATILE, space = 6  )," \
+                       "                 SRV( t7,  offset = " CBVVBBaseSlotStr              ", numDescriptors = " CBVVBCountStr              ", flags = DESCRIPTORS_VOLATILE, space = 7  )," \
+                       "                 SRV( t8,  offset = " CBVVBWHBaseSlotStr            ", numDescriptors = " CBVVBWHCountStr            ", flags = DESCRIPTORS_VOLATILE, space = 8  )," \
+                       "                 SRV( t9,  offset = " AllMeshParamsSlotStr          ", numDescriptors = 1,                              flags = DESCRIPTORS_VOLATILE, space = 9  )," \
+                       "                 SRV( t11, offset = " BLASGPUInfoSlotStr            ", numDescriptors = 1,                              flags = DESCRIPTORS_VOLATILE, space = 11 ) )," \
+                       "SRV( t10, space = 10, flags = DATA_VOLATILE )," \
                        "DescriptorTable( Sampler( s0, numDescriptors = 2 ) )," \
                        "StaticSampler( s1, space = 1," \
                        "               filter = FILTER_MIN_MAG_MIP_LINEAR," \
@@ -52,9 +54,9 @@ cbuffer LightingEnvironmentParams : register( b3 )
 
 ConstantBuffer< AllMaterialsCB >   allMaterials   : register( b4, space4 );
 ConstantBuffer< HaltonSequenceCB > haltonSequence : register( b5, space5 );
-StructuredBuffer< MeshParamsCB >   allMeshParams  : register( t8, space8 );
+StructuredBuffer< MeshParamsCB >   allMeshParams  : register( t9, space9 );
 
-RaytracingAccelerationStructure rayTracingScene : register( t9, space9 );
+RaytracingAccelerationStructure rayTracingScene : register( t10, space10 );
 
 Texture2D    allEngineTextures[]   : register( t1, space1 );
 Texture2D    allMaterialTextures[] : register( t3, space3 );
@@ -67,8 +69,11 @@ SamplerState pointClampSampler     : register( s2, space2 );
 #define wrapSampler  wrapClampSamplers[ 0 ]
 #define clampSampler wrapClampSamplers[ 1 ]
 
-ByteAddressBuffer                  meshIndices [ MaxMeshCount ] : register( t6, space6 );
-StructuredBuffer< RTVertexFormat > meshVertices[ MaxMeshCount ] : register( t7, space7 );
+ByteAddressBuffer                                meshIndices   [ MaxMeshCount ] : register( t6, space6 );
+StructuredBuffer< RigidVertexFormat >            meshVertices  [ MaxMeshCount ] : register( t7, space7 );
+StructuredBuffer< RigidVertexFormatWithHistory > meshVerticesWH[ MaxMeshCount ] : register( t8, space8 );
+
+StructuredBuffer< BLASGPUInfo > blasGPUInfo : register( t11, space11 );
 
 struct VertexInput
 {

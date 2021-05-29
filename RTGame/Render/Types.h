@@ -362,8 +362,6 @@ struct RTInstance
 {
   struct RTBottomLevelAccelerator* accel;
   XMFLOAT4X4*                      transform;
-  int                              rtIBSlot;
-  int                              rtVBSlot;
 };
 
 struct IndexRange

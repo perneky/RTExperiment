@@ -487,6 +487,8 @@ std::pair< Resource&, Resource& > Scene::Render( CommandList& commandList, const
   commandList.UploadBufferResource( std::move( uploadAllMeshParamsBuffer ), *allMeshParamsBuffer, allMeshParams.data(), allMeshParamsSize );
   commandList.ChangeResourceState( *allMeshParamsBuffer, ResourceStateBits::NonPixelShaderInput | ResourceStateBits::PixelShaderInput );
 
+  renderManager.GetBLASGPUInfoResource( commandList );
+
   commandList.EndEvent();
 
   if ( giProbeInstancesDirty )
@@ -1560,10 +1562,8 @@ void Scene::UpdateRaytracing( CommandList& commandList )
       if ( usedAccel )
       {
         rtInstances.emplace_back();
-        rtInstances.back().accel      = usedAccel;
-        rtInstances.back().transform  = &entry.second.nodeTransform;
-        rtInstances.back().rtIBSlot   = meshAccel.rtIBSlot;
-        rtInstances.back().rtVBSlot   = meshAccel.rtVBSlot;
+        rtInstances.back().accel     = usedAccel;
+        rtInstances.back().transform = &entry.second.nodeTransform;
       }
     }
   }

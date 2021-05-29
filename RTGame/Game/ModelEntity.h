@@ -57,10 +57,9 @@ protected:
 
   std::vector< uint32_t > sceneMeshes;
 
-  std::unique_ptr< AnimationPlayer >          animationPlayer;
-  std::unique_ptr< Resource >                 transformedSkinVertices;
-  std::unique_ptr< Resource >                 transformedSkinRTVertexBuffer;
-  int                                         skinVertexCount = 0;
+  std::unique_ptr< AnimationPlayer > animationPlayer;
+  std::unique_ptr< Resource >        transformedSkinVertices;
+  int                                skinVertexCount = 0;
   
   std::map< int, std::unique_ptr< RTBottomLevelAccelerator > > skinRTAccelerators;
 

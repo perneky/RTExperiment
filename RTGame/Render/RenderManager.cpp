@@ -196,6 +196,17 @@ void RenderManager::IdleGPU()
   commandQueueManager->IdleGPU();
 }
 
+void RenderManager::SetUp( CommandList& commandList )
+{
+  for ( int ix = 0; ix < MaxMeshCount; ++ix )
+    freeBLASGPUInfoSlots.emplace( ix );
+
+  blasGPUInfoBuffer = device->CreateBuffer( ResourceType::ConstantBuffer, HeapType::Default, false, sizeof( blasGPUInfoList ), sizeof( BLASGPUInfo ), L"blasGPUInfo" );
+
+  auto blasDesc = device->GetShaderResourceHeap().RequestDescriptor( *device, ResourceDescriptorType::ShaderResourceView, BLASGPUInfoSlot, *blasGPUInfoBuffer, sizeof( BLASGPUInfo ) );
+  blasGPUInfoBuffer->AttachResourceDescriptor( ResourceDescriptorType::ShaderResourceView, std::move( blasDesc ) );
+}
+
 CommandAllocator* RenderManager::RequestCommandAllocator( CommandQueueType queueType )
 {
   auto& queue          = commandQueueManager->GetQueue( queueType );
@@ -483,14 +494,17 @@ RenderManager::RenderManager( std::shared_ptr< Window > window )
   assert( EngineVolResourceCount  == atoi( EngineVolResourceCountStr  ) );
   assert( VaryingResourceCount    == atoi( VaryingResourceCountStr    ) );
 
-  assert( CBVIBBaseSlot == atoi( CBVIBBaseSlotStr ) );
-  assert( CBVVBBaseSlot == atoi( CBVVBBaseSlotStr ) );
+  assert( CBVIBBaseSlot   == atoi( CBVIBBaseSlotStr   ) );
+  assert( CBVVBBaseSlot   == atoi( CBVVBBaseSlotStr   ) );
+  assert( CBVVBWHBaseSlot == atoi( CBVVBWHBaseSlotStr ) );
 
-  assert( MaxMeshCount == atoi( CBVIBCountStr ) );
-  assert( MaxMeshCount == atoi( CBVVBCountStr ) );
+  assert( MaxMeshCount == atoi( CBVIBCountStr   ) );
+  assert( MaxMeshCount == atoi( CBVVBCountStr   ) );
+  assert( MaxMeshCount == atoi( CBVVBWHCountStr ) );
 
   assert( AllMeshParamsSlot == atoi( AllMeshParamsSlotStr ) );
-  
+  assert( BLASGPUInfoSlot == atoi( BLASGPUInfoSlotStr ) );
+
   freeRTIndexBufferSlots.reserve( MaxMeshCount );
   for ( int slot = 0; slot < MaxMeshCount; ++slot )
     freeRTIndexBufferSlots.emplace_back( CBVIBBaseSlot + slot );
@@ -736,7 +750,9 @@ RenderManager::RenderManager( std::shared_ptr< Window > window )
     pipelineDesc.psSize                      = pixelShader.size();
     pipelineDesc.primitiveType               = PrimitiveType::TriangleList;
     pipelineDesc.targetFormat[ 0 ]           = RenderManager::SDRFormat;
-    pipelineDesc.depthFormat                 = RenderManager::DepthFormat;
+    pipelineDesc.depthFormat                 = PixelFormat::Unknown;
+    pipelineDesc.depthStencilDesc.depthTest  = false;
+    pipelineDesc.depthStencilDesc.depthWrite = false;
     pipelineDesc.samples                     = 1;
     pipelinePresets[ int( PipelinePresets::Gizmos ) ] = device->CreatePipelineState( pipelineDesc );
   }
@@ -754,6 +770,7 @@ RenderManager::~RenderManager()
   skinTransformBuffer.reset();
   skinTransformShader.reset();
   spriteVertexBuffer.reset();
+  blasGPUInfoBuffer.reset();
   for ( auto& tex : allTextures )
     tex.reset();
 
@@ -930,5 +947,42 @@ std::shared_ptr< AnimationSet > RenderManager::LoadAnimation( const wchar_t* pat
   filler( animSet.get() );
   animationMap[ path ] = animSet;
   return animSet;
+}
+
+int RenderManager::AddBLASGPUInfo( const BLASGPUInfo& info )
+{
+  assert( !freeBLASGPUInfoSlots.empty() );
+
+  auto index = *freeBLASGPUInfoSlots.begin();
+  freeBLASGPUInfoSlots.erase( freeBLASGPUInfoSlots.begin() );
+
+  blasGPUInfoList[ index ] = info;
+  blasGPUInfoList[ index ].indexBufferId  -= CBVIBBaseSlot;
+  blasGPUInfoList[ index ].vertexBufferId -= CBVVBBaseSlot;
+
+  hasPendingBLASGPUInfoChange = true;
+
+  return index;
+}
+
+void RenderManager::FreeBLASGPUInfo( int index )
+{
+  assert( index < MaxMeshCount&& index > -1 );
+  assert( freeBLASGPUInfoSlots.count( index ) == 0 );
+
+  freeBLASGPUInfoSlots.emplace( index );
+
+  hasPendingBLASGPUInfoChange = true;
+}
+
+Resource& RenderManager::GetBLASGPUInfoResource( CommandList& commandList )
+{
+  if ( hasPendingBLASGPUInfoChange )
+  {
+    auto uploadBuffer = GetUploadConstantBufferForResource( *blasGPUInfoBuffer );
+    commandList.UploadBufferResource( std::move( uploadBuffer ), *blasGPUInfoBuffer, blasGPUInfoList, sizeof( blasGPUInfoList ) );
+  }
+
+  return *blasGPUInfoBuffer;
 }
 

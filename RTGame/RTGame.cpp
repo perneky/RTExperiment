@@ -46,6 +46,7 @@ int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmd
       auto commandAllocator = renderManager.RequestCommandAllocator( CommandQueueType::Direct );
       auto commandList      = renderManager.CreateCommandList( commandAllocator, CommandQueueType::Direct );
 
+      renderManager.SetUp( *commandList );
       renderManager.RecreateWindowSizeDependantResources( *commandList );
       renderManager.PrepareAllMaterials( *commandList );
 

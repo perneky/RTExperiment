@@ -50,7 +50,6 @@ public:
   };
 
   AccelData GetRTAcceleratorForSubset( int subset );
-  Resource& GetPackedMaterialIndices();
 
   bool IsSkin() const;
   bool HasTranslucent() const;
@@ -69,6 +68,10 @@ public:
 
   std::pair< int, int > GetIndexRangeForSubset( int subset ) const;
 
+  int GetBLASGPUIndexForSubset( int subset ) const;
+
+  void AddBLASGPUInfoForSubset( CommandList& commandList, int subset );
+
   void Dispose( CommandList& commandList );
 
   float Pick( FXMMATRIX worldTransform, FXMVECTOR rayStart, FXMVECTOR rayDir ) const;
@@ -82,14 +85,13 @@ private:
   Mesh( CommandList& commandList, const SkinnedVertexFormat* vertices, int vertexCount, const IndexFormat* indices, int indexCount, std::vector< Batch > batches, const wchar_t* debugName );
   Mesh( CommandList& commandList, const SkyVertexFormat* vertices, int vertexCount, const IndexFormat* indices, int indexCount, std::vector< Batch > batches, const wchar_t* debugName );
 
+  void AddBLASGPUInfoForSubset( CommandList& commandList, Batch& batch );
+
   BoundingBox mergedAABB;
 
   std::unique_ptr< Resource > vertexBuffer;
-  std::unique_ptr< Resource > rtVertexBuffer;
 
   std::vector< Batch > batches;
-
-  std::unique_ptr< Resource > packedMaterialIndices;
 
   int rtVertexSlot = -1;
 

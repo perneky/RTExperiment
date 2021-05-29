@@ -68,6 +68,7 @@ inline DXGI_FORMAT Convert( PixelFormat format )
   case PixelFormat::D16:           return DXGI_FORMAT_R16_TYPELESS;
   case PixelFormat::D24S8:         return DXGI_FORMAT_R24G8_TYPELESS;
   case PixelFormat::D32:           return DXGI_FORMAT_R32_TYPELESS;
+  case PixelFormat::Unknown:       return DXGI_FORMAT_UNKNOWN;
   default:        assert( false ); return DXGI_FORMAT_UNKNOWN;
   }
 }

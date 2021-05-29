@@ -220,9 +220,9 @@ std::unique_ptr< Resource > D3DDevice::CreateBuffer( ResourceType resourceType, 
   return std::unique_ptr< Resource >( new D3DResource( *this, resourceType, heapType, unorderedAccess, size, elementSize, debugName ) );
 }
 
-std::unique_ptr< RTBottomLevelAccelerator > D3DDevice::CreateRTBottomLevelAccelerator( CommandList& commandList, Resource& vertexBuffer, int vertexCount, int positionElementSize, int vertexStride, Resource& indexBuffer, int indexSize, int indexCount, bool allowUpdate, bool fastBuild )
+std::unique_ptr< RTBottomLevelAccelerator > D3DDevice::CreateRTBottomLevelAccelerator( CommandList& commandList, Resource& vertexBuffer, int vertexCount, int positionElementSize, int vertexStride, Resource& indexBuffer, int indexSize, int indexCount, int infoIndex, bool allowUpdate, bool fastBuild )
 {
-  return std::unique_ptr< RTBottomLevelAccelerator >( new D3DRTBottomLevelAccelerator( *this, *static_cast< D3DCommandList* >( &commandList ), *static_cast< D3DResource* >( &vertexBuffer ), vertexCount, positionElementSize, vertexStride, *static_cast< D3DResource* >( &indexBuffer ), indexSize, indexCount, allowUpdate, fastBuild ) );
+  return std::unique_ptr< RTBottomLevelAccelerator >( new D3DRTBottomLevelAccelerator( *this, *static_cast< D3DCommandList* >( &commandList ), *static_cast< D3DResource* >( &vertexBuffer ), vertexCount, positionElementSize, vertexStride, *static_cast< D3DResource* >( &indexBuffer ), indexSize, indexCount, infoIndex, allowUpdate, fastBuild ) );
 }
 
 std::unique_ptr< RTTopLevelAccelerator > D3DDevice::CreateRTTopLevelAccelerator( CommandList& commandList, std::vector< RTInstance > instances )

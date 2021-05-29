@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Types.h"
-#include "ShaderValues.h"
+#include "ShaderStructures.h"
 
 struct Window;
 struct Factory;
@@ -43,6 +43,8 @@ public:
 
   void IdleGPU();
 
+  void SetUp( CommandList& commandList );
+
   CommandAllocator* RequestCommandAllocator( CommandQueueType queueType );
   void DiscardCommandAllocator( CommandQueueType queueType, CommandAllocator* allocator, uint64_t fenceValue );
   std::unique_ptr< CommandList > CreateCommandList( CommandAllocator* allocator, CommandQueueType queueType );
@@ -83,6 +85,10 @@ public:
   void AddSprite( CommandList& commandList, FXMVECTOR position, Sprites type );
 
   std::shared_ptr< AnimationSet > LoadAnimation( const wchar_t* path, std::function< void( AnimationSet* ) > filler );
+
+  int AddBLASGPUInfo( const BLASGPUInfo& info );
+  void FreeBLASGPUInfo( int index );
+  Resource& GetBLASGPUInfoResource( CommandList& commandList );
 
 private:
   enum { MaxSpriteVertices = 1000 };
@@ -138,6 +144,11 @@ private:
   std::map< std::wstring, std::weak_ptr< AnimationSet > > animationMap;
 
   std::vector< SpriteVertexFormat > spriteVertices;
+
+  std::set< int >             freeBLASGPUInfoSlots;
+  BLASGPUInfo                 blasGPUInfoList[ MaxMeshCount ];
+  std::unique_ptr< Resource > blasGPUInfoBuffer;
+  bool                        hasPendingBLASGPUInfoChange = false;
 
   int spriteTextures[ 1 ];
 };

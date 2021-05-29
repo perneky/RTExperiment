@@ -24,37 +24,77 @@ HitGeometry CalcHitGeometry( uint instanceId, uint triangleIndex, float2 barycen
 
   const uint indexSize = 2;
 
-  uint ibSlotIndex = ( instanceId >> 12 ) & RTSlotMask;
-  uint vbSlotIndex = instanceId & RTSlotMask;
+  BLASGPUInfo blasInfo = blasGPUInfo[ instanceId ];
+
+  uint ibSlotIndex = blasInfo.indexBufferId;
+  uint vbSlotIndex = blasInfo.vertexBufferId;
 
   ByteAddressBuffer meshIB  = meshIndices[ ibSlotIndex ];
   uint3             indices = Load3x16BitIndices( meshIB, triangleIndex * indexSize * 3 );
 
-  StructuredBuffer< RTVertexFormat > meshVB = meshVertices[ vbSlotIndex ];
-  RTVertexFormat v1 = meshVB[ indices[ 0 ] ];
-  RTVertexFormat v2 = meshVB[ indices[ 1 ] ];
-  RTVertexFormat v3 = meshVB[ indices[ 2 ] ];
+  float3 normals   [ 3 ];
+  float3 tangents  [ 3 ];
+  float3 bitangents[ 3 ];
+  float2 texcoords [ 3 ];
+
+  [branch]
+  if ( ( blasInfo.flags & (uint)BLASGPUInfoFlags::HasHistory ) != 0 )
+  {
+    RigidVertexFormatWithHistory v1 = meshVerticesWH[ vbSlotIndex ][ indices.x ];
+    RigidVertexFormatWithHistory v2 = meshVerticesWH[ vbSlotIndex ][ indices.y ];
+    RigidVertexFormatWithHistory v3 = meshVerticesWH[ vbSlotIndex ][ indices.z ];
+    normals   [ 0 ] = HalfToFloat3( v1.normal    );
+    normals   [ 1 ] = HalfToFloat3( v2.normal    );
+    normals   [ 2 ] = HalfToFloat3( v3.normal    );
+    tangents  [ 0 ] = HalfToFloat3( v1.tangent   );
+    tangents  [ 1 ] = HalfToFloat3( v2.tangent   );
+    tangents  [ 2 ] = HalfToFloat3( v3.tangent   );
+    bitangents[ 0 ] = HalfToFloat3( v1.bitangent );
+    bitangents[ 1 ] = HalfToFloat3( v2.bitangent );
+    bitangents[ 2 ] = HalfToFloat3( v3.bitangent );
+    texcoords [ 0 ] = HalfToFloat2( v1.texcoord  );
+    texcoords [ 1 ] = HalfToFloat2( v2.texcoord  );
+    texcoords [ 2 ] = HalfToFloat2( v3.texcoord  );
+  }
+  else
+  {
+    RigidVertexFormat v1 = meshVertices[ vbSlotIndex ][ indices.x ];
+    RigidVertexFormat v2 = meshVertices[ vbSlotIndex ][ indices.y ];
+    RigidVertexFormat v3 = meshVertices[ vbSlotIndex ][ indices.z ];
+    normals   [ 0 ] = HalfToFloat3( v1.normal    );
+    normals   [ 1 ] = HalfToFloat3( v2.normal    );
+    normals   [ 2 ] = HalfToFloat3( v3.normal    );
+    tangents  [ 0 ] = HalfToFloat3( v1.tangent   );
+    tangents  [ 1 ] = HalfToFloat3( v2.tangent   );
+    tangents  [ 2 ] = HalfToFloat3( v3.tangent   );
+    bitangents[ 0 ] = HalfToFloat3( v1.bitangent );
+    bitangents[ 1 ] = HalfToFloat3( v2.bitangent );
+    bitangents[ 2 ] = HalfToFloat3( v3.bitangent );
+    texcoords [ 0 ] = HalfToFloat2( v1.texcoord  );
+    texcoords [ 1 ] = HalfToFloat2( v2.texcoord  );
+    texcoords [ 2 ] = HalfToFloat2( v3.texcoord  );
+  }
 
   float3 barycentrics = float3( 1.0 - barycentrics2.x - barycentrics2.y, barycentrics2.x, barycentrics2.y );
 
-  float3 normal = v1.normal * barycentrics.x 
-                + v2.normal * barycentrics.y
-                + v3.normal * barycentrics.z;
-  float3 tangent = v1.tangent * barycentrics.x 
-                 + v2.tangent * barycentrics.y
-                 + v3.tangent * barycentrics.z;
-  float3 bitangent = v1.bitangent * barycentrics.x 
-                   + v2.bitangent * barycentrics.y
-                   + v3.bitangent * barycentrics.z;
+  float3 normal = normals[ 0 ] * barycentrics.x
+                + normals[ 1 ] * barycentrics.y
+                + normals[ 2 ] * barycentrics.z;
+  float3 tangent = tangents[ 0 ] * barycentrics.x
+                 + tangents[ 1 ] * barycentrics.y
+                 + tangents[ 2 ] * barycentrics.z;
+  float3 bitangent = bitangents[ 0 ] * barycentrics.x
+                   + bitangents[ 1 ] * barycentrics.y
+                   + bitangents[ 2 ] * barycentrics.z;
 
-  result.materialIndex  = v1.materialIndex;
+  result.materialIndex  = blasInfo.materialId;
   result.worldNormal    = mul( ( float3x3 )toWorld, normal );
   result.worldTangent   = mul( ( float3x3 )toWorld, tangent );
   result.worldBitangent = mul( ( float3x3 )toWorld, bitangent );
   result.worldPosition  = worldRayOrigin + worldRayDirection * hitDistance;
-  result.texcoord       = v1.texcoord * barycentrics.x
-                        + v2.texcoord * barycentrics.y
-                        + v3.texcoord * barycentrics.z;
+  result.texcoord       = texcoords[ 0 ] * barycentrics.x
+                        + texcoords[ 1 ] * barycentrics.y
+                        + texcoords[ 2 ] * barycentrics.z;
 
   if ( IsScaleUVMaterial( result.materialIndex ) )
     result.texcoord *= length( float3( toWorld._11, toWorld._22, toWorld._33 ) );

@@ -2,6 +2,10 @@
 
 #include "ShaderValues.h"
 
+#ifdef __cplusplus
+# pragma pack( push, 1 )
+#endif // __cplusplus
+
 enum class VRSBlock : int
 {
   _1x1,
@@ -207,12 +211,20 @@ struct SkyVertexFormat
   XMHALF4 position;
 };
 
-struct RTVertexFormat
+enum class BLASGPUInfoFlags : uint32_t
 {
-  XMFLOAT3 normal;
-  XMFLOAT3 tangent;
-  XMFLOAT3 bitangent;
-  XMFLOAT2 texcoord;
-  uint32_t materialIndex;
+  None       = 0,
+  HasHistory = 1,
 };
 
+struct BLASGPUInfo
+{
+  uint32_t indexBufferId;
+  uint32_t vertexBufferId;
+  uint32_t materialId;
+  uint32_t flags;
+};
+
+#ifdef __cplusplus
+# pragma pack( pop )
+#endif // __cplusplus

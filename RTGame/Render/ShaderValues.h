@@ -38,15 +38,17 @@
 #define GITexture2UAVSlot  ( GITexture2Slot + 1 )
 
 #define MaxMeshCount     500
+#define MaxMeshWHCount   500
 #define MaxInstanceCount 1000
 #define MaxMaterials     500
 #define SceneMaxLights   50
 
-#define CBVHeapSize ( AllResourceCount + MaxMeshCount * 2 )
+#define CBVHeapSize ( AllResourceCount + MaxMeshCount * 3 )
 
-#define CBVBaseSlot   AllResourceCount
-#define CBVIBBaseSlot AllResourceCount
-#define CBVVBBaseSlot ( CBVIBBaseSlot + MaxMeshCount )
+#define CBVBaseSlot     AllResourceCount
+#define CBVIBBaseSlot   AllResourceCount
+#define CBVVBBaseSlot   ( CBVIBBaseSlot + MaxMeshCount )
+#define CBVVBWHBaseSlot ( CBVVBBaseSlot + MaxMeshCount )
 
 #define RTSceneCountStr            "100"
 #define Engine2DResourceCountStr   "40"
@@ -60,11 +62,13 @@
 #define EngineVolResourceBaseSlotStr  "150"
 #define VaryingResourceBaseSlotStr    "160"
 
-#define CBVIBBaseSlotStr "2160"
-#define CBVVBBaseSlotStr "2660"
+#define CBVIBBaseSlotStr   "2160"
+#define CBVVBBaseSlotStr   "2660"
+#define CBVVBWHBaseSlotStr "3160"
 
-#define CBVIBCountStr "500"
-#define CBVVBCountStr "500"
+#define CBVIBCountStr   "500"
+#define CBVVBCountStr   "500"
+#define CBVVBWHCountStr "500"
 
 enum TextureSlots
 {
@@ -95,6 +99,7 @@ enum TextureSlots
   SpecBRDFLUTUAVSlot,
   WetnessSlot,
   MotionVectorsSlot,
+  BLASGPUInfoSlot,
 
   TextureSlotCount
 };
@@ -104,6 +109,7 @@ enum TextureSlots
 #endif // __cplusplus
 
 #define AllMeshParamsSlotStr "110"
+#define BLASGPUInfoSlotStr   "121"
 
 #define ToneMappingKernelWidth  8
 #define ToneMappingKernelHeight 8
