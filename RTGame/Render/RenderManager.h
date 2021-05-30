@@ -15,6 +15,7 @@ struct PipelineState;
 struct DescriptorHeap;
 struct SpriteVertexFormat;
 struct ComputeShader;
+struct RTTopLevelAccelerator;
 
 class CommandQueueManager;
 class AnimationSet;
@@ -115,8 +116,9 @@ private:
 
   std::unique_ptr< PipelineState > pipelinePresets[ int( PipelinePresets::PresentCount ) ];
 
-  std::map< CommandQueueType, std::map< uint64_t, std::vector< std::unique_ptr< Resource > > > > stagingResources;
-  std::map< CommandQueueType, std::map< uint64_t, std::vector< std::function< void() > > > >     endFrameCallbacks;
+  std::map< CommandQueueType, std::map< uint64_t, std::vector< std::unique_ptr< Resource > > > >              stagingResources;
+  std::map< CommandQueueType, std::map< uint64_t, std::vector< std::unique_ptr< RTTopLevelAccelerator > > > > stagingTLAS;
+  std::map< CommandQueueType, std::map< uint64_t, std::vector< std::function< void() > > > >                  endFrameCallbacks;
 
   std::unique_ptr< Resource >                                 allMaterialsConstantBuffer;
   std::array< std::unique_ptr< Resource >, AllResourceCount > allTextures;

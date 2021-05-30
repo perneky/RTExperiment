@@ -65,8 +65,10 @@ struct CommandList
   virtual void CopyResource( Resource& source, Resource& destination ) = 0;
 
   virtual void HoldResource( std::unique_ptr< Resource > resource ) = 0;
+  virtual void HoldResource( std::unique_ptr< RTTopLevelAccelerator > resource ) = 0;
 
   virtual std::vector< std::unique_ptr< Resource > > TakeHeldResources() = 0;
+  virtual std::vector< std::unique_ptr< RTTopLevelAccelerator > > TakeHeldTLAS() = 0;
 
   virtual void BeginEvent( int eventId, const wchar_t* format, ... ) = 0;
   virtual void EndEvent() = 0;

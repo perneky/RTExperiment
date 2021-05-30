@@ -460,9 +460,20 @@ void D3DCommandList::HoldResource( std::unique_ptr< Resource > resource )
     heldResources.emplace_back( std::move( resource ) );
 }
 
+void D3DCommandList::HoldResource( std::unique_ptr< RTTopLevelAccelerator > resource )
+{
+  if ( resource )
+    heldTLAS.emplace_back( std::move( resource ) );
+}
+
 std::vector< std::unique_ptr< Resource > > D3DCommandList::TakeHeldResources()
 {
   return std::move( heldResources );
+}
+
+std::vector<std::unique_ptr<RTTopLevelAccelerator>> D3DCommandList::TakeHeldTLAS()
+{
+  return std::move( heldTLAS );
 }
 
 void D3DCommandList::BeginEvent( int eventId, const wchar_t* format, ... )

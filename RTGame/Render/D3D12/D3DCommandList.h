@@ -63,8 +63,10 @@ public:
   void CopyResource( Resource& source, Resource& destination ) override;
 
   void HoldResource( std::unique_ptr< Resource > resource ) override;
+  void HoldResource( std::unique_ptr< RTTopLevelAccelerator > resource ) override;
 
   std::vector< std::unique_ptr< Resource > > TakeHeldResources() override;
+  std::vector< std::unique_ptr< RTTopLevelAccelerator > > TakeHeldTLAS() override;
 
   void BeginEvent( int eventId, const wchar_t* format, ... ) override;
   void EndEvent() override;
@@ -85,6 +87,7 @@ private:
   CComPtr< ID3D12GraphicsCommandList6 > d3dGraphicsCommandList;
 
   std::vector< std::unique_ptr< Resource > > heldResources;
+  std::vector< std::unique_ptr< RTTopLevelAccelerator > > heldTLAS;
   std::vector< EndFrameCallback > endFrameCallbacks;
 
   uint64_t frequency = 1;

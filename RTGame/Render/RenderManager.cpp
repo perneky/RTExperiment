@@ -8,6 +8,7 @@
 #include "ResourceDescriptor.h"
 #include "DescriptorHeap.h"
 #include "Mesh.h"
+#include "RTTopLevelAccelerator.h"
 #include "ShaderStructuresNative.h"
 #include "CommandQueueManager.h"
 #include "CommandQueue.h"
@@ -248,6 +249,13 @@ uint64_t RenderManager::Submit( std::unique_ptr< CommandList > commandList, Comm
       std::move( heldResources.begin(), heldResources.end(), std::back_inserter( hold ) );
     }
 
+    auto heldTLAS = commandList->TakeHeldTLAS();
+    if ( !heldTLAS.empty() )
+    {
+      auto& hold = stagingTLAS[ queueType ][ fenceValue ];
+      std::move( heldTLAS.begin(), heldTLAS.end(), std::back_inserter( hold ) );
+    }
+
     auto newEndFrameCallbacks = commandList->TakeEndFrameCallbacks();
     if ( !newEndFrameCallbacks.empty() )
     {
@@ -417,7 +425,9 @@ void RenderManager::TidyUp()
   {
     auto& queue     = commandQueueManager->GetQueue( CommandQueueType( queueType ) );
     auto& resources = stagingResources[ CommandQueueType( queueType ) ];
+    auto& tlas      = stagingTLAS[ CommandQueueType( queueType ) ];
     auto& efcs      = endFrameCallbacks[ CommandQueueType( queueType ) ];
+
     for ( auto iter = resources.begin(); iter != resources.end(); )
     {
       if ( queue.IsFenceComplete( iter->first ) )
@@ -432,6 +442,15 @@ void RenderManager::TidyUp()
       else
         ++iter;
     }
+
+    for ( auto iter = tlas.begin(); iter != tlas.end(); )
+    {
+      if ( queue.IsFenceComplete( iter->first ) )
+        iter = tlas.erase( iter );
+      else
+        ++iter;
+    }
+
     for ( auto iter = efcs.begin(); iter != efcs.end(); )
     {
       if ( queue.IsFenceComplete( iter->first ) )

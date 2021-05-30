@@ -2,10 +2,10 @@
     <GameStage lastCameraId="1">
         <Sky guid="{ED542769-36A3-4AC8-ADE5-8E08E2F1EB32}"/>
         <PostFx enableAdaptation="true" targetLuminance="0.60100001" exposure="2" adaptationRate="0.093000002" minExposure="0.2498268" maxExposure="8.5326862" bloomThreshold="2.0439999" bloomStrength="0.308"/>
-        <Entities idGen="758">
+        <Entities idGen="759">
             <CameraEntity id="1">
-                <Position x="25.865578" y="0.64433318" z="-49.88438"/>
-                <Rotation x="1" y="-7662" z="0"/>
+                <Position x="17.276209" y="2.0363905" z="-53.068287"/>
+                <Rotation x="21" y="-7748" z="0"/>
                 <Scale x="1" y="1" z="1"/>
             </CameraEntity>
             <ModelEntity guid="{1A4E3D99-DCA4-4FF9-A893-C820DC63C988}" id="3">
@@ -3424,6 +3424,11 @@
             <ModelEntity guid="{E25F5B1B-F716-4EAE-9B56-99552C54AFC9}" id="757">
                 <Position x="22.220226" y="2.6389017" z="0.19528253"/>
                 <Rotation x="0" y="0" z="0"/>
+                <Scale x="1" y="1" z="1"/>
+            </ModelEntity>
+            <ModelEntity guid="{3AA0AAD2-D287-4EC3-91C8-FF50704C0781}" id="758">
+                <Position x="19.228855" y="0.095096499" z="-55.769604"/>
+                <Rotation x="0" y="270" z="0"/>
                 <Scale x="1" y="1" z="1"/>
             </ModelEntity>
         </Entities>

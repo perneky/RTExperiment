@@ -1571,7 +1571,10 @@ void Scene::UpdateRaytracing( CommandList& commandList )
   if ( rtState == RTState::TrianglesModified && rtScene )
     rtScene->Update( device, commandList, std::move( rtInstances ) );
   else
+  {
+    commandList.HoldResource( std::move( rtScene ) );
     rtScene = device.CreateRTTopLevelAccelerator( commandList, std::move( rtInstances ) );
+  }
 
   rtState = RTState::Ready;
 
