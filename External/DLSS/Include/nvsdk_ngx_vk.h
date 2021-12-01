@@ -239,8 +239,11 @@ NVSDK_NGX_Result  NVSDK_CONV NVSDK_NGX_VULKAN_Init_with_ProjectID(const char *In
 // 
 // DESCRIPTION:
 //      Shuts down the current SDK instance and releases all resources.
+//      Shutdown1(Device) only affects specified device
+//      Shutdown1(nullptr) = Shutdown() and shuts down all devices
 //
 NVSDK_NGX_API NVSDK_NGX_Result NVSDK_CONV NVSDK_NGX_VULKAN_Shutdown(void);
+NVSDK_NGX_API NVSDK_NGX_Result NVSDK_CONV NVSDK_NGX_VULKAN_Shutdown1(VkDevice InDevice);
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 // NVSDK_NGX_GetParameters
@@ -374,14 +377,10 @@ NVSDK_NGX_API NVSDK_NGX_Result NVSDK_CONV NVSDK_NGX_VULKAN_GetScratchBufferSize(
 // NVSDK_NGX_CreateFeature
 // -------------------------------------
 //
-// InCmdList:[d3d12 only]
-//      Command list to use to execute GPU commands. Must be:
+// InCmdBuffer:
+//      Command buffer to use to execute GPU commands. Must be:
 //      - Open and recording 
-//      - With node mask including the device provided in NVSDK_NGX_D3D12_Init
-//      - Execute on non-copy command queue.
-// InDevCtx: [d3d11 only]
-//      Device context to use to execute GPU commands
-//
+
 // InFeatureID:
 //      AI feature to initialize
 //
@@ -396,8 +395,11 @@ NVSDK_NGX_API NVSDK_NGX_Result NVSDK_CONV NVSDK_NGX_VULKAN_GetScratchBufferSize(
 //      Each feature needs to be created before it can be used. 
 //      Refer to the sample code to find out which input parameters
 //      are needed to create specific feature.
+//      CreateFeature() creates feature on single existing Device
+//      CreateFeature1() creates feature on the specified Device
 //
-NVSDK_NGX_API NVSDK_NGX_Result NVSDK_CONV NVSDK_NGX_VULKAN_CreateFeature(VkCommandBuffer InCmdList, NVSDK_NGX_Feature InFeatureID, const NVSDK_NGX_Parameter *InParameters, NVSDK_NGX_Handle **OutHandle);
+NVSDK_NGX_API NVSDK_NGX_Result NVSDK_CONV NVSDK_NGX_VULKAN_CreateFeature(VkCommandBuffer InCmdBuffer, NVSDK_NGX_Feature InFeatureID, const NVSDK_NGX_Parameter *InParameters, NVSDK_NGX_Handle **OutHandle);
+NVSDK_NGX_API NVSDK_NGX_Result NVSDK_CONV NVSDK_NGX_VULKAN_CreateFeature1(VkDevice InDevice, VkCommandBuffer InCmdList, NVSDK_NGX_Feature InFeatureID, const NVSDK_NGX_Parameter *InParameters, NVSDK_NGX_Handle **OutHandle);
 
 /////////////////////////////////////////////////////////////////////////
 // NVSDK_NGX_Release

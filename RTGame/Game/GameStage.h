@@ -35,6 +35,8 @@ public:
   GameStage( CommandList& commandList, Window& window );
   ~GameStage();
 
+  void TearDown( CommandList& commandList );
+
   void SetSky( CommandList& commandList, const GUID& guid );
 
   EntityId AddModelEntity( CommandList& commandList, const GUID& guid );

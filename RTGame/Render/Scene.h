@@ -39,6 +39,7 @@ public:
   ~Scene();
 
   void SetUp( CommandList& commandList, Window& window );
+  void TearDown( CommandList& commandList );
 
   void SetSky( CommandList& commandList, const GUID& guid );
   

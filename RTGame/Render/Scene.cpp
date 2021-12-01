@@ -80,6 +80,15 @@ Scene::~Scene()
 {
 }
 
+void Scene::TearDown( CommandList& commandList )
+{
+  if ( upscaling )
+  {
+    upscaling->TearDown( commandList );
+    upscaling.reset();
+  }
+}
+
 void Scene::SetUp( CommandList& commandList, Window& window )
 {
   auto& renderManager  = RenderManager::GetInstance();

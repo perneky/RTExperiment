@@ -74,14 +74,14 @@ typedef struct NVSDK_NGX_VK_DLSS_Eval_Params
     NVSDK_NGX_VK_Feature_Eval_Params    Feature;
     NVSDK_NGX_Resource_VK *             pInDepth;
     NVSDK_NGX_Resource_VK *             pInMotionVectors;
-    float                               InJitterOffsetX;
+    float                               InJitterOffsetX;     /* Jitter offset must be in input/render pixel space */
     float                               InJitterOffsetY;
     NVSDK_NGX_Dimensions                InRenderSubrectDimensions;
-    /*** OPTIONAL ***/
-    int                                 InReset;
-    float                               InMVScaleX;
+    /*** OPTIONAL - leave to 0/0.0f if unused ***/
+    int                                 InReset;             /* Set to 1 when scene changes completely (new level etc) */
+    float                               InMVScaleX;          /* If MVs need custom scaling to convert to pixel space */
     float                               InMVScaleY;
-    NVSDK_NGX_Resource_VK *             pInTransparencyMask; /* per pixel mask identifying alpha-blended objects like particles etc. */
+    NVSDK_NGX_Resource_VK *             pInTransparencyMask; /* Unused/Reserved for future use */
     NVSDK_NGX_Resource_VK *             pInExposureTexture;
     NVSDK_NGX_Resource_VK *             pInBiasCurrentColorMask;
     NVSDK_NGX_Coordinates               InColorSubrectBase;
@@ -109,7 +109,7 @@ typedef struct NVSDK_NGX_VK_DLSS_Eval_Params
 typedef struct NVSDK_NGX_VK_DLISP_Eval_Params
 {
     NVSDK_NGX_VK_Feature_Eval_Params Feature;
-    /*** OPTIONAL ***/
+    /*** OPTIONAL - leave to 0/0.0f if unused ***/
     unsigned int                        InRectX;
     unsigned int                        InRectY;
     unsigned int                        InRectW;
@@ -117,7 +117,8 @@ typedef struct NVSDK_NGX_VK_DLISP_Eval_Params
     float                               InDenoise;
 } NVSDK_NGX_VK_DLISP_Eval_Params;
 
-static inline NVSDK_NGX_Result NGX_VULKAN_CREATE_DLSS_EXT(
+static inline NVSDK_NGX_Result NGX_VULKAN_CREATE_DLSS_EXT1(
+    VkDevice InDevice,
     VkCommandBuffer InCmdList,
     unsigned int InCreationNodeMask,
     unsigned int InVisibilityNodeMask,
@@ -135,7 +136,19 @@ static inline NVSDK_NGX_Result NGX_VULKAN_CREATE_DLSS_EXT(
     NVSDK_NGX_Parameter_SetI(pInParams, NVSDK_NGX_Parameter_DLSS_Feature_Create_Flags, pInDlssCreateParams->InFeatureCreateFlags);
     NVSDK_NGX_Parameter_SetI(pInParams, NVSDK_NGX_Parameter_DLSS_Enable_Output_Subrects, pInDlssCreateParams->InEnableOutputSubrects ? 1 : 0);
 
-    return NVSDK_NGX_VULKAN_CreateFeature(InCmdList, NVSDK_NGX_Feature_SuperSampling, pInParams, ppOutHandle);
+    if (InDevice) return NVSDK_NGX_VULKAN_CreateFeature1(InDevice, InCmdList, NVSDK_NGX_Feature_SuperSampling, pInParams, ppOutHandle);
+    else return NVSDK_NGX_VULKAN_CreateFeature(InCmdList, NVSDK_NGX_Feature_SuperSampling, pInParams, ppOutHandle);
+}
+
+static inline NVSDK_NGX_Result NGX_VULKAN_CREATE_DLSS_EXT(
+    VkCommandBuffer InCmdList,
+    unsigned int InCreationNodeMask,
+    unsigned int InVisibilityNodeMask,
+    NVSDK_NGX_Handle **ppOutHandle,
+    NVSDK_NGX_Parameter *pInParams,
+    NVSDK_NGX_DLSS_Create_Params *pInDlssCreateParams)
+{
+    return NGX_VULKAN_CREATE_DLSS_EXT1(NULL, InCmdList, InCreationNodeMask, InVisibilityNodeMask, ppOutHandle, pInParams, pInDlssCreateParams);
 }
 
 static inline NVSDK_NGX_Result NGX_VULKAN_EVALUATE_DLSS_EXT(
@@ -167,15 +180,12 @@ static inline NVSDK_NGX_Result NGX_VULKAN_EVALUATE_DLSS_EXT(
     NVSDK_NGX_Parameter_SetVoidPointer(pInParams, NVSDK_NGX_Parameter_Output, pInDlssEvalParams->Feature.pInOutput);
     NVSDK_NGX_Parameter_SetVoidPointer(pInParams, NVSDK_NGX_Parameter_Depth, pInDlssEvalParams->pInDepth);
     NVSDK_NGX_Parameter_SetVoidPointer(pInParams, NVSDK_NGX_Parameter_MotionVectors, pInDlssEvalParams->pInMotionVectors);
-    // Jitter offset must be in pixel space
     NVSDK_NGX_Parameter_SetF(pInParams, NVSDK_NGX_Parameter_Jitter_Offset_X, pInDlssEvalParams->InJitterOffsetX);
     NVSDK_NGX_Parameter_SetF(pInParams, NVSDK_NGX_Parameter_Jitter_Offset_Y, pInDlssEvalParams->InJitterOffsetY);
     NVSDK_NGX_Parameter_SetF(pInParams, NVSDK_NGX_Parameter_Sharpness, pInDlssEvalParams->Feature.InSharpness);
-    // Set to 1 when scene changes completely (new level etc)
     NVSDK_NGX_Parameter_SetI(pInParams, NVSDK_NGX_Parameter_Reset, pInDlssEvalParams->InReset);
-    // If MVs need custom scaling and offsetting
-    NVSDK_NGX_Parameter_SetF(pInParams, NVSDK_NGX_Parameter_MV_Scale_X, pInDlssEvalParams->InMVScaleX);
-    NVSDK_NGX_Parameter_SetF(pInParams, NVSDK_NGX_Parameter_MV_Scale_Y, pInDlssEvalParams->InMVScaleY);
+    NVSDK_NGX_Parameter_SetF(pInParams, NVSDK_NGX_Parameter_MV_Scale_X, pInDlssEvalParams->InMVScaleX == 0.0f ? 1.0f : pInDlssEvalParams->InMVScaleX);
+    NVSDK_NGX_Parameter_SetF(pInParams, NVSDK_NGX_Parameter_MV_Scale_Y, pInDlssEvalParams->InMVScaleY == 0.0f ? 1.0f : pInDlssEvalParams->InMVScaleY);
     NVSDK_NGX_Parameter_SetVoidPointer(pInParams, NVSDK_NGX_Parameter_TransparencyMask, pInDlssEvalParams->pInTransparencyMask);
     NVSDK_NGX_Parameter_SetVoidPointer(pInParams, NVSDK_NGX_Parameter_ExposureTexture, pInDlssEvalParams->pInExposureTexture);
     NVSDK_NGX_Parameter_SetVoidPointer(pInParams, NVSDK_NGX_Parameter_DLSS_Input_Bias_Current_Color_Mask, pInDlssEvalParams->pInBiasCurrentColorMask);
@@ -218,7 +228,7 @@ static inline NVSDK_NGX_Result NGX_VULKAN_EVALUATE_DLSS_EXT(
     NVSDK_NGX_Parameter_SetUI(pInParams, NVSDK_NGX_Parameter_DLSS_Output_Subrect_Base_Y, pInDlssEvalParams->InOutputSubrectBase.Y);
     NVSDK_NGX_Parameter_SetUI(pInParams, NVSDK_NGX_Parameter_DLSS_Render_Subrect_Dimensions_Width , pInDlssEvalParams->InRenderSubrectDimensions.Width);
     NVSDK_NGX_Parameter_SetUI(pInParams, NVSDK_NGX_Parameter_DLSS_Render_Subrect_Dimensions_Height, pInDlssEvalParams->InRenderSubrectDimensions.Height);
-    NVSDK_NGX_Parameter_SetF(pInParams, NGSDK_NGX_Parameter_DLSS_Pre_Exposure, pInDlssEvalParams->InPreExposure == 0.0f ? 1.0f : pInDlssEvalParams->InPreExposure);
+    NVSDK_NGX_Parameter_SetF(pInParams, NVSDK_NGX_Parameter_DLSS_Pre_Exposure, pInDlssEvalParams->InPreExposure == 0.0f ? 1.0f : pInDlssEvalParams->InPreExposure);
     NVSDK_NGX_Parameter_SetI(pInParams, NVSDK_NGX_Parameter_DLSS_Indicator_Invert_X_Axis, pInDlssEvalParams->InIndicatorInvertXAxis);
     NVSDK_NGX_Parameter_SetI(pInParams, NVSDK_NGX_Parameter_DLSS_Indicator_Invert_Y_Axis, pInDlssEvalParams->InIndicatorInvertYAxis);
 
@@ -303,175 +313,6 @@ static inline NVSDK_NGX_Result NGX_VULKAN_EVALUATE_DLRESOLVE_EXT(
     NVSDK_NGX_Parameter_SetF(pInParams, NVSDK_NGX_Parameter_Sharpness, pInDlresolveEvalParams->InSharpness);
 
     return NVSDK_NGX_VULKAN_EvaluateFeature_C(InCmdList, pInHandle, pInParams, NULL);
-}
-
-// Following legacy helpers presently in use will be deprecated in the near future in favor of the ones defined above using parameter structures.
-// Hence, the use of parameter-structure-based helpers defined above is highly encouraged.
-
-/******************* DEPRECATED *********************/
-static inline NVSDK_NGX_Result NGX_VULKAN_CREATE_DLSS(
-    NVSDK_NGX_Handle **OutHandle,
-    NVSDK_NGX_Parameter *InParams,
-    VkCommandBuffer InCmdList,
-    unsigned int InWidth,
-    unsigned int InHeight,
-    unsigned int InTargetWidth,
-    unsigned int InTargetHeight,
-    NVSDK_NGX_PerfQuality_Value InPerfQualityValue,
-    int          InFeatureCreateFlags,
-    unsigned int InCreationNodeMask,
-    unsigned int InVisibilityNodeMask)
-{
-    NVSDK_NGX_Parameter_SetUI(InParams, NVSDK_NGX_Parameter_CreationNodeMask, InCreationNodeMask);
-    NVSDK_NGX_Parameter_SetUI(InParams, NVSDK_NGX_Parameter_VisibilityNodeMask, InVisibilityNodeMask);
-    NVSDK_NGX_Parameter_SetUI(InParams, NVSDK_NGX_Parameter_Width, InWidth);
-    NVSDK_NGX_Parameter_SetUI(InParams, NVSDK_NGX_Parameter_Height, InHeight);
-    NVSDK_NGX_Parameter_SetUI(InParams, NVSDK_NGX_Parameter_OutWidth, InTargetWidth);
-    NVSDK_NGX_Parameter_SetUI(InParams, NVSDK_NGX_Parameter_OutHeight, InTargetHeight);
-    NVSDK_NGX_Parameter_SetI(InParams, NVSDK_NGX_Parameter_PerfQualityValue, InPerfQualityValue);
-    NVSDK_NGX_Parameter_SetI(InParams, NVSDK_NGX_Parameter_DLSS_Feature_Create_Flags, InFeatureCreateFlags);
-
-    return NVSDK_NGX_VULKAN_CreateFeature(InCmdList, NVSDK_NGX_Feature_SuperSampling, InParams, OutHandle);
-}
-
-// The lifetime of InColor, InMotionVectors, InOutput, InPrevOutput, InDepth, InTransparencyMask, and InExposureTexture only need to cover the duration of this function call.
-static inline NVSDK_NGX_Result NGX_VULKAN_EVALUATE_DLSS(
-    NVSDK_NGX_Handle *InHandle,
-    NVSDK_NGX_Parameter *InParams,
-    VkCommandBuffer InCmdList,
-    NVSDK_NGX_Resource_VK *InColor,
-    NVSDK_NGX_Resource_VK *InMotionVectors,
-    NVSDK_NGX_Resource_VK *InOutput,
-    NVSDK_NGX_Resource_VK *InDepth,
-    NVSDK_NGX_Resource_VK *InTransparencyMask,
-    NVSDK_NGX_Resource_VK *InExposureTexture,
-    int Reset,
-    float InSharpness,
-    float InMVScaleX,
-    float InMVScaleY,
-    float InJitterOffsetX,
-    float InJitterOffsetY)
-{
-    NVSDK_NGX_ENSURE_VK_IMAGEVIEW(InColor);
-    NVSDK_NGX_ENSURE_VK_IMAGEVIEW(InMotionVectors);
-    NVSDK_NGX_ENSURE_VK_IMAGEVIEW(InOutput);
-    NVSDK_NGX_ENSURE_VK_IMAGEVIEW(InDepth);
-    NVSDK_NGX_ENSURE_VK_IMAGEVIEW(InTransparencyMask);
-    NVSDK_NGX_ENSURE_VK_IMAGEVIEW(InExposureTexture);
-
-    NVSDK_NGX_Parameter_SetVoidPointer(InParams, NVSDK_NGX_Parameter_Color, InColor);
-    NVSDK_NGX_Parameter_SetVoidPointer(InParams, NVSDK_NGX_Parameter_MotionVectors, InMotionVectors);
-    NVSDK_NGX_Parameter_SetVoidPointer(InParams, NVSDK_NGX_Parameter_Output, InOutput);
-    NVSDK_NGX_Parameter_SetVoidPointer(InParams, NVSDK_NGX_Parameter_TransparencyMask, InTransparencyMask);
-    NVSDK_NGX_Parameter_SetVoidPointer(InParams, NVSDK_NGX_Parameter_ExposureTexture, InExposureTexture);
-    // Set to 1 when scene changes completely (new level etc)
-    NVSDK_NGX_Parameter_SetI(InParams, NVSDK_NGX_Parameter_Reset, Reset);
-    // If MVs need custom scaling and offsetting
-    NVSDK_NGX_Parameter_SetF(InParams, NVSDK_NGX_Parameter_MV_Scale_X, InMVScaleX);
-    NVSDK_NGX_Parameter_SetF(InParams, NVSDK_NGX_Parameter_MV_Scale_Y, InMVScaleY);
-    // Jitter offset must be in pixel space
-    NVSDK_NGX_Parameter_SetF(InParams, NVSDK_NGX_Parameter_Jitter_Offset_X, InJitterOffsetX);
-    NVSDK_NGX_Parameter_SetF(InParams, NVSDK_NGX_Parameter_Jitter_Offset_Y, InJitterOffsetY);
-    NVSDK_NGX_Parameter_SetF(InParams, NVSDK_NGX_Parameter_Sharpness, InSharpness);
-    NVSDK_NGX_Parameter_SetVoidPointer(InParams, NVSDK_NGX_Parameter_Depth, InDepth);
-
-    return NVSDK_NGX_VULKAN_EvaluateFeature_C(InCmdList, InHandle, InParams, NULL);
-}
-
-static inline NVSDK_NGX_Result NGX_VULKAN_CREATE_DLISP(
-    NVSDK_NGX_Handle **OutHandle,
-    NVSDK_NGX_Parameter *InParams,
-    VkCommandBuffer InCmdList,
-    unsigned int InWidth,
-    unsigned int InHeight,
-    unsigned int InTargetWidth,
-    unsigned int InTargetHeight,
-    NVSDK_NGX_PerfQuality_Value InPerfQualityValue,
-    unsigned int InCreationNodeMask,
-    unsigned int InVisibilityNodeMask)
-{
-    NVSDK_NGX_Parameter_SetUI(InParams, NVSDK_NGX_Parameter_CreationNodeMask, InCreationNodeMask);
-    NVSDK_NGX_Parameter_SetUI(InParams, NVSDK_NGX_Parameter_VisibilityNodeMask, InVisibilityNodeMask);
-    NVSDK_NGX_Parameter_SetUI(InParams, NVSDK_NGX_Parameter_Width, InWidth);
-    NVSDK_NGX_Parameter_SetUI(InParams, NVSDK_NGX_Parameter_Height, InHeight);
-    NVSDK_NGX_Parameter_SetUI(InParams, NVSDK_NGX_Parameter_OutWidth, InTargetWidth);
-    NVSDK_NGX_Parameter_SetUI(InParams, NVSDK_NGX_Parameter_OutHeight, InTargetHeight);
-    NVSDK_NGX_Parameter_SetI(InParams, NVSDK_NGX_Parameter_PerfQualityValue, InPerfQualityValue);
-
-    return NVSDK_NGX_VULKAN_CreateFeature(InCmdList, NVSDK_NGX_Feature_ImageSignalProcessing, InParams, OutHandle);
-}
-
-// The lifetime of InColor and InOutput only need to cover the duration of this function call.
-static inline NVSDK_NGX_Result NGX_VULKAN_EVALUATE_DLISP(
-    NVSDK_NGX_Handle *InHandle,
-    NVSDK_NGX_Parameter *InParams,
-    VkCommandBuffer InCmdList,
-    NVSDK_NGX_Resource_VK *InColor,
-    NVSDK_NGX_Resource_VK *InOutput,
-    float InSharpness,
-    float InDenoise,
-    unsigned int InRectX,
-    unsigned int InRectY,
-    unsigned int InRectW,
-    unsigned int InRectH)
-{
-    NVSDK_NGX_ENSURE_VK_IMAGEVIEW(InColor);
-    NVSDK_NGX_ENSURE_VK_IMAGEVIEW(InOutput);
-
-    NVSDK_NGX_Parameter_SetVoidPointer(InParams, NVSDK_NGX_Parameter_Color, InColor);
-    NVSDK_NGX_Parameter_SetVoidPointer(InParams, NVSDK_NGX_Parameter_Output, InOutput);
-    NVSDK_NGX_Parameter_SetF(InParams, NVSDK_NGX_Parameter_Sharpness, InSharpness);
-    NVSDK_NGX_Parameter_SetF(InParams, NVSDK_NGX_Parameter_Denoise, InDenoise);
-    // If input is atlas - use RECT to upscale only the required area
-    if (InRectW)
-    {
-        NVSDK_NGX_Parameter_SetUI(InParams, NVSDK_NGX_Parameter_Rect_X, InRectX);
-        NVSDK_NGX_Parameter_SetUI(InParams, NVSDK_NGX_Parameter_Rect_Y, InRectY);
-        NVSDK_NGX_Parameter_SetUI(InParams, NVSDK_NGX_Parameter_Rect_W, InRectW);
-        NVSDK_NGX_Parameter_SetUI(InParams, NVSDK_NGX_Parameter_Rect_H, InRectH);
-    }
-
-    return NVSDK_NGX_VULKAN_EvaluateFeature_C(InCmdList, InHandle, InParams, NULL);
-}
-
-static inline NVSDK_NGX_Result NGX_VULKAN_CREATE_DLRESOLVE(
-    NVSDK_NGX_Handle **OutHandle,
-    NVSDK_NGX_Parameter *InParams,
-    VkCommandBuffer InCmdList,
-    unsigned int InWidth,
-    unsigned int InHeight,
-    unsigned int InTargetWidth,
-    unsigned int InTargetHeight,
-    unsigned int InCreationNodeMask,
-    unsigned int InVisibilityNodeMask)
-{
-    NVSDK_NGX_Parameter_SetUI(InParams, NVSDK_NGX_Parameter_CreationNodeMask, InCreationNodeMask);
-    NVSDK_NGX_Parameter_SetUI(InParams, NVSDK_NGX_Parameter_VisibilityNodeMask, InVisibilityNodeMask);
-    NVSDK_NGX_Parameter_SetUI(InParams, NVSDK_NGX_Parameter_Width, InWidth);
-    NVSDK_NGX_Parameter_SetUI(InParams, NVSDK_NGX_Parameter_Height, InHeight);
-    NVSDK_NGX_Parameter_SetUI(InParams, NVSDK_NGX_Parameter_OutWidth, InTargetWidth);
-    NVSDK_NGX_Parameter_SetUI(InParams, NVSDK_NGX_Parameter_OutHeight, InTargetHeight);
-
-    return NVSDK_NGX_VULKAN_CreateFeature(InCmdList, NVSDK_NGX_Feature_DeepResolve, InParams, OutHandle);
-}
-
-// The lifetime of InColor and InOutput only need to cover the duration of this function call.
-static inline NVSDK_NGX_Result NGX_VULKAN_EVALUATE_DLRESOLVE(
-    NVSDK_NGX_Handle *InHandle,
-    NVSDK_NGX_Parameter *InParams,
-    VkCommandBuffer InCmdList,
-    NVSDK_NGX_Resource_VK *InColor,
-    NVSDK_NGX_Resource_VK *InOutput,
-    float InSharpness)
-{
-    NVSDK_NGX_ENSURE_VK_IMAGEVIEW(InColor);
-    NVSDK_NGX_ENSURE_VK_IMAGEVIEW(InOutput);
-
-    NVSDK_NGX_Parameter_SetVoidPointer(InParams, NVSDK_NGX_Parameter_Color, InColor);
-    NVSDK_NGX_Parameter_SetVoidPointer(InParams, NVSDK_NGX_Parameter_Output, InOutput);
-    NVSDK_NGX_Parameter_SetF(InParams, NVSDK_NGX_Parameter_Sharpness, InSharpness);
-
-    return NVSDK_NGX_VULKAN_EvaluateFeature_C(InCmdList, InHandle, InParams, NULL);
 }
 
 #endif // NVSDK_NGX_HELPERS_VK_H

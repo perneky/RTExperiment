@@ -191,9 +191,13 @@ NVSDK_NGX_Result  NVSDK_CONV NVSDK_NGX_CUDA_Init_with_ProjectID(const char *InPr
 // 
 // DESCRIPTION:
 //      Shuts down the current SDK instance and releases all resources.
+//      Shutdown1(Device) only affects specified device
+//      Shutdown1(nullptr) = Shutdown() and shuts down all devices
 //
 NVSDK_NGX_API NVSDK_NGX_Result NVSDK_CONV NVSDK_NGX_D3D11_Shutdown(void);
+NVSDK_NGX_API NVSDK_NGX_Result NVSDK_CONV NVSDK_NGX_D3D11_Shutdown1(ID3D11Device *InDevice);
 NVSDK_NGX_API NVSDK_NGX_Result NVSDK_CONV NVSDK_NGX_D3D12_Shutdown(void);
+NVSDK_NGX_API NVSDK_NGX_Result NVSDK_CONV NVSDK_NGX_D3D12_Shutdown1(ID3D12Device *InDevice);
 NVSDK_NGX_API NVSDK_NGX_Result NVSDK_CONV NVSDK_NGX_CUDA_Shutdown(void);
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////

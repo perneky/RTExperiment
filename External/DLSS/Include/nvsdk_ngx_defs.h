@@ -59,6 +59,8 @@ extern "C"
 //      Version 0x0000014:
 //          * Added a logging callback that the app may pass in on init
 //          * Added ability for the app to override the logging level
+//      Version 0x0000015:
+//          * Support multiple GPUs (bug 3270533)
 #define NVSDK_NGX_VERSION_API_MACRO 0x0000014  // NGX_VERSION_DOT 1.4.0
 
 typedef struct NVSDK_NGX_FeatureCommonInfo_Internal NVSDK_NGX_FeatureCommonInfo_Internal;
@@ -201,7 +203,6 @@ typedef enum NVSDK_NGX_DLSS_Mode
     NVSDK_NGX_DLSS_Mode_DLSS,       // DLSS will apply AA and upsample at the same time
 } NVSDK_NGX_DLSS_Mode;
 
-
 typedef struct NVSDK_NGX_Handle { unsigned int Id; } NVSDK_NGX_Handle;
 
 typedef enum NSDK_NGX_GPU_Arch
@@ -229,6 +230,7 @@ typedef enum NVSDK_NGX_DLSS_Feature_Flags
     NVSDK_NGX_DLSS_Feature_Flags_DepthInverted  = 1 << 3,
     NVSDK_NGX_DLSS_Feature_Flags_Reserved_0     = 1 << 4,
     NVSDK_NGX_DLSS_Feature_Flags_DoSharpening   = 1 << 5,
+    NVSDK_NGX_DLSS_Feature_Flags_AutoExposure   = 1 << 6,
 } NVSDK_NGX_DLSS_Feature_Flags;
 
 typedef enum NVSDK_NGX_ToneMapperType
@@ -330,6 +332,13 @@ typedef enum NVSDK_NGX_Resource_VK_Type
     NVSDK_NGX_RESOURCE_VK_TYPE_VK_BUFFER
 } NVSDK_NGX_Resource_VK_Type;
 
+typedef enum NVSDK_NGX_Opt_Level
+{
+    NVSDK_NGX_OPT_LEVEL_UNDEFINED = 0,
+    NVSDK_NGX_OPT_LEVEL_DEBUG = 20,
+    NVSDK_NGX_OPT_LEVEL_DEVELOP = 30,
+    NVSDK_NGX_OPT_LEVEL_RELEASE = 40
+} NVSDK_NGX_Opt_Level;
 
 typedef enum NVSDK_NGX_EngineType
 {
@@ -341,11 +350,15 @@ typedef enum NVSDK_NGX_EngineType
 } NVSDK_NGX_EngineType;
 
 // Read-only parameters provided by NGX
+#define NVSDK_NGX_EParameter_Reserved00                           "#\x00"
 #define NVSDK_NGX_EParameter_SuperSampling_Available              "#\x01"
 #define NVSDK_NGX_EParameter_InPainting_Available                 "#\x02"
 #define NVSDK_NGX_EParameter_ImageSuperResolution_Available       "#\x03"
 #define NVSDK_NGX_EParameter_SlowMotion_Available                 "#\x04"
 #define NVSDK_NGX_EParameter_VideoSuperResolution_Available       "#\x05"
+#define NVSDK_NGX_EParameter_Reserved06                           "#\x06"
+#define NVSDK_NGX_EParameter_Reserved07                           "#\x07"
+#define NVSDK_NGX_EParameter_Reserved08                           "#\x08"
 #define NVSDK_NGX_EParameter_ImageSignalProcessing_Available      "#\x09"
 #define NVSDK_NGX_EParameter_ImageSuperResolution_ScaleFactor_2_1 "#\x0a"
 #define NVSDK_NGX_EParameter_ImageSuperResolution_ScaleFactor_3_1 "#\x0b"
@@ -405,7 +418,11 @@ typedef enum NVSDK_NGX_EngineType
 #define NVSDK_NGX_EParameter_DLSSMode                    "#\x41"
 #define NVSDK_NGX_EParameter_DeepResolve_Available       "#\x42"
 #define NVSDK_NGX_EParameter_Deprecated_43               "#\x43"
+#define NVSDK_NGX_EParameter_OptLevel                    "#\x44"
+#define NVSDK_NGX_EParameter_IsDevSnippetBranch          "#\x45"
 
+#define NVSDK_NGX_Parameter_OptLevel "Snippet.OptLevel"
+#define NVSDK_NGX_Parameter_IsDevSnippetBranch "Snippet.IsDevBranch"
 #define NVSDK_NGX_Parameter_SuperSampling_ScaleFactor  "SuperSampling.ScaleFactor"
 #define NVSDK_NGX_Parameter_ImageSignalProcessing_ScaleFactor "ImageSignalProcessing.ScaleFactor"
 #define NVSDK_NGX_Parameter_SuperSampling_Available "SuperSampling.Available"
@@ -422,6 +439,7 @@ typedef enum NVSDK_NGX_EngineType
 #define NVSDK_NGX_Parameter_VideoSuperResolution_NeedsUpdatedDriver     "VideoSuperResolution.NeedsUpdatedDriver"
 #define NVSDK_NGX_Parameter_ImageSignalProcessing_NeedsUpdatedDriver    "ImageSignalProcessing.NeedsUpdatedDriver"
 #define NVSDK_NGX_Parameter_DeepResolve_NeedsUpdatedDriver              "DeepResolve.NeedsUpdatedDriver"
+#define NVSDK_NGX_Parameter_FrameInterpolation_NeedsUpdatedDriver       "FrameInterpolation.NeedsUpdatedDriver"
 #define NVSDK_NGX_Parameter_SuperSampling_MinDriverVersionMajor         "SuperSampling.MinDriverVersionMajor"
 #define NVSDK_NGX_Parameter_InPainting_MinDriverVersionMajor            "InPainting.MinDriverVersionMajor"
 #define NVSDK_NGX_Parameter_ImageSuperResolution_MinDriverVersionMajor  "ImageSuperResolution.MinDriverVersionMajor"
@@ -429,6 +447,7 @@ typedef enum NVSDK_NGX_EngineType
 #define NVSDK_NGX_Parameter_VideoSuperResolution_MinDriverVersionMajor  "VideoSuperResolution.MinDriverVersionMajor"
 #define NVSDK_NGX_Parameter_ImageSignalProcessing_MinDriverVersionMajor "ImageSignalProcessing.MinDriverVersionMajor"
 #define NVSDK_NGX_Parameter_DeepResolve_MinDriverVersionMajor           "DeepResolve.MinDriverVersionMajor"
+#define NVSDK_NGX_Parameter_FrameInterpolation_MinDriverVersionMajor    "FrameInterpolation.MinDriverVersionMajor"
 #define NVSDK_NGX_Parameter_SuperSampling_MinDriverVersionMinor         "SuperSampling.MinDriverVersionMinor"
 #define NVSDK_NGX_Parameter_InPainting_MinDriverVersionMinor            "InPainting.MinDriverVersionMinor"
 #define NVSDK_NGX_Parameter_ImageSuperResolution_MinDriverVersionMinor  "ImageSuperResolution.MinDriverVersionMinor"
@@ -443,6 +462,7 @@ typedef enum NVSDK_NGX_EngineType
 #define NVSDK_NGX_Parameter_VideoSuperResolution_FeatureInitResult      "VideoSuperResolution.FeatureInitResult"
 #define NVSDK_NGX_Parameter_ImageSignalProcessing_FeatureInitResult     "ImageSignalProcessing.FeatureInitResult"
 #define NVSDK_NGX_Parameter_DeepResolve_FeatureInitResult               "DeepResolve.FeatureInitResult"
+#define NVSDK_NGX_Parameter_FrameInterpolation_FeatureInitResult        "FrameInterpolation.FeatureInitResult"
 #define NVSDK_NGX_Parameter_ImageSuperResolution_ScaleFactor_2_1 "ImageSuperResolution.ScaleFactor.2.1"
 #define NVSDK_NGX_Parameter_ImageSuperResolution_ScaleFactor_3_1 "ImageSuperResolution.ScaleFactor.3.1"
 #define NVSDK_NGX_Parameter_ImageSuperResolution_ScaleFactor_3_2 "ImageSuperResolution.ScaleFactor.3.2"
@@ -465,12 +485,19 @@ typedef enum NVSDK_NGX_EngineType
 #define NVSDK_NGX_Parameter_Color "Color"
 #define NVSDK_NGX_Parameter_Color_Format "Color.Format"
 #define NVSDK_NGX_Parameter_Color_SizeInBytes "Color.SizeInBytes"
+#define NVSDK_NGX_Parameter_FI_Color1 "Color1"
+#define NVSDK_NGX_Parameter_FI_Color2 "Color2"
 #define NVSDK_NGX_Parameter_Albedo "Albedo"
 #define NVSDK_NGX_Parameter_Output "Output"
 #define NVSDK_NGX_Parameter_Output_SizeInBytes "Output.SizeInBytes"
+#define NVSDK_NGX_Parameter_FI_Output1 "Output1"
+#define NVSDK_NGX_Parameter_FI_Output2 "Output2"
+#define NVSDK_NGX_Parameter_FI_Output3 "Output3"
 #define NVSDK_NGX_Parameter_Reset "Reset"
 #define NVSDK_NGX_Parameter_BlendFactor "BlendFactor"
 #define NVSDK_NGX_Parameter_MotionVectors "MotionVectors"
+#define NVSDK_NGX_Parameter_FI_MotionVectors1 "MotionVectors1"
+#define NVSDK_NGX_Parameter_FI_MotionVectors2 "MotionVectors2"
 #define NVSDK_NGX_Parameter_Rect_X "Rect.X"
 #define NVSDK_NGX_Parameter_Rect_Y "Rect.Y"
 #define NVSDK_NGX_Parameter_Rect_W "Rect.W"
@@ -494,11 +521,16 @@ typedef enum NVSDK_NGX_EngineType
 #define NVSDK_NGX_Parameter_Resource_OutWidth "ResourceOutWidth"
 #define NVSDK_NGX_Parameter_Resource_OutHeight "ResourceOutHeight"
 #define NVSDK_NGX_Parameter_Depth "Depth"
+#define NVSDK_NGX_Parameter_FI_Depth1 "Depth1"
+#define NVSDK_NGX_Parameter_FI_Depth2 "Depth2"
 #define NVSDK_NGX_Parameter_DLSSOptimalSettingsCallback    "DLSSOptimalSettingsCallback"
 #define NVSDK_NGX_Parameter_DLSSGetStatsCallback    "DLSSGetStatsCallback"
 #define NVSDK_NGX_Parameter_PerfQualityValue    "PerfQualityValue"
 #define NVSDK_NGX_Parameter_RTXValue    "RTXValue"
 #define NVSDK_NGX_Parameter_DLSSMode    "DLSSMode"
+#define NVSDK_NGX_Parameter_FI_Mode     "FIMode"
+#define NVSDK_NGX_Parameter_FI_OF_Preset    "FIOFPreset"
+#define NVSDK_NGX_Parameter_FI_OF_GridSize  "FIOFGridSize"
 #define NVSDK_NGX_Parameter_Jitter_Offset_X     "Jitter.Offset.X"
 #define NVSDK_NGX_Parameter_Jitter_Offset_Y     "Jitter.Offset.Y"
 #define NVSDK_NGX_Parameter_Denoise "Denoise"
@@ -523,6 +555,7 @@ typedef enum NVSDK_NGX_EngineType
 #define NVSDK_NGX_Parameter_GBuffer_Atrrib_14 "GBuffer.Attrib.14"
 #define NVSDK_NGX_Parameter_GBuffer_Atrrib_15 "GBuffer.Attrib.15"
 #define NVSDK_NGX_Parameter_TonemapperType "TonemapperType"
+#define NVSDK_NGX_Parameter_FreeMemOnReleaseFeature "FreeMemOnReleaseFeature"
 #define NVSDK_NGX_Parameter_MotionVectors3D "MotionVectors3D"
 #define NVSDK_NGX_Parameter_IsParticleMask "IsParticleMask"
 #define NVSDK_NGX_Parameter_AnimatedTextureMask "AnimatedTextureMask"
@@ -544,7 +577,8 @@ typedef enum NVSDK_NGX_EngineType
 #define NVSDK_NGX_Parameter_DLSS_Output_Subrect_Base_Y "DLSS.Output.Subrect.Base.Y"
 #define NVSDK_NGX_Parameter_DLSS_Render_Subrect_Dimensions_Width  "DLSS.Render.Subrect.Dimensions.Width"
 #define NVSDK_NGX_Parameter_DLSS_Render_Subrect_Dimensions_Height "DLSS.Render.Subrect.Dimensions.Height"
-#define NGSDK_NGX_Parameter_DLSS_Pre_Exposure "DLSS.Pre.Exposure"
+#define NVSDK_NGX_Parameter_DLSS_Pre_Exposure "DLSS.Pre.Exposure"
+#define NVSDK_NGX_Parameter_DLSS_Exposure_Scale "DLSS.Exposure.Scale"
 #define NVSDK_NGX_Parameter_DLSS_Input_Bias_Current_Color_Mask          "DLSS.Input.Bias.Current.Color.Mask"
 #define NVSDK_NGX_Parameter_DLSS_Input_Bias_Current_Color_SubrectBase_X "DLSS.Input.Bias.Current.Color.Subrect.Base.X"
 #define NVSDK_NGX_Parameter_DLSS_Input_Bias_Current_Color_SubrectBase_Y "DLSS.Input.Bias.Current.Color.Subrect.Base.Y"

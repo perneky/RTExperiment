@@ -4,8 +4,8 @@
         <PostFx enableAdaptation="true" targetLuminance="0.60100001" exposure="2" adaptationRate="0.093000002" minExposure="0.2498268" maxExposure="8.5326862" bloomThreshold="2.0439999" bloomStrength="0.308"/>
         <Entities idGen="759">
             <CameraEntity id="1">
-                <Position x="17.276209" y="2.0363905" z="-53.068287"/>
-                <Rotation x="21" y="-7748" z="0"/>
+                <Position x="19.542143" y="1.0695565" z="10.472598"/>
+                <Rotation x="-9" y="-8434" z="0"/>
                 <Scale x="1" y="1" z="1"/>
             </CameraEntity>
             <ModelEntity guid="{1A4E3D99-DCA4-4FF9-A893-C820DC63C988}" id="3">
@@ -1474,12 +1474,12 @@
                 <Scale x="1" y="1" z="1"/>
             </ModelEntity>
             <ModelEntity guid="{5370D46F-ED55-41E7-8F44-6A05E2C1E823}" id="354">
-                <Position x="-20.229643" y="0" z="-31.603054"/>
+                <Position x="-20.229643" y="-0.95252448" z="-31.603054"/>
                 <Rotation x="0" y="0" z="0"/>
                 <Scale x="1" y="1" z="1"/>
             </ModelEntity>
             <ModelEntity guid="{8EECBEF9-5769-4326-98F1-8329E22C80FE}" id="355">
-                <Position x="-16.394978" y="0" z="-26.920219"/>
+                <Position x="-16.394978" y="-0.98703861" z="-26.920219"/>
                 <Rotation x="0" y="21" z="0"/>
                 <Scale x="1" y="1" z="1"/>
             </ModelEntity>

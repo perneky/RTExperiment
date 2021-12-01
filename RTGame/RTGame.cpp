@@ -148,8 +148,11 @@ int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmd
         modelToPlace = guid;
       } );
 
-      while ( window->ProcessMessages() )
+      auto shoudQuit = false;
+      while ( !shoudQuit )
       {
+        shoudQuit = !window->ProcessMessages();
+
         auto commandAllocator = renderManager.RequestCommandAllocator( CommandQueueType::Direct );
         auto commandList      = renderManager.CreateCommandList( commandAllocator, CommandQueueType::Direct );
 
@@ -342,7 +345,22 @@ int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmd
 
         renderManager.TidyUp();
 
-        renderManager.GetDevice().StartNewFrame();
+        if ( shoudQuit )
+        {
+          if ( stage )
+          {
+            auto commandAllocator = renderManager.RequestCommandAllocator( CommandQueueType::Direct );
+            auto commandList      = renderManager.CreateCommandList( commandAllocator, CommandQueueType::Direct );
+
+            stage->TearDown( *commandList );
+
+            auto fenceValue = renderManager.Submit( std::move( commandList ), CommandQueueType::Direct, false );
+            renderManager.DiscardCommandAllocator( CommandQueueType::Direct, commandAllocator, fenceValue );
+            renderManager.TidyUp();
+          }
+        }
+        else
+          renderManager.GetDevice().StartNewFrame();
       }
 
       renderManager.IdleGPU();

@@ -26,6 +26,12 @@ GameStage::~GameStage()
   entities.clear();
 }
 
+void GameStage::TearDown( CommandList& commandList )
+{
+  if ( scene )
+    scene->TearDown( commandList );
+}
+
 void GameStage::SetSky( CommandList& commandList, const GUID& guid )
 {
   auto skyIter = gameDefinition.GetSkies().find( guid );

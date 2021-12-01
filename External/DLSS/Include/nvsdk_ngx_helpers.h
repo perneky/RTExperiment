@@ -27,9 +27,10 @@
 
 typedef NVSDK_NGX_Result(NVSDK_CONV *PFN_NVSDK_NGX_DLSS_GetStatsCallback)(NVSDK_NGX_Parameter *InParams);
 
-static inline NVSDK_NGX_Result NGX_DLSS_GET_STATS(
+static inline NVSDK_NGX_Result NGX_DLSS_GET_STATS_2(
     NVSDK_NGX_Parameter *pInParams,
-    unsigned long long *pVRAMAllocatedBytes)
+    unsigned long long *pVRAMAllocatedBytes,
+    unsigned int *pOptLevel, unsigned int *IsDevSnippetBranch)
 {
     void *Callback = NULL;
     NVSDK_NGX_Parameter_GetVoidPointer(pInParams, NVSDK_NGX_Parameter_DLSSGetStatsCallback, &Callback);
@@ -49,7 +50,26 @@ static inline NVSDK_NGX_Result NGX_DLSS_GET_STATS(
         return Res;
     }
     NVSDK_NGX_Parameter_GetULL(pInParams, NVSDK_NGX_Parameter_SizeInBytes, pVRAMAllocatedBytes);
+    NVSDK_NGX_Parameter_GetUI(pInParams, NVSDK_NGX_EParameter_OptLevel, pOptLevel);
+    NVSDK_NGX_Parameter_GetUI(pInParams, NVSDK_NGX_EParameter_IsDevSnippetBranch, IsDevSnippetBranch);
     return Res;
+}
+
+static inline NVSDK_NGX_Result NGX_DLSS_GET_STATS_1(
+    NVSDK_NGX_Parameter *pInParams,
+    unsigned long long *pVRAMAllocatedBytes,
+    unsigned int *pOptLevel)
+{
+    unsigned int dummy = 0;
+    return NGX_DLSS_GET_STATS_2(pInParams, pVRAMAllocatedBytes, pOptLevel, &dummy);
+}
+
+static inline NVSDK_NGX_Result NGX_DLSS_GET_STATS(
+    NVSDK_NGX_Parameter *pInParams,
+    unsigned long long *pVRAMAllocatedBytes)
+{
+    unsigned int dummy = 0;
+    return NGX_DLSS_GET_STATS_2(pInParams, pVRAMAllocatedBytes, &dummy, &dummy);
 }
 
 typedef NVSDK_NGX_Result(NVSDK_CONV *PFN_NVSDK_NGX_DLSS_GetOptimalSettingsCallback)(NVSDK_NGX_Parameter *InParams);
@@ -132,14 +152,14 @@ typedef struct NVSDK_NGX_D3D11_DLSS_Eval_Params
     NVSDK_NGX_D3D11_Feature_Eval_Params Feature;
     ID3D11Resource*                     pInDepth;
     ID3D11Resource*                     pInMotionVectors;
-    float                               InJitterOffsetX;
+    float                               InJitterOffsetX;     /* Jitter offset must be in input/render pixel space */
     float                               InJitterOffsetY;
     NVSDK_NGX_Dimensions                InRenderSubrectDimensions;
-    /*** OPTIONAL ***/
-    int                                 InReset;
-    float                               InMVScaleX;
+    /*** OPTIONAL - leave to 0/0.0f if unused ***/
+    int                                 InReset;             /* Set to 1 when scene changes completely (new level etc) */
+    float                               InMVScaleX;          /* If MVs need custom scaling to convert to pixel space */
     float                               InMVScaleY;
-    ID3D11Resource*                     pInTransparencyMask; /* per pixel mask identifying alpha-blended objects like particles etc. */
+    ID3D11Resource*                     pInTransparencyMask; /* Unused/Reserved for future use */
     ID3D11Resource*                     pInExposureTexture;
     ID3D11Resource*                     pInBiasCurrentColorMask;
     NVSDK_NGX_Coordinates               InColorSubrectBase;
@@ -167,7 +187,7 @@ typedef struct NVSDK_NGX_D3D11_DLSS_Eval_Params
 typedef struct NVSDK_NGX_D3D11_DLISP_Eval_Params
 {
     NVSDK_NGX_D3D11_Feature_Eval_Params Feature;
-    /*** OPTIONAL ***/
+    /*** OPTIONAL - leave to 0/0.0f if unused  ***/
     unsigned int                    InRectX;
     unsigned int                    InRectY;
     unsigned int                    InRectW;
@@ -178,7 +198,7 @@ typedef struct NVSDK_NGX_D3D11_DLISP_Eval_Params
 typedef struct NVSDK_NGX_CUDA_DLISP_Eval_Params
 {
     NVSDK_NGX_CUDA_Feature_Eval_Params Feature;
-    /*** OPTIONAL ***/
+    /*** OPTIONAL - leave to 0/0.0f if unused  ***/
     unsigned int                    InRectX;
     unsigned int                    InRectY;
     unsigned int                    InRectW;
@@ -194,7 +214,6 @@ static inline NVSDK_NGX_Result NGX_D3D11_CREATE_DLSS_EXT(
 {
     NVSDK_NGX_Parameter_SetUI(pInParams, NVSDK_NGX_Parameter_Width, pInDlssCreateParams->Feature.InWidth);
     NVSDK_NGX_Parameter_SetUI(pInParams, NVSDK_NGX_Parameter_Height, pInDlssCreateParams->Feature.InHeight);
-    // Should be the same as Width/Height unless engine supports upscaled AA (e.g. TAAU)
     NVSDK_NGX_Parameter_SetUI(pInParams, NVSDK_NGX_Parameter_OutWidth, pInDlssCreateParams->Feature.InTargetWidth);
     NVSDK_NGX_Parameter_SetUI(pInParams, NVSDK_NGX_Parameter_OutHeight, pInDlssCreateParams->Feature.InTargetHeight);
     NVSDK_NGX_Parameter_SetI(pInParams, NVSDK_NGX_Parameter_PerfQualityValue, pInDlssCreateParams->Feature.InPerfQualityValue);
@@ -214,15 +233,12 @@ static inline NVSDK_NGX_Result NGX_D3D11_EVALUATE_DLSS_EXT(
     NVSDK_NGX_Parameter_SetD3d11Resource(pInParams, NVSDK_NGX_Parameter_Output, pInDlssEvalParams->Feature.pInOutput);
     NVSDK_NGX_Parameter_SetD3d11Resource(pInParams, NVSDK_NGX_Parameter_Depth, pInDlssEvalParams->pInDepth);
     NVSDK_NGX_Parameter_SetD3d11Resource(pInParams, NVSDK_NGX_Parameter_MotionVectors, pInDlssEvalParams->pInMotionVectors);
-    // Jitter offset must be in pixel space
     NVSDK_NGX_Parameter_SetF(pInParams, NVSDK_NGX_Parameter_Jitter_Offset_X, pInDlssEvalParams->InJitterOffsetX);
     NVSDK_NGX_Parameter_SetF(pInParams, NVSDK_NGX_Parameter_Jitter_Offset_Y, pInDlssEvalParams->InJitterOffsetY);
     NVSDK_NGX_Parameter_SetF(pInParams, NVSDK_NGX_Parameter_Sharpness, pInDlssEvalParams->Feature.InSharpness);
-    // Set to 1 when scene changes completely (new level etc)
     NVSDK_NGX_Parameter_SetI(pInParams, NVSDK_NGX_Parameter_Reset, pInDlssEvalParams->InReset);
-    // If MVs need custom scaling to convert to pixel space
-    NVSDK_NGX_Parameter_SetF(pInParams, NVSDK_NGX_Parameter_MV_Scale_X, pInDlssEvalParams->InMVScaleX);
-    NVSDK_NGX_Parameter_SetF(pInParams, NVSDK_NGX_Parameter_MV_Scale_Y, pInDlssEvalParams->InMVScaleY);
+    NVSDK_NGX_Parameter_SetF(pInParams, NVSDK_NGX_Parameter_MV_Scale_X, pInDlssEvalParams->InMVScaleX == 0.0f ? 1.0f : pInDlssEvalParams->InMVScaleX);
+    NVSDK_NGX_Parameter_SetF(pInParams, NVSDK_NGX_Parameter_MV_Scale_Y, pInDlssEvalParams->InMVScaleY == 0.0f ? 1.0f : pInDlssEvalParams->InMVScaleY);
     NVSDK_NGX_Parameter_SetD3d11Resource(pInParams, NVSDK_NGX_Parameter_TransparencyMask, pInDlssEvalParams->pInTransparencyMask);
     NVSDK_NGX_Parameter_SetD3d11Resource(pInParams, NVSDK_NGX_Parameter_ExposureTexture, pInDlssEvalParams->pInExposureTexture);
     NVSDK_NGX_Parameter_SetD3d11Resource(pInParams, NVSDK_NGX_Parameter_DLSS_Input_Bias_Current_Color_Mask, pInDlssEvalParams->pInBiasCurrentColorMask);
@@ -265,7 +281,7 @@ static inline NVSDK_NGX_Result NGX_D3D11_EVALUATE_DLSS_EXT(
     NVSDK_NGX_Parameter_SetUI(pInParams, NVSDK_NGX_Parameter_DLSS_Output_Subrect_Base_Y, pInDlssEvalParams->InOutputSubrectBase.Y);
     NVSDK_NGX_Parameter_SetUI(pInParams, NVSDK_NGX_Parameter_DLSS_Render_Subrect_Dimensions_Width , pInDlssEvalParams->InRenderSubrectDimensions.Width);
     NVSDK_NGX_Parameter_SetUI(pInParams, NVSDK_NGX_Parameter_DLSS_Render_Subrect_Dimensions_Height, pInDlssEvalParams->InRenderSubrectDimensions.Height);
-    NVSDK_NGX_Parameter_SetF(pInParams, NGSDK_NGX_Parameter_DLSS_Pre_Exposure, pInDlssEvalParams->InPreExposure == 0.0f ? 1.0f : pInDlssEvalParams->InPreExposure);
+    NVSDK_NGX_Parameter_SetF(pInParams, NVSDK_NGX_Parameter_DLSS_Pre_Exposure, pInDlssEvalParams->InPreExposure == 0.0f ? 1.0f : pInDlssEvalParams->InPreExposure);
     NVSDK_NGX_Parameter_SetI(pInParams, NVSDK_NGX_Parameter_DLSS_Indicator_Invert_X_Axis, pInDlssEvalParams->InIndicatorInvertXAxis);
     NVSDK_NGX_Parameter_SetI(pInParams, NVSDK_NGX_Parameter_DLSS_Indicator_Invert_Y_Axis, pInDlssEvalParams->InIndicatorInvertYAxis);
 
@@ -380,7 +396,6 @@ static inline NVSDK_NGX_Result NGX_D3D11_EVALUATE_DLRESOLVE_EXT(
     return NVSDK_NGX_D3D11_EvaluateFeature_C(pInCtx, InHandle, pInParams, NULL);
 }
 
-
 /*** D3D12 ***/
 typedef struct NVSDK_NGX_D3D12_Feature_Eval_Params
 {
@@ -400,14 +415,14 @@ typedef struct NVSDK_NGX_D3D12_DLSS_Eval_Params
     NVSDK_NGX_D3D12_Feature_Eval_Params Feature;
     ID3D12Resource*                     pInDepth;
     ID3D12Resource*                     pInMotionVectors;
-    float                               InJitterOffsetX;
+    float                               InJitterOffsetX;     /* Jitter offset must be in input/render pixel space */
     float                               InJitterOffsetY;
     NVSDK_NGX_Dimensions                InRenderSubrectDimensions;
-    /*** OPTIONAL ***/
-    int                                 InReset;
-    float                               InMVScaleX;
+    /*** OPTIONAL - leave to 0/0.0f if unused ***/
+    int                                 InReset;             /* Set to 1 when scene changes completely (new level etc) */
+    float                               InMVScaleX;          /* If MVs need custom scaling to convert to pixel space */
     float                               InMVScaleY;
-    ID3D12Resource*                     pInTransparencyMask; /* per pixel mask identifying alpha-blended objects like particles etc. */
+    ID3D12Resource*                     pInTransparencyMask; /* Unused/Reserved for future use */
     ID3D12Resource*                     pInExposureTexture;
     ID3D12Resource*                     pInBiasCurrentColorMask;
     NVSDK_NGX_Coordinates               InColorSubrectBase;
@@ -443,7 +458,6 @@ typedef struct NVSDK_NGX_D3D12_DLISP_Eval_Params
     float                               InDenoise;
 } NVSDK_NGX_D3D12_DLISP_Eval_Params;
 
-
 static inline NVSDK_NGX_Result NGX_D3D12_CREATE_DLSS_EXT(
     ID3D12GraphicsCommandList *pInCmdList,
     unsigned int InCreationNodeMask,
@@ -456,7 +470,6 @@ static inline NVSDK_NGX_Result NGX_D3D12_CREATE_DLSS_EXT(
     NVSDK_NGX_Parameter_SetUI(pInParams, NVSDK_NGX_Parameter_VisibilityNodeMask, InVisibilityNodeMask);
     NVSDK_NGX_Parameter_SetUI(pInParams, NVSDK_NGX_Parameter_Width, pInDlssCreateParams->Feature.InWidth);
     NVSDK_NGX_Parameter_SetUI(pInParams, NVSDK_NGX_Parameter_Height, pInDlssCreateParams->Feature.InHeight);
-    // Should be the same as Width/Height unless engine supports upscaled AA (e.g. TAAU)
     NVSDK_NGX_Parameter_SetUI(pInParams, NVSDK_NGX_Parameter_OutWidth, pInDlssCreateParams->Feature.InTargetWidth);
     NVSDK_NGX_Parameter_SetUI(pInParams, NVSDK_NGX_Parameter_OutHeight, pInDlssCreateParams->Feature.InTargetHeight);
     NVSDK_NGX_Parameter_SetI(pInParams, NVSDK_NGX_Parameter_PerfQualityValue, pInDlssCreateParams->Feature.InPerfQualityValue);
@@ -476,15 +489,12 @@ static inline NVSDK_NGX_Result NGX_D3D12_EVALUATE_DLSS_EXT(
     NVSDK_NGX_Parameter_SetD3d12Resource(pInParams, NVSDK_NGX_Parameter_Output, pInDlssEvalParams->Feature.pInOutput);
     NVSDK_NGX_Parameter_SetD3d12Resource(pInParams, NVSDK_NGX_Parameter_Depth, pInDlssEvalParams->pInDepth);
     NVSDK_NGX_Parameter_SetD3d12Resource(pInParams, NVSDK_NGX_Parameter_MotionVectors, pInDlssEvalParams->pInMotionVectors);
-    // Jitter offset must be in pixel space
     NVSDK_NGX_Parameter_SetF(pInParams, NVSDK_NGX_Parameter_Jitter_Offset_X, pInDlssEvalParams->InJitterOffsetX);
     NVSDK_NGX_Parameter_SetF(pInParams, NVSDK_NGX_Parameter_Jitter_Offset_Y, pInDlssEvalParams->InJitterOffsetY);
     NVSDK_NGX_Parameter_SetF(pInParams, NVSDK_NGX_Parameter_Sharpness, pInDlssEvalParams->Feature.InSharpness);
-    // Set to 1 when scene changes completely (new level etc)
     NVSDK_NGX_Parameter_SetI(pInParams, NVSDK_NGX_Parameter_Reset, pInDlssEvalParams->InReset);
-    // If MVs need custom scaling to convert to pixel space
-    NVSDK_NGX_Parameter_SetF(pInParams, NVSDK_NGX_Parameter_MV_Scale_X, pInDlssEvalParams->InMVScaleX);
-    NVSDK_NGX_Parameter_SetF(pInParams, NVSDK_NGX_Parameter_MV_Scale_Y, pInDlssEvalParams->InMVScaleY);
+    NVSDK_NGX_Parameter_SetF(pInParams, NVSDK_NGX_Parameter_MV_Scale_X, pInDlssEvalParams->InMVScaleX == 0.0f ? 1.0f : pInDlssEvalParams->InMVScaleX);
+    NVSDK_NGX_Parameter_SetF(pInParams, NVSDK_NGX_Parameter_MV_Scale_Y, pInDlssEvalParams->InMVScaleY == 0.0f ? 1.0f : pInDlssEvalParams->InMVScaleY);
     NVSDK_NGX_Parameter_SetD3d12Resource(pInParams, NVSDK_NGX_Parameter_TransparencyMask, pInDlssEvalParams->pInTransparencyMask);
     NVSDK_NGX_Parameter_SetD3d12Resource(pInParams, NVSDK_NGX_Parameter_ExposureTexture, pInDlssEvalParams->pInExposureTexture);
     NVSDK_NGX_Parameter_SetD3d12Resource(pInParams, NVSDK_NGX_Parameter_DLSS_Input_Bias_Current_Color_Mask, pInDlssEvalParams->pInBiasCurrentColorMask);
@@ -527,7 +537,7 @@ static inline NVSDK_NGX_Result NGX_D3D12_EVALUATE_DLSS_EXT(
     NVSDK_NGX_Parameter_SetUI(pInParams, NVSDK_NGX_Parameter_DLSS_Output_Subrect_Base_Y, pInDlssEvalParams->InOutputSubrectBase.Y);
     NVSDK_NGX_Parameter_SetUI(pInParams, NVSDK_NGX_Parameter_DLSS_Render_Subrect_Dimensions_Width , pInDlssEvalParams->InRenderSubrectDimensions.Width);
     NVSDK_NGX_Parameter_SetUI(pInParams, NVSDK_NGX_Parameter_DLSS_Render_Subrect_Dimensions_Height, pInDlssEvalParams->InRenderSubrectDimensions.Height);
-    NVSDK_NGX_Parameter_SetF(pInParams, NGSDK_NGX_Parameter_DLSS_Pre_Exposure, pInDlssEvalParams->InPreExposure == 0.0f ? 1.0f : pInDlssEvalParams->InPreExposure);
+    NVSDK_NGX_Parameter_SetF(pInParams, NVSDK_NGX_Parameter_DLSS_Pre_Exposure, pInDlssEvalParams->InPreExposure == 0.0f ? 1.0f : pInDlssEvalParams->InPreExposure);
     NVSDK_NGX_Parameter_SetI(pInParams, NVSDK_NGX_Parameter_DLSS_Indicator_Invert_X_Axis, pInDlssEvalParams->InIndicatorInvertXAxis);
     NVSDK_NGX_Parameter_SetI(pInParams, NVSDK_NGX_Parameter_DLSS_Indicator_Invert_Y_Axis, pInDlssEvalParams->InIndicatorInvertYAxis);
 
@@ -614,353 +624,6 @@ static inline NVSDK_NGX_Result NGX_D3D12_EVALUATE_DLRESOLVE_EXT(
     NVSDK_NGX_Parameter_SetF(pInParams, NVSDK_NGX_Parameter_Sharpness, pDlresolveEvalParams->InSharpness);
 
     return NVSDK_NGX_D3D12_EvaluateFeature_C(pInCmdList, pInHandle, pInParams, NULL);
-}
-
-
-// Following legacy helpers presently in use will be deprecated in the near future in favor of the ones defined above using parameter structures.
-// Hence, the use of parameter-structure-based helpers defined above is highly encouraged.
-
-/******************* DEPRECATED *********************/
-
-static inline NVSDK_NGX_Result NGX_D3D11_CREATE_DLSS(
-    NVSDK_NGX_Handle **OutHandle,
-    NVSDK_NGX_Parameter *InParams,
-    ID3D11DeviceContext *InCtx,
-    unsigned int InWidth,
-    unsigned int InHeight,
-    unsigned int InTargetWidth,
-    unsigned int InTargetHeight,
-    NVSDK_NGX_PerfQuality_Value InPerfQualityValue,
-    int          InFeatureCreateFlags)
-{
-    NVSDK_NGX_Parameter_SetUI(InParams, NVSDK_NGX_Parameter_Width, InWidth);
-    NVSDK_NGX_Parameter_SetUI(InParams, NVSDK_NGX_Parameter_Height, InHeight);
-    // Should be the same as Width/Height unless engine supports upscaled AA (e.g. TAAU)
-    NVSDK_NGX_Parameter_SetUI(InParams, NVSDK_NGX_Parameter_OutWidth, InTargetWidth);
-    NVSDK_NGX_Parameter_SetUI(InParams, NVSDK_NGX_Parameter_OutHeight, InTargetHeight);
-    NVSDK_NGX_Parameter_SetI(InParams, NVSDK_NGX_Parameter_PerfQualityValue, InPerfQualityValue);
-    NVSDK_NGX_Parameter_SetI(InParams, NVSDK_NGX_Parameter_DLSS_Feature_Create_Flags, InFeatureCreateFlags);
-    return NVSDK_NGX_D3D11_CreateFeature(InCtx, NVSDK_NGX_Feature_SuperSampling, InParams, OutHandle);
-}
-
-static inline NVSDK_NGX_Result NGX_D3D11_EVALUATE_DLSS(
-    NVSDK_NGX_Handle *InHandle,
-    NVSDK_NGX_Parameter *InParams,
-    ID3D11DeviceContext *InCtx,
-    ID3D11Resource *InColor,
-    ID3D11Resource *InMotionVectors,
-    ID3D11Resource *InOutput,
-    ID3D11Resource *InDepth,
-    ID3D11Resource *InTransparencyMask, // per pixel mask identifying alpha-blended objects like particles etc.
-    ID3D11Resource *InExposureTexture,
-    int Reset,
-    float InSharpness,
-    float InMVScaleX,
-    float InMVScaleY,
-    float InJitterOffsetX,
-    float InJitterOffsetY)
-{
-    NVSDK_NGX_Parameter_SetD3d11Resource(InParams, NVSDK_NGX_Parameter_Color, InColor);
-    NVSDK_NGX_Parameter_SetD3d11Resource(InParams, NVSDK_NGX_Parameter_MotionVectors, InMotionVectors);
-    NVSDK_NGX_Parameter_SetD3d11Resource(InParams, NVSDK_NGX_Parameter_Output, InOutput);
-    NVSDK_NGX_Parameter_SetD3d11Resource(InParams, NVSDK_NGX_Parameter_ExposureTexture, InExposureTexture);
-    // Set to 1 when scene changes completely (new level etc)
-    NVSDK_NGX_Parameter_SetI(InParams, NVSDK_NGX_Parameter_Reset, Reset);
-    // If MVs need custom scaling to convert to pixel space
-    NVSDK_NGX_Parameter_SetF(InParams, NVSDK_NGX_Parameter_MV_Scale_X, InMVScaleX);
-    NVSDK_NGX_Parameter_SetF(InParams, NVSDK_NGX_Parameter_MV_Scale_Y, InMVScaleY);
-    // Jitter offset must be in pixel space
-    NVSDK_NGX_Parameter_SetF(InParams, NVSDK_NGX_Parameter_Jitter_Offset_X, InJitterOffsetX);
-    NVSDK_NGX_Parameter_SetF(InParams, NVSDK_NGX_Parameter_Jitter_Offset_Y, InJitterOffsetY);
-    NVSDK_NGX_Parameter_SetF(InParams, NVSDK_NGX_Parameter_Sharpness, InSharpness);
-    NVSDK_NGX_Parameter_SetD3d11Resource(InParams, NVSDK_NGX_Parameter_Depth, InDepth);
-    NVSDK_NGX_Parameter_SetD3d11Resource(InParams, NVSDK_NGX_Parameter_TransparencyMask, InTransparencyMask);
-    return NVSDK_NGX_D3D11_EvaluateFeature_C(InCtx, InHandle, InParams, NULL);
-}
-
-
-static inline NVSDK_NGX_Result NGX_D3D11_CREATE_DLISP(
-    NVSDK_NGX_Handle **OutHandle,
-    NVSDK_NGX_Parameter *InParams,
-    ID3D11DeviceContext *InCtx,
-    unsigned int InWidth,
-    unsigned int InHeight,
-    unsigned int InTargetWidth,
-    unsigned int InTargetHeight)
-{
-    NVSDK_NGX_Parameter_SetUI(InParams, NVSDK_NGX_Parameter_Width, InWidth);
-    NVSDK_NGX_Parameter_SetUI(InParams, NVSDK_NGX_Parameter_Height, InHeight);
-    NVSDK_NGX_Parameter_SetUI(InParams, NVSDK_NGX_Parameter_OutWidth, InTargetWidth);
-    NVSDK_NGX_Parameter_SetUI(InParams, NVSDK_NGX_Parameter_OutHeight, InTargetHeight);
-    return NVSDK_NGX_D3D11_CreateFeature(InCtx, NVSDK_NGX_Feature_ImageSignalProcessing, InParams, OutHandle);
-}
-
-static inline NVSDK_NGX_Result NGX_CUDA_CREATE_DLISP(
-    NVSDK_NGX_Handle **OutHandle,
-    NVSDK_NGX_Parameter *InParams,
-    unsigned int InWidth,
-    unsigned int InHeight,
-    unsigned int InTargetWidth,
-    unsigned int InTargetHeight)
-{
-    NVSDK_NGX_Parameter_SetUI(InParams, NVSDK_NGX_Parameter_Width, InWidth);
-    NVSDK_NGX_Parameter_SetUI(InParams, NVSDK_NGX_Parameter_Height, InHeight);
-    NVSDK_NGX_Parameter_SetUI(InParams, NVSDK_NGX_Parameter_OutWidth, InTargetWidth);
-    NVSDK_NGX_Parameter_SetUI(InParams, NVSDK_NGX_Parameter_OutHeight, InTargetHeight);
-    return NVSDK_NGX_CUDA_CreateFeature(NVSDK_NGX_Feature_ImageSignalProcessing, InParams, OutHandle);
-}
-
-static inline NVSDK_NGX_Result NGX_D3D11_EVALUATE_DLISP(
-    NVSDK_NGX_Handle *InHandle,
-    NVSDK_NGX_Parameter *InParams,
-    ID3D11DeviceContext *InCtx,
-    ID3D11Resource *InColor,
-    ID3D11Resource *InOutput,
-    float InSharpness,
-    float InDenoise,
-    unsigned int InRectX,
-    unsigned int InRectY,
-    unsigned int InRectW,
-    unsigned int InRectH)
-{
-    if (InSharpness < 0.0f || InSharpness > 1.0f || InDenoise < 0.0f || InDenoise > 1.0f)
-    {
-        return NVSDK_NGX_Result_FAIL_InvalidParameter;
-    }
-    NVSDK_NGX_Parameter_SetD3d11Resource(InParams, NVSDK_NGX_Parameter_Color, InColor);
-    NVSDK_NGX_Parameter_SetD3d11Resource(InParams, NVSDK_NGX_Parameter_Output, InOutput);
-    // Both sharpness and denoise in range [0.0f,1.0f]
-    NVSDK_NGX_Parameter_SetF(InParams, NVSDK_NGX_Parameter_Sharpness, InSharpness);
-    NVSDK_NGX_Parameter_SetF(InParams, NVSDK_NGX_Parameter_Denoise, InDenoise);
-    // If input is atlas - use RECT to upscale only the required area
-    if (InRectW)
-    {
-        NVSDK_NGX_Parameter_SetUI(InParams, NVSDK_NGX_Parameter_Rect_X, InRectX);
-        NVSDK_NGX_Parameter_SetUI(InParams, NVSDK_NGX_Parameter_Rect_Y, InRectY);
-        NVSDK_NGX_Parameter_SetUI(InParams, NVSDK_NGX_Parameter_Rect_W, InRectW);
-        NVSDK_NGX_Parameter_SetUI(InParams, NVSDK_NGX_Parameter_Rect_H, InRectH);
-    }
-    return NVSDK_NGX_D3D11_EvaluateFeature_C(InCtx, InHandle, InParams, NULL);
-}
-
-
-static inline NVSDK_NGX_Result NGX_D3D11_CREATE_DLRESOLVE(
-    NVSDK_NGX_Handle **OutHandle,
-    NVSDK_NGX_Parameter *InParams,
-    ID3D11DeviceContext *InCtx,
-    unsigned int InWidth,
-    unsigned int InHeight,
-    unsigned int InTargetWidth,
-    unsigned int InTargetHeight)
-{
-    NVSDK_NGX_Parameter_SetUI(InParams, NVSDK_NGX_Parameter_Width, InWidth);
-    NVSDK_NGX_Parameter_SetUI(InParams, NVSDK_NGX_Parameter_Height, InHeight);
-    NVSDK_NGX_Parameter_SetUI(InParams, NVSDK_NGX_Parameter_OutWidth, InTargetWidth);
-    NVSDK_NGX_Parameter_SetUI(InParams, NVSDK_NGX_Parameter_OutHeight, InTargetHeight);
-
-    return NVSDK_NGX_D3D11_CreateFeature(InCtx, NVSDK_NGX_Feature_DeepResolve, InParams, OutHandle);
-}
-
-static inline NVSDK_NGX_Result NGX_D3D11_EVALUATE_DLRESOLVE(
-    NVSDK_NGX_Handle *InHandle,
-    NVSDK_NGX_Parameter *InParams,
-    ID3D11DeviceContext *InCtx,
-    ID3D11Resource *InColor,
-    ID3D11Resource *InOutput,
-    float InSharpness)
-{
-    NVSDK_NGX_Parameter_SetD3d11Resource(InParams, NVSDK_NGX_Parameter_Color, InColor);
-    NVSDK_NGX_Parameter_SetD3d11Resource(InParams, NVSDK_NGX_Parameter_Output, InOutput);
-    NVSDK_NGX_Parameter_SetF(InParams, NVSDK_NGX_Parameter_Sharpness, InSharpness);
-
-    return NVSDK_NGX_D3D11_EvaluateFeature_C(InCtx, InHandle, InParams, NULL);
-}
-
-
-static inline NVSDK_NGX_Result NGX_D3D12_CREATE_DLSS(
-    NVSDK_NGX_Handle **OutHandle,
-    NVSDK_NGX_Parameter *InParams,
-    ID3D12GraphicsCommandList *InCmdList,
-    unsigned int InWidth,
-    unsigned int InHeight,
-    unsigned int InTargetWidth,
-    unsigned int InTargetHeight,
-    NVSDK_NGX_PerfQuality_Value InPerfQualityValue,
-    int          InFeatureCreateFlags,
-    unsigned int InCreationNodeMask,
-    unsigned int InVisibilityNodeMask)
-{
-    NVSDK_NGX_Parameter_SetUI(InParams, NVSDK_NGX_Parameter_CreationNodeMask, InCreationNodeMask);
-    NVSDK_NGX_Parameter_SetUI(InParams, NVSDK_NGX_Parameter_VisibilityNodeMask, InVisibilityNodeMask);
-    NVSDK_NGX_Parameter_SetUI(InParams, NVSDK_NGX_Parameter_Width, InWidth);
-    NVSDK_NGX_Parameter_SetUI(InParams, NVSDK_NGX_Parameter_Height, InHeight);
-    // Should be the same as Width/Height unless engine supports upscaled AA (e.g. TAAU)
-    NVSDK_NGX_Parameter_SetUI(InParams, NVSDK_NGX_Parameter_OutWidth, InTargetWidth);
-    NVSDK_NGX_Parameter_SetUI(InParams, NVSDK_NGX_Parameter_OutHeight, InTargetHeight);
-    NVSDK_NGX_Parameter_SetI(InParams, NVSDK_NGX_Parameter_PerfQualityValue, InPerfQualityValue);
-    NVSDK_NGX_Parameter_SetI(InParams, NVSDK_NGX_Parameter_DLSS_Feature_Create_Flags, InFeatureCreateFlags);
-    return NVSDK_NGX_D3D12_CreateFeature(InCmdList, NVSDK_NGX_Feature_SuperSampling, InParams, OutHandle);
-}
-
-static inline NVSDK_NGX_Result NGX_D3D12_EVALUATE_DLSS(
-    NVSDK_NGX_Handle *InHandle,
-    NVSDK_NGX_Parameter *InParams,
-    ID3D12GraphicsCommandList *InCmdList,
-    ID3D12Resource *InColor,
-    ID3D12Resource *InMotionVectors,
-    ID3D12Resource *InOutput,
-    ID3D12Resource *InDepth,
-    ID3D12Resource *InTransparencyMask, // per pixel mask identifying alpha-blended objects like particles etc.
-    ID3D12Resource *InExposureTexture,
-    int Reset,
-    float InSharpness,
-    float InMVScaleX,
-    float InMVScaleY,
-    float InJitterOffsetX,
-    float InJitterOffsetY)
-{
-    NVSDK_NGX_Parameter_SetD3d12Resource(InParams, NVSDK_NGX_Parameter_Color, InColor);
-    NVSDK_NGX_Parameter_SetD3d12Resource(InParams, NVSDK_NGX_Parameter_MotionVectors, InMotionVectors);
-    NVSDK_NGX_Parameter_SetD3d12Resource(InParams, NVSDK_NGX_Parameter_Output, InOutput);
-    NVSDK_NGX_Parameter_SetD3d12Resource(InParams, NVSDK_NGX_Parameter_TransparencyMask, InTransparencyMask);
-    NVSDK_NGX_Parameter_SetD3d12Resource(InParams, NVSDK_NGX_Parameter_ExposureTexture, InExposureTexture);
-    // Set to 1 when scene changes completely (new level etc)
-    NVSDK_NGX_Parameter_SetI(InParams, NVSDK_NGX_Parameter_Reset, Reset);
-    // If MVs need custom scaling to convert to pixel space
-    NVSDK_NGX_Parameter_SetF(InParams, NVSDK_NGX_Parameter_MV_Scale_X, InMVScaleX);
-    NVSDK_NGX_Parameter_SetF(InParams, NVSDK_NGX_Parameter_MV_Scale_Y, InMVScaleY);
-    // Jitter offset must be in pixel space
-    NVSDK_NGX_Parameter_SetF(InParams, NVSDK_NGX_Parameter_Jitter_Offset_X, InJitterOffsetX);
-    NVSDK_NGX_Parameter_SetF(InParams, NVSDK_NGX_Parameter_Jitter_Offset_Y, InJitterOffsetY);
-    NVSDK_NGX_Parameter_SetF(InParams, NVSDK_NGX_Parameter_Sharpness, InSharpness);
-    NVSDK_NGX_Parameter_SetD3d12Resource(InParams, NVSDK_NGX_Parameter_Depth, InDepth);
-    return NVSDK_NGX_D3D12_EvaluateFeature_C(InCmdList, InHandle, InParams, NULL);
-}
-
-
-static inline NVSDK_NGX_Result NGX_D3D12_CREATE_DLISP(
-    NVSDK_NGX_Handle **OutHandle,
-    NVSDK_NGX_Parameter *InParams,
-    ID3D12GraphicsCommandList *InCmdList,
-    unsigned int InWidth,
-    unsigned int InHeight,
-    unsigned int InTargetWidth,
-    unsigned int InTargetHeight,
-    unsigned int InCreationNodeMask,
-    unsigned int InVisibilityNodeMask)
-{
-    NVSDK_NGX_Parameter_SetUI(InParams, NVSDK_NGX_Parameter_CreationNodeMask, InCreationNodeMask);
-    NVSDK_NGX_Parameter_SetUI(InParams, NVSDK_NGX_Parameter_VisibilityNodeMask, InVisibilityNodeMask);
-    NVSDK_NGX_Parameter_SetUI(InParams, NVSDK_NGX_Parameter_Width, InWidth);
-    NVSDK_NGX_Parameter_SetUI(InParams, NVSDK_NGX_Parameter_Height, InHeight);
-    NVSDK_NGX_Parameter_SetUI(InParams, NVSDK_NGX_Parameter_OutWidth, InTargetWidth);
-    NVSDK_NGX_Parameter_SetUI(InParams, NVSDK_NGX_Parameter_OutHeight, InTargetHeight);
-    return NVSDK_NGX_D3D12_CreateFeature(InCmdList, NVSDK_NGX_Feature_ImageSignalProcessing, InParams, OutHandle);
-}
-
-static inline NVSDK_NGX_Result NGX_D3D12_EVALUATE_DLISP(
-    NVSDK_NGX_Handle *InHandle,
-    NVSDK_NGX_Parameter *InParams,
-    ID3D12GraphicsCommandList *InCmdList,
-    ID3D12Resource *InColor,
-    ID3D12Resource *InOutput,
-    float InSharpness,
-    float InDenoise,
-    unsigned int InRectX,
-    unsigned int InRectY,
-    unsigned int InRectW,
-    unsigned int InRectH)
-{
-    if (InSharpness < 0.0f || InSharpness > 1.0f || InDenoise < 0.0f || InDenoise > 1.0f)
-    {
-        return NVSDK_NGX_Result_FAIL_InvalidParameter;
-    }
-    NVSDK_NGX_Parameter_SetD3d12Resource(InParams, NVSDK_NGX_Parameter_Color, InColor);
-    NVSDK_NGX_Parameter_SetD3d12Resource(InParams, NVSDK_NGX_Parameter_Output, InOutput);
-    // Both sharpness and denoise in range [0.0f,1.0f]
-    NVSDK_NGX_Parameter_SetF(InParams, NVSDK_NGX_Parameter_Sharpness, InSharpness);
-    NVSDK_NGX_Parameter_SetF(InParams, NVSDK_NGX_Parameter_Denoise, InDenoise);
-    // If input is atlas - use RECT to upscale only the required area
-    if (InRectW)
-    {
-        NVSDK_NGX_Parameter_SetUI(InParams, NVSDK_NGX_Parameter_Rect_X, InRectX);
-        NVSDK_NGX_Parameter_SetUI(InParams, NVSDK_NGX_Parameter_Rect_Y, InRectY);
-        NVSDK_NGX_Parameter_SetUI(InParams, NVSDK_NGX_Parameter_Rect_W, InRectW);
-        NVSDK_NGX_Parameter_SetUI(InParams, NVSDK_NGX_Parameter_Rect_H, InRectH);
-    }
-    return NVSDK_NGX_D3D12_EvaluateFeature_C(InCmdList, InHandle, InParams, NULL);
-}
-
-static inline NVSDK_NGX_Result NGX_CUDA_EVALUATE_DLISP(
-    NVSDK_NGX_Handle* InHandle,
-    NVSDK_NGX_Parameter* InParams,
-    void* InColor,
-    void* InOutput,
-    float InSharpness,
-    float InDenoise,
-    unsigned int InRectX,
-    unsigned int InRectY,
-    unsigned int InRectW,
-    unsigned int InRectH)
-{
-    if (InSharpness < 0.0f || InSharpness > 1.0f || InDenoise < 0.0f || InDenoise > 1.0f)
-    {
-        return NVSDK_NGX_Result_FAIL_InvalidParameter;
-    }
-    NVSDK_NGX_Parameter_SetVoidPointer(InParams, NVSDK_NGX_Parameter_Color, InColor);
-    NVSDK_NGX_Parameter_SetVoidPointer(InParams, NVSDK_NGX_Parameter_Output, InOutput);
-    // Both sharpness and denoise in range [0.0f,1.0f]
-    NVSDK_NGX_Parameter_SetF(InParams, NVSDK_NGX_Parameter_Sharpness, InSharpness);
-    NVSDK_NGX_Parameter_SetF(InParams, NVSDK_NGX_Parameter_Denoise, InDenoise);
-    // If input is atlas - use RECT to upscale only the required area
-    if (InRectW)
-    {
-        NVSDK_NGX_Parameter_SetUI(InParams, NVSDK_NGX_Parameter_Rect_X, InRectX);
-        NVSDK_NGX_Parameter_SetUI(InParams, NVSDK_NGX_Parameter_Rect_Y, InRectY);
-        NVSDK_NGX_Parameter_SetUI(InParams, NVSDK_NGX_Parameter_Rect_W, InRectW);
-        NVSDK_NGX_Parameter_SetUI(InParams, NVSDK_NGX_Parameter_Rect_H, InRectH);
-    }
-    return NVSDK_NGX_CUDA_EvaluateFeature_C(InHandle, InParams, NULL);
-}
-
-static inline NVSDK_NGX_Result NGX_D3D12_CREATE_DLRESOLVE(
-    NVSDK_NGX_Handle **OutHandle,
-    NVSDK_NGX_Parameter *InParams,
-    ID3D12GraphicsCommandList *InCmdList,
-    unsigned int InWidth,
-    unsigned int InHeight,
-    unsigned int InTargetWidth,
-    unsigned int InTargetHeight,
-    unsigned int InCreationNodeMask,
-    unsigned int InVisibilityNodeMask)
-{
-    NVSDK_NGX_Parameter_SetUI(InParams, NVSDK_NGX_Parameter_CreationNodeMask, InCreationNodeMask);
-    NVSDK_NGX_Parameter_SetUI(InParams, NVSDK_NGX_Parameter_VisibilityNodeMask, InVisibilityNodeMask);
-    NVSDK_NGX_Parameter_SetUI(InParams, NVSDK_NGX_Parameter_Width, InWidth);
-    NVSDK_NGX_Parameter_SetUI(InParams, NVSDK_NGX_Parameter_Height, InHeight);
-    NVSDK_NGX_Parameter_SetUI(InParams, NVSDK_NGX_Parameter_OutWidth, InTargetWidth);
-    NVSDK_NGX_Parameter_SetUI(InParams, NVSDK_NGX_Parameter_OutHeight, InTargetHeight);
-
-    return NVSDK_NGX_D3D12_CreateFeature(InCmdList, NVSDK_NGX_Feature_DeepResolve, InParams, OutHandle);
-}
-
-static inline NVSDK_NGX_Result NGX_D3D12_EVALUATE_DLRESOLVE(
-    NVSDK_NGX_Handle *InHandle,
-    NVSDK_NGX_Parameter *InParams,
-    ID3D12GraphicsCommandList *InCmdList,
-    ID3D12Resource *InColor,
-    ID3D12Resource *InOutput,
-    float InSharpness)
-{
-    // This call to NVSDK_NGX_Parameter_SetXXX() is equivalent to the Params->Set below functionally
-    // but to work around the lack of virtual functions and polymorphism in a C only project
-    // we introduced this new way to set params.
-    // The test should enforce that both paths work.
-    NVSDK_NGX_Parameter_SetD3d12Resource(InParams, NVSDK_NGX_Parameter_Color, InColor);
-    NVSDK_NGX_Parameter_SetD3d12Resource(InParams, NVSDK_NGX_Parameter_Output, InOutput);
-    NVSDK_NGX_Parameter_SetF(InParams, NVSDK_NGX_Parameter_Sharpness, InSharpness);
-
-    return NVSDK_NGX_D3D12_EvaluateFeature_C(InCmdList, InHandle, InParams, NULL);
 }
 
 #endif
