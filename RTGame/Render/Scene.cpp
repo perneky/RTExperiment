@@ -138,7 +138,7 @@ void Scene::SetUp( CommandList& commandList, Window& window )
   debugHistogramShader    = device.CreateComputeShader( debugHistogramFile.data(), int( debugHistogramFile.size() ), L"DebugHistogram" );
   downsampleBloomShader   = device.CreateComputeShader( downsampleBloomFile.data(), int( downsampleBloomFile.size() ), L"DownsampleBloom" );
   upsampleBlurBloomShader = device.CreateComputeShader( upsampleBlurBloomFile.data(), int( upsampleBlurBloomFile.size() ), L"UpsampleBlurBloom" );
-  exposureOnlyBuffer      = device.Create2DTexture( commandList, 1, 1, nullptr, 0, PixelFormat::R32F, true, -1, -1, false, L"ExposureOnly" );
+  exposureOnlyBuffer      = device.Create2DTexture( commandList, 1, 1, nullptr, 0, PixelFormat::R32F, false, -1, -1, false, L"ExposureOnly" );
 
   auto allMeshParamsDesc = device.GetShaderResourceHeap().RequestDescriptor( device, ResourceDescriptorType::ShaderResourceView, AllMeshParamsSlot, *allMeshParamsBuffer, sizeof( MeshParamsCB ) );
   allMeshParamsBuffer->AttachResourceDescriptor( ResourceDescriptorType::ShaderResourceView, std::move( allMeshParamsDesc ) );

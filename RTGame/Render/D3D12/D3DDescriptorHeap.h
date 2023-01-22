@@ -28,4 +28,6 @@ private:
   std::set< int > freeDescriptors;
 
   size_t handleSize = 0;
+
+  D3D12_DESCRIPTOR_HEAP_TYPE heapType;
 };
